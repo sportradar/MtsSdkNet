@@ -1,0 +1,379 @@
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.Caching;
+using System.Threading;
+using System.Threading.Tasks;
+using log4net;
+using Metrics;
+using Sportradar.MTS.SDK.Common.Exceptions;
+using Sportradar.MTS.SDK.Common.Internal.Metrics;
+using Sportradar.MTS.SDK.Common.Log;
+using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
+
+namespace Sportradar.MTS.SDK.Entities.Internal.Cache
+{
+    /// <summary>
+    /// A <see cref="IMarketDescriptionCache" /> implementation used to store market descriptors for invariant markets
+    /// </summary>
+    /// <seealso cref="IDisposable" />
+    /// <seealso cref="IMarketDescriptionCache" />
+    public sealed class MarketDescriptionCache : IMarketDescriptionCache, IDisposable, IHealthStatusProvider
+    {
+        private readonly CacheItemPolicy _cacheItemPolicy;
+        private readonly TimeSpan _fetchInterval;
+        private readonly TimeSpan _minIntervalTimeout = TimeSpan.FromSeconds(30);
+        internal DateTime TimeOfLastFetch;
+
+        /// <summary>
+        /// A <see cref="ILog"/> instance for execution logging
+        /// </summary>
+        private static readonly ILog CacheLog = SdkLoggerFactory.GetLoggerForCache(typeof(MarketDescriptionCache));
+
+        /// <summary>
+        /// A <see cref="ILog"/> instance for execution logging
+        /// </summary>
+        private static readonly ILog ExecutionLog = SdkLoggerFactory.GetLoggerForExecution(typeof(MarketDescriptionCache));
+
+        /// <summary>
+        /// A <see cref="ObjectCache"/> used to store market descriptors
+        /// </summary>
+        internal readonly ObjectCache Cache;
+
+        /// <summary>
+        /// A <see cref="IDataProvider{T}"/> used to fetch market descriptors
+        /// </summary>
+        private readonly IDataProvider<IEnumerable<MarketDescriptionDTO>> _dataProvider;
+
+        /// <summary>
+        /// A <see cref="IReadOnlyCollection{CultureInfo}"/> specifying the languages for which the data should be pre-fetched
+        /// </summary>
+        private readonly IReadOnlyCollection<CultureInfo> _prefetchLanguages;
+
+        /// <summary>
+        /// A <see cref="ISet{CultureInfo}"/> used to store languages for which the data was already fetched (at least once)
+        /// </summary>
+        private readonly ISet<CultureInfo> _fetchedLanguages = new HashSet<CultureInfo>();
+
+        /// <summary>
+        /// A <see cref="SemaphoreSlim"/> instance to synchronize access from multiple threads
+        /// </summary>
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+
+        /// <summary>
+        /// Value indicating whether the current instance was already disposed
+        /// </summary>
+        private bool _isDisposed;
+
+        private readonly bool _tokenProvided;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarketDescriptionCache"/> class
+        /// </summary>
+        /// <param name="cache">A <see cref="ObjectCache"/> used to store market descriptors</param>
+        /// <param name="dataProvider">A <see cref="IDataProvider{T}"/> used to fetch market descriptors</param>
+        /// <param name="prefetchLanguages">A <see cref="IReadOnlyCollection{CultureInfo}"/> specifying the languages for which the data should be pre-fetched</param>
+        /// <param name="accessToken">The <see cref="ISdkConfigurationSection.AccessToken"/> used to access UF REST API</param>
+        /// <param name="fetchInterval">The fetch interval</param>
+        /// <param name="cacheItemPolicy">The cache item policy</param>
+        public MarketDescriptionCache(ObjectCache cache, 
+                                      IDataProvider<IEnumerable<MarketDescriptionDTO>> dataProvider, 
+                                      IEnumerable<CultureInfo> prefetchLanguages, 
+                                      string accessToken, 
+                                      TimeSpan fetchInterval, 
+                                      CacheItemPolicy cacheItemPolicy)
+        {
+            Contract.Requires(cache != null);
+            Contract.Requires(dataProvider != null);
+            Contract.Requires(prefetchLanguages != null && prefetchLanguages.Any());
+            Contract.Requires(fetchInterval != null);
+
+            _fetchInterval = fetchInterval;
+            _cacheItemPolicy = cacheItemPolicy;
+            TimeOfLastFetch = DateTime.MinValue;
+            Cache = cache;
+            _dataProvider = dataProvider;
+            _prefetchLanguages = new ReadOnlyCollection<CultureInfo>(prefetchLanguages.ToList());
+
+            _tokenProvided = !string.IsNullOrEmpty(accessToken);
+            var isProvided = _tokenProvided ? string.Empty : " not";
+
+            ExecutionLog.Debug($"AccessToken for API is{isProvided} provided. It is required only when creating selections for UF markets via method ISelectionBuilder.SetIdUof(). There is no need for it when legacy feeds are used.");
+        }
+
+        /// <summary>
+        /// Defines object invariants as required by code contracts
+        /// </summary>
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(Cache != null);
+            Contract.Invariant(_dataProvider != null);
+            Contract.Invariant(_prefetchLanguages != null && _prefetchLanguages.Any());
+        }
+
+        /// <summary>
+        /// Gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id from the local cache
+        /// </summary>
+        /// <param name="id">The id of the <see cref="MarketDescriptionCacheItem"/> to get</param>
+        /// <returns>The <see cref="MarketDescriptionCacheItem"/> retrieved from the cache or a null reference if item is not found</returns>
+        private MarketDescriptionCacheItem GetItemFromCache(int id)
+        {
+            var cacheItem = Cache.GetCacheItem(id.ToString());
+            return (MarketDescriptionCacheItem) cacheItem?.Value;
+        }
+
+        /// <summary>
+        /// Gets a <see cref="IEnumerable{CultureInfo}"/> containing <see cref="CultureInfo"/> instances from provided <code>requiredTranslations</code>
+        /// which translations are not found in the provided <see cref="MarketDescriptionCacheItem"/>
+        /// </summary>
+        /// <param name="item">The <see cref="MarketDescriptionCacheItem"/> instance, or a null reference</param>
+        /// <param name="requiredTranslations">The <see cref="IEnumerable{CultureInfo}"/> specifying the required languages</param>
+        /// <returns>A <see cref="IEnumerable{CultureInfo}"/> containing missing translations or a null reference if none of the translations are missing</returns>
+        private IEnumerable<CultureInfo> GetMissingTranslations(MarketDescriptionCacheItem item, IEnumerable<CultureInfo> requiredTranslations)
+        {
+            Contract.Requires(requiredTranslations != null && requiredTranslations.Any());
+
+            if (item == null)
+            {
+                //return requiredTranslations;
+                //we get only those which was not yet fetched
+                return requiredTranslations.Where(c => !_fetchedLanguages.Contains(c));
+            }
+
+            var missingCultures = requiredTranslations.Where(c => !item.HasTranslationsFor(c)).ToList();
+
+            return missingCultures.Any()
+                ? missingCultures
+                : null;
+        }
+
+        /// <summary>
+        /// Merges the provided descriptions with those found in cache
+        /// </summary>
+        /// <param name="culture">A <see cref="CultureInfo"/> specifying the language of the <code>descriptions</code></param>
+        /// <param name="descriptions">A <see cref="IEnumerable{MarketDescriptionDTO}"/> containing market descriptions in specified language</param>
+        private void Merge(CultureInfo culture, IEnumerable<MarketDescriptionDTO> descriptions)
+        {
+            Contract.Requires(culture != null);
+            Contract.Requires(descriptions != null && descriptions.Any());
+
+            var descriptionList = descriptions as List<MarketDescriptionDTO> ?? descriptions.ToList();
+
+            foreach (var marketDescription in descriptionList)
+            {
+                var cachedItem = Cache.GetCacheItem(marketDescription.Id.ToString());
+                if (cachedItem == null)
+                {
+                    try
+                    {
+                        cachedItem = new CacheItem(marketDescription.Id.ToString(), MarketDescriptionCacheItem.Build(marketDescription, /*_mappingValidatorFactory,*/ culture));
+                        Cache.Add(cachedItem, _cacheItemPolicy);
+                    }
+                    catch (Exception e)
+                    {
+                        if (!(e is InvalidOperationException))
+                        {
+                            throw;
+                        }
+                        CacheLog.Warn("Mapping validation for MarketDescriptionCacheItem failed.", e);
+                    }
+                }
+                else
+                {
+                    ((MarketDescriptionCacheItem) cachedItem.Value).Merge(marketDescription, culture);
+                }
+            }
+            _fetchedLanguages.Add(culture);
+        }
+
+        /// <summary>
+        /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified 
+        /// language are fetched from the service and stored/merged into the local cache. 
+        /// </summary>
+        /// <param name="id">The id of the <see cref="MarketDescriptionCacheItem"/> instance to get</param>
+        /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}"/> specifying the languages which the returned item must contain</param>
+        /// <returns>A <see cref="Task"/> representing the async operation</returns>
+        /// <exception cref="CommunicationException">An error occurred while accessing the remote party</exception>
+        /// <exception cref="DeserializationException">An error occurred while deserializing fetched data</exception>
+        /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
+        private async Task<MarketDescriptionCacheItem> GetMarketInternalAsync(int id, IEnumerable<CultureInfo> cultures)
+        {
+            Contract.Requires(cultures != null && cultures.Any());
+
+            if (!_tokenProvided)
+            {
+                throw new CommunicationException("Missing AccessToken.", string.Empty, null);
+            }
+
+            if (DateTime.Now - TimeOfLastFetch > _fetchInterval)
+            {
+                _fetchedLanguages.Clear();
+                var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
+                await FetchMarketDescriptionsAsync(cultureList).ConfigureAwait(false);
+            }
+
+            // if the market_descriptions was already obtained, there is no need to re-fetch
+            // if it is missing, it is MISSING (aka wrong id)
+            return GetItemFromCache(id);
+        }
+
+        /// <summary>
+        /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified 
+        /// language are fetched from the service and stored/merged into the local cache. 
+        /// </summary>
+        /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}"/> specifying the languages which the returned item must contain</param>
+        /// <returns>A <see cref="Task"/> representing the async operation</returns>
+        /// <exception cref="CommunicationException">An error occurred while accessing the remote party</exception>
+        /// <exception cref="DeserializationException">An error occurred while deserializing fetched data</exception>
+        /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
+        private async Task FetchMarketDescriptionsAsync(IEnumerable<CultureInfo> cultures)
+        {
+            Contract.Requires(cultures != null && cultures.Any());
+
+            if (!_tokenProvided)
+            {
+                throw new CommunicationException("Missing AccessToken.", string.Empty, null);
+            }
+
+            var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
+
+            try
+            {
+                await _semaphore.WaitAsync();
+                var missingLanguages = GetMissingTranslations(null, cultureList).ToList();
+
+                CacheLog.Info($"Fetching MarketDescriptions for languages: [{missingLanguages.Aggregate(",", (s, info) => s + info.TwoLetterISOLanguageName).Remove(0, 1)}].");
+                var cultureTaskDictionary = missingLanguages.ToDictionary(l => l, l => _dataProvider.GetDataAsync(l.TwoLetterISOLanguageName));
+                await Task.WhenAll(cultureTaskDictionary.Values).ConfigureAwait(false);
+
+                foreach (var cultureTaskPair in cultureTaskDictionary)
+                {
+                    Metric.Context("CACHE")
+                        .Meter("MarketDescriptionCache->FetchMarketDescriptions", Unit.Calls)
+                        .Mark(cultureTaskPair.Key.EnglishName);
+                    Merge(cultureTaskPair.Key, cultureTaskPair.Value.Result);
+                    CacheLog.Info($"Fetched {cultureTaskPair.Value.Result.Count()} items for {cultureTaskPair.Key.TwoLetterISOLanguageName}.");
+                }
+                TimeOfLastFetch = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                var disposedException = ex as ObjectDisposedException;
+                if (disposedException != null)
+                {
+                    CacheLog.Warn($"An error occurred while fetching market descriptions because the object graph is being disposed. Object causing the exception: {disposedException.ObjectName}.");
+                }
+                throw;
+            }
+            finally
+            {
+                if (!_isDisposed)
+                {
+                    _semaphore.Release();
+                }
+            }
+        }
+
+        private void PauseFetching()
+        {
+            CacheLog.Debug($"Fetching paused for {_minIntervalTimeout.TotalSeconds}s.");
+            TimeOfLastFetch = DateTime.Now.AddSeconds(-_fetchInterval.TotalSeconds).AddSeconds(_minIntervalTimeout.TotalSeconds);
+        }
+
+        /// <summary>
+        /// Disposes un-managed resources associated with the current instance
+        /// </summary>
+        ~MarketDescriptionCache()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources</param>
+        private void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+            if (disposing)
+            {
+                _semaphore?.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Gets the market descriptor.
+        /// </summary>
+        /// <param name="marketId">The market identifier</param>
+        /// <param name="variant">A <see cref="string"/> specifying market variant or a null reference if market is invariant</param>
+        /// <param name="cultures">The cultures</param>
+        /// <exception cref="CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
+        public async Task<MarketDescriptionCacheItem> GetMarketDescriptorAsync(int marketId, string variant, IEnumerable<CultureInfo> cultures)
+        {
+            if (!_tokenProvided)
+            {
+                throw new CommunicationException("Missing AccessToken.", string.Empty, null);
+            }
+
+            var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
+
+            MarketDescriptionCacheItem cacheItem;
+            try
+            {
+                cacheItem = await GetMarketInternalAsync(marketId, cultureList).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                PauseFetching();
+                if (ex is CommunicationException || ex is DeserializationException || ex is MappingException)
+                {
+                    throw new CacheItemNotFoundException("The requested key was not found in the cache", marketId.ToString(), ex);
+                }
+                throw;
+            }
+            if (cacheItem == null)
+            {
+                PauseFetching();
+                throw new CacheItemNotFoundException("The requested key was not found in the cache", marketId.ToString(), null);
+            }
+            return cacheItem;
+        }
+
+        /// <summary>
+        /// Registers the health check which will be periodically triggered
+        /// </summary>
+        public void RegisterHealthCheck()
+        {
+            HealthChecks.RegisterHealthCheck("MarketDescriptorCache", new Func<HealthCheckResult>(StartHealthCheck));
+        }
+
+        /// <summary>
+        /// Starts the health check and returns <see cref="HealthCheckResult"/>
+        /// </summary>
+        public HealthCheckResult StartHealthCheck()
+        {
+            return Cache.Any() ? HealthCheckResult.Healthy($"Cache has {Cache.Count()} items.") : HealthCheckResult.Unhealthy("Cache is empty.");
+        }
+    }
+}

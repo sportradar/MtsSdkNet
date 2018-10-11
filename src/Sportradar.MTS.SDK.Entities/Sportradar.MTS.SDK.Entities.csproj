@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1613C031-5891-42D6-A892-939C2132BD48}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sportradar.MTS.SDK.Entities</RootNamespace>
+    <AssemblyName>Sportradar.MTS.SDK.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption>.\SQLExpress</CodeContractsSQLServerOption>
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
+    <DocumentationFile>bin\Debug\Sportradar.MTS.SDK.Entities.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption>.\SQLExpress</CodeContractsSQLServerOption>
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Metrics, Version=0.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Metrics.NET.0.5.3\lib\net45\Metrics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sportradar.MTS.SDK.Entities.XmlSerializers">
+      <HintPath>..\..\docs\xml_serializers\Sportradar.MTS.SDK.Entities.XmlSerializers.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\SdkConfigurationContract.cs" />
+    <Compile Include="EventArguments\SdkMessageEventArgs.cs" />
+    <Compile Include="Interfaces\IRejectionInfo.cs" />
+    <Compile Include="Internal\Builders\BuilderFactory.cs" />
+    <Compile Include="Builders\IBuilderFactory.cs" />
+    <Compile Include="Builders\ISimpleBuilderFactory.cs" />
+    <Compile Include="Builders\ITicketCancelAckBuilder.cs" />
+    <Compile Include="Builders\ITicketAckBuilder.cs" />
+    <Compile Include="Builders\ITicketAltStakeBuilder.cs" />
+    <Compile Include="Builders\ITicketCashoutBuilder.cs" />
+    <Compile Include="Builders\ITicketReofferCancelBuilder.cs" />
+    <Compile Include="Builders\ITicketReofferBuilder.cs" />
+    <Compile Include="Internal\Builders\SimpleBuilderFactory.cs" />
+    <Compile Include="Internal\Builders\TicketCancelAckBuilder.cs" />
+    <Compile Include="Internal\Builders\TicketAckBuilder.cs" />
+    <Compile Include="Internal\Builders\TicketAltStakeBuilder.cs" />
+    <Compile Include="Internal\Builders\TicketCashoutBuilder.cs" />
+    <Compile Include="Internal\Builders\TicketReofferCancelBuilder.cs" />
+    <Compile Include="Internal\Builders\TicketReofferBuilder.cs" />
+    <Compile Include="Contracts\BuilderFactoryContract.cs" />
+    <Compile Include="Contracts\MarketDescriptionCacheContract.cs" />
+    <Compile Include="Contracts\SdkConfigurationInternalContract.cs" />
+    <Compile Include="Contracts\SimpleBuilderFactoryContract.cs" />
+    <Compile Include="Contracts\TicketCashoutContract.cs" />
+    <Compile Include="Contracts\TicketReofferCancelContract.cs" />
+    <Compile Include="Contracts\TicketCashoutResponseContract.cs" />
+    <Compile Include="Enums\TicketResponseType.cs" />
+    <Compile Include="Enums\Product.cs" />
+    <Compile Include="Internal\EntitiesMapper.cs" />
+    <Compile Include="Internal\Enums\ResourceTypeGroup.cs" />
+    <Compile Include="Internal\Builders\BetBuilder.cs" />
+    <Compile Include="Builders\EndCustomerBuilder.cs" />
+    <Compile Include="Builders\IBetBuilder.cs" />
+    <Compile Include="Builders\IEndCustomerBuilder.cs" />
+    <Compile Include="Builders\ISdkTicketBuilder.cs" />
+    <Compile Include="Builders\ISelectionBuilder.cs" />
+    <Compile Include="Builders\ISenderBuilder.cs" />
+    <Compile Include="Builders\ITicketBuilder.cs" />
+    <Compile Include="Builders\ITicketCancelBuilder.cs" />
+    <Compile Include="Internal\Builders\SelectionBuilder.cs" />
+    <Compile Include="Internal\Builders\SenderBuilder.cs" />
+    <Compile Include="Contracts\BetReofferContract.cs" />
+    <Compile Include="Contracts\SdkTicketContract.cs" />
+    <Compile Include="Enums\CashoutAcceptance.cs" />
+    <Compile Include="Enums\TicketCancellationReason.cs" />
+    <Compile Include="Enums\BetReofferType.cs" />
+    <Compile Include="Interfaces\IBetReoffer.cs" />
+    <Compile Include="Interfaces\ISelectionRef.cs" />
+    <Compile Include="Interfaces\ITicketCashout.cs" />
+    <Compile Include="Interfaces\ITicketReofferCancel.cs" />
+    <Compile Include="Interfaces\ITicketCashoutResponse.cs" />
+    <Compile Include="Internal\Cache\IMarketDescriptionCache.cs" />
+    <Compile Include="Internal\Cache\IMarketDescriptionProvider.cs" />
+    <Compile Include="Internal\Cache\MarketDescriptionCache.cs" />
+    <Compile Include="Internal\Cache\MarketDescriptionCacheItem.cs" />
+    <Compile Include="Internal\Cache\MarketDescriptionProvider.cs" />
+    <Compile Include="Internal\Cache\MarketDescriptionsMapper.cs" />
+    <Compile Include="Internal\Cache\MarketDescriptionsMapperFactory.cs" />
+    <Compile Include="Internal\Cache\MarketMappingCacheItem.cs" />
+    <Compile Include="Internal\Cache\MarketOutcomeCacheItem.cs" />
+    <Compile Include="Internal\Cache\MarketSpecifierCacheItem.cs" />
+    <Compile Include="Internal\Cache\OutcomeMappingCacheItem.cs" />
+    <Compile Include="Internal\DataProvider.cs" />
+    <Compile Include="Internal\Deserializer.cs" />
+    <Compile Include="Internal\Dto\TicketAck\DTO.cs" />
+    <Compile Include="Internal\Dto\TicketAck\Sender.cs" />
+    <Compile Include="Internal\Dto\TicketAck\TicketAckDTO.cs" />
+    <Compile Include="Internal\Dto\TicketCancelAck\DTO.cs" />
+    <Compile Include="Internal\Dto\TicketCancelAck\Sender.cs" />
+    <Compile Include="Internal\Dto\TicketCancelAck\TicketCancelAckDTO.cs" />
+    <Compile Include="Internal\Dto\TicketCancelResponse\Reason.cs" />
+    <Compile Include="Internal\Dto\TicketCancelResponse\Result.cs" />
+    <Compile Include="Internal\Dto\TicketCancelResponse\TicketCancelResponseDTO.cs" />
+    <Compile Include="Internal\Dto\TicketCancel\Cancel.cs" />
+    <Compile Include="Internal\Dto\TicketCancel\DTO.cs" />
+    <Compile Include="Internal\Dto\TicketCancel\Sender.cs" />
+    <Compile Include="Internal\Dto\TicketCancel\TicketCancelDTO.cs" />
+    <Compile Include="Internal\Dto\TicketCashoutResponse\TicketCashoutResponseDTO.cs" />
+    <Compile Include="Internal\Dto\TicketCashout\DTO.cs" />
+    <Compile Include="Internal\Dto\TicketCashout\Sender.cs" />
+    <Compile Include="Internal\Dto\TicketCashout\TicketCashoutDTO.cs" />
+    <Compile Include="Internal\Dto\TicketReofferCancel\DTO.cs" />
+    <Compile Include="Internal\Dto\TicketReofferCancel\Sender.cs" />
+    <Compile Include="Internal\Dto\TicketReofferCancel\TicketReofferCancelDTO.cs" />
+    <Compile Include="Internal\Dto\TicketResponse\TicketResponseDTO.cs" />
+    <Compile Include="Internal\Dto\Ticket\Anonymous.cs" />
+    <Compile Include="Internal\Dto\Ticket\Anonymous2.cs" />
+    <Compile Include="Internal\Dto\Ticket\Anonymous3.cs" />
+    <Compile Include="Internal\Dto\Ticket\Bonus.cs" />
+    <Compile Include="Internal\Dto\Ticket\EndCustomer.cs" />
+    <Compile Include="Internal\Dto\Ticket\DTO.cs" />
+    <Compile Include="Internal\Dto\Ticket\Sender.cs" />
+    <Compile Include="Internal\Dto\Ticket\Stake.cs" />
+    <Compile Include="Internal\Dto\Ticket\Ticket.cs" />
+    <Compile Include="Internal\Dto\Ticket\TicketDTO.cs" />
+    <Compile Include="EventArguments\MessagePublishFailedEventArgs.cs" />
+    <Compile Include="EventArguments\MessageDeserializationFailedEventArgs.cs" />
+    <Compile Include="EventArguments\TicketResponseReceivedEventArgs.cs" />
+    <Compile Include="EventArguments\TicketSendFailedEventArgs.cs" />
+    <Compile Include="EventArguments\MessageReceivedEventArgs.cs" />
+    <Compile Include="EventArguments\UnparsableMessageEventArgs.cs" />
+    <Compile Include="Internal\Enums\URN.cs" />
+    <Compile Include="Internal\IDataProvider.cs" />
+    <Compile Include="Internal\IRoutingKeyParser.cs" />
+    <Compile Include="Internal\ISdkConfigurationInternal.cs" />
+    <Compile Include="Internal\ISdkConfigurationSection.cs" />
+    <Compile Include="Internal\OverrideXmlNamespace.cs" />
+    <Compile Include="Internal\REST\Dto\MarketAttributeDTO.cs" />
+    <Compile Include="Internal\REST\Dto\MarketDescriptionDTO.cs" />
+    <Compile Include="Internal\REST\Dto\MarketMappingDTO.cs" />
+    <Compile Include="Internal\REST\Dto\OutcomeDescriptionDTO.cs" />
+    <Compile Include="Internal\REST\Dto\OutcomeMappingDTO.cs" />
+    <Compile Include="Internal\REST\Dto\MarketSpecifierDTO.cs" />
+    <Compile Include="Internal\REST\ISIngleTypeMapper.cs" />
+    <Compile Include="Internal\REST\ISingleTypeMapperFactory.cs" />
+    <Compile Include="Internal\REST\RestMessage.cs" />
+    <Compile Include="Internal\REST\RestMessages.cs" />
+    <Compile Include="Internal\SdkConfiguration.cs" />
+    <Compile Include="Internal\SdkConfigurationInternal.cs" />
+    <Compile Include="Internal\SdkConfigurationSection.cs" />
+    <Compile Include="Internal\SdkRoutingKeyBuilder.cs" />
+    <Compile Include="Internal\TicketCacheItem.cs" />
+    <Compile Include="Internal\TicketHelper.cs" />
+    <Compile Include="Internal\TicketImpl\BetReoffer.cs" />
+    <Compile Include="Internal\TicketImpl\AlternativeStake.cs" />
+    <Compile Include="Internal\TicketImpl\Bet.cs" />
+    <Compile Include="Internal\TicketImpl\BetBonus.cs" />
+    <Compile Include="Internal\TicketImpl\BetDetail.cs" />
+    <Compile Include="Internal\TicketImpl\RejectionInfo.cs" />
+    <Compile Include="Internal\TicketImpl\ResponseReason.cs" />
+    <Compile Include="Internal\TicketImpl\Selection.cs" />
+    <Compile Include="Internal\TicketImpl\SelectionDetail.cs" />
+    <Compile Include="Internal\TicketImpl\SelectionRef.cs" />
+    <Compile Include="Internal\TicketImpl\Sender.cs" />
+    <Compile Include="Internal\TicketImpl\Stake.cs" />
+    <Compile Include="Internal\TicketImpl\Ticket.cs" />
+    <Compile Include="Internal\TicketImpl\TicketAck.cs" />
+    <Compile Include="Internal\TicketImpl\TicketCashout.cs" />
+    <Compile Include="Internal\TicketImpl\TicketReofferCancel.cs" />
+    <Compile Include="Internal\TicketImpl\TicketCancel.cs" />
+    <Compile Include="Internal\TicketImpl\TicketCancelAck.cs" />
+    <Compile Include="Contracts\BetDetailContract.cs" />
+    <Compile Include="Contracts\BetBonusContract.cs" />
+    <Compile Include="Contracts\SelectionDetailContract.cs" />
+    <Compile Include="Contracts\AlternativeStakeContract.cs" />
+    <Compile Include="Contracts\TicketCancelAckContract.cs" />
+    <Compile Include="Contracts\TicketAckContract.cs" />
+    <Compile Include="Contracts\TicketCancelContract.cs" />
+    <Compile Include="Contracts\TicketCancelResponseContract.cs" />
+    <Compile Include="Contracts\TicketResponseContract.cs" />
+    <Compile Include="Contracts\TicketContract.cs" />
+    <Compile Include="Contracts\SenderContract.cs" />
+    <Compile Include="Contracts\SelectionRefContract.cs" />
+    <Compile Include="Contracts\BetContract.cs" />
+    <Compile Include="Contracts\SelectionContract.cs" />
+    <Compile Include="Contracts\EndCustomerContract.cs" />
+    <Compile Include="Contracts\StakeContract.cs" />
+    <Compile Include="Internal\TicketImpl\EndCustomer.cs" />
+    <Compile Include="Enums\BetBonusMode.cs" />
+    <Compile Include="Internal\SdkTicketType.cs" />
+    <Compile Include="Internal\Builders\TicketBuilder.cs" />
+    <Compile Include="Internal\Builders\TicketCancelBuilder.cs" />
+    <Compile Include="Enums\BetBonusType.cs" />
+    <Compile Include="Enums\OddsChangeType.cs" />
+    <Compile Include="Enums\SenderChannel.cs" />
+    <Compile Include="Enums\StakeType.cs" />
+    <Compile Include="Enums\TicketCancelAcceptance.cs" />
+    <Compile Include="Enums\TicketAcceptance.cs" />
+    <Compile Include="Enums\TicketAckStatus.cs" />
+    <Compile Include="Enums\TicketCancelAckStatus.cs" />
+    <Compile Include="Interfaces\IAlternativeStake.cs" />
+    <Compile Include="Interfaces\IBet.cs" />
+    <Compile Include="Interfaces\IBetBonus.cs" />
+    <Compile Include="Interfaces\IBetDetail.cs" />
+    <Compile Include="Interfaces\IEndCustomer.cs" />
+    <Compile Include="Interfaces\IResponseReason.cs" />
+    <Compile Include="Interfaces\ISelection.cs" />
+    <Compile Include="Interfaces\ISelectionDetail.cs" />
+    <Compile Include="Interfaces\ISender.cs" />
+    <Compile Include="Interfaces\IStake.cs" />
+    <Compile Include="Interfaces\ITicketCancelResponse.cs" />
+    <Compile Include="Interfaces\ITicketResponse.cs" />
+    <Compile Include="Internal\MessageInterest.cs" />
+    <Compile Include="Interfaces\ISdkTicket.cs" />
+    <Compile Include="Interfaces\ITicket.cs" />
+    <Compile Include="Interfaces\ITicketAck.cs" />
+    <Compile Include="Interfaces\ITicketCancel.cs" />
+    <Compile Include="Interfaces\ITicketCancelAck.cs" />
+    <Compile Include="Internal\Dto\MtsTicketHelper.cs" />
+    <Compile Include="ISdkConfiguration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj">
+      <Project>{00491A72-3F9B-4883-81B2-9EA5DD4516FF}</Project>
+      <Name>Sportradar.MTS.SDK.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SdkTicketsDiagram.cd" />
+    <None Include="packages.config" />
+    <None Include="TicketDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sgen.exe" /f /a:Sportradar.MTS.SDK.Entities.dll /t:Sportradar.MTS.SDK.Entities.Internal.REST.market_descriptions /o:..\..\..\..\docs\xml_serializers</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
