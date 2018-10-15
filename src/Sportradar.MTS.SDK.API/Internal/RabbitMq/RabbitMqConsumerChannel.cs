@@ -117,7 +117,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             ChannelMessageReceived?.Invoke(this, basicDeliverEventArgs);
 
             // TODO: ??? should this be in any way depended on user action (only acknowledged that message was received)
-            if (_channelSettings.UserAcknowledgementEnabled)
+            if (_channelSettings.UserAcknowledgmentEnabled)
             {
                 _channel.BasicAck(basicDeliverEventArgs?.DeliveryTag ?? 0, false);
             }
@@ -300,7 +300,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     consumer.Shutdown += OnShutdown;
                     consumer.ConsumerCancelled += OnConsumerCancelled;
                     channel.BasicConsume(queue: declareResult.QueueName,
-                                         noAck: !_channelSettings.UserAcknowledgementEnabled,
+                                         noAck: !_channelSettings.UserAcknowledgmentEnabled,
                                          consumerTag:$"{_mtsChannelSettings.ConsumerTag}",
                                          consumer: consumer,
                                          noLocal: false,

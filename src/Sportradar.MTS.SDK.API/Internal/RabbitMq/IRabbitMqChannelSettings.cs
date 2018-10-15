@@ -19,9 +19,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         bool QueueIsDurable { get; }
 
         /// <summary>
-        /// Gets a value indicating whether user acknowledgement enabled on queue
+        /// Gets a value indicating whether user acknowledgment enabled on queue
         /// </summary>
-        bool UserAcknowledgementEnabled { get; }
+        bool UserAcknowledgmentEnabled { get; }
 
         /// <summary>
         /// Specifies minimum allowed value of the inactivity value
@@ -31,12 +31,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// The user acknowledgment batch limit for received messages
         /// </summary>
-        int UserAcknowledgementBatchLimit { get; }
+        int UserAcknowledgmentBatchLimit { get; }
 
         /// <summary>
-        /// The user acknowledgement timeout in seconds for received messages
+        /// The user acknowledgment timeout in seconds for received messages
         /// </summary>
-        int UserAcknowledgementTimeoutInSeconds { get; }
+        int UserAcknowledgmentTimeoutInSeconds { get; }
 
         /// <summary>
         /// Gets the delivery mode of the publishing channel (persistent or non-persistent)

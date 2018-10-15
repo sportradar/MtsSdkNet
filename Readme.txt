@@ -3,7 +3,7 @@ A MTS SDK library
 Notice: before starting DemoProject make sure to enter your bookmaker access token in app.config file 
 	and restore nuget packages by right-clicking the solution item and selecting "Restore NuGet Packages".
 
-The SDK is also available via NuGet package manager. Use the followin command in the Package Manager Console to install it along with it's dependencies
+The SDK is also available via NuGet package manager. Use the following command in the Package Manager Console to install it along with it's dependencies
 	- Install-Package Sportradar.MTS.SDK
 	
 The SDK uses the following 3rd party libraries which must be added via the NuGet package manager

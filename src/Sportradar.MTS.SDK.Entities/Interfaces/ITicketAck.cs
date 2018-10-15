@@ -8,7 +8,7 @@ using Sportradar.MTS.SDK.Entities.Enums;
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
     /// <summary>
-    /// Defines a contract for ticket acknowledgement ticket
+    /// Defines a contract for ticket acknowledgment ticket
     /// </summary>
     [ContractClass(typeof(TicketAckContract))]
     public interface ITicketAck : ISdkTicket

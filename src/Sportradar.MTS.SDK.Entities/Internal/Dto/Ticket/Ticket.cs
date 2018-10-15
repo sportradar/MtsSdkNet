@@ -62,8 +62,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             TestSource = ticket.TestSource;
             TimestampUtc = MtsTicketHelper.Convert(ticket.Timestamp);
             Version = ticket.Version;
-            var sels = ticket.Selections.ToList().ConvertAll(c => new Anonymous2(c));
-            Selections = sels.Distinct().ToList();
+            var selections = ticket.Selections.ToList().ConvertAll(c => new Anonymous2(c));
+            Selections = selections.Distinct().ToList();
             Bets = ticket.Bets.ToList().ConvertAll(b => new Anonymous(b, GetBetSelectionRefs(b, Selections as IReadOnlyList<Anonymous2>, ticket.Selections.Any(a=>a.IsBanker))));
             ReofferRefId = string.IsNullOrEmpty(ticket.ReofferId) ? null : ticket.ReofferId;
             AltStakeRefId = string.IsNullOrEmpty(ticket.AltStakeRefId) ? null : ticket.AltStakeRefId;

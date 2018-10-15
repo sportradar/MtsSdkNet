@@ -4,7 +4,7 @@
 namespace Sportradar.MTS.SDK.Entities.Enums
 {
     /// <summary>
-    /// Possible values for ticket cancel acknowledgement status
+    /// Possible values for ticket cancel acknowledgment status
     /// </summary>
     public enum TicketCancelAckStatus
     {

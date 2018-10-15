@@ -64,7 +64,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
                     if (string.IsNullOrWhiteSpace(rootElementName))
                     {
-                        throw new InvalidOperationException($"Type {feedMessagesType.FullName} cannot be deserilized with {typeof(Deserializer<>).FullName} because the name of RootXmlElement is not specified");
+                        throw new InvalidOperationException($"Type {feedMessagesType.FullName} cannot be deserialized with {typeof(Deserializer<>).FullName} because the name of RootXmlElement is not specified");
                     }
                     if (serializers.ContainsKey(rootElementName))
                     {

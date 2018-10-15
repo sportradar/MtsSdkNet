@@ -110,7 +110,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         }
 
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark canceled]</param>
         /// <param name="bookmakerId">The sender identifier (bookmakerId)</param>
@@ -132,7 +132,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         }
 
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark canceled]</param>
         /// <exception cref="Exception">missing ticket in cache</exception>

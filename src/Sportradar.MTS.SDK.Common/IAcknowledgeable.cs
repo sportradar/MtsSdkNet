@@ -4,18 +4,18 @@
 namespace Sportradar.MTS.SDK.Common
 {
     /// <summary>
-    /// Defines a contract for classes used to provide acknowledgement
+    /// Defines a contract for classes used to provide acknowledgment
     /// </summary>
     public interface IAcknowledgeable
     {
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark accepted]</param>
         void Acknowledge(bool markAccepted = true);
 
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark accepted]</param>
         /// <param name="bookmakerId">The sender identifier (bookmakerId)</param>

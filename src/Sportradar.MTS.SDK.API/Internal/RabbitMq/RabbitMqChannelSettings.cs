@@ -7,10 +7,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     {
         public bool DeleteQueueOnClose { get; }
         public bool QueueIsDurable { get; }
-        public bool UserAcknowledgementEnabled { get; }
+        public bool UserAcknowledgmentEnabled { get; }
         public int HeartBeat { get; }
-        public int UserAcknowledgementBatchLimit { get; }
-        public int UserAcknowledgementTimeoutInSeconds { get; }
+        public int UserAcknowledgmentBatchLimit { get; }
+        public int UserAcknowledgmentTimeoutInSeconds { get; }
         public bool UsePersistentDeliveryMode { get; }
         public int PublishQueueLimit { get; }
         public int PublishQueueTimeoutInSec { get; }
@@ -29,10 +29,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         {
             DeleteQueueOnClose = deleteQueueOnClose;
             QueueIsDurable = queueDurable;
-            UserAcknowledgementEnabled = enableUserAqs;
+            UserAcknowledgmentEnabled = enableUserAqs;
             HeartBeat = heartBeat;
-            UserAcknowledgementBatchLimit = ackBatchLimit;
-            UserAcknowledgementTimeoutInSeconds = ackTimeout;
+            UserAcknowledgmentBatchLimit = ackBatchLimit;
+            UserAcknowledgmentTimeoutInSeconds = ackTimeout;
             UsePersistentDeliveryMode = usePersistentDeliveryMode;
             PublishQueueLimit = publishQueueLimit;
             PublishQueueTimeoutInSec = publishQueueTimeoutInSec;

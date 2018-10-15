@@ -25,12 +25,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <summary>
         /// The ampq acknowledgment batch limit
         /// </summary>
-        private const int AmpqAcknowledgementBatchLimit = 10;
+        private const int AmpqAcknowledgmentBatchLimit = 10;
 
         /// <summary>
-        /// The ampq acknowledgement timeout in seconds
+        /// The ampq acknowledgment timeout in seconds
         /// </summary>
-        private const int AmpqAcknowledgementTimeoutInSeconds = 60;
+        private const int AmpqAcknowledgmentTimeoutInSeconds = 60;
 
         /// <summary>
         /// Gets the URL of the feed's REST interface

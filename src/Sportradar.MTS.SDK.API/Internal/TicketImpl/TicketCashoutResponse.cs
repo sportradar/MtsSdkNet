@@ -107,20 +107,20 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         }
 
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark accepted]</param>
         /// <param name="bookmakerId">The sender identifier (bookmakerId)</param>
         /// <param name="code">The code</param>
         /// <param name="message">The message</param>
-        /// <exception cref="System.NullReferenceException">Missing TicketCashoutSender. Can not be null</exception>
+        /// <exception cref="NullReferenceException">Missing TicketCashoutSender. Can not be null</exception>
         public void Acknowledge(bool markAccepted, int bookmakerId, int code, string message)
         {
             // acking is not supported
         }
 
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark accepted]</param>
         /// <exception cref="System.Exception">missing ticket in cache</exception>

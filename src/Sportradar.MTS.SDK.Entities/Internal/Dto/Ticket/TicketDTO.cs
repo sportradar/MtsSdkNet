@@ -215,8 +215,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 }
             }
         }
-    
-        /// <summary>Accept change in odds (optional, default none) none: default behaviour, any: any odds change accepted, higher: accept higher odds</summary>
+
+        /// <summary>Accept change in odds (optional, default none) none: default behavior, any: any odds change accepted, higher: accept higher odds</summary>
         [Newtonsoft.Json.JsonProperty("oddsChange", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TicketOddsChange? OddsChange

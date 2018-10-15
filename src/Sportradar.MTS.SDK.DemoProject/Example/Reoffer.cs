@@ -12,7 +12,7 @@ using Sportradar.MTS.SDK.Entities.Interfaces;
 namespace Sportradar.MTS.SDK.DemoProject.Example
 {
     /// <summary>
-    /// Example demostrating how to build reoffer or cancel it
+    /// Example demonstrating how to build reoffer or cancel it
     /// </summary>
     public class Reoffer
     {
@@ -159,7 +159,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
                 ticketResponse.Acknowledge();
 
                 // handle ticket response
-               
+
                 //if for some reason we want to cancel ticket, this is how we can do it
                 var ticketCancel = _factory.CreateTicketCancelBuilder().SetTicketId(ticketResponse.TicketId).SetCode(TicketCancellationReason.BookmakerTechnicalIssue).BuildTicket();
                 _mtsSdk.SendTicket(ticketCancel);
@@ -172,13 +172,14 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
                 {
                     if (ReofferShouldBeAccepted())
                     {
+                        // ReSharper disable once RedundantArgumentDefaultValue
                         var reofferTicket = _factory.CreateTicketReofferBuilder().Set(_originalTicket, ticketResponse, null).BuildTicket();
                         _mtsSdk.SendTicket(reofferTicket);
                     }
                     else
                     {
                         var reofferCancel = _factory.CreateTicketReofferCancelBuilder().SetTicketId(ticketResponse.TicketId).BuildTicket();
-                        _mtsSdk.SendTicket(reofferCancel); 
+                        _mtsSdk.SendTicket(reofferCancel);
                     }
                 }
             }

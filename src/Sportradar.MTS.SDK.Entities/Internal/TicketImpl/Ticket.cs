@@ -125,12 +125,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
             if (Bets != null)
             {
-                var sels = new List<ISelection>();
+                var selections = new List<ISelection>();
                 foreach (var bet in Bets)
                 {
-                    sels.AddRange(bet.Selections);
+                    selections.AddRange(bet.Selections);
                 }
-                Selections = sels.Distinct();
+                Selections = selections.Distinct();
             }
         }
 

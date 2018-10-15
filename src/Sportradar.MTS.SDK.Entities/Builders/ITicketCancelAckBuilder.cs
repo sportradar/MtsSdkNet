@@ -25,7 +25,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         ITicketCancelAckBuilder SetBookmakerId(int bookmakerId);
 
         /// <summary>
-        /// Sets the acknowledgement parameters
+        /// Sets the acknowledgment parameters
         /// </summary>
         /// <param name="markAccepted">If set to <c>true</c> [mark cancelled]</param>
         /// <param name="code">The code</param>

@@ -159,7 +159,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         }
 
         /// <summary>
-        /// Send acknowledgement back to MTS
+        /// Send acknowledgment back to MTS
         /// </summary>
         /// <param name="markAccepted">if set to <c>true</c> [mark accepted]</param>
         /// <exception cref="System.Exception">missing ticket in cache</exception>

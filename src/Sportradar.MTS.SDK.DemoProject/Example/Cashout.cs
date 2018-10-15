@@ -11,7 +11,7 @@ using Sportradar.MTS.SDK.Entities.Interfaces;
 namespace Sportradar.MTS.SDK.DemoProject.Example
 {
     /// <summary>
-    /// Example demostrating how to build cashout ticket
+    /// Example demonstrating how to build cashout ticket
     /// </summary>
     public class Cashout
     {
