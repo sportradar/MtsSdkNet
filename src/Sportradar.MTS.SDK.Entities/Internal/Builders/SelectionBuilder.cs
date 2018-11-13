@@ -3,6 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
@@ -396,7 +397,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                 }
             }
 
-
             if (marketDescription == null)
             {
                 ExecutionLog.Info($"No market description found for marketId={marketId}, sportId={sportId}, productId={productId}.");
@@ -408,11 +408,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             {
                 var newSpecifiers = specifiers == null
                     ? new Dictionary<string, string>()
-                    : specifiers as IDictionary<string, string>;
+                    : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                newSpecifiers?.Add("$server", sportEventStatus["CurrentServer"].ToString());
+                newSpecifiers.Add("$server", sportEventStatus["CurrentServer"].ToString());
 
-                return newSpecifiers as IReadOnlyDictionary<string, string>;
+                return new ReadOnlyDictionary<string, string>(newSpecifiers);
             }
 
             //handle $score sov_template
@@ -445,12 +445,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
 
                 var newSpecifiers = specifiers == null
                         ? new Dictionary<string, string>()
-                        : specifiers as IDictionary<string, string>;
+                        : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                 Debug.Assert(newSpecifiers != null, "newSpecifiers != null");
                 newSpecifiers.Add("$score", $"{sportEventStatus["HomeScore"]}:{sportEventStatus["AwayScore"]}");
 
-                return newSpecifiers as IReadOnlyDictionary<string, string>;
+                return new ReadOnlyDictionary<string, string>(newSpecifiers);
             }
 
             return specifiers;

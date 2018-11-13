@@ -12,7 +12,7 @@ using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketReofferCancel;
 namespace Sportradar.MTS.SDK.API.Internal.Senders
 {
     public class TicketReofferCancelSender : TicketSenderBase
-    { 
+    {
         private readonly ITicketMapper<ITicketReofferCancel, TicketReofferCancelDTO> _ticketMapper;
 
         internal TicketReofferCancelSender(ITicketMapper<ITicketReofferCancel, TicketReofferCancelDTO> ticketMapper,
@@ -23,7 +23,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             : base(publisherChannel, ticketCache, mtsChannelSettings, ticketCacheTimeoutInSec)
         {
             Contract.Requires(ticketMapper != null);
-            
+
             _ticketMapper = ticketMapper;
         }
 

@@ -26,7 +26,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         public IEnumerable<string> RoutingKeys { get; }
 
         public IReadOnlyDictionary<string, object> HeaderProperties { get; }
-        
+
         public string ReplyToRoutingKey { get; }
 
         public string ConsumerTag { get; }
@@ -87,7 +87,7 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public static IMtsChannelSettings GetTicketAckChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Confirm-node{nodeId}" } }; 
+            //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Confirm-node{nodeId}" } };
             return new MtsChannelSettings(null,
                                           $"{rootExchangeName}-Ack",
                                           ExchangeType.Topic,
