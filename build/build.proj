@@ -7,14 +7,14 @@
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">1</MajorVersion>
     <MinorVersion Condition="'$(MinorVersion)' == ''">5</MinorVersion>
-    <BuildNumber Condition="'$(BuildNumber)' == ''">1</BuildNumber>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">2</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Fix in HandleMarketDescription when adding specifiers</BuildChangeLog> 
+    <BuildChangeLog>Fix: loading config settings to mtsSdk (exclusiveConsumer, exceptionHandlingStrategy)</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 
