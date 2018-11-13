@@ -1,7 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
@@ -97,11 +96,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// Gets the file path to the configuration file for the log4net repository used by the SDK
         /// </summary>
         string SdkLogConfigPath { get; }
-
-        /// <summary>
-        /// Gets a <see cref="ExceptionHandlingStrategy"/> enum member specifying how to handle exceptions thrown to outside callers
-        /// </summary>
-        ExceptionHandlingStrategy ExceptionHandlingStrategy { get; }
 
         /// <summary>
         /// Should the rabbit consumer channel be exclusive

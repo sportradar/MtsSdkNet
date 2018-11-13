@@ -60,8 +60,6 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         private static void RegisterBaseClasses(IUnityContainer container, ISdkConfiguration config)
         {
-            container.RegisterInstance(config.ExceptionStrategy, new ContainerControlledLifetimeManager());
-
             container.RegisterInstance(config, new ContainerControlledLifetimeManager());
 
             container.RegisterType<ISdkConfigurationInternal, SdkConfigurationInternal>(new ContainerControlledLifetimeManager());

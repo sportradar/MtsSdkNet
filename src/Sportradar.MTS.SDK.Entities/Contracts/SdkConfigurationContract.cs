@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Contracts
@@ -85,9 +84,6 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
 
         [Pure]
         public int StatisticsRecordLimit => Contract.Result<int>();
-
-        [Pure]
-        public ExceptionHandlingStrategy ExceptionStrategy => Contract.Result<ExceptionHandlingStrategy>();
 
         [Pure]
         public bool ExclusiveConsumer => Contract.Result<bool>();

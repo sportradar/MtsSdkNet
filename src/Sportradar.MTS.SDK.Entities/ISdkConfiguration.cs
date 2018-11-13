@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
@@ -95,12 +94,6 @@ namespace Sportradar.MTS.SDK.Entities
         /// Gets the limit of records for automatically writing statistics
         /// </summary>
         int StatisticsRecordLimit { get; }
-
-        /// <summary>
-        /// Gets a <see cref="ExceptionHandlingStrategy"/> enum member indicating how potential exceptions thrown to external callers should be handled
-        /// </summary>
-        /// <value>The exception strategy</value>
-        ExceptionHandlingStrategy ExceptionStrategy { get; }
 
         /// <summary>
         /// Should the rabbit consumer channel be exclusive

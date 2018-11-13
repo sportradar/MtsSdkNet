@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -98,16 +97,11 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public string SdkLogConfigPath { get; }
 
         /// <summary>
-        /// Gets a <see cref="ISdkConfigurationSection.ExceptionHandlingStrategy"/> enum member specifying how to handle exceptions thrown to outside callers
-        /// </summary>
-        public ExceptionHandlingStrategy ExceptionHandlingStrategy { get; }
-
-        /// <summary>
         /// Should the rabbit consumer be exclusive
         /// </summary>
         public bool ExclusiveConsumer { get; }
 
-        public SdkConfigurationSectionTest(string username, string password, string host, int port, string virtualHost, int nodeId, bool useSsl, int bookmakerId, int limitId, string currency, SenderChannel? channel, string accessToken, bool provideAdditionalMarketSpecifiers, bool statisticsEnabled, int statisticsTimeout, int statisticsRecordLimit, string sdkLogConfigPath, ExceptionHandlingStrategy exceptionHandlingStrategy, bool exclusiveConsumer)
+        public SdkConfigurationSectionTest(string username, string password, string host, int port, string virtualHost, int nodeId, bool useSsl, int bookmakerId, int limitId, string currency, SenderChannel? channel, string accessToken, bool provideAdditionalMarketSpecifiers, bool statisticsEnabled, int statisticsTimeout, int statisticsRecordLimit, string sdkLogConfigPath, bool exclusiveConsumer)
         {
             Username = username;
             Password = password;
@@ -126,7 +120,6 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             StatisticsTimeout = statisticsTimeout;
             StatisticsRecordLimit = statisticsRecordLimit;
             SdkLogConfigPath = sdkLogConfigPath;
-            ExceptionHandlingStrategy = exceptionHandlingStrategy;
             ExclusiveConsumer = exclusiveConsumer;
         }
 
@@ -150,7 +143,6 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    statisticsTimeout: 60,
                                                    statisticsRecordLimit: 1000,
                                                    sdkLogConfigPath: string.Empty,
-                                                   exceptionHandlingStrategy: ExceptionHandlingStrategy.Throw,
                                                    exclusiveConsumer: true);
         }
     }

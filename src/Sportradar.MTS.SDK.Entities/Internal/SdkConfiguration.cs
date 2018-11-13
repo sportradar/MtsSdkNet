@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
@@ -84,11 +83,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public int StatisticsRecordLimit { get; }
 
         /// <summary>
-        /// Gets a <see cref="ExceptionHandlingStrategy" /> enum member indicating how potential exceptions thrown to external callers should be handled
-        /// </summary>
-        public ExceptionHandlingStrategy ExceptionStrategy { get; }
-
-        /// <summary>
         /// Gets the access token for the UF feed (only necessary if UF selections will be build)
         /// </summary>
         /// <value>The access token</value>
@@ -160,7 +154,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             StatisticsRecordLimit = 1000000;
             StatisticsTimeout = 600;
 
-            ExceptionStrategy = ExceptionHandlingStrategy.Catch;
             AccessToken = accessToken ?? string.Empty;
             ProvideAdditionalMarketSpecifiers = provideAdditionalMarketSpecifiers;
 
@@ -198,7 +191,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             StatisticsEnabled = section.StatisticsEnabled;
             StatisticsRecordLimit = section.StatisticsRecordLimit;
             StatisticsTimeout = section.StatisticsTimeout;
-            ExceptionStrategy = section.ExceptionHandlingStrategy;
             AccessToken = section.AccessToken;
             ProvideAdditionalMarketSpecifiers = section.ProvideAdditionalMarketSpecifiers;
             Port = UseSsl ? 5671 : 5672;

@@ -4,7 +4,6 @@
 using System;
 using System.Configuration;
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
@@ -129,12 +128,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         [ConfigurationProperty("sdkLogConfigPath", IsRequired = false)]
         public string SdkLogConfigPath => (string)base["sdkLogConfigPath"];
-
-        /// <summary>
-        /// Gets a <see cref="ExceptionHandlingStrategy"/> enum member specifying how to handle exceptions thrown to outside callers
-        /// </summary>
-        [ConfigurationProperty("exceptionHandlingStrategy", IsRequired = false, DefaultValue = ExceptionHandlingStrategy.Catch)]
-        public ExceptionHandlingStrategy ExceptionHandlingStrategy => (ExceptionHandlingStrategy)base["exceptionHandlingStrategy"];
 
         /// <summary>
         /// Attempts to construct the <see cref="SdkConfigurationSection"/> from the app.config file

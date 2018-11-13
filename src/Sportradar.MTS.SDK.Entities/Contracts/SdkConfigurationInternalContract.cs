@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -47,8 +46,6 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         public abstract int StatisticsTimeout { get; }
 
         public abstract int StatisticsRecordLimit { get; }
-
-        public abstract ExceptionHandlingStrategy ExceptionStrategy { get; }
 
         public bool ExclusiveConsumer { get; }
 
