@@ -144,7 +144,6 @@
     <Compile Include="Contracts\HealthStatusProviderContract.cs" />
     <Compile Include="Contracts\OpenableContract.cs" />
     <Compile Include="Contracts\TimerContract.cs" />
-    <Compile Include="ExceptionHandlingStrategy.cs" />
     <Compile Include="Exceptions\CacheItemNotFoundException.cs" />
     <Compile Include="Exceptions\CommunicationException.cs" />
     <Compile Include="Exceptions\DeserializationException.cs" />
