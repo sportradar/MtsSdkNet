@@ -11,7 +11,6 @@ using log4net;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Log;
 
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
@@ -214,37 +213,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             _consumer.ConsumerCancelled -= OnConsumerCancelled;
             _consumer = null;
 
-            if (_channelSettings.DeleteQueueOnClose)
-            {
-                var deleted = DeleteQueue();
-                if (!deleted)
-                {
-                    ExecutionLog.Info($"Deleting of queue '{_queueName} failed. Channel will be disposed.");
-                }
-            }
             _channel.Dispose();
-        }
-
-        private bool DeleteQueue()
-        {
-            if (IsOpened)
-            {
-                throw new RabbitMqException("To delete queue, you need to close consumer first.", null);
-            }
-
-            try
-            {
-                const bool ifUnused = true;
-                const bool ifEmpty = false;
-                _channel.QueueDelete(_queueName, ifUnused, ifEmpty);
-                return true;
-            }
-            catch (Exception)
-            {
-                //ExecutionLog.Debug($"Unable to delete queue '{_queueName}'.", e);
-                ExecutionLog.Debug($"Unable to delete queue '{_queueName}'.");
-            }
-            return false;
         }
 
         private void CreateAndOpenConsumerChannel()
