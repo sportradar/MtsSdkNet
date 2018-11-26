@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using System.Net;
 using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
@@ -16,7 +15,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// <summary>
         /// Gets the end user's ip
         /// </summary>
-        IPAddress Ip { get; }
+        string Ip { get; }
 
         /// <summary>
         /// Gets the 2-letter ISO 639-1 language code

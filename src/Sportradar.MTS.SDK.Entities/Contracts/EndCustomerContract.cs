@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using System.Net;
 using System.Text.RegularExpressions;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -12,7 +11,13 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
     [ContractClassFor(typeof(IEndCustomer))]
     internal abstract class EndCustomerContract : IEndCustomer
     {
-        public IPAddress Ip => Contract.Result<IPAddress>();
+        public string Ip
+        {
+            get
+            {
+                return Contract.Result<string>();
+            }
+        }
 
         public string LanguageId {
             get

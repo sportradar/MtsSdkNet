@@ -11,7 +11,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 {
     public class EndCustomer : IEndCustomer, ISerializable
     {
-        public IPAddress Ip { get; }
+        public string Ip { get; }
         public string LanguageId { get; }
         public string DeviceId { get; }
 
@@ -31,7 +31,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
             if (!string.IsNullOrEmpty(ip))
             {
-                Ip = IPAddress.Parse(ip);
+                var validIp = IPAddress.Parse(ip);
+                Ip = ip;
             }
             LanguageId = languageId;
             DeviceId = deviceId;
@@ -46,7 +47,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidStringId(id, true, 1, 36));
             Contract.Requires(confidence >= 0);
 
-            Ip = ip;
+            Ip = ip.ToString();
             LanguageId = languageId;
             DeviceId = deviceId;
             Id = id;

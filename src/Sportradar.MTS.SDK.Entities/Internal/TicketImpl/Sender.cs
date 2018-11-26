@@ -60,12 +60,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="shopId">The shop identifier</param>
         /// <param name="customer">The customer</param>
         /// <param name="limitId">The limit identifier</param>
-        public Sender(int bookmakerId, 
-                      string currency, 
-                      string terminalId, 
-                      SenderChannel senderChannel, 
-                      string shopId, 
-                      IEndCustomer customer, 
+        public Sender(int bookmakerId,
+                      string currency,
+                      string terminalId,
+                      SenderChannel senderChannel,
+                      string shopId,
+                      IEndCustomer customer,
                       int limitId)
         {
             Contract.Requires(bookmakerId > 0);
