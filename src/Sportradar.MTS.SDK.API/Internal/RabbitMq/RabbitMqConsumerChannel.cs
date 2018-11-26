@@ -262,6 +262,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                             channel.QueueBind(declareResult.QueueName, exchange: _mtsChannelSettings.ExchangeName, routingKey: routingKey);
                         }
                     }
+                    channel.BasicQos(0, 10, false);
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += OnDataReceived;
                     consumer.Registered += OnRegistered;
