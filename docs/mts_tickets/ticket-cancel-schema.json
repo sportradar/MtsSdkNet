@@ -2,7 +2,7 @@
    "$schema": "http://json-schema.org/draft-04/schema#",
    "type": "object",
    "additionalProperties": false,
-   "description": "Ticket cancel version 2 schema",
+   "description": "Ticket cancel version 2.2 schema",
    "title": "Ticket cancel container",
    "required": [
       "cancel"
@@ -30,7 +30,7 @@
                "type": "string",
                "description": "Ticket id to cancel (in the client's system)",
                "minLength": 1,
-               "maxLength": 50
+               "maxLength": 128
             },
             "sender": {
                "type": "object",
@@ -52,10 +52,44 @@
                "type":"integer",
                "description":"Cancellation code"
             },
+            "cancelPercent":{
+               "type": ["integer", "null"],
+               "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Only applicable if cancelling whole ticket.",
+               "maximum":1000000000000000000,
+               "minimum":1
+            },
+            "betCancel": {
+               "type": "array",
+               "description": "Array of (betId, cancelPercent) pairs, if performing partial cancellation. Applicable only if ticket-level cancel percent is null.",
+               "items": {
+                  "type": "object",
+                  "required": [
+                     "betId",
+                     "cancelPercent"
+                  ],
+                  "properties": {
+                     "id": {
+                        "type": "string",
+                        "description": "Bet id",
+                        "pattern": "^[0-9A-Za-z:\\-_]{1,128}$",
+                        "minLength": 1,
+                        "maxLength": 128
+                     },
+                     "cancelPercent":{
+                        "type": ["integer", "null"],
+                        "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value.",
+                        "maximum":1000000000000000000,
+                        "minimum":1
+                     }
+                  }
+               },
+               "minItems": 1,
+               "maxItems": 50
+            },
             "version": {
                "type": "string",
-               "description": "JSON format version (must be '2.0')",
-               "pattern": "^(2\\.0)$",
+               "description": "JSON format version (must be '2.2')",
+               "pattern": "^(2\\.2)$",
                "minLength": 3,
                "maxLength": 3
             }

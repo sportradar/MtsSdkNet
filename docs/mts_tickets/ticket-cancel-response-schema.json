@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "Ticket cancel response v2 schema",
+  "description": "Ticket cancel response 2.2 schema",
   "required": [
     "version",
 	"signature",
@@ -17,6 +17,9 @@
       "type": "object",
       "additionalProperties": false,
       "description": "Object carrying information about cancellation response",
+      "required": [
+        "code"
+      ],
       "properties": {
         "code": {
           "type": "integer",
@@ -32,8 +35,8 @@
       "type": "string",
       "description": "Cancellation status - cancelled, not_cancelled",
       "enum": [
-        "not_cancelled",
-        "cancelled"
+        "cancelled",
+        "not_cancelled"
       ]
     }
   },
@@ -57,17 +60,17 @@
           "$ref": "#/definitions/reason"
         }
       }
-  },
+    },
 	"signature": {
-        "type": "string",
-        "description": "Response signature (previous betAcceptanceId)"
-      },
-      "version": {
-        "type": "string",
-        "description": "JSON format version (must be '2.0')",
-        "pattern": "^(2\\.0)$",
-        "minLength": 3,
-        "maxLength": 3
-      }
+      "type": "string",
+      "description": "Response signature (previous betAcceptanceId)"
+    },
+    "version": {
+      "type": "string",
+      "description": "JSON format version (must be '2.2')",
+      "pattern": "^(2\\.2)$",
+      "minLength": 3,
+      "maxLength": 3
     }
+  }
 }

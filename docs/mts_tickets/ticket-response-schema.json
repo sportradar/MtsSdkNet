@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "Ticket response v2.1 schema",
+  "description": "Ticket response 2.2 schema",
   "required": [
     "version",
     "signature",
@@ -42,8 +42,8 @@
       "type": "string",
       "description": "Acceptance status - accepted, rejected",
       "enum": [
-        "rejected",
-        "accepted"
+        "accepted",
+        "rejected"
       ]
     }
   },
@@ -171,10 +171,36 @@
         }
       }
     },
+    "autoAcceptedOdds": {
+      "type": "array",
+      "description": "Contains odds auto-acceptance information",
+      "items": {
+        "type": "object",
+        "description": "Odds auto-acceptance selection information",
+        "additionalProperties": false,
+        "properties": {
+          "selectionIndex": {
+            "$ref": "#/definitions/selectionIndex"
+          },
+          "requestedOdds": {
+            "type": "integer",
+            "description": "Odds with which the ticket was placed",
+            "maximum": 1000000000,
+            "minimum": 10000
+          },
+          "usedOdds": {
+            "type": "integer",
+            "description": "Odds with which the ticket was accepted",
+            "maximum": 1000000000,
+            "minimum": 10000
+          }
+        }
+      }
+    },
     "version": {
       "type": "string",
-      "description": "JSON format version (must be '2.1')",
-      "pattern": "^(2\\.1)$",
+      "description": "JSON format version (must be '2.2')",
+      "pattern": "^(2\\.2)$",
       "minLength": 3,
       "maxLength": 3
     },

@@ -16,11 +16,11 @@
       "ticketId":{
          "type":"string"
       },
-      "ticketCancelStatus":{
+      "ticketStatus":{
          "type": "string",
          "enum":[
-            "not_cancelled",
-            "cancelled"
+            "accepted",
+            "rejected"
          ]
       },
       "code":{
@@ -33,13 +33,17 @@
          "type":"number"
       },
       "version":{
-         "type":"string"
+         "type":"string",
+         "description":"JSON format version (must be '2.2')",
+         "pattern":"^(2\\.2)$",
+         "minLength":3,
+         "maxLength":3
       }
    },
    "required":[
       "sender",
       "ticketId",
-	  "ticketCancelStatus",
+	  "ticketStatus",
       "timestampUtc",
       "version"
    ]

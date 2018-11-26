@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "additionalProperties": false,
-  "description": "Ticket version 2.1 schema",
+  "description": "Ticket version 2.2 schema",
   "title": "Ticket container",
   "required": [
     "ticket"
@@ -221,7 +221,7 @@
             "terminalId": {
               "type": ["string", "null"],
               "description": "Terminal id (optional)",
-              "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
+              "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
               "minLength": 1,
               "maxLength": 36
             },
@@ -241,7 +241,7 @@
             "shopId": {
               "type": ["string", "null"],
               "description": "Shop id (optional)",
-              "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
+              "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
               "minLength": 1,
               "maxLength": 36
             },
@@ -270,14 +270,14 @@
                 "deviceId": {
                   "type": ["string", "null"],
                   "description": "End user's device id",
-                  "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
+                  "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
                   "minLength": 1,
                   "maxLength": 36
                 },
                 "id": {
                   "type": ["string", "null"],
                   "description": "End user's unique id (in client's system)",
-                  "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
+                  "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
                   "minLength": 1,
                   "maxLength": 36
                 },
@@ -311,8 +311,8 @@
         },
         "version": {
           "type": "string",
-          "description": "JSON format version (must be '2.1')",
-          "pattern": "^(2\\.1)$",
+          "description": "JSON format version (must be '2.2')",
+          "pattern": "^(2\\.2)$",
           "minLength": 3,
           "maxLength": 3
         },
@@ -328,6 +328,11 @@
             "any",
             "higher"
           ]
+        },
+        "totalCombinations": {
+          "type": ["integer", "null"],
+          "description": "Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations.",
+          "minimum": 1
         }
       }
     }
