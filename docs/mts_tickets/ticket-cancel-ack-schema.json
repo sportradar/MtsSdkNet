@@ -19,8 +19,8 @@
       "ticketCancelStatus":{
          "type": "string",
          "enum":[
-            "cancelled",
-            "not_cancelled"
+            "not_cancelled",
+            "cancelled"
          ]
       },
       "code":{

@@ -50,9 +50,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="alternativeStake">The alternative stake</param>
         /// <param name="reoffer">The reoffer</param>
         /// <param name="selectionDetails">The selection details</param>
-        public BetDetail(string betId, 
-                         IResponseReason reason, 
-                         IAlternativeStake alternativeStake, 
+        public BetDetail(string betId,
+                         IResponseReason reason,
+                         IAlternativeStake alternativeStake,
                          IBetReoffer reoffer,
                          IEnumerable<ISelectionDetail> selectionDetails)
         {
@@ -70,7 +70,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Initializes a new instance of the <see cref="BetDetail"/> class
         /// </summary>
         /// <param name="betDetail">The bet detail</param>
-        public BetDetail(Anonymous betDetail)
+        public BetDetail(Anonymous2 betDetail)
         {
             Contract.Requires(betDetail != null);
 
@@ -86,9 +86,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             }
             if (betDetail.SelectionDetails != null && betDetail.SelectionDetails.Any())
             {
-                SelectionDetails = betDetail.SelectionDetails.ToList().ConvertAll(s => 
-                                        new SelectionDetail(s.SelectionIndex, 
-                                                            new ResponseReason(s.Reason.Code, s.Reason.Message), 
+                SelectionDetails = betDetail.SelectionDetails.ToList().ConvertAll(s =>
+                                        new SelectionDetail(s.SelectionIndex,
+                                                            new ResponseReason(s.Reason.Code, s.Reason.Message),
                                                             s.RejectionInfo == null ? null : new RejectionInfo(s.RejectionInfo.Id, s.RejectionInfo.EventId, s.RejectionInfo.Odds)));
             }
             if (betDetail.Reoffer != null && betDetail.Reoffer.Stake > 0)

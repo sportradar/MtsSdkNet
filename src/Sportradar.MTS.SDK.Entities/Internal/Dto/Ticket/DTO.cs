@@ -9,7 +9,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     {
         public TicketDTO()
         { }
-        
+
         public TicketDTO(ITicket ticket)
         {
             _ticket = new Ticket(ticket);

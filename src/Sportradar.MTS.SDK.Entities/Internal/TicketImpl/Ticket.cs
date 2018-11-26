@@ -31,6 +31,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         /// <value>Order is very important as they can be referenced by index</value>
         public IEnumerable<ISelection> Selections { get; }
+
         /// <summary>
         /// Gets the identification and settings of the ticket sender
         /// </summary>
@@ -77,6 +78,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <remarks>Only used to relate ticket with its response</remarks>
         public string CorrelationId { get; }
 
+        /// <summary>
+        /// Gets the expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations.
+        /// </summary>
+        /// <value>The total combinations</value>
+        public int? TotalCombinations { get; }
+
         public string ToJson()
         {
             var dto = EntitiesMapper.Map(this);
@@ -97,7 +104,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="isTestSource">if set to <c>true</c> [is test source]</param>
         /// <param name="oddsChangeType">Type of the odds change</param>
         /// <exception cref="System.ArgumentException">Only ReofferId or AltStakeRefId can specified</exception>
-        public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType)
+        /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
+        public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType, int? totalCombinations)
         {
             Contract.Requires(!string.IsNullOrEmpty(ticketId));
             Contract.Requires(sender != null);
@@ -132,6 +140,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                 }
                 Selections = selections.Distinct();
             }
+            TotalCombinations = totalCombinations;
         }
 
         /// <summary>
@@ -152,6 +161,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(string.IsNullOrEmpty(ReofferId) || TicketHelper.ValidStringId(ReofferId, false, 1, 128));
             Contract.Invariant(string.IsNullOrEmpty(AltStakeRefId) || TicketHelper.ValidStringId(AltStakeRefId, false, 1, 128));
             Contract.Invariant(!(!string.IsNullOrEmpty(ReofferId) && !string.IsNullOrEmpty(AltStakeRefId)));
+            Contract.Invariant(TotalCombinations == null || TotalCombinations > 0);
         }
     }
 }

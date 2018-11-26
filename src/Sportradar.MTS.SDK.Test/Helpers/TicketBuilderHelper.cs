@@ -81,6 +81,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                            .SetSender(BuilderFactory.CreateSenderBuilder().SetBookmakerId(bookmakerId).SetLimitId(SR.I100).SetCurrency("EUR").SetSenderChannel(SenderChannel.Internet)
                                         .SetEndCustomer(BuilderFactory.CreateEndCustomerBuilder().SetId("customer-client-" + SR.I1000).SetConfidence(SR.I1000P).SetIp(IPAddress.Loopback).SetLanguageId("en").SetDeviceId(SR.S1000).Build())
                            .Build())
+                           .SetTotalCombinations(tb.GetBets().Count())
                            .BuildTicket();
             return ticket;
         }
@@ -114,6 +115,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                     .SetStake(SR.I1000P, StakeType.Total)
                     .Build();
                 tb.AddBet(bet);
+                tb.SetTotalCombinations(tb.GetBets().Count());
             }
             return tb;
         }
@@ -160,7 +162,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                 Version = "2.0",
                 Result = new Result
                 {
-                    BetDetails = new List<Anonymous>
+                    BetDetails = new List<Anonymous2>
                     {
                         GetResponseBetDetail(null, SR.B, SR.B)
                     },
@@ -258,9 +260,9 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             };
         }
 
-        private static Anonymous GetResponseBetDetail(string betId, bool reoffer, bool alt)
+        private static Anonymous2 GetResponseBetDetail(string betId, bool reoffer, bool alt)
         {
-            return new Anonymous
+            return new Anonymous2
             {
                 BetId = string.IsNullOrEmpty(betId) ? "bet-id-" + SR.S1000 : betId,
                 Reason = GetReason(),
@@ -273,9 +275,9 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                         Stake = SR.I1000P,
                         Type = SR.B ? ReofferType.Auto : ReofferType.Manual
                     },
-                SelectionDetails = new List<Anonymous2>
+                SelectionDetails = new List<Anonymous3>
                 {
-                    new Anonymous2
+                    new Anonymous3
                     {
                         SelectionIndex = SR.II(50),
                         Reason = GetReason(),

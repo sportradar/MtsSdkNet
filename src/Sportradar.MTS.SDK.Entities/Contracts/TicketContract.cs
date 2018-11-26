@@ -35,6 +35,19 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             }
         }
 
+        /// <summary>
+        /// Gets the expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations.
+        /// </summary>
+        /// <value>The total combinations</value>
+        public int? TotalCombinations {
+            get
+            {
+                Contract.Ensures(Contract.Result<int?>() == null ||
+                                 (Contract.Result<int?>() > 0));
+                return Contract.Result<int?>();
+            }
+        }
+
         public ISender Sender
         {
             get

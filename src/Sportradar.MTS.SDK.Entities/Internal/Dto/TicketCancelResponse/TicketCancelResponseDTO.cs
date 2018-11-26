@@ -6,7 +6,7 @@
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelResponse
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     /// <summary>Object carrying information about cancellation response</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
@@ -70,11 +70,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelResponse
     public enum Status
     {
         [System.Runtime.Serialization.EnumMember(Value = "cancelled")]
-        Cancelled = 0,
+        Cancelled = 1,
     
         [System.Runtime.Serialization.EnumMember(Value = "not_cancelled")]
-        Not_cancelled = 1,
-    
+        Not_cancelled = 0
     }
     
     /// <summary>Ticket cancel response 2.2 schema</summary>

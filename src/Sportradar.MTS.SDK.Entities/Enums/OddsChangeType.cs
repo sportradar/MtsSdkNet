@@ -7,7 +7,7 @@ namespace Sportradar.MTS.SDK.Entities.Enums
     /// Possible values of the odds
     /// </summary>
     public enum OddsChangeType
-    {       
+    {
         /// <summary>
         /// Default behavior
         /// </summary>

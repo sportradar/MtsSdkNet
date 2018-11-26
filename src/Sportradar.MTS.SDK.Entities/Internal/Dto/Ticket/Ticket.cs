@@ -11,7 +11,7 @@ using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 {
     /// <summary>
-    /// Class Ticket.
+    /// Class Ticket
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public partial class Ticket
@@ -35,7 +35,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         /// <param name="version">The version</param>
         /// <param name="reofferRefId">The reoffer reference id</param>
         /// <param name="altStakeRefId">The alternative stake reference id</param>
-        public Ticket(string ticketId, Sender sender, IEnumerable<Anonymous> bets, IEnumerable<Anonymous2> selections, TicketOddsChange oddsChange, bool isTestSource, DateTime timestamp, string version, string reofferRefId, string altStakeRefId)
+        /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
+        public Ticket(string ticketId, Sender sender, IEnumerable<Anonymous> bets, IEnumerable<Anonymous2> selections, TicketOddsChange oddsChange, bool isTestSource, DateTime timestamp, string version, string reofferRefId, string altStakeRefId, int? totalCombinations)
         {
             TicketId = ticketId;
             Sender = sender;
@@ -47,7 +48,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             Version = version;
             ReofferRefId = string.IsNullOrEmpty(reofferRefId) ? null : reofferRefId;
             AltStakeRefId = string.IsNullOrEmpty(altStakeRefId) ? null : altStakeRefId;
-
+            TotalCombinations = totalCombinations;
         }
 
         /// <summary>
@@ -67,6 +68,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             Bets = ticket.Bets.ToList().ConvertAll(b => new Anonymous(b, GetBetSelectionRefs(b, Selections as IReadOnlyList<Anonymous2>, ticket.Selections.Any(a=>a.IsBanker))));
             ReofferRefId = string.IsNullOrEmpty(ticket.ReofferId) ? null : ticket.ReofferId;
             AltStakeRefId = string.IsNullOrEmpty(ticket.AltStakeRefId) ? null : ticket.AltStakeRefId;
+            TotalCombinations = ticket.TotalCombinations;
         }
 
         /// <summary>

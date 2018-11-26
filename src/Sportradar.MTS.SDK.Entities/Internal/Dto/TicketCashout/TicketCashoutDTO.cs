@@ -4,9 +4,12 @@
 // </auto-generated>
 //----------------------
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashout
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     /// <summary>Ticket cashout version 2.2 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]

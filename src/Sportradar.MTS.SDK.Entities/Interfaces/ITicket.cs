@@ -55,5 +55,11 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// </summary>
         [Required]
         IEnumerable<ISelection> Selections { get; }
+
+        /// <summary>
+        /// Gets the expected total number of generated combinations on this ticket (optional, default null). If present, it is used to validate against actual number of generated combinations.
+        /// </summary>
+        /// <value>The total combinations</value>
+        int? TotalCombinations { get; }
     }
 }

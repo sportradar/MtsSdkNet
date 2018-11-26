@@ -6,7 +6,7 @@
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketAck
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class TicketAckDTO : System.ComponentModel.INotifyPropertyChanged
@@ -188,10 +188,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketAck
     public enum TicketAckDTOTicketStatus
     {
         [System.Runtime.Serialization.EnumMember(Value = "accepted")]
-        Accepted = 0,
+        Accepted = 1,
     
         [System.Runtime.Serialization.EnumMember(Value = "rejected")]
-        Rejected = 1,
-    
+        Rejected = 0
     }
 }

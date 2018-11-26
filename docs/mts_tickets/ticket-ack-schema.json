@@ -19,8 +19,8 @@
       "ticketStatus":{
          "type": "string",
          "enum":[
-            "accepted",
-            "rejected"
+            "rejected",
+            "accepted"
          ]
       },
       "code":{

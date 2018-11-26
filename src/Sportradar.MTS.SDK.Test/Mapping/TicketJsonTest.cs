@@ -3,6 +3,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sportradar.MTS.SDK.API.Internal.Mappers;
@@ -85,6 +86,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
             var json = dto.ToJson();
 
             CheckRequiredFields(json);
+            Assert.IsTrue(json.Contains("totalCombinations"));
         }
 
         [TestMethod]
@@ -96,6 +98,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             CheckRequiredFields(json);
 
+            Assert.IsTrue(json.Contains("totalCombinations"));
             Assert.IsTrue(json.Contains("total"));
             Assert.IsTrue(json.Contains("all"));
             Assert.IsTrue(json.Contains("internet"));
@@ -110,6 +113,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             CheckRequiredFields(json);
 
+            Assert.IsTrue(json.Contains("totalCombinations"));
             Assert.IsTrue(!json.Contains("oddsChange"));
             Assert.IsTrue(!json.Contains("higher"));
             Assert.IsTrue(!json.Contains("none"));
@@ -159,6 +163,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             var bet = betBuilder.AddSelectedSystem(1).SetStake(SR.I1000P, StakeType.Unit).SetBetBonus(SR.I1000P).SetBetId("bet-id-" + SR.I1000).Build();
             ticketBuilder.AddBet(bet);
+            ticketBuilder.SetTotalCombinations(ticketBuilder.GetBets().Count());
 
             var ticket = ticketBuilder.BuildTicket();
             var dto = new TicketMapper().Map(ticket);

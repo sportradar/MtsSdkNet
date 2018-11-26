@@ -35,8 +35,8 @@
       "type": "string",
       "description": "Cancellation status - cancelled, not_cancelled",
       "enum": [
-        "cancelled",
-        "not_cancelled"
+        "not_cancelled",
+        "cancelled"
       ]
     }
   },

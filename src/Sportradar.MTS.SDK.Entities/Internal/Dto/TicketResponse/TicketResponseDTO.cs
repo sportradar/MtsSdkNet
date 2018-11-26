@@ -4,9 +4,12 @@
 // </auto-generated>
 //----------------------
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     /// <summary>Object carrying information about rejection cause</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
@@ -70,10 +73,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse
     public enum Status
     {
         [System.Runtime.Serialization.EnumMember(Value = "accepted")]
-        Accepted = 0,
+        Accepted = 1,
     
         [System.Runtime.Serialization.EnumMember(Value = "rejected")]
-        Rejected = 1,
+        Rejected = 0
     
     }
     

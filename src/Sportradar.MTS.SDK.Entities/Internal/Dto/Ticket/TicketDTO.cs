@@ -4,9 +4,12 @@
 // </auto-generated>
 //----------------------
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     /// <summary>Ticket version 2.2 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
@@ -34,7 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         public string ToJson() 
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this.Ticket);
         }
         
         public static TicketDTO FromJson(string data)
@@ -212,6 +215,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Accept change in odds (optional, default none) none: default behaviour, any: any odds change accepted, higher: accept higher odds</summary>
         [Newtonsoft.Json.JsonProperty("oddsChange", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TicketOddsChange? OddsChange
         {
             get { return _oddsChange; }
@@ -665,6 +669,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Type (optional, default total)</summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public BonusType? Type
         {
             get { return _type; }
@@ -680,6 +685,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Payout mode (optional, default all). Relevant mostly for system bets. All: all bets must win for bonus to be paid out.</summary>
         [Newtonsoft.Json.JsonProperty("mode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public BonusMode? Mode
         {
             get { return _mode; }
@@ -737,6 +743,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Type of stake (optional, default total)</summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public StakeType? Type
         {
             get { return _type; }

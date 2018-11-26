@@ -216,7 +216,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
             Assert.IsNotNull(dto);
             Assert.IsNotNull(dto.Sender);
             Assert.AreEqual(dto.Sender.BookmakerId, 9985);
-            Assert.AreEqual(dto.TicketStatus, TicketAckDTOTicketStatus.Accepted);
+            Assert.AreEqual(TicketAckDTOTicketStatus.Accepted, dto.TicketStatus);
             Assert.AreEqual(dto.Version, "2.0");
         }
 
@@ -341,15 +341,14 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         [TestMethod]
         public void ValidateDtoEnumValuesTest()
         {
-            Assert.AreEqual((int)SDK.Entities.Internal.Dto.TicketCancelResponse.Status.Cancelled, 1);
-            Assert.AreEqual((int)TicketAckDTOTicketStatus.Accepted, 1);
-            Assert.AreEqual((int)TicketAckDTOTicketStatus.Rejected, 0);
-            Assert.AreEqual((int)TicketCancelAckDTOTicketCancelStatus.Cancelled, 1);
-            Assert.AreEqual((int)TicketCancelAckDTOTicketCancelStatus.Not_cancelled, 0);
-            Assert.AreEqual((int)Status.Accepted, 1);
-            Assert.AreEqual((int)Status.Rejected, 0);
-            Assert.AreEqual((int)SDK.Entities.Internal.Dto.TicketCancelResponse.Status.Cancelled, 1);
-            Assert.AreEqual((int)SDK.Entities.Internal.Dto.TicketCancelResponse.Status.Not_cancelled, 0);
+            Assert.AreEqual((int)TicketAckDTOTicketStatus.Accepted, 1, "Wrong TicketAckDTOTicketStatus.Accepted");
+            Assert.AreEqual((int)TicketAckDTOTicketStatus.Rejected, 0, "Wrong TicketAckDTOTicketStatus.Rejected");
+            Assert.AreEqual((int)TicketCancelAckDTOTicketCancelStatus.Cancelled, 1, "Wrong TicketCancelAckDTOTicketCancelStatus.Cancelled");
+            Assert.AreEqual((int)TicketCancelAckDTOTicketCancelStatus.Not_cancelled, 0, "Wrong TicketCancelAckDTOTicketCancelStatus.Not_Cancelled");
+            Assert.AreEqual((int)Status.Accepted, 1, "Wrong TicketResponse.Status.Accepted");
+            Assert.AreEqual((int)Status.Rejected, 0, "Wrong TicketResponse.Status.Rejected");
+            Assert.AreEqual((int)SDK.Entities.Internal.Dto.TicketCancelResponse.Status.Cancelled, 1, "Wrong TicketCancelResponse.Status");
+            Assert.AreEqual((int)SDK.Entities.Internal.Dto.TicketCancelResponse.Status.Not_cancelled, 0, "Wrong TicketCancelResponse.Status");
         }
 
         [TestMethod]

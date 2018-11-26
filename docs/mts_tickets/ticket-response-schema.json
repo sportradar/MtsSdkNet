@@ -42,8 +42,8 @@
       "type": "string",
       "description": "Acceptance status - accepted, rejected",
       "enum": [
-        "accepted",
-        "rejected"
+        "rejected",
+        "accepted"
       ]
     }
   },

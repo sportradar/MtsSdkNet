@@ -52,10 +52,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         private IEnumerable<IBet> _bets;
 
         /// <summary>
+        /// The total combinations
+        /// </summary>
+        private int? _totalCombinations;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TicketBuilder"/> class
         /// </summary>
         internal TicketBuilder()
         {
+            _totalCombinations = null;
         }
 
         #region Obsolete_members
@@ -137,6 +143,21 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         }
 
         /// <summary>
+        /// Sets the expected total number of generated combinations on this ticket (optional, default null). If present, it is used to validate against actual number of generated combinations.
+        /// </summary>
+        /// <param name="totalCombinations">The expected total number of generated combinations</param>
+        /// <returns>Returns a <see cref="ITicketBuilder"/></returns>
+        public ITicketBuilder SetTotalCombinations(int totalCombinations)
+        {
+            if (totalCombinations < 1)
+            {
+                throw new ArgumentException("totalCombinations must be greater then zero");
+            }
+            _totalCombinations = totalCombinations;
+            return this;
+        }
+
+        /// <summary>
         /// Gets the bets
         /// </summary>
         /// <returns>Returns all the bets</returns>
@@ -148,7 +169,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicket" /></returns>
         public ITicket BuildTicket()
         {
-            var ticket = new Ticket(_ticketId, _sender, _bets, _reofferId, _altStakeRefId, _isTest, _oddsChangeType);
+            var ticket = new Ticket(_ticketId, _sender, _bets, _reofferId, _altStakeRefId, _isTest, _oddsChangeType, _totalCombinations);
             _ticketId = null;
             _sender = null;
             _bets = null;
@@ -156,6 +177,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             _altStakeRefId = null;
             _isTest = false;
             _oddsChangeType = null;
+            _totalCombinations = null;
             return ticket;
         }
 

@@ -44,7 +44,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             Assert.AreEqual(ticket.Sender.EndCustomer.Id, dto.Ticket.Sender.EndCustomer.Id);
             Assert.AreEqual(ticket.Sender.EndCustomer.Confidence, dto.Ticket.Sender.EndCustomer.Confidence);
             Assert.AreEqual(ticket.Sender.EndCustomer.DeviceId, dto.Ticket.Sender.EndCustomer.DeviceId);
-            Assert.AreEqual(ticket.Sender.EndCustomer.Ip.ToString(), dto.Ticket.Sender.EndCustomer.Ip);
+            Assert.AreEqual(ticket.Sender.EndCustomer.Ip, dto.Ticket.Sender.EndCustomer.Ip);
             Assert.AreEqual(ticket.Sender.EndCustomer.LanguageId, dto.Ticket.Sender.EndCustomer.LanguageId);
 
             for (var i = 0; i < ticket.Bets.Count(); i++)
@@ -59,6 +59,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                 Compare(ticketSelection, dtoSelection);
             }
             Assert.IsFalse(string.IsNullOrEmpty(ticket.CorrelationId));
+            Assert.AreEqual(ticket.TotalCombinations, dto.Ticket.TotalCombinations);
         }
 
         public static void Compare(IBet bet, Anonymous dto)

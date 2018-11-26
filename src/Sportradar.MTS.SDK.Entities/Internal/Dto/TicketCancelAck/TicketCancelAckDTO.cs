@@ -6,7 +6,7 @@
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelAck
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class TicketCancelAckDTO : System.ComponentModel.INotifyPropertyChanged
@@ -188,10 +188,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelAck
     public enum TicketCancelAckDTOTicketCancelStatus
     {
         [System.Runtime.Serialization.EnumMember(Value = "cancelled")]
-        Cancelled = 0,
+        Cancelled = 1,
     
         [System.Runtime.Serialization.EnumMember(Value = "not_cancelled")]
-        Not_cancelled = 1,
-    
+        Not_cancelled = 0
     }
 }

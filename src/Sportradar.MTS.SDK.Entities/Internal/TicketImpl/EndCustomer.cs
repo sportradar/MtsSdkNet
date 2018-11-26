@@ -47,7 +47,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidStringId(id, true, 1, 36));
             Contract.Requires(confidence >= 0);
 
-            Ip = ip.ToString();
+            Ip = ip?.ToString();
             LanguageId = languageId;
             DeviceId = deviceId;
             Id = id;

@@ -4,9 +4,12 @@
 // </auto-generated>
 //----------------------
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     /// <summary>Ticket cancel version 2.2 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
@@ -34,7 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
     
         public string ToJson() 
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this.Cancel);
         }
         
         public static TicketCancelDTO FromJson(string data)

@@ -78,11 +78,11 @@ namespace Sportradar.MTS.SDK.Entities.Test
         public void end_customer_language_is_allowed()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.CallCentre)
-                .SetLimitId(1)
-                .SetBookmakerId(1)
-                .SetCurrency("eur")
-                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
+                                       .SetSenderChannel(SenderChannel.CallCentre)
+                                       .SetLimitId(1)
+                                       .SetBookmakerId(1)
+                                       .SetCurrency("eur")
+                                       .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
 
             var sender = builder.Build();
             Assert.IsNotNull(sender);
@@ -93,11 +93,11 @@ namespace Sportradar.MTS.SDK.Entities.Test
         public void end_customer_device_id_is_allowed()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.CallCentre)
-                .SetLimitId(1)
-                .SetBookmakerId(1)
-                .SetCurrency("eur")
-                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetDeviceId("device").Build());
+                                       .SetSenderChannel(SenderChannel.CallCentre)
+                                       .SetLimitId(1)
+                                       .SetBookmakerId(1)
+                                       .SetCurrency("eur")
+                                       .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetDeviceId("device").Build());
 
             var sender = builder.Build();
             Assert.IsNotNull(sender);
