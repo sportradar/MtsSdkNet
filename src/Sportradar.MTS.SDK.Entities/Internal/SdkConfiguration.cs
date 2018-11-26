@@ -168,7 +168,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
             if (Host.Contains(":"))
             {
-                throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. integration-mts.betradar.com");
+                throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             }
         }
 
@@ -209,7 +209,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
             if (Host.Contains(":"))
             {
-                throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. integration-mts.betradar.com");
+                throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             }
         }
 
@@ -224,7 +224,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Contract.Invariant(!string.IsNullOrEmpty(Host));
             Contract.Invariant(!string.IsNullOrEmpty(VirtualHost));
             Contract.Invariant(Port > 0);
-            Contract.Invariant(!Host.Contains(":"), "Host can not contain port number. Only domain name or ip address. E.g. integration-mts.betradar.com");
+            Contract.Invariant(!Host.Contains(":"), "Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
         }
     }
 }

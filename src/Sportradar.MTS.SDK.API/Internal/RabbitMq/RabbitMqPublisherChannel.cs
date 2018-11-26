@@ -41,7 +41,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// The <see cref="IModel" /> representing the channel to the broker
         /// </summary>
-        private IModel _channel;        
+        private IModel _channel;
 
         /// <summary>
         /// Value indicating whether the current instance is opened. 1 means opened, 0 means closed
@@ -52,7 +52,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// Gets a value indicating whether the current <see cref="RabbitMqMessageReceiver" /> is currently opened;
         /// </summary>
         /// <value><c>true</c> if this instance is opened; otherwise, <c>false</c></value>
-        public bool IsOpened => Interlocked.Read(ref _isOpened) == 1;        
+        public bool IsOpened => Interlocked.Read(ref _isOpened) == 1;
 
         /// <summary>
         /// The channel basic properties
@@ -162,11 +162,18 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
                         if (publishResult.IsSuccess)
                         {
-                            FeedLog.Info($"Publishing queue item succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}.");
+                            if (FeedLog.IsDebugEnabled)
+                            {
+                                FeedLog.Debug($"PUBLISH succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, ReplyRoutingKey={pqi.ReplyRoutingKey}, Added={pqi.Timestamp}.");
+                            }
+                            else
+                            {
+                                FeedLog.Info($"PUBLISH succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}.");
+                            }
                         }
                         else
                         {
-                            FeedLog.Warn($"Publishing queue item failed. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}. Reason={publishResult.Message}");
+                            FeedLog.Warn($"PUBLISH failed. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}. Reason={publishResult.Message}");
                             RaiseMessagePublishFailedEvent(pqi.Message, pqi.CorrelationId, pqi.RoutingKey, publishResult.Message);
                         }
                     }

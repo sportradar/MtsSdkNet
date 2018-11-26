@@ -31,7 +31,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
             if (!string.IsNullOrEmpty(ip))
             {
-                var validIp = IPAddress.Parse(ip);
+                IPAddress.Parse(ip);
                 Ip = ip;
             }
             LanguageId = languageId;
@@ -73,7 +73,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue("Ip", Ip?.ToString());
+            info.AddValue("Ip", Ip);
             info.AddValue("LanguageId", LanguageId);
             info.AddValue("DeviceId", DeviceId);
             info.AddValue("Id", Id);

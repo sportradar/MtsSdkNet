@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using log4net;
 using Metrics;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Sportradar.MTS.SDK.Common.Internal.Metrics;
 using Sportradar.MTS.SDK.Common.Log;
@@ -78,7 +79,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// </summary>
         /// <param name="sender">The <see cref="object" /> representation of the event sender</param>
         /// <param name="eventArgs">A <see cref="BasicDeliverEventArgs" /> containing event information</param>
-        private void consumer_OnReceived(object sender, BasicDeliverEventArgs eventArgs)
+        private void Consumer_OnMessageReceived(object sender, BasicDeliverEventArgs eventArgs)
         {
             if (eventArgs?.Body == null || !eventArgs.Body.Any())
             {
@@ -126,11 +127,15 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             }
             if (FeedLog.IsDebugEnabled)
             {
-                FeedLog.Debug($"Message with correlationId: {correlationId} received. Msg: {messageBody}");
+                FeedLog.Debug($"CONSUME START Message: {correlationId}. Ticket: {messageBody}");
+                if (eventArgs.BasicProperties != null)
+                {
+                    FeedLog.Debug($"CONSUME Message: {correlationId}. Properties: {WriteBasicProperties(eventArgs.BasicProperties)}");
+                }
             }
             else
             {
-                FeedLog.Info($"Message with correlationId: {correlationId} received.");
+                FeedLog.Info($"CONSUME START Message: {correlationId}.");
             }
 
             Metric.Context("RABBIT").Meter("RabbitMqMessageReceiver", Unit.Items).Mark(eventArgs.Exchange);
@@ -138,7 +143,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             RaiseMessageReceived(messageBody, eventArgs.RoutingKey, correlationId, additionalInfo);
 
             stopwatch.Stop();
-            FeedLog.Info($"Message with correlationId: {correlationId} processed in {stopwatch.ElapsedMilliseconds} ms.");
+            FeedLog.Info($"CONSUME END Message: {correlationId}. Processed in {stopwatch.ElapsedMilliseconds} ms.");
         }
 
         /// <summary>
@@ -151,7 +156,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private void RaiseMessageReceived(string body, string routingKey, string correlationId, IDictionary<string, string> additionalInfo)
         {
             Contract.Requires(!string.IsNullOrEmpty(body));
-            
+
             MqMessageReceived?.Invoke(this, new MessageReceivedEventArgs(body, routingKey, correlationId, _expectedTicketResponseType, additionalInfo));
         }
 
@@ -161,7 +166,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public void Open()
         {
             _channel.Open();
-            _channel.ChannelMessageReceived += consumer_OnReceived;
+            _channel.ChannelMessageReceived += Consumer_OnMessageReceived;
         }
 
         /// <summary>
@@ -171,7 +176,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public void Open(IEnumerable<string> routingKeys)
         {
             _channel.Open(routingKeys);
-            _channel.ChannelMessageReceived += consumer_OnReceived;
+            _channel.ChannelMessageReceived += Consumer_OnMessageReceived;
         }
 
         /// <summary>
@@ -182,7 +187,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public void Open(string queueName, IEnumerable<string> routingKeys)
         {
             _channel.Open(queueName, routingKeys);
-            _channel.ChannelMessageReceived += consumer_OnReceived;
+            _channel.ChannelMessageReceived += Consumer_OnMessageReceived;
         }
 
         /// <summary>
@@ -190,7 +195,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// </summary>
         public void Close()
         {
-            _channel.ChannelMessageReceived -= consumer_OnReceived;
+            _channel.ChannelMessageReceived -= Consumer_OnMessageReceived;
             _channel.Close();
         }
 
@@ -209,6 +214,45 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public HealthCheckResult StartHealthCheck()
         {
             return HealthCheckResult.Healthy("RabbitMqMessageReceiver is operational.");
+        }
+
+        private static string WriteBasicProperties(IBasicProperties props)
+        {
+            if (props == null)
+            {
+                return string.Empty;
+            }
+
+            var sb = new StringBuilder();
+            //{:content_type=>"application/json", :headers=> {"validatedUtcTimestamp"=>1542078341898, "receivedUtcTimestamp"=>1542078341892, "respondedUtcTimestamp"=>1542078341908, "_uid_"=>"b6a6e220-2cd3-4d8e-99b9-684c1bc66a13", "Content-Type"=>"application/json"}, :delivery_mode => 1, :priority => 0, :correlation_id => "j9501f21e-6264-44b1-a83d-6689303c4e31"}
+            sb.Append("ContentType=").Append(props.ContentType);
+            if (props.IsHeadersPresent())
+            {
+                sb.Append(", Headers={").Append(string.Join(", ", props.Headers.Select(s=> $"{s.Key}={WriteHeaderValue(s.Value)}"))).Append("}");
+            }
+            sb.Append(", DeliveryMode=").Append(props.DeliveryMode);
+            sb.Append(", Priority=").Append(props.Priority);
+            sb.Append(", CorrelationId=").Append(props.CorrelationId);
+            if (props.IsTimestampPresent())
+            {
+                sb.Append(", Timestamp=").Append(props.Timestamp.UnixTime);
+            }
+
+            return sb.ToString();
+        }
+
+        private static string WriteHeaderValue(object value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+            var bytes = value as byte[];
+            if (bytes != null)
+            {
+                return Encoding.UTF8.GetString(bytes);
+            }
+            return value.ToString();
         }
     }
 }
