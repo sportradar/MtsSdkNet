@@ -2,7 +2,9 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Contracts
@@ -23,18 +25,36 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             }
         }
 
-        public long CashoutStake
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<long>() > 0);
-                return Contract.Result<long>();
-            }
-        }
-
         public abstract string Version { get; }
 
         public abstract string CorrelationId { get; }
+
+        public long? CashoutStake
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<long?>() == null ||Contract.Result<long?>() > 0);
+                return Contract.Result<long?>();
+            }
+        }
+
+        public long? CashoutPercent
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<long?>() == null || Contract.Result<long?>() > 0);
+                return Contract.Result<long?>();
+            }
+        }
+
+        public IEnumerable<IBetCashout> BetCashouts
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IEnumerable<IBetCashout>>() == null || Contract.Result<IEnumerable<IBetCashout>>().Any());
+                return Contract.Result<IEnumerable<IBetCashout>>();
+            }
+        }
 
         public string ToJson()
         {

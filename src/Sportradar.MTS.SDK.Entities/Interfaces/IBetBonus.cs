@@ -25,9 +25,9 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         BetBonusType Type { get; }
 
         /// <summary>
-        /// Gets the Payout mode (optional, default proportional). Relevant mostly for system bets. 
-        /// Any: if at least one bet wins entire bonus is paid out. 
-        /// Proportional: paid out bonus is proportional to number of won bets. 
+        /// Gets the Payout mode (optional, default proportional). Relevant mostly for system bets.
+        /// Any: if at least one bet wins entire bonus is paid out.
+        /// Proportional: paid out bonus is proportional to number of won bets.
         /// All: all bets must win for bonus to be paid out.
         /// </summary>
         BetBonusMode Mode { get; }

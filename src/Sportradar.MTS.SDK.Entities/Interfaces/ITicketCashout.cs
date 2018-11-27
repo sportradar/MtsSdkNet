@@ -1,6 +1,8 @@
 /*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Contracts;
 
@@ -20,6 +22,18 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// <summary>
         /// Gets the cashout stake
         /// </summary>
-        long CashoutStake { get; }
+        long? CashoutStake { get; }
+
+        /// <summary>
+        /// Gets the cashout percent
+        /// </summary>
+        /// <value>The cashout percent</value>
+        long? CashoutPercent { get; }
+
+        /// <summary>
+        /// Gets the list of <see cref="IBetCashout"/>
+        /// </summary>
+        /// <value>The list of <see cref="IBetCashout"/></value>
+        IEnumerable<IBetCashout> BetCashouts { get; }
     }
 }

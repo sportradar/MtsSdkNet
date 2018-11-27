@@ -62,7 +62,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             get
             {
                 Contract.Ensures(Contract.Result<string>() == null ||
-                                (Contract.Result<string>().Length >= 1 
+                                (Contract.Result<string>().Length >= 1
                                 && Contract.Result<string>().Length <= 128));
                 return Contract.Result<string>();
             }

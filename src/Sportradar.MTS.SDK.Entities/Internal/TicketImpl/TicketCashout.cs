@@ -2,7 +2,9 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -33,7 +35,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Gets the cashout stake
         /// </summary>
         /// <value>The cashout stake</value>
-        public long CashoutStake { get; }
+        public long? CashoutStake { get; }
+        /// <summary>
+        /// Gets the cashout percent
+        /// </summary>
+        /// <value>The cashout percent</value>
+        public long? CashoutPercent { get; }
+        /// <summary>
+        /// Gets the list of <see cref="IBetCashout"/>
+        /// </summary>
+        /// <value>The list of <see cref="IBetCashout"/></value>
+        public IEnumerable<IBetCashout> BetCashouts { get; }
         /// <summary>
         /// Gets the ticket format version
         /// </summary>
@@ -58,15 +70,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="ticketId">The ticket identifier</param>
         /// <param name="bookmakerId">The bookmaker identifier</param>
         /// <param name="stake">The cashout stake</param>
-        public TicketCashout(string ticketId, int bookmakerId, long stake)
+        /// <param name="percent">The cashout percent</param>
+        /// <param name="betCashouts">The list of <see cref="IBetCashout"/></param>
+        public TicketCashout(string ticketId, int bookmakerId, long? stake, long? percent, IReadOnlyCollection<IBetCashout> betCashouts)
         {
             Contract.Requires(!string.IsNullOrEmpty(ticketId));
             Contract.Requires(bookmakerId > 0);
-            Contract.Requires(stake > 0);
+            Contract.Requires(stake > 0 || percent > 0 || (betCashouts != null && betCashouts.Any()));
 
             TicketId = ticketId;
             BookmakerId = bookmakerId;
             CashoutStake = stake;
+            CashoutPercent = percent;
+            BetCashouts = betCashouts;
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.Version;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
@@ -82,7 +98,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
             Contract.Invariant(BookmakerId > 0);
-            Contract.Invariant(CashoutStake > 0);
+            Contract.Invariant(CashoutStake > 0 || CashoutPercent > 0 || (BetCashouts != null && BetCashouts.Any()));
         }
     }
 }

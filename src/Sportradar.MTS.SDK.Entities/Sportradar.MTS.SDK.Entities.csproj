@@ -151,8 +151,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\BetCashoutContract.cs" />
     <Compile Include="Contracts\SdkConfigurationContract.cs" />
     <Compile Include="EventArguments\SdkMessageEventArgs.cs" />
+    <Compile Include="Interfaces\IBetCashout.cs" />
     <Compile Include="Interfaces\IRejectionInfo.cs" />
     <Compile Include="Internal\Builders\BuilderFactory.cs" />
     <Compile Include="Builders\IBuilderFactory.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Internal\SdkRoutingKeyBuilder.cs" />
     <Compile Include="Internal\TicketCacheItem.cs" />
     <Compile Include="Internal\TicketHelper.cs" />
+    <Compile Include="Internal\TicketImpl\BetCashout.cs" />
     <Compile Include="Internal\TicketImpl\BetReoffer.cs" />
     <Compile Include="Internal\TicketImpl\AlternativeStake.cs" />
     <Compile Include="Internal\TicketImpl\Bet.cs" />

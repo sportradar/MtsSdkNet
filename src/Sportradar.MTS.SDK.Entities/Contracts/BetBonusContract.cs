@@ -21,7 +21,6 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         }
 
         public BetBonusType Type => Contract.Result<BetBonusType>();
-        
 
         public BetBonusMode Mode => Contract.Result<BetBonusMode>();
     }

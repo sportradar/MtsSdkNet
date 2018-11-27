@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -28,7 +29,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <summary>
         /// The cashout stake
         /// </summary>
-        private long _stake;
+        private long? _stake;
+
+        /// <summary>
+        /// The cashout percent
+        /// </summary>
+        private long? _percent;
+
+        /// <summary>
+        /// The list of bet cashouts
+        /// </summary>
+        private List<IBetCashout> _betCashouts;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketCashoutBuilder"/> class
@@ -39,6 +50,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             Contract.Requires(config != null);
 
             _bookmakerId = config.BookmakerId;
+            _stake = null;
+            _percent = null;
+            _betCashouts = null;
         }
 
         #region Obsolete_members
@@ -113,6 +127,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketCashoutBuilder" /></returns>
         public ITicketCashoutBuilder SetBookmakerId(int bookmakerId)
         {
+            if (bookmakerId < 1)
+            {
+                throw new ArgumentException("BookmakerId not valid.");
+            }
             _bookmakerId = bookmakerId;
             return this;
         }
@@ -124,7 +142,43 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketCashoutBuilder" /></returns>
         public ITicketCashoutBuilder SetCashoutStake(long stake)
         {
+            if (stake < 1)
+            {
+                throw new ArgumentException("Stake not valid.");
+            }
             _stake = stake;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the cashout percent
+        /// </summary>
+        /// <param name="percent">The cashout percent</param>
+        /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
+        public ITicketCashoutBuilder SetCashoutPercent(long percent)
+        {
+            if (percent < 1)
+            {
+                throw new ArgumentException("Percent not valid.");
+            }
+            _percent = percent;
+            return this;
+        }
+
+        /// <summary>
+        /// Add the bet cashout
+        /// </summary>
+        /// <param name="betId">The bet id</param>
+        /// <param name="stake">The cashout stake value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
+        public ITicketCashoutBuilder AddBetCashout(string betId, long? stake, long? percent)
+        {
+            if (_betCashouts == null)
+            {
+                _betCashouts = new List<IBetCashout>();
+            }
+            _betCashouts.Add(new BetCashout(betId, stake, percent));
             return this;
         }
 
@@ -134,7 +188,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketCashout" /></returns>
         public ITicketCashout BuildTicket()
         {
-            return new TicketCashout(_ticketId, _bookmakerId, _stake);
+            return new TicketCashout(_ticketId, _bookmakerId, _stake, _percent, _betCashouts);
         }
 
         /// <summary>
@@ -143,10 +197,31 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="ticketId">The ticket id</param>
         /// <param name="bookmakerId">The bookmaker id</param>
         /// <param name="stake">The cashout stake</param>
+        /// <param name="percent">The cashout percent</param>
         /// <returns>Return an <see cref="ITicketCashout"/></returns>
-        public ITicketCashout BuildTicket(string ticketId, int bookmakerId, long stake)
+        public ITicketCashout BuildTicket(string ticketId, int bookmakerId, long? stake, long? percent)
         {
-            return new TicketCashout(ticketId, bookmakerId, stake);
+            if (stake == null && percent == null)
+            {
+                throw new ArgumentException("Stake or percent must be set.");
+            }
+            if (stake != null && percent != null)
+            {
+                throw new ArgumentException("Stake and percent cannot be set at the same time.");
+            }
+            if (stake != null && stake < 1)
+            {
+                throw new ArgumentException("Stake not valid.");
+            }
+            if (percent != null && percent < 1)
+            {
+                throw new ArgumentException("Percent not valid.");
+            }
+            if (bookmakerId < 1)
+            {
+                throw new ArgumentException("BookmakerId not valid.");
+            }
+            return new TicketCashout(ticketId, bookmakerId, stake, percent, null);
         }
     }
 }
