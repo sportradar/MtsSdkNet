@@ -151,9 +151,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\BetCancelContract.cs" />
     <Compile Include="Contracts\BetCashoutContract.cs" />
     <Compile Include="Contracts\SdkConfigurationContract.cs" />
     <Compile Include="EventArguments\SdkMessageEventArgs.cs" />
+    <Compile Include="Interfaces\IBetCancel.cs" />
     <Compile Include="Interfaces\IBetCashout.cs" />
     <Compile Include="Interfaces\IRejectionInfo.cs" />
     <Compile Include="Internal\Builders\BuilderFactory.cs" />
@@ -181,6 +183,8 @@
     <Compile Include="Contracts\TicketCashoutResponseContract.cs" />
     <Compile Include="Enums\TicketResponseType.cs" />
     <Compile Include="Enums\Product.cs" />
+    <Compile Include="Internal\Dto\TicketCancel\Anonymous.cs" />
+    <Compile Include="Internal\Dto\TicketCashout\Anonymous.cs" />
     <Compile Include="Internal\EntitiesMapper.cs" />
     <Compile Include="Internal\Enums\ResourceTypeGroup.cs" />
     <Compile Include="Internal\Builders\BetBuilder.cs" />
@@ -276,6 +280,7 @@
     <Compile Include="Internal\SdkRoutingKeyBuilder.cs" />
     <Compile Include="Internal\TicketCacheItem.cs" />
     <Compile Include="Internal\TicketHelper.cs" />
+    <Compile Include="Internal\TicketImpl\BetCancel.cs" />
     <Compile Include="Internal\TicketImpl\BetCashout.cs" />
     <Compile Include="Internal\TicketImpl\BetReoffer.cs" />
     <Compile Include="Internal\TicketImpl\AlternativeStake.cs" />

@@ -2,7 +2,9 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -36,11 +38,20 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <value>The code</value>
         public TicketCancellationReason Code { get; }
         /// <summary>
+        /// Gets the cancel percent
+        /// </summary>
+        /// <value>The cancel percent</value>
+        public long? CancelPercent { get; }
+        /// <summary>
+        /// Gets the list of <see cref="IBetCancel"/>
+        /// </summary>
+        /// <value>The list of <see cref="IBetCancel"/></value>
+        public IEnumerable<IBetCancel> BetCancels { get; }
+        /// <summary>
         /// Gets the ticket format version
         /// </summary>
         /// <value>The version</value>
         public string Version { get; }
-
         /// <summary>
         /// Gets the correlation identifier
         /// </summary>
@@ -60,7 +71,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="ticketId">The ticket identifier</param>
         /// <param name="bookmakerId">The bookmaker identifier</param>
         /// <param name="code">The code</param>
-        public TicketCancel(string ticketId, int bookmakerId, TicketCancellationReason code)
+        /// <param name="percent">The percent of ticket to cancel</param>
+        /// <param name="betCancels">The list of <see cref="IBetCancel"/></param>
+        public TicketCancel(string ticketId, int bookmakerId, TicketCancellationReason code, long? percent, IReadOnlyCollection<IBetCancel> betCancels)
         {
             Contract.Requires(!string.IsNullOrEmpty(ticketId));
             Contract.Requires(bookmakerId > 0);
@@ -71,6 +84,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.Version;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
+            CancelPercent = percent;
+            BetCancels = betCancels;
         }
 
         /// <summary>
@@ -83,6 +98,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
+            Contract.Invariant(CancelPercent == null || CancelPercent > 0);
+            Contract.Invariant(BetCancels == null || BetCancels.Any());
         }
     }
 }

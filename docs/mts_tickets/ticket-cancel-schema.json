@@ -53,7 +53,7 @@
                "description":"Cancellation code"
             },
             "cancelPercent":{
-               "type": ["integer", "null"],
+               "type": ["number", "null"],
                "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Only applicable if cancelling whole ticket.",
                "maximum":1000000000000000000,
                "minimum":1
@@ -76,7 +76,7 @@
                         "maxLength": 128
                      },
                      "cancelPercent":{
-                        "type": ["integer", "null"],
+                        "type": ["number", "null"],
                         "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value.",
                         "maximum":1000000000000000000,
                         "minimum":1

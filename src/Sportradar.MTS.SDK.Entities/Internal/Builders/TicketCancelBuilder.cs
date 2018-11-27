@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -32,6 +33,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         private TicketCancellationReason _code;
 
         /// <summary>
+        /// The percent
+        /// </summary>
+        private long? _percent;
+
+        /// <summary>
+        /// The bet cancels
+        /// </summary>
+        private List<IBetCancel> _betCancels;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TicketCancelBuilder"/> class
         /// </summary>
         /// <param name="config">A <see cref="ISdkConfiguration"/> providing configuration for the associated sdk instance</param>
@@ -39,6 +50,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         {
             Contract.Requires(config != null);
             _bookmakerId = config.BookmakerId;
+            _percent = null;
+            _betCancels = null;
         }
 
         #region Obsolete_members
@@ -126,12 +139,51 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         }
 
         /// <summary>
+        /// Sets the percent of cancellation
+        /// </summary>
+        /// <param name="percent">The percent of cancellation</param>
+        /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
+        public ITicketCancelBuilder SetCancelPercent(long percent)
+        {
+            if (percent < 1)
+            {
+                throw new ArgumentException("Percent not valid");
+            }
+            _percent = percent;
+            return this;
+        }
+
+        /// <summary>
+        /// Add the bet cancel
+        /// </summary>
+        /// <param name="betId">The bet id</param>
+        /// <param name="percent">The cancel percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
+        public ITicketCancelBuilder AddBetCashout(string betId, long percent)
+        {
+            if (percent < 1)
+            {
+                throw new ArgumentException("Percent not valid");
+            }
+            if (_betCancels == null)
+            {
+                _betCancels = new List<IBetCancel>();
+            }
+            if (_betCancels.Count >= 50)
+            {
+                throw new ArgumentException("List size limit reached. Only 50 allowed.");
+            }
+            _betCancels.Add(new BetCancel(betId, percent));
+            return this;
+        }
+
+        /// <summary>
         /// Builds the <see cref="ITicketCancel" />
         /// </summary>
         /// <returns>Returns a <see cref="ITicketCancel" /></returns>
         public ITicketCancel BuildTicket()
         {
-            return new TicketCancel(_ticketId, _bookmakerId, _code);
+            return new TicketCancel(_ticketId, _bookmakerId, _code, _percent, _betCancels);
         }
 
         /// <summary>
@@ -143,7 +195,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Return an <see cref="ITicketCancel"/></returns>
         public ITicketCancel BuildTicket(string ticketId, int bookmakerId, TicketCancellationReason code)
         {
-            return new TicketCancel(ticketId, bookmakerId, code);
+            return new TicketCancel(ticketId, bookmakerId, code, _percent, _betCancels);
         }
     }
 }

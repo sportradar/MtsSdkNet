@@ -34,6 +34,21 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         ITicketCancelBuilder SetCode(TicketCancellationReason code);
 
         /// <summary>
+        /// Sets the percent of cancellation
+        /// </summary>
+        /// <param name="percent">The percent of cancellation</param>
+        /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
+        ITicketCancelBuilder SetCancelPercent(long percent);
+
+        /// <summary>
+        /// Add the bet cancel
+        /// </summary>
+        /// <param name="betId">The bet id</param>
+        /// <param name="percent">The cancel percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
+        ITicketCancelBuilder AddBetCashout(string betId, long percent);
+
+        /// <summary>
         /// Build a <see cref="ITicketCancel" />
         /// </summary>
         /// <param name="ticketId">The ticket id</param>

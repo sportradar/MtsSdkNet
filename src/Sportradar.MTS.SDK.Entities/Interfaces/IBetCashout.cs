@@ -7,7 +7,7 @@ using Sportradar.MTS.SDK.Entities.Contracts;
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
     /// <summary>
-    /// Defines a contract for bet-level response details
+    /// Defines a contract for bet-level cashout
     /// </summary>
     [ContractClass(typeof(BetCashoutContract))]
     public interface IBetCashout
