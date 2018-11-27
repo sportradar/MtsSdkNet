@@ -56,7 +56,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
 
             Assert.IsNotNull(ticket);
             Assert.IsTrue(ticket.Timestamp > DateTime.Today.ToUniversalTime());
-            Assert.AreEqual(ticket.Version, TicketHelper.Version21);
+            Assert.AreEqual(ticket.Version, TicketHelper.MtsTicketVersion);
             Assert.IsTrue(!string.IsNullOrEmpty(ticket.TicketId));
         }
 

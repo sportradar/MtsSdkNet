@@ -60,7 +60,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             TicketId = ticketId;
             BookmakerId = bookmakerId;
             Timestamp = DateTime.UtcNow;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
         }
 

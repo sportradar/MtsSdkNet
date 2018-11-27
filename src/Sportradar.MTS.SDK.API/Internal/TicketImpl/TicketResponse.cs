@@ -100,7 +100,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
                               string correlationId,
                               string signature = null, 
                               long exchangeRate = -1, 
-                              string version = TicketHelper.Version21,
+                              string version = TicketHelper.MtsTicketVersion,
                               IDictionary<string, string> additionalInfo = null,
                               string orgJson = null)
         {
@@ -128,7 +128,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(TicketHelper.ValidStringId(TicketId, true, 1, 128));
+            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
             Contract.Invariant(!string.IsNullOrEmpty(Signature));

@@ -352,20 +352,37 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         }
 
         [TestMethod]
-        public void ValidateIdPatternTest()
+        public void ValidateBetIdPatternTest()
         {
-            Assert.IsTrue(TicketHelper.ValidStringId("a", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("aAB", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("129837403", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("AaZYc", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("ticket:1", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("Test_12123", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("T:123_434", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("T::23123", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("::__r", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("-", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("Test-3423-324234-2343243", true));
-            Assert.IsTrue(TicketHelper.ValidStringId("B0034827552620261", true));
+            Assert.IsTrue(TicketHelper.ValidateBetId("a"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("aAB"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("129837403"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("AaZYc"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("ticket:1"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("Test_12123"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("T:123_434"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("T::23123"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("::__r"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("-"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("Test-3423-324234-2343243"));
+            Assert.IsTrue(TicketHelper.ValidateBetId("B0034827552620261"));
+        }
+
+        [TestMethod]
+        public void ValidateUserIdPatternTest()
+        {
+            Assert.IsTrue(TicketHelper.ValidateUserId("a"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("aAB"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("129837403"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("AaZYc"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("ticket:1"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("Test_12123"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("T:123_434"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("T::23123"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("::__r"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("-"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("Test-3423-324234-2343243"));
+            Assert.IsTrue(TicketHelper.ValidateUserId("B0034827552620261"));
         }
 
         [TestMethod]

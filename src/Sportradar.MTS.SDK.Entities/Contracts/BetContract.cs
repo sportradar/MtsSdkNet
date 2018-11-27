@@ -29,10 +29,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(Contract.Result<string>() == null ||
-                                (Regex.IsMatch(Contract.Result<string>(), TicketHelper.IdPattern)
-                                 && Contract.Result<string>().Length > 0
-                                 && Contract.Result<string>().Length <= 128));
+                Contract.Ensures(TicketHelper.ValidateBetId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }

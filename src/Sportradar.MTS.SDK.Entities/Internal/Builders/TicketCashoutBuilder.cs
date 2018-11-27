@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
@@ -34,7 +35,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <summary>
         /// The cashout percent
         /// </summary>
-        private long? _percent;
+        private int? _percent;
 
         /// <summary>
         /// The list of bet cashouts
@@ -155,9 +156,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// </summary>
         /// <param name="percent">The cashout percent</param>
         /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
-        public ITicketCashoutBuilder SetCashoutPercent(long percent)
+        public ITicketCashoutBuilder SetCashoutPercent(int percent)
         {
-            if (percent < 1)
+            if (!TicketHelper.ValidatePercent(percent))
             {
                 throw new ArgumentException("Percent not valid.");
             }
@@ -170,13 +171,25 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// </summary>
         /// <param name="betId">The bet id</param>
         /// <param name="stake">The cashout stake value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
-        /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a int value)</param>
         /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
-        public ITicketCashoutBuilder AddBetCashout(string betId, long? stake, long? percent)
+        public ITicketCashoutBuilder AddBetCashout(string betId, long stake, int? percent)
         {
+            if (stake < 1)
+            {
+                throw new ArgumentException("Stake not valid");
+            }
+            if (!TicketHelper.ValidatePercent(percent))
+            {
+                throw new ArgumentException("Percent not valid");
+            }
             if (_betCashouts == null)
             {
                 _betCashouts = new List<IBetCashout>();
+            }
+            if (_betCashouts.Any(a => a.BetId.Equals(betId, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                throw new ArgumentException("BetId already in list.");
             }
             _betCashouts.Add(new BetCashout(betId, stake, percent));
             return this;
@@ -199,27 +212,23 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="stake">The cashout stake</param>
         /// <param name="percent">The cashout percent</param>
         /// <returns>Return an <see cref="ITicketCashout"/></returns>
-        public ITicketCashout BuildTicket(string ticketId, int bookmakerId, long? stake, long? percent)
+        public ITicketCashout BuildTicket(string ticketId, int bookmakerId, long stake, int? percent)
         {
-            if (stake == null && percent == null)
+            if (!TicketHelper.ValidateBetId(_ticketId))
             {
-                throw new ArgumentException("Stake or percent must be set.");
-            }
-            if (stake != null && percent != null)
-            {
-                throw new ArgumentException("Stake and percent cannot be set at the same time.");
-            }
-            if (stake != null && stake < 1)
-            {
-                throw new ArgumentException("Stake not valid.");
-            }
-            if (percent != null && percent < 1)
-            {
-                throw new ArgumentException("Percent not valid.");
+                throw new ArgumentException("TicketId not valid.");
             }
             if (bookmakerId < 1)
             {
                 throw new ArgumentException("BookmakerId not valid.");
+            }
+            if (stake < 1)
+            {
+                throw new ArgumentException("Stake not valid.");
+            }
+            if (!TicketHelper.ValidatePercent(percent))
+            {
+                throw new ArgumentException("Percent not valid.");
             }
             return new TicketCashout(ticketId, bookmakerId, stake, percent, null);
         }

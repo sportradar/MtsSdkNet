@@ -53,9 +53,9 @@
                "description":"Cancellation code"
             },
             "cancelPercent":{
-               "type": ["number", "null"],
-               "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Only applicable if cancelling whole ticket.",
-               "maximum":1000000000000000000,
+               "type": ["integer", "null"],
+               "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Only applicable if cancelling whole ticket. Max 100%.",
+               "maximum":1000000,
                "minimum":1
             },
             "betCancel": {
@@ -64,8 +64,7 @@
                "items": {
                   "type": "object",
                   "required": [
-                     "betId",
-                     "cancelPercent"
+                     "betId"
                   ],
                   "properties": {
                      "id": {
@@ -76,9 +75,9 @@
                         "maxLength": 128
                      },
                      "cancelPercent":{
-                        "type": ["number", "null"],
-                        "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value.",
-                        "maximum":1000000000000000000,
+                        "type": ["integer", "null"],
+                        "description":"Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Max 100%.",
+                        "maximum":1000000,
                         "minimum":1
                      }
                   }

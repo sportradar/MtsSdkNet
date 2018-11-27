@@ -333,14 +333,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         {
             if (all || id)
             {
-                if (string.IsNullOrEmpty(_id) || !TicketHelper.ValidStringId(_id, false, 1, 1000))
+                if (string.IsNullOrEmpty(_id) || !TicketHelper.ValidateStringId(_id, false, true, 1, 1000))
                 {
                     throw new ArgumentException($"Id {_id} not valid.");
                 }
             }
             if (all || eventId)
             {
-                if (string.IsNullOrEmpty(_eventId) || !TicketHelper.ValidStringId(_eventId, false, 1, 100))
+                if (string.IsNullOrEmpty(_eventId) || !TicketHelper.ValidateStringId(_eventId, false, true, 1, 100))
                 {
                     throw new ArgumentException($"EventId {_eventId} not valid.");
                 }

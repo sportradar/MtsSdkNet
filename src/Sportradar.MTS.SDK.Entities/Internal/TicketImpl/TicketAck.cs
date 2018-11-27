@@ -83,7 +83,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             TicketStatus = status;
             Message = message;
             Timestamp = DateTime.Now;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
         }
 
@@ -104,7 +104,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             TicketStatus = status;
             Message = message;
             Timestamp = DateTime.UtcNow;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
         }
 
@@ -115,7 +115,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         private void ObjectInvariant()
         {
             Contract.Invariant(!string.IsNullOrEmpty(TicketId));
-            Contract.Invariant(TicketHelper.ValidStringId(TicketId, true, 1, 128));
+            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(Timestamp > DateTime.MinValue);

@@ -282,14 +282,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             }
             if (all || terminalId)
             {
-                if (!string.IsNullOrEmpty(_terminalId) && !TicketHelper.ValidStringId(_terminalId, true, 1, 36))
+                if (!string.IsNullOrEmpty(_terminalId) && !TicketHelper.ValidateUserId(_terminalId))
                 {
                     throw new ArgumentException("TerminalId not valid.");
                 }
             }
             if (all || shopId)
             {
-                if (!string.IsNullOrEmpty(_shopId) && !TicketHelper.ValidStringId(_shopId, true, 1, 36))
+                if (!string.IsNullOrEmpty(_shopId) && !TicketHelper.ValidateUserId(_shopId))
                 {
                     throw new ArgumentException("ShopId not valid.");
                 }

@@ -12,11 +12,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 {
     public static class TicketHelper
     {
-        public const string IdPattern = "^[0-9A-Za-z:_-]*";
+        public const string BetIdPattern = "^[0-9A-Za-z:_-]*";
 
-        public const string Version = "2.0";
+        public const string USerIdPattern = "^[0-9A-Za-z_-]*";
 
-        public const string Version21 = "2.1";
+        public const string MtsTicketVersion = "2.2";
+
+        public const int MaxPercent = 1000000;
 
         public static SdkTicketType GetTicketTypeFromTicket(ISdkTicket ticket)
         {
@@ -79,7 +81,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
             return (long)unixTime.TotalMilliseconds;
         }
-        
+
+        /// <summary>
+        /// Convert Unix time to DateTime
+        /// </summary>
+        /// <param name="unixTime">The unix time.</param>
+        /// <returns>DateTime.</returns>
         public static DateTime UnixTimeToDateTime(long unixTime)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -107,6 +114,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             throw new ArgumentOutOfRangeException($"Unknown ticket type {ci.TicketType}.");
         }
 
+        /// <summary>
+        /// Try to parse the unparsable MSG
+        /// </summary>
+        /// <param name="rawData">The raw data.</param>
+        /// <returns>System.String.</returns>
         public static string ParseUnparsableMsg(byte[] rawData)
         {
             try
@@ -120,15 +132,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             return string.Empty;
         }
 
-        [Pure]
-        public static bool ValidStringId(string input, bool checkIdPattern, int minLength = -1, int maxLength = -1)
+        public static bool ValidateStringId(string input, bool checkIdPattern, bool useBetIdPattern = true, int minLength = -1, int maxLength = -1)
         {
             Contract.Requires(!string.IsNullOrEmpty(input));
 
             var valid = true;
             if (checkIdPattern)
             {
-                valid = Regex.IsMatch(input, IdPattern);
+                valid = Regex.IsMatch(input, useBetIdPattern ? BetIdPattern : USerIdPattern);
             }
             if (valid && minLength >= 0)
             {
@@ -139,6 +150,25 @@ namespace Sportradar.MTS.SDK.Entities.Internal
                 valid = input.Length <= maxLength;
             }
             return valid;
+        }
+
+        public static bool ValidateBetId(string input)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(input));
+
+            return ValidateStringId(input, true, true, 1, 128);
+        }
+
+        public static bool ValidateUserId(string input, int maxLength = 36)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(input));
+
+            return ValidateStringId(input, true, false, 1, maxLength);
+        }
+
+        public static bool ValidatePercent(int? percent)
+        {
+            return percent == null || percent > 0 && percent <= 1000000;
         }
     }
 }

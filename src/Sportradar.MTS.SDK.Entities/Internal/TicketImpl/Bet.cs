@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -65,10 +64,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         public Bet(IBetBonus bonus, IStake stake, string betId, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins)
         {
             Contract.Requires(stake != null);
-            Contract.Requires(betId == null || 
-                               (Regex.IsMatch(betId, TicketHelper.IdPattern)
-                               && betId.Length > 0
-                               && betId.Length <= 128));
+            Contract.Requires(TicketHelper.ValidateBetId(betId));
             Contract.Requires(selectedSystems == null
                               || (selectedSystems.Any()
                               && selectedSystems.Count() < 64
@@ -106,10 +102,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         private void ObjectInvariant()
         {
             Contract.Invariant(Stake != null);
-            Contract.Invariant(Id == null ||
-                              (Regex.IsMatch(Id, TicketHelper.IdPattern)
-                               && Id.Length > 0
-                               && Id.Length <= 128));
+            Contract.Invariant(TicketHelper.ValidateBetId(Id));
             Contract.Invariant(SelectedSystems == null
                               || (SelectedSystems.Any()
                                   && SelectedSystems.Count() < 64

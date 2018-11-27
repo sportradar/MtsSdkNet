@@ -83,7 +83,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             TicketCancelStatus = status;
             Message = message;
             Timestamp = DateTime.Now;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
         }
 
@@ -104,7 +104,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             TicketCancelStatus = status;
             Message = message;
             Timestamp = DateTime.UtcNow;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
         }
 

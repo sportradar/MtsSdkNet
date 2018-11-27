@@ -21,12 +21,12 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the cashout stake of the assigned bet
         /// </summary>
         /// <value>The cashout stake</value>
-        long? CashoutStake { get; }
+        long CashoutStake { get; }
 
         /// <summary>
         /// Gets the cashout percent of the assigned bet
         /// </summary>
         /// <value>The cashout percent</value>
-        long? CashoutPercent { get; }
+        int? CashoutPercent { get; }
     }
 }

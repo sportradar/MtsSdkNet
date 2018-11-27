@@ -3,6 +3,7 @@
  */
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Interfaces;
+using Sportradar.MTS.SDK.Entities.Internal;
 
 namespace Sportradar.MTS.SDK.Entities.Contracts
 {
@@ -16,7 +17,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(Contract.Result<string>() == null || Contract.Result<string>().Length > 0);
+                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()) && Contract.Result<string>().Length > 0);
                 return Contract.Result<string>();
             }
         }
@@ -25,12 +26,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         /// Gets the cancel percent of the assigned bet
         /// </summary>
         /// <value>The cancel percent</value>
-        public long CancelPercent
+        public int? CancelPercent
         {
             get
             {
-                Contract.Ensures(Contract.Result<long>() > 0);
-                return Contract.Result<long>();
+                Contract.Ensures(TicketHelper.ValidatePercent(Contract.Result<int?>()));
+                return Contract.Result<int?>();
             }
         }
     }

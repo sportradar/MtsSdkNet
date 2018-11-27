@@ -15,7 +15,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashout
         public Anonymous()
         { }
 
-        public Anonymous(string betId, long? stake, long? percent)
+        public Anonymous(string betId, long stake, int? percent)
         {
             _id = betId;
             _cashoutStake = stake;

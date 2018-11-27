@@ -14,7 +14,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
         public Anonymous()
         { }
 
-        public Anonymous(string betId, long? percent)
+        public Anonymous(string betId, int? percent)
         {
             _id = betId;
             _cancelPercent = percent;

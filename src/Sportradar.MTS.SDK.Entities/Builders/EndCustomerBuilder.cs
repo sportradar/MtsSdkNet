@@ -129,14 +129,14 @@ namespace Sportradar.MTS.SDK.Entities.Builders
             }
             if (all || deviceId)
             {
-                if (!string.IsNullOrEmpty(_deviceId) && !TicketHelper.ValidStringId(_deviceId, true, 1, 36))
+                if (!string.IsNullOrEmpty(_deviceId) && !TicketHelper.ValidateUserId(_deviceId))
                 {
                     throw new ArgumentException("Stake not valid.");
                 }
             }
             if (all || clientId)
             {
-                if(!string.IsNullOrEmpty(_clientId) && !TicketHelper.ValidStringId(_clientId, true, 1, 36))
+                if(!string.IsNullOrEmpty(_clientId) && !TicketHelper.ValidateUserId(_clientId))
                 {
                     throw new ArgumentException("ClientId not valid.");
                 }

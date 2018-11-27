@@ -37,7 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
     
         public string ToJson() 
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this.Cancel);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
         
         public static TicketCancelDTO FromJson(string data)
@@ -60,7 +60,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
         private string _ticketId;
         private Sender _sender = new Sender();
         private int _code;
-        private long? _cancelPercent;
+        private int? _cancelPercent;
         private IEnumerable<Anonymous> _betCancel = new Collection<Anonymous>();
         private string _version;
     
@@ -128,10 +128,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
             }
         }
     
-        /// <summary>Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Only applicable if cancelling whole ticket.</summary>
+        /// <summary>Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Only applicable if cancelling whole ticket. Max 100%.</summary>
         [Newtonsoft.Json.JsonProperty("cancelPercent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [System.ComponentModel.DataAnnotations.Range(1.0, 1000000000000000000.0)]
-        public long? CancelPercent
+        [System.ComponentModel.DataAnnotations.Range(1.0, 1000000.0)]
+        public int? CancelPercent
         {
             get { return _cancelPercent; }
             set 
@@ -242,7 +242,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
     public partial class Anonymous : System.ComponentModel.INotifyPropertyChanged
     {
         private string _id;
-        private long? _cancelPercent;
+        private int? _cancelPercent;
     
         /// <summary>Bet id</summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -261,10 +261,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel
             }
         }
     
-        /// <summary>Cancel percent. Quantity multiplied by 10_000 and rounded to a long value.</summary>
-        [Newtonsoft.Json.JsonProperty("cancelPercent", Required = Newtonsoft.Json.Required.AllowNull)]
-        [System.ComponentModel.DataAnnotations.Range(1.0, 1000000000000000000.0)]
-        public long? CancelPercent
+        /// <summary>Cancel percent. Quantity multiplied by 10_000 and rounded to a long value. Max 100%.</summary>
+        [Newtonsoft.Json.JsonProperty("cancelPercent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(1.0, 1000000.0)]
+        public int? CancelPercent
         {
             get { return _cancelPercent; }
             set 

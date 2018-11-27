@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Interfaces;
+using Sportradar.MTS.SDK.Entities.Internal;
 
 namespace Sportradar.MTS.SDK.Entities.Contracts
 {
@@ -33,17 +34,17 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(Contract.Result<long?>() == null ||Contract.Result<long?>() > 0);
+                Contract.Ensures(Contract.Result<long?>() == null || Contract.Result<long?>() > 0);
                 return Contract.Result<long?>();
             }
         }
 
-        public long? CashoutPercent
+        public int? CashoutPercent
         {
             get
             {
-                Contract.Ensures(Contract.Result<long?>() == null || Contract.Result<long?>() > 0);
-                return Contract.Result<long?>();
+                Contract.Ensures(TicketHelper.ValidatePercent(Contract.Result<int?>()));
+                return Contract.Result<int?>();
             }
         }
 

@@ -3,6 +3,7 @@
  */
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Interfaces;
+using Sportradar.MTS.SDK.Entities.Internal;
 
 namespace Sportradar.MTS.SDK.Entities.Contracts
 {
@@ -25,12 +26,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         /// Gets the cashout stake of the assigned bet
         /// </summary>
         /// <value>The cashout stake</value>
-        public long? CashoutStake
+        public long CashoutStake
         {
             get
             {
-                Contract.Ensures(Contract.Result<long?>() == null || Contract.Result<long?>() > 0);
-                return Contract.Result<long?>();
+                Contract.Ensures(Contract.Result<long>() > 0);
+                return Contract.Result<long>();
             }
         }
 
@@ -38,12 +39,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         /// Gets the cashout percent of the assigned bet
         /// </summary>
         /// <value>The cashout percent</value>
-        public long? CashoutPercent
+        public int? CashoutPercent
         {
             get
             {
-                Contract.Ensures(Contract.Result<long?>() == null || Contract.Result<long?>() > 0);
-                return Contract.Result<long?>();
+                Contract.Ensures(TicketHelper.ValidatePercent(Contract.Result<int?>()));
+                return Contract.Result<int?>();
             }
         }
     }

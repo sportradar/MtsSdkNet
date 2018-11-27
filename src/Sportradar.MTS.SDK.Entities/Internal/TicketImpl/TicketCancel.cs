@@ -41,7 +41,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Gets the cancel percent
         /// </summary>
         /// <value>The cancel percent</value>
-        public long? CancelPercent { get; }
+        public int? CancelPercent { get; }
         /// <summary>
         /// Gets the list of <see cref="IBetCancel"/>
         /// </summary>
@@ -73,7 +73,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="code">The code</param>
         /// <param name="percent">The percent of ticket to cancel</param>
         /// <param name="betCancels">The list of <see cref="IBetCancel"/></param>
-        public TicketCancel(string ticketId, int bookmakerId, TicketCancellationReason code, long? percent, IReadOnlyCollection<IBetCancel> betCancels)
+        public TicketCancel(string ticketId, int bookmakerId, TicketCancellationReason code, int? percent, IReadOnlyCollection<IBetCancel> betCancels)
         {
             Contract.Requires(!string.IsNullOrEmpty(ticketId));
             Contract.Requires(bookmakerId > 0);
@@ -82,7 +82,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             BookmakerId = bookmakerId;
             Code = code;
             Timestamp = DateTime.UtcNow;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
             CancelPercent = percent;
             BetCancels = betCancels;
@@ -98,7 +98,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
-            Contract.Invariant(CancelPercent == null || CancelPercent > 0);
+            Contract.Invariant(TicketHelper.ValidatePercent(CancelPercent));
             Contract.Invariant(BetCancels == null || BetCancels.Any());
         }
     }

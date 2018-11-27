@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using System.Text.RegularExpressions;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -32,10 +31,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(Contract.Result<string>() == null ||
-                                 (Regex.IsMatch(Contract.Result<string>(), TicketHelper.IdPattern)
-                                  && Contract.Result<string>().Length >= 1
-                                  && Contract.Result<string>().Length <= 36));
+                Contract.Ensures(TicketHelper.ValidateUserId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }
@@ -43,10 +39,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         public string Id {
             get
             {
-                Contract.Ensures(Contract.Result<string>() == null ||
-                                 (Regex.IsMatch(Contract.Result<string>(), TicketHelper.IdPattern)
-                                  && Contract.Result<string>().Length >= 1
-                                  && Contract.Result<string>().Length <= 36));
+                Contract.Ensures(TicketHelper.ValidateUserId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }

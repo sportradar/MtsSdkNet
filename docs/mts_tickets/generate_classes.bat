@@ -25,7 +25,7 @@ echo Replacing 'new IEnumerable^<' to 'new Collection^<' ...
 
 echo.
 echo.
-echo TODO: Add the following into TicketDTO.cs and TicketCancelDTO.cs:
+echo TODO: Add the following into TicketDTO.cs, TicketCancelDTO.cs, TicketResponseDTO.cs and TicketCashoutDTO.cs:
 echo using System.Collections.Generic;
 echo using System.Collections.ObjectModel;
 

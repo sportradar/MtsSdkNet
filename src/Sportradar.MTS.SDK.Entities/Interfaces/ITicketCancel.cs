@@ -29,7 +29,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the cancel percent
         /// </summary>
         /// <value>The cancel percent</value>
-        long? CancelPercent { get; }
+        int? CancelPercent { get; }
 
         /// <summary>
         /// Gets the list of <see cref="IBetCancel"/>

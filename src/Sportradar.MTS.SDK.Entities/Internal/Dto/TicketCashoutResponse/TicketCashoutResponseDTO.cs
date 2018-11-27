@@ -6,7 +6,7 @@
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse
 {
-#pragma warning disable // Disable all warnings
+    #pragma warning disable // Disable all warnings
 
     /// <summary>Object carrying information about cashout response</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]

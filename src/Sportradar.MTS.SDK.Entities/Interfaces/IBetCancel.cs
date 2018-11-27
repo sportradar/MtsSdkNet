@@ -21,6 +21,6 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the cancel percent of the assigned bet
         /// </summary>
         /// <value>The cancel percent</value>
-        long CancelPercent { get; }
+        int? CancelPercent { get; }
     }
 }

@@ -72,11 +72,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public enum Status
     {
+        [System.Runtime.Serialization.EnumMember(Value = "rejected")]
+        Rejected = 0,
+    
         [System.Runtime.Serialization.EnumMember(Value = "accepted")]
         Accepted = 1,
-    
-        [System.Runtime.Serialization.EnumMember(Value = "rejected")]
-        Rejected = 0
     
     }
     

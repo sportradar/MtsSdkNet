@@ -25,8 +25,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         public EndCustomer(string ip, string languageId, string deviceId, string id, long confidence)
         {
             Contract.Requires(string.IsNullOrEmpty(languageId) || languageId.Length == 2);
-            Contract.Requires(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidStringId(deviceId, true, 1, 36));
-            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidStringId(id, true, 1, 36));
+            Contract.Requires(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidateUserId(deviceId));
+            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidateUserId(id));
             Contract.Requires(confidence >= 0);
 
             if (!string.IsNullOrEmpty(ip))
@@ -43,8 +43,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         public EndCustomer(IPAddress ip, string languageId, string deviceId, string id, long confidence)
         {
             Contract.Requires(string.IsNullOrEmpty(languageId) || languageId.Length == 2);
-            Contract.Requires(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidStringId(deviceId, true, 1, 36));
-            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidStringId(id, true, 1, 36));
+            Contract.Requires(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidateUserId(deviceId));
+            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidateUserId(id));
             Contract.Requires(confidence >= 0);
 
             Ip = ip?.ToString();
@@ -61,8 +61,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         private void ObjectInvariant()
         {
             Contract.Invariant(string.IsNullOrEmpty(LanguageId) || LanguageId.Length == 2);
-            Contract.Invariant(string.IsNullOrEmpty(DeviceId) || TicketHelper.ValidStringId(DeviceId, true, 1, 36));
-            Contract.Invariant(string.IsNullOrEmpty(Id) || TicketHelper.ValidStringId(Id, true, 1, 36));
+            Contract.Invariant(string.IsNullOrEmpty(DeviceId) || TicketHelper.ValidateUserId(DeviceId));
+            Contract.Invariant(string.IsNullOrEmpty(Id) || TicketHelper.ValidateUserId(Id));
             Contract.Invariant(Confidence >= 0);
         }
 

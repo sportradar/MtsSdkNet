@@ -37,7 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// </summary>
         /// <param name="percent">The cashout percent</param>
         /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
-        ITicketCashoutBuilder SetCashoutPercent(long percent);
+        ITicketCashoutBuilder SetCashoutPercent(int percent);
 
         /// <summary>
         /// Add the bet cashout
@@ -46,7 +46,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <param name="stake">The cashout stake value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
         /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
         /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
-        ITicketCashoutBuilder AddBetCashout(string betId, long? stake, long? percent);
+        ITicketCashoutBuilder AddBetCashout(string betId, long stake, int? percent);
 
         /// <summary>
         /// Build a <see cref="ITicketCashout" />
@@ -56,7 +56,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <param name="stake">The cashout stake</param>
         /// <param name="percent">The cashout percent</param>
         /// <returns>ITicketCashout</returns>
-        ITicketCashout BuildTicket(string ticketId, int bookmakerId, long? stake, long? percent);
+        ITicketCashout BuildTicket(string ticketId, int bookmakerId, long stake, int? percent);
 
         /// <summary>
         /// Builds the <see cref="ITicketCashout" />

@@ -28,7 +28,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the cashout percent
         /// </summary>
         /// <value>The cashout percent</value>
-        long? CashoutPercent { get; }
+        int? CashoutPercent { get; }
 
         /// <summary>
         /// Gets the list of <see cref="IBetCashout"/>

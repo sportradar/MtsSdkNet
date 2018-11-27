@@ -40,7 +40,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Gets the cashout percent
         /// </summary>
         /// <value>The cashout percent</value>
-        public long? CashoutPercent { get; }
+        public int? CashoutPercent { get; }
         /// <summary>
         /// Gets the list of <see cref="IBetCashout"/>
         /// </summary>
@@ -72,9 +72,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="stake">The cashout stake</param>
         /// <param name="percent">The cashout percent</param>
         /// <param name="betCashouts">The list of <see cref="IBetCashout"/></param>
-        public TicketCashout(string ticketId, int bookmakerId, long? stake, long? percent, IReadOnlyCollection<IBetCashout> betCashouts)
+        public TicketCashout(string ticketId, int bookmakerId, long? stake, int? percent, IReadOnlyCollection<IBetCashout> betCashouts)
         {
-            Contract.Requires(!string.IsNullOrEmpty(ticketId));
+            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
             Contract.Requires(bookmakerId > 0);
             Contract.Requires(stake > 0 || percent > 0 || (betCashouts != null && betCashouts.Any()));
 
@@ -84,7 +84,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             CashoutPercent = percent;
             BetCashouts = betCashouts;
             Timestamp = DateTime.UtcNow;
-            Version = TicketHelper.Version;
+            Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
         }
 
@@ -94,7 +94,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(!string.IsNullOrEmpty(TicketId));
+            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
             Contract.Invariant(BookmakerId > 0);

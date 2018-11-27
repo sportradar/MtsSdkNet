@@ -44,7 +44,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         private void CheckRequiredFields(string json)
         {
             Assert.IsTrue(!string.IsNullOrEmpty(json));
-            Assert.IsTrue(json.Contains(TicketHelper.Version21));
+            Assert.IsTrue(json.Contains(TicketHelper.MtsTicketVersion));
             Assert.IsTrue(json.Contains("timestampUtc"));
             Assert.IsTrue(json.Contains("bets"));
             Assert.IsTrue(json.Contains("stake"));

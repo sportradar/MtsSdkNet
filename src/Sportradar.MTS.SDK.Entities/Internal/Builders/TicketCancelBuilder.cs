@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -35,7 +36,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <summary>
         /// The percent
         /// </summary>
-        private long? _percent;
+        private int? _percent;
 
         /// <summary>
         /// The bet cancels
@@ -143,9 +144,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// </summary>
         /// <param name="percent">The percent of cancellation</param>
         /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
-        public ITicketCancelBuilder SetCancelPercent(long percent)
+        public ITicketCancelBuilder SetCancelPercent(int percent)
         {
-            if (percent < 1)
+            if (!TicketHelper.ValidatePercent(percent))
             {
                 throw new ArgumentException("Percent not valid");
             }
@@ -157,11 +158,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// Add the bet cancel
         /// </summary>
         /// <param name="betId">The bet id</param>
-        /// <param name="percent">The cancel percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <param name="percent">The cancel percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a int value)</param>
         /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
-        public ITicketCancelBuilder AddBetCashout(string betId, long percent)
+        public ITicketCancelBuilder AddBetCashout(string betId, int? percent)
         {
-            if (percent < 1)
+            if (!TicketHelper.ValidatePercent(percent))
             {
                 throw new ArgumentException("Percent not valid");
             }
@@ -172,6 +173,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             if (_betCancels.Count >= 50)
             {
                 throw new ArgumentException("List size limit reached. Only 50 allowed.");
+            }
+            if (_betCancels.Any(a => a.BetId.Equals(betId, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                throw new ArgumentException("BetId already in list.");
             }
             _betCancels.Add(new BetCancel(betId, percent));
             return this;

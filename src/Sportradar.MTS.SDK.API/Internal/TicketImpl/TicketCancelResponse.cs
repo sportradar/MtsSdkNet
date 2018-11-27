@@ -81,7 +81,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
                               IResponseReason reason,
                               string correlationId,
                               string signature,
-                              string version = TicketHelper.Version,
+                              string version = TicketHelper.MtsTicketVersion,
                               string orgJson = null)
         {
             TicketId = ticketId;

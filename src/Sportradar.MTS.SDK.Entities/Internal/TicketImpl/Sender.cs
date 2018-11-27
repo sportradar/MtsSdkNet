@@ -71,8 +71,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Requires(bookmakerId > 0);
             Contract.Requires(!string.IsNullOrEmpty(currency));
             Contract.Requires(currency.Length == 3 || currency.Length == 4);
-            Contract.Requires(string.IsNullOrEmpty(terminalId) || TicketHelper.ValidStringId(terminalId, true, 1, 36));
-            Contract.Requires(string.IsNullOrEmpty(shopId) || TicketHelper.ValidStringId(shopId, true, 1, 36));
+            Contract.Requires(string.IsNullOrEmpty(terminalId) || TicketHelper.ValidateUserId(terminalId));
+            Contract.Requires(string.IsNullOrEmpty(shopId) || TicketHelper.ValidateUserId(shopId));
             Contract.Requires(limitId > 0);
 
 
@@ -95,8 +95,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         {
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(!string.IsNullOrEmpty(Currency) && Currency.Length >= 3 && Currency.Length <= 4);
-            Contract.Invariant(string.IsNullOrEmpty(TerminalId) || TicketHelper.ValidStringId(TerminalId, true, 1, 36));
-            Contract.Invariant(string.IsNullOrEmpty(ShopId) || TicketHelper.ValidStringId(ShopId, true, 1, 36));
+            Contract.Invariant(string.IsNullOrEmpty(TerminalId) || TicketHelper.ValidateUserId(TerminalId));
+            Contract.Invariant(string.IsNullOrEmpty(ShopId) || TicketHelper.ValidateUserId(ShopId));
             Contract.Invariant(LimitId > 0);
         }
 
