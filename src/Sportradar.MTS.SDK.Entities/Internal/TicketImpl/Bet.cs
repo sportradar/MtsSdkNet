@@ -64,7 +64,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         public Bet(IBetBonus bonus, IStake stake, string betId, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins)
         {
             Contract.Requires(stake != null);
-            Contract.Requires(string.IsNullOrEmpty(betId) || TicketHelper.ValidateBetId(betId));
+            Contract.Requires(string.IsNullOrEmpty(betId) || TicketHelper.ValidateTicketId(betId));
             Contract.Requires(selectedSystems == null
                               || (selectedSystems.Any()
                               && selectedSystems.Count() < 64
@@ -102,7 +102,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         private void ObjectInvariant()
         {
             Contract.Invariant(Stake != null);
-            Contract.Invariant(string.IsNullOrEmpty(Id) || TicketHelper.ValidateBetId(Id));
+            Contract.Invariant(string.IsNullOrEmpty(Id) || TicketHelper.ValidateTicketId(Id));
             Contract.Invariant(SelectedSystems == null
                               || (SelectedSystems.Any()
                                   && SelectedSystems.Count() < 64

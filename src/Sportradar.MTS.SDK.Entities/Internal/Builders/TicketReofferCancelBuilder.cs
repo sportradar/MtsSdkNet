@@ -94,7 +94,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <value>Unique ticket id (in the client's system)</value>
         public ITicketReofferCancelBuilder SetTicketId(string ticketId)
         {
-            if (!TicketHelper.ValidateBetId(ticketId))
+            if (!TicketHelper.ValidateTicketId(ticketId))
             {
                 throw new ArgumentException("TicketId not valid.");
             }
@@ -134,7 +134,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Return an <see cref="ITicketCancel"/></returns>
         public ITicketReofferCancel BuildTicket(string ticketId, int bookmakerId)
         {
-            if (!TicketHelper.ValidateBetId(_ticketId))
+            if (!TicketHelper.ValidateTicketId(_ticketId))
             {
                 throw new ArgumentException("TicketId not valid.");
             }

@@ -28,7 +28,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(string.IsNullOrEmpty(Contract.Result<string>()) || TicketHelper.ValidateBetId(Contract.Result<string>()));
+                Contract.Ensures(string.IsNullOrEmpty(Contract.Result<string>()) || TicketHelper.ValidateTicketId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }

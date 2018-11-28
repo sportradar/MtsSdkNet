@@ -75,7 +75,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="betCancels">The list of <see cref="IBetCancel"/></param>
         public TicketCancel(string ticketId, int bookmakerId, TicketCancellationReason code, int? percent, IReadOnlyCollection<IBetCancel> betCancels)
         {
-            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
+            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
             Contract.Requires(bookmakerId > 0);
 
             if (percent != null && betCancels != null)
@@ -99,7 +99,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
+            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);

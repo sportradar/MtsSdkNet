@@ -74,7 +74,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="betCashouts">The list of <see cref="IBetCashout"/></param>
         public TicketCashout(string ticketId, int bookmakerId, long? stake, int? percent, IReadOnlyCollection<IBetCashout> betCashouts)
         {
-            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
+            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
             Contract.Requires(bookmakerId > 0);
             Contract.Requires(stake > 0 || percent > 0 || (betCashouts != null && betCashouts.Any()));
 
@@ -104,7 +104,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
+            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
             Contract.Invariant(BookmakerId > 0);

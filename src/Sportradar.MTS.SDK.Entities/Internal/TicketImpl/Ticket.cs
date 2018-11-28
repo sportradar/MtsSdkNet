@@ -107,12 +107,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
         public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType, int? totalCombinations)
         {
-            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
+            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
             Contract.Requires(sender != null);
             Contract.Requires(bets != null);
             Contract.Requires(bets.Any() && bets.Count() <= 50);
-            Contract.Requires(string.IsNullOrEmpty(reofferId) || TicketHelper.ValidateBetId(reofferId));
-            Contract.Requires(string.IsNullOrEmpty(altStakeRefId) || TicketHelper.ValidateBetId(altStakeRefId));
+            Contract.Requires(string.IsNullOrEmpty(reofferId) || TicketHelper.ValidateTicketId(reofferId));
+            Contract.Requires(string.IsNullOrEmpty(altStakeRefId) || TicketHelper.ValidateTicketId(altStakeRefId));
             Contract.Requires(!(!string.IsNullOrEmpty(reofferId) && !string.IsNullOrEmpty(altStakeRefId)));
 
             TicketId = ticketId;
@@ -149,7 +149,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
+            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
             Contract.Invariant(Sender != null);
@@ -157,8 +157,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(Bets.Any() && Bets.Count() <= 50);
             Contract.Invariant(Selections != null);
             Contract.Invariant(Selections.Any() && Selections.Count() < 64);
-            Contract.Invariant(string.IsNullOrEmpty(ReofferId) || TicketHelper.ValidateBetId(ReofferId));
-            Contract.Invariant(string.IsNullOrEmpty(AltStakeRefId) || TicketHelper.ValidateBetId(AltStakeRefId));
+            Contract.Invariant(string.IsNullOrEmpty(ReofferId) || TicketHelper.ValidateTicketId(ReofferId));
+            Contract.Invariant(string.IsNullOrEmpty(AltStakeRefId) || TicketHelper.ValidateTicketId(AltStakeRefId));
             Contract.Invariant(!(!string.IsNullOrEmpty(ReofferId) && !string.IsNullOrEmpty(AltStakeRefId)));
             Contract.Invariant(TotalCombinations == null || TotalCombinations > 0);
         }

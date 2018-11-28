@@ -69,7 +69,7 @@
                   "maxLength": 128
                },
                "cashoutStake":{
-                  "type": ["number"],
+                  "type": "number",
                   "description":"Cashout stake in same currency as original ticket. Quantity multiplied by 10_000 and rounded to a long value.",
                   "maximum":1000000000000000000,
                   "minimum":1

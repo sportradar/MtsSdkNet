@@ -17,7 +17,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             {
                 Contract.Ensures(Contract.Result<string>().Length > 0);
                 Contract.Ensures(Contract.Result<string>().Length <= 128);
-                Contract.Ensures(TicketHelper.ValidateBetId(Contract.Result<string>()));
+                Contract.Ensures(TicketHelper.ValidateTicketId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }

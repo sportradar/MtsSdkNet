@@ -354,18 +354,18 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         [TestMethod]
         public void ValidateBetIdPatternTest()
         {
-            Assert.IsTrue(TicketHelper.ValidateBetId("a"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("aAB"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("129837403"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("AaZYc"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("ticket:1"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("Test_12123"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("T:123_434"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("T::23123"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("::__r"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("-"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("Test-3423-324234-2343243"));
-            Assert.IsTrue(TicketHelper.ValidateBetId("B0034827552620261"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("a"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("aAB"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("129837403"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("AaZYc"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("ticket:1"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("Test_12123"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("T:123_434"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("T::23123"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("::__r"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("-"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("Test-3423-324234-2343243"));
+            Assert.IsTrue(TicketHelper.ValidateTicketId("B0034827552620261"));
         }
 
         [TestMethod]

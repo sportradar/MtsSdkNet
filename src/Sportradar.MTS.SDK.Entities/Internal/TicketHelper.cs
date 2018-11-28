@@ -152,7 +152,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             return valid;
         }
 
-        public static bool ValidateBetId(string input)
+        public static bool ValidateTicketId(string input)
         {
             Contract.Requires(!string.IsNullOrEmpty(input));
 

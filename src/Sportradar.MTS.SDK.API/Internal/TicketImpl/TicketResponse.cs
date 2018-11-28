@@ -128,7 +128,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
+            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);
             Contract.Invariant(!string.IsNullOrEmpty(Signature));

@@ -57,7 +57,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         {
             if (all || ticketId)
             {
-                if (!TicketHelper.ValidateBetId(_ticketId))
+                if (!TicketHelper.ValidateTicketId(_ticketId))
                 {
                     throw new ArgumentException("TicketId not valid");
                 }

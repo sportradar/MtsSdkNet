@@ -54,7 +54,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="bookmakerId">The bookmaker identifier</param>
         public TicketReofferCancel(string ticketId, int bookmakerId)
         {
-            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
+            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
             Contract.Requires(bookmakerId > 0);
 
             TicketId = ticketId;
@@ -70,7 +70,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
+            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);

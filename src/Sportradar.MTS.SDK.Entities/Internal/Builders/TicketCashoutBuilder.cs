@@ -117,7 +117,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <value>Unique ticket id (in the client's system)</value>
         public ITicketCashoutBuilder SetTicketId(string ticketId)
         {
-            if (!TicketHelper.ValidateBetId(ticketId))
+            if (!TicketHelper.ValidateTicketId(ticketId))
             {
                 throw new ArgumentException("TicketId not valid");
             }
@@ -179,7 +179,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketCashoutBuilder"/></returns>
         public ITicketCashoutBuilder AddBetCashout(string betId, long stake, int? percent)
         {
-            if (!TicketHelper.ValidateBetId(betId))
+            if (!TicketHelper.ValidateTicketId(betId))
             {
                 throw new ArgumentException("BetId not valid");
             }
@@ -222,7 +222,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Return an <see cref="ITicketCashout"/></returns>
         public ITicketCashout BuildTicket(string ticketId, int bookmakerId, long stake, int? percent)
         {
-            if (!TicketHelper.ValidateBetId(_ticketId))
+            if (!TicketHelper.ValidateTicketId(_ticketId))
             {
                 throw new ArgumentException("TicketId not valid.");
             }

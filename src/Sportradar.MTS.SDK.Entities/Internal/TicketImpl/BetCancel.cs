@@ -27,7 +27,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a int value)</param>
         public BetCancel(string betId, int? percent)
         {
-            if (!TicketHelper.ValidateBetId(betId))
+            if (!TicketHelper.ValidateTicketId(betId))
             {
                 throw new ArgumentException("BetId not valid.");
             }
