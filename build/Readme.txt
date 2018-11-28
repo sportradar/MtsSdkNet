@@ -2,6 +2,19 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2018-11-28 1.6.0.0
+Support for ticket version 2.2
+Added AutoAcceptedOdd to TicketResponse
+Added TotalCombinations to Ticket and TicketBuilder
+Added BetCashout to TicketCashout - support for partial cashout
+Added BetCancel to TicketCancel - support for partial cancellation
+Added AutoAcceptedOdds to ITicketResponse
+EndCustomer.Ip type changed from IPAddress to string
+Removed deletion of consumer queues on close
+Reviewed and updated documentation and properties files
+Removed property ExceptionHandlingStrategy from config, builder, ...
+Fix: in HandleMarketDescription when adding specifiers
+
 2018-10-05 1.5.0.0
 Added MtsSdk.TicketResponseTimedOut event to notify user if the ticket response did not arrive in timely fashion (when sending in non-blocking mode)
 Added 'exclusiveConsumer' property to the configuration, indicating should the rabbit consumer channel be exclusive (default is true)
