@@ -28,6 +28,7 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public ITicketResponse Map(TicketResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
+            var autoAcceptedOdds = source.AutoAcceptedOdds?.Select(s => new AutoAcceptedOdds(s.SelectionIndex, s.RequestedOdds, s.UsedOdds));
             return new TicketResponse(_ticketAckSender,
                                       source.Result.TicketId,
                                       MtsTicketHelper.Convert(source.Result.Status),
@@ -38,6 +39,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                                       source.ExchangeRate,
                                       source.Version,
                                       additionalInfo,
+                                      autoAcceptedOdds,
                                       orgJson);
         }
 

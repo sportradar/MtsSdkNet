@@ -151,10 +151,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\AutoAcceptedOddsContract.cs" />
     <Compile Include="Contracts\BetCancelContract.cs" />
     <Compile Include="Contracts\BetCashoutContract.cs" />
     <Compile Include="Contracts\SdkConfigurationContract.cs" />
     <Compile Include="EventArguments\SdkMessageEventArgs.cs" />
+    <Compile Include="Interfaces\IAutoAcceptedOdds.cs" />
     <Compile Include="Interfaces\IBetCancel.cs" />
     <Compile Include="Interfaces\IBetCashout.cs" />
     <Compile Include="Interfaces\IRejectionInfo.cs" />
@@ -280,6 +282,7 @@
     <Compile Include="Internal\SdkRoutingKeyBuilder.cs" />
     <Compile Include="Internal\TicketCacheItem.cs" />
     <Compile Include="Internal\TicketHelper.cs" />
+    <Compile Include="Internal\TicketImpl\AutoAcceptedOdds.cs" />
     <Compile Include="Internal\TicketImpl\BetCancel.cs" />
     <Compile Include="Internal\TicketImpl\BetCashout.cs" />
     <Compile Include="Internal\TicketImpl\BetReoffer.cs" />

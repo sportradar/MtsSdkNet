@@ -71,6 +71,11 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <value>The additional information</value>
         public IDictionary<string, string> AdditionalInfo { get; }
         /// <summary>
+        /// Gets the automatic accepted odds
+        /// </summary>
+        /// <value>The automatic accepted odds</value>
+        public IEnumerable<IAutoAcceptedOdds> AutoAcceptedOdds { get; }
+        /// <summary>
         /// Gets the timestamp of ticket placement (UTC)
         /// </summary>
         /// <value>The timestamp</value>
@@ -91,17 +96,19 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <param name="exchangeRate">The exchange rate</param>
         /// <param name="version">The version</param>
         /// <param name="additionalInfo">The additional information</param>
+        /// <param name="autoAcceptedOdds">Auto accepted odds</param>
         /// <param name="orgJson">The original json string received from the mts</param>
-        public TicketResponse(ITicketSender ticketSender, 
-                              string ticketId, 
-                              TicketAcceptance status, 
-                              IResponseReason reason, 
-                              IEnumerable<IBetDetail> betDetails, 
+        public TicketResponse(ITicketSender ticketSender,
+                              string ticketId,
+                              TicketAcceptance status,
+                              IResponseReason reason,
+                              IEnumerable<IBetDetail> betDetails,
                               string correlationId,
-                              string signature = null, 
-                              long exchangeRate = -1, 
+                              string signature = null,
+                              long exchangeRate = -1,
                               string version = TicketHelper.MtsTicketVersion,
                               IDictionary<string, string> additionalInfo = null,
+                              IEnumerable<IAutoAcceptedOdds> autoAcceptedOdds = null,
                               string orgJson = null)
         {
             TicketId = ticketId;
@@ -116,7 +123,10 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             Version = version;
             Timestamp = DateTime.UtcNow;
             CorrelationId = correlationId;
-            AdditionalInfo = additionalInfo != null && additionalInfo.Any() ? additionalInfo : null;
+            AdditionalInfo = additionalInfo != null && additionalInfo.Any()
+                                 ? additionalInfo
+                                 : null;
+            AutoAcceptedOdds = autoAcceptedOdds;
             _originalJson = orgJson;
 
             _ticketSender = ticketSender;

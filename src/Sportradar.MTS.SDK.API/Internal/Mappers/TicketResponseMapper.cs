@@ -31,7 +31,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         }
 
         /// <summary>
-        /// Maps the specified source.
+        /// Maps the specified source
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id</param>
@@ -39,6 +39,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         /// <returns>ITicketResponse</returns>
         public ITicketResponse Map(TicketResponseDTO source, string correlationId, string orgJson)
         {
+            var autoAcceptedOdds = source.AutoAcceptedOdds?.Select(s => new AutoAcceptedOdds(s.SelectionIndex, s.RequestedOdds, s.UsedOdds));
             return new TicketResponse(_ticketSender,
                                       source.Result.TicketId,
                                       MtsTicketHelper.Convert(source.Result.Status), 
@@ -49,6 +50,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
                                       source.ExchangeRate,
                                       source.Version,
                                       null,
+                                      autoAcceptedOdds,
                                       orgJson);
         }
     }
