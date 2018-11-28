@@ -83,6 +83,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ITicketBuilder SetTicketId(string ticketId)
         {
+            if (!TicketHelper.ValidateBetId(ticketId))
+            {
+                throw new ArgumentException("TicketId not valid");
+            }
             _ticketId = ticketId;
             return this;
         }
@@ -94,6 +98,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ITicketBuilder SetReofferId(string reofferId)
         {
+            if (!TicketHelper.ValidateBetId(reofferId))
+            {
+                throw new ArgumentException("ReofferId not valid");
+            }
             _reofferId = reofferId;
             return this;
         }
@@ -105,6 +113,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ITicketBuilder SetAltStakeRefId(string altStakeRefId)
         {
+            if (!TicketHelper.ValidateBetId(altStakeRefId))
+            {
+                throw new ArgumentException("AltStakeRefId not valid");
+            }
             _altStakeRefId = altStakeRefId;
             return this;
         }
@@ -138,6 +150,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ITicketBuilder SetSender(ISender sender)
         {
+            if (sender == null)
+            {
+                throw new ArgumentException("Sender not valid");
+            }
             _sender = sender;
             return this;
         }

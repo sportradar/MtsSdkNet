@@ -42,7 +42,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(TicketHelper.ValidateUserId(Contract.Result<string>()));
+                Contract.Ensures(Contract.Result<string>() == null || TicketHelper.ValidateUserId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }
@@ -53,7 +53,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(TicketHelper.ValidateUserId(Contract.Result<string>()));
+                Contract.Ensures(Contract.Result<string>() == null || TicketHelper.ValidateUserId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }

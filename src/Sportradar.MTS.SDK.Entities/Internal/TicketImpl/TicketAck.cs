@@ -74,7 +74,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="message">The message</param>
         public TicketAck(string ticketId, int bookmakerId, TicketAckStatus status, int code, string message)
         {
-            Contract.Requires(!string.IsNullOrEmpty(ticketId));
+            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
             Contract.Requires(bookmakerId > 0);
 
             TicketId = ticketId;
@@ -114,7 +114,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(!string.IsNullOrEmpty(TicketId));
             Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(BookmakerId > 0);

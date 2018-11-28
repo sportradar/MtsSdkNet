@@ -29,4 +29,11 @@ echo TODO: Add the following into TicketDTO.cs, TicketCancelDTO.cs, TicketRespon
 echo using System.Collections.Generic;
 echo using System.Collections.ObjectModel;
 
+echo.
+echo.
+echo TODO: Add the following into TicketDTO.cs:
+echo [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+echo.
+echo Bonus.BonusType, Bonus.BonusMode, Stake.StakeType, OddsChange
+
 set /p id=

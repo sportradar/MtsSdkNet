@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -29,7 +28,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(TicketHelper.ValidateBetId(Contract.Result<string>()));
+                Contract.Ensures(string.IsNullOrEmpty(Contract.Result<string>()) || TicketHelper.ValidateBetId(Contract.Result<string>()));
                 return Contract.Result<string>();
             }
         }

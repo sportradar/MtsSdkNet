@@ -78,6 +78,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Requires(bookmakerId > 0);
             Contract.Requires(stake > 0 || percent > 0 || (betCashouts != null && betCashouts.Any()));
 
+            if (percent != null && stake == null)
+            {
+                throw new ArgumentException("If percent is set, also stake must be.");
+            }
+
+            if (betCashouts != null && (stake != null || percent != null))
+            {
+                throw new ArgumentException("Stake and/or Percent cannot be set at the same time as BetCashouts.");
+            }
+
             TicketId = ticketId;
             BookmakerId = bookmakerId;
             CashoutStake = stake;

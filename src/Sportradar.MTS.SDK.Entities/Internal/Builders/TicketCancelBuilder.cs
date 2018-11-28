@@ -113,6 +113,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <value>Unique ticket id (in the client's system)</value>
         public ITicketCancelBuilder SetTicketId(string ticketId)
         {
+            if (!TicketHelper.ValidateBetId(ticketId))
+            {
+                throw new ArgumentException("TicketId not valid");
+            }
             _ticketId = ticketId;
             return this;
         }
@@ -124,6 +128,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketCancelBuilder" /></returns>
         public ITicketCancelBuilder SetBookmakerId(int bookmakerId)
         {
+            if (bookmakerId < 1)
+            {
+                throw new ArgumentException("BookmakerId not valid");
+            }
             _bookmakerId = bookmakerId;
             return this;
         }
@@ -160,8 +168,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="betId">The bet id</param>
         /// <param name="percent">The cancel percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a int value)</param>
         /// <returns>Returns a <see cref="ITicketCancelBuilder"/></returns>
-        public ITicketCancelBuilder AddBetCashout(string betId, int? percent)
+        public ITicketCancelBuilder AddBetCancel(string betId, int? percent)
         {
+            if (!TicketHelper.ValidateBetId(betId))
+            {
+                throw new ArgumentException("BetId not valid");
+            }
             if (!TicketHelper.ValidatePercent(percent))
             {
                 throw new ArgumentException("Percent not valid");

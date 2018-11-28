@@ -94,6 +94,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <value>Unique ticket id (in the client's system)</value>
         public ITicketReofferCancelBuilder SetTicketId(string ticketId)
         {
+            if (!TicketHelper.ValidateBetId(ticketId))
+            {
+                throw new ArgumentException("TicketId not valid.");
+            }
             _ticketId = ticketId;
             return this;
         }
@@ -105,6 +109,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketCancelBuilder" /></returns>
         public ITicketReofferCancelBuilder SetBookmakerId(int bookmakerId)
         {
+            if (bookmakerId < 1)
+            {
+                throw new ArgumentException("BookmakerId not valid.");
+            }
             _bookmakerId = bookmakerId;
             return this;
         }
@@ -126,6 +134,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Return an <see cref="ITicketCancel"/></returns>
         public ITicketReofferCancel BuildTicket(string ticketId, int bookmakerId)
         {
+            if (!TicketHelper.ValidateBetId(_ticketId))
+            {
+                throw new ArgumentException("TicketId not valid.");
+            }
+            if (bookmakerId < 1)
+            {
+                throw new ArgumentException("BookmakerId not valid.");
+            }
             return new TicketReofferCancel(ticketId, bookmakerId);
         }
     }

@@ -235,6 +235,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ISenderBuilder" /></returns>
         public ISenderBuilder SetEndCustomer(IEndCustomer customer)
         {
+            if (customer == null)
+            {
+                throw new ArgumentException("Customer not valid.");
+            }
             _customer = customer;
             return this;
         }

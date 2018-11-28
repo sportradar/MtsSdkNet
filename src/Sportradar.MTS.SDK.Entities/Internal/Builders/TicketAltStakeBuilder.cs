@@ -64,7 +64,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             _ticket = ticket;
             _ticketResponse = ticketResponse;
             _newTicketId = newTicketId;
-
             return this;
         }
 
@@ -82,7 +81,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             _ticket = ticket;
             _newStake = newStake;
             _newTicketId = newTicketId;
-
             return this;
         }
 

@@ -75,8 +75,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="betCancels">The list of <see cref="IBetCancel"/></param>
         public TicketCancel(string ticketId, int bookmakerId, TicketCancellationReason code, int? percent, IReadOnlyCollection<IBetCancel> betCancels)
         {
-            Contract.Requires(!string.IsNullOrEmpty(ticketId));
+            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
             Contract.Requires(bookmakerId > 0);
+
+            if (percent != null && betCancels != null)
+            {
+                throw new ArgumentException("Percent and BetCancels cannot be set at the same time.");
+            }
 
             TicketId = ticketId;
             BookmakerId = bookmakerId;
@@ -94,7 +99,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(!string.IsNullOrEmpty(TicketId));
+            Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);

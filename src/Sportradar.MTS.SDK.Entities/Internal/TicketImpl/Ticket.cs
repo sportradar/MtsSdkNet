@@ -107,7 +107,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
         public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType, int? totalCombinations)
         {
-            Contract.Requires(!string.IsNullOrEmpty(ticketId));
+            Contract.Requires(TicketHelper.ValidateBetId(ticketId));
             Contract.Requires(sender != null);
             Contract.Requires(bets != null);
             Contract.Requires(bets.Any() && bets.Count() <= 50);
@@ -149,7 +149,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(!string.IsNullOrEmpty(TicketId));
             Contract.Invariant(TicketHelper.ValidateBetId(TicketId));
             Contract.Invariant(!string.IsNullOrEmpty(Version));
             Contract.Invariant(Timestamp > DateTime.MinValue);

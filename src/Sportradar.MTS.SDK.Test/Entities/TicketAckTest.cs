@@ -5,6 +5,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
+using Sportradar.MTS.SDK.Entities.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
 using Sportradar.MTS.SDK.Test.Helpers;
@@ -31,7 +32,7 @@ namespace Sportradar.MTS.SDK.Test.Entities
 
             Assert.IsNotNull(ticket);
             Assert.IsTrue(ticket.Timestamp > DateTime.Today.ToUniversalTime());
-            Assert.AreEqual(ticket.Version, "2.0");
+            Assert.AreEqual(TicketHelper.MtsTicketVersion, ticket.Version);
             Assert.IsTrue(!string.IsNullOrEmpty(ticket.TicketId));
         }
 
@@ -57,7 +58,7 @@ namespace Sportradar.MTS.SDK.Test.Entities
 
             Assert.IsNotNull(ticketAck);
             Assert.IsTrue(ticketAck.Timestamp > DateTime.Today.ToUniversalTime());
-            Assert.AreEqual(ticketAck.Version, "2.0");
+            Assert.AreEqual(TicketHelper.MtsTicketVersion, ticketAck.Version);
             Assert.IsTrue(!string.IsNullOrEmpty(ticketAck.TicketId));
             Assert.AreEqual(ticketAck.TicketId, ticket.TicketId);
             Assert.AreEqual(ticket.Sender.BookmakerId, ticketAck.BookmakerId);

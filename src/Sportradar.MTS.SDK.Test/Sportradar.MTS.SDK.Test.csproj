@@ -86,6 +86,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Builders\TicketCashoutBuilderTest.cs" />
     <Compile Include="Helpers\BuilderFactoryHelper.cs" />
     <Compile Include="Builders\ReofferTest.cs" />
     <Compile Include="Builders\SelectionBuilderTest.cs" />
