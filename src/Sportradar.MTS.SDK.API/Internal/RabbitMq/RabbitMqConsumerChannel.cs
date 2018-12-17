@@ -118,7 +118,24 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             // TODO: ??? should this be in any way depended on user action (only acknowledged that message was received)
             if (_channelSettings.UserAcknowledgmentEnabled)
             {
-                _channel.BasicAck(basicDeliverEventArgs?.DeliveryTag ?? 0, false);
+                var i = 0;
+                while (i < 10)
+                {
+                    i++;
+                    try
+                    {
+                        _channel.BasicAck(basicDeliverEventArgs?.DeliveryTag ?? 0, false);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        if (!e.Message.Contains("unknown delivery tag"))
+                        {
+                            FeedLog.Debug($"Sending Ack for processed message {basicDeliverEventArgs?.DeliveryTag} failed. {e.Message}");
+                        }
+                        Thread.Sleep(i * 1000);
+                    }
+                }
             }
         }
 
