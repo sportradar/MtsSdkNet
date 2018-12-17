@@ -18,7 +18,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         public RabbitMqChannelSettings( bool queueDurable = false,
                                         bool exclusiveConsumer = true,
-                                        bool enableUserAqs = false,
+                                        bool enableUserAqs = true,
                                         bool deleteQueueOnClose = true,
                                         int heartBeat = 0,
                                         int ackBatchLimit = 1,
