@@ -31,5 +31,4 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// <returns>Odds with which the ticket was accepted</returns>
         int UsedOdds { get; }
     }
-
 }
