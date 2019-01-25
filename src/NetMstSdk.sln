@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK", "Sportradar.MTS.SDK\Sportradar.MTS.SDK.csproj", "{243246FD-C022-461B-A1E4-4F16AB170863}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1613C031-5891-42D6-A892-939C2132BD48} = {1613C031-5891-42D6-A892-939C2132BD48}
+		{00491A72-3F9B-4883-81B2-9EA5DD4516FF} = {00491A72-3F9B-4883-81B2-9EA5DD4516FF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK.API", "Sportradar.MTS.SDK.API\Sportradar.MTS.SDK.API.csproj", "{48E2CA13-2D05-4E54-B9D8-7A16B7C1DD88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1613C031-5891-42D6-A892-939C2132BD48} = {1613C031-5891-42D6-A892-939C2132BD48}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK.Common", "Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj", "{00491A72-3F9B-4883-81B2-9EA5DD4516FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK.Entities", "Sportradar.MTS.SDK.Entities\Sportradar.MTS.SDK.Entities.csproj", "{1613C031-5891-42D6-A892-939C2132BD48}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00491A72-3F9B-4883-81B2-9EA5DD4516FF} = {00491A72-3F9B-4883-81B2-9EA5DD4516FF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK.Test", "Sportradar.MTS.SDK.Test\Sportradar.MTS.SDK.Test.csproj", "{02A1B7EA-E273-40AD-8B57-90FCAEBDB4AA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{243246FD-C022-461B-A1E4-4F16AB170863} = {243246FD-C022-461B-A1E4-4F16AB170863}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK.Entities.Test", "Sportradar.MTS.SDK.Entities.Test\Sportradar.MTS.SDK.Entities.Test.csproj", "{D3361E7D-656B-4CAE-A91D-442EF37F055C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportradar.MTS.SDK.DemoProject", "Sportradar.MTS.SDK.DemoProject\Sportradar.MTS.SDK.DemoProject.csproj", "{8FAB2501-CE6A-4147-8FE6-22FA08AD1D1E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{243246FD-C022-461B-A1E4-4F16AB170863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{243246FD-C022-461B-A1E4-4F16AB170863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{243246FD-C022-461B-A1E4-4F16AB170863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{243246FD-C022-461B-A1E4-4F16AB170863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E2CA13-2D05-4E54-B9D8-7A16B7C1DD88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E2CA13-2D05-4E54-B9D8-7A16B7C1DD88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E2CA13-2D05-4E54-B9D8-7A16B7C1DD88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E2CA13-2D05-4E54-B9D8-7A16B7C1DD88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00491A72-3F9B-4883-81B2-9EA5DD4516FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00491A72-3F9B-4883-81B2-9EA5DD4516FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00491A72-3F9B-4883-81B2-9EA5DD4516FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00491A72-3F9B-4883-81B2-9EA5DD4516FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1613C031-5891-42D6-A892-939C2132BD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1613C031-5891-42D6-A892-939C2132BD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1613C031-5891-42D6-A892-939C2132BD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1613C031-5891-42D6-A892-939C2132BD48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A1B7EA-E273-40AD-8B57-90FCAEBDB4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A1B7EA-E273-40AD-8B57-90FCAEBDB4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A1B7EA-E273-40AD-8B57-90FCAEBDB4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A1B7EA-E273-40AD-8B57-90FCAEBDB4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3361E7D-656B-4CAE-A91D-442EF37F055C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3361E7D-656B-4CAE-A91D-442EF37F055C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3361E7D-656B-4CAE-A91D-442EF37F055C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3361E7D-656B-4CAE-A91D-442EF37F055C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FAB2501-CE6A-4147-8FE6-22FA08AD1D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FAB2501-CE6A-4147-8FE6-22FA08AD1D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FAB2501-CE6A-4147-8FE6-22FA08AD1D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FAB2501-CE6A-4147-8FE6-22FA08AD1D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
