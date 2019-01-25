@@ -37,7 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(Contract.Result<IEnumerable<int>>() == null
+                Contract.Ensures(Contract.Result<IEnumerable<int>>() == null 
                                  || (Contract.Result<IEnumerable<int>>().Any()
                                  && Contract.Result<IEnumerable<int>>().Count() < 64
                                  && Contract.Result<IEnumerable<int>>().Count() == Contract.Result<IEnumerable<int>>().Distinct().Count()
@@ -60,8 +60,8 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             get
             {
-                Contract.Ensures(Contract.Result<string>() == null
-                                 || (Contract.Result<string>().Length >= 1
+                Contract.Ensures(Contract.Result<string>() == null ||
+                                (Contract.Result<string>().Length >= 1 
                                  && Contract.Result<string>().Length <= 50));
                 return Contract.Result<string>();
             }
