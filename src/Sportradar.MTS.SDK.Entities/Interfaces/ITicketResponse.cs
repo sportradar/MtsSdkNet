@@ -45,5 +45,11 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// </summary>
         /// <value>The additional information</value>
         IDictionary<string, string> AdditionalInfo { get; }
+
+        /// <summary>
+        /// Gets the automatic accepted odds
+        /// </summary>
+        /// <value>The automatic accepted odds</value>
+        IEnumerable<IAutoAcceptedOdds> AutoAcceptedOdds { get; }
     }
 }
