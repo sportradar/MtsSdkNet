@@ -135,6 +135,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                 .SetTestSource(orgTicket.TestSource)
                 .SetReofferId(orgTicket.TicketId);
 
+            if (orgTicket.LastMatchEndTime != null)
+            {
+                reofferTicketBuilder.SetLastMatchEndTime(orgTicket.LastMatchEndTime);
+            }
+
             if (orgTicket.OddsChange.HasValue)
             {
                 reofferTicketBuilder.SetOddsChange(orgTicket.OddsChange.Value);
@@ -210,6 +215,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                                          .SetSender(orgTicket.Sender)
                                          .SetTestSource(orgTicket.TestSource)
                                          .SetReofferId(orgTicket.TicketId);
+
+            if (orgTicket.LastMatchEndTime != null)
+            {
+                reofferTicketBuilder.SetLastMatchEndTime(orgTicket.LastMatchEndTime);
+            }
 
             if (orgTicket.OddsChange.HasValue)
             {

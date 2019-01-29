@@ -84,6 +84,20 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <value>The total combinations</value>
         public int? TotalCombinations { get; }
 
+        /// <summary>
+        /// Gets end time of last (non Sportradar) match on ticket.
+        /// </summary>
+        /// <value>End time of last (non Sportradar) match on ticket</value>
+        public DateTime? LastMatchEndTime { get; }
+
+        DateTime ITicket.LastMatchEndTime
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public string ToJson()
         {
             var dto = EntitiesMapper.Map(this);
@@ -105,7 +119,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="oddsChangeType">Type of the odds change</param>
         /// <exception cref="System.ArgumentException">Only ReofferId or AltStakeRefId can specified</exception>
         /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
-        public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType, int? totalCombinations)
+        /// <param name="lastMatchEndTime">End time of last (non Sportradar) match on ticket.</param>
+        public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType, int? totalCombinations, DateTime? lastMatchEndTime)
         {
             Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
             Contract.Requires(sender != null);
@@ -125,6 +140,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
+            LastMatchEndTime = lastMatchEndTime;
 
             if (!string.IsNullOrEmpty(reofferId) && !string.IsNullOrEmpty(altStakeRefId))
             {
@@ -161,6 +177,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(string.IsNullOrEmpty(AltStakeRefId) || TicketHelper.ValidateTicketId(AltStakeRefId));
             Contract.Invariant(!(!string.IsNullOrEmpty(ReofferId) && !string.IsNullOrEmpty(AltStakeRefId)));
             Contract.Invariant(TotalCombinations == null || TotalCombinations > 0);
+            Contract.Invariant(LastMatchEndTime == null || LastMatchEndTime < new DateTime(2000, 1, 1));
         }
     }
 }

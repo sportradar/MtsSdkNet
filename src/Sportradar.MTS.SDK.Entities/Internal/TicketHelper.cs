@@ -16,7 +16,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         public const string USerIdPattern = "^[0-9A-Za-z_-]*";
 
-        public const string MtsTicketVersion = "2.2";
+        public const string MtsTicketVersion = "2.3";
 
         public const int MaxPercent = 1000000;
 
