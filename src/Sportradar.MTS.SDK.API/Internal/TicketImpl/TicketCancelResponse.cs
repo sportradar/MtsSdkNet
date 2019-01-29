@@ -123,10 +123,10 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             {
                 throw new NullReferenceException("Missing TicketCancelSender. Can not be null.");
             }
-            var ticketCancelAck = new TicketCancelAck(TicketId, 
+            var ticketCancelAck = new TicketCancelAck(TicketId,
                                                       bookmakerId,
-                                                      markAccepted ? TicketCancelAckStatus.Cancelled : TicketCancelAckStatus.NotCancelled, 
-                                                      code, 
+                                                      markAccepted ? TicketCancelAckStatus.Cancelled : TicketCancelAckStatus.NotCancelled,
+                                                      code,
                                                       message);
             _ticketCancelSender.SendTicket(ticketCancelAck);
         }

@@ -176,7 +176,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
                 ticket.Acknowledge();
 
                 // handle ticket response
-               
+
                 //if for some reason we want to cancel ticket, this is how we can do it
                 var ticketCancel = _factory.CreateTicketCancelBuilder().SetTicketId(ticket.TicketId).SetCode(TicketCancellationReason.BookmakerTechnicalIssue).BuildTicket();
                 _mtsSdk.SendTicket(ticketCancel);

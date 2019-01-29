@@ -66,7 +66,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
             Assert.IsTrue(EnumsCanBeMapped<CashoutAcceptance, SDK.Entities.Internal.Dto.TicketCashoutResponse.Status>());
         }
 
-        private static bool EnumsCanBeMapped<T1, T2>() where T1 : struct where T2 : struct 
+        private static bool EnumsCanBeMapped<T1, T2>() where T1 : struct where T2 : struct
         {
             Assert.IsTrue(IsEnum<T1>());
             Assert.IsTrue(IsEnum<T2>());

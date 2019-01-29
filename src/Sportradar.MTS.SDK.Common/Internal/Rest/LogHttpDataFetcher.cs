@@ -90,7 +90,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
             writer.Write(responseContent);
             writer.Flush();
             memoryStream.Position = 0;
-            
+
             RestLog.Debug($"Id:{dataId} Fetching from {uri.AbsoluteUri} took {watch.ElapsedMilliseconds} ms. Data={responseContent}");
 
             return memoryStream;

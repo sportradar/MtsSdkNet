@@ -41,7 +41,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         string PublishRoutingKey { get; }
 
         /// <summary>
-        /// the list of header properties 
+        /// the list of header properties
         /// </summary>
         IReadOnlyDictionary<string, object> HeaderProperties { get; }
 

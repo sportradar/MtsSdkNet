@@ -24,7 +24,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         public static readonly ConnectionValidationResult ConnectionRefused = new ConnectionValidationResult("Access was denied - probably a firewall issue");
 
         /// <summary>
-        /// The reason for failed validation is not known 
+        /// The reason for failed validation is not known
         /// </summary>
         public static readonly ConnectionValidationResult Unknown = new ConnectionValidationResult("The reason could not be determined");
 

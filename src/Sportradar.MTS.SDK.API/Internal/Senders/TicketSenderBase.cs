@@ -66,8 +66,8 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <param name="ticketCache">The ticket cache</param>
         /// <param name="mtsChannelSettings">The MTS channel settings</param>
         /// <param name="ticketCacheTimeoutInSec">The ticket cache timeout in sec</param>
-        internal TicketSenderBase(IRabbitMqPublisherChannel publisherChannel, 
-                              ConcurrentDictionary<string, TicketCacheItem> ticketCache, 
+        internal TicketSenderBase(IRabbitMqPublisherChannel publisherChannel,
+                              ConcurrentDictionary<string, TicketCacheItem> ticketCache,
                               IMtsChannelSettings mtsChannelSettings,
                               int ticketCacheTimeoutInSec)
         {
@@ -92,7 +92,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             MessagePublishFailedEventArgs messagePublishFailedEventArgs)
         {
             _executionLog.Info($"Message publishing failed with correlationId: {messagePublishFailedEventArgs.CorrelationId}, errorMessage: {messagePublishFailedEventArgs.ErrorMessage}, routingKey: {messagePublishFailedEventArgs.RoutingKey}.");
-            
+
             string ticketId = string.Empty;
             var ci = _ticketCache.Values.FirstOrDefault(f => f.CorrelationId == messagePublishFailedEventArgs.CorrelationId);
             if (!string.IsNullOrEmpty(ci?.TicketId))
@@ -195,7 +195,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             {
                 _feedLog.Warn($"Ticket: {sdkTicket.TicketId} is missing CorrelationId.");
             }
-            
+
             var ticketCI = new TicketCacheItem(TicketHelper.GetTicketTypeFromTicket(sdkTicket), sdkTicket.TicketId, sdkTicket.CorrelationId, _mtsChannelSettings.ReplyToRoutingKey, null, sdkTicket);
 
             // we clear cache, since already sent ticket with the same ticketId are obsolete (example: sending ticket, ticketAck, ticketCancel, ticketCancelAck)

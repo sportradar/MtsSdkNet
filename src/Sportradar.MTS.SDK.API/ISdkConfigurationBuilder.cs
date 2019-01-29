@@ -12,7 +12,7 @@ namespace Sportradar.MTS.SDK.API
     /// Defines a contract for classes implementing builder for <see cref="ISdkConfiguration"/>
     /// </summary>
     [ContractClass(typeof(SdkConfigurationBuilderContract))]
-    public interface ISdkConfigurationBuilder 
+    public interface ISdkConfigurationBuilder
     {
         /// <summary>
         /// Sets the username
@@ -58,7 +58,7 @@ namespace Sportradar.MTS.SDK.API
         ISdkConfigurationBuilder SetNode(int nodeId);
 
         /// <summary>
-        /// Sets the value indicating whether a secure connection to the message broker should be used 
+        /// Sets the value indicating whether a secure connection to the message broker should be used
         /// </summary>
         /// <param name="useSsl">The value to be set</param>
         /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>

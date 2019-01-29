@@ -46,7 +46,7 @@ namespace Sportradar.MTS.SDK.Entities
         /// <summary>
         /// Gets a nodeId
         /// </summary>
-        int NodeId { get; }        
+        int NodeId { get; }
 
         /// <summary>
         /// Gets the BookmakerId associated with the current configuration or 0 if none is provided
@@ -79,7 +79,7 @@ namespace Sportradar.MTS.SDK.Entities
         /// <value><c>true</c> if [provide additional market specifiers]; otherwise, <c>false</c></value>
         /// <remarks>If this is set to true and the user uses UOF markets, when there are special cases (market 215, or $score in SOV/SBV template), sdk automatically tries to add appropriate specifier; if set to false, user will need to add this manually</remarks>
         bool ProvideAdditionalMarketSpecifiers { get; }
-        
+
         /// <summary>
         /// Gets a value indication whether statistics collection is enabled
         /// </summary>

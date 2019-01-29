@@ -23,10 +23,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             : base(publisherChannel, ticketCache, mtsChannelSettings, ticketCacheTimeoutInSec)
         {
             Contract.Requires(ticketMapper != null);
-            
+
             _ticketMapper = ticketMapper;
         }
-        
+
         /// <summary>
         /// Defines invariant members of the class
         /// </summary>

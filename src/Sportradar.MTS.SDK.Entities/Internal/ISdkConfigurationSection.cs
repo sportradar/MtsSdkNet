@@ -47,7 +47,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         bool UseSsl { get; }
 
         /// <summary>
-        /// Gets the default sender bookmakerId 
+        /// Gets the default sender bookmakerId
         /// </summary>
         int BookmakerId { get; }
 

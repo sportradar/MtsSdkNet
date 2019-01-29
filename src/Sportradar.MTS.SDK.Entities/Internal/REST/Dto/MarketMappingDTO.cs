@@ -17,7 +17,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
         private readonly int _subTypeId;
 
         internal int ProductId { get; }
-        
+
         internal URN SportId { get; }
 
         internal int MarketTypeId => _typeId;

@@ -112,7 +112,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         public SdkLogger(LoggerType loggerType, Type classType, string repositoryName = null)
             :this(loggerType, classType.FullName, repositoryName)
         {
-          
+
         }
 
         /// <summary>

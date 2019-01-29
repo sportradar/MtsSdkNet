@@ -80,8 +80,8 @@ namespace Sportradar.MTS.SDK.DemoProject.Tickets
         /// <summary>
         /// 10.3 Double Pre-match
         /// </summary>
-        /// <remarks>Ticket with double bet on two pre-match selections: 
-        /// Soccer (Sport ID: 1), Event ID: 11050343, Halftime - 3way (oddstype: 42), Special Odds value: *; Draw   
+        /// <remarks>Ticket with double bet on two pre-match selections:
+        /// Soccer (Sport ID: 1), Event ID: 11050343, Halftime - 3way (oddstype: 42), Special Odds value: *; Draw
         /// Soccer (Sport ID: 1), Event ID: 10784408, Asian handicap first half (oddstype: 53), Special Odds value: 0.25; Home</remarks>
         /// <returns>A <see cref="ITicket"/></returns>
         public ITicket Example3()

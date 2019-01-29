@@ -23,7 +23,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
                 return Contract.Result<IResponseReason>();
             }
         }
-        
+
         public abstract string Version { get; }
 
         public abstract string CorrelationId { get; }

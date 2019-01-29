@@ -104,7 +104,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
 
         /// <summary>
         /// Starts (or restarts if already running) the current instance so it will start raising the <see cref="Elapsed"/> event.
-        /// The dueTime and period are specified by values passed to the constructor or by those passed 
+        /// The dueTime and period are specified by values passed to the constructor or by those passed
         /// to the last call of <see cref="Start(TimeSpan, TimeSpan)"/> method
         /// </summary>
         public void Start()
@@ -113,8 +113,8 @@ namespace Sportradar.MTS.SDK.Common.Internal
         }
 
         /// <summary>
-        /// Starts (or restarts if already running) the current instance so it will start raising the <see cref="Elapsed"/> event. 
-        /// Note that the <code>dueTime</code> and <code>period</code> arguments will override those passed to the 
+        /// Starts (or restarts if already running) the current instance so it will start raising the <see cref="Elapsed"/> event.
+        /// Note that the <code>dueTime</code> and <code>period</code> arguments will override those passed to the
         /// constructor and any subsequent calls to <see cref="Start()"/> will use new values
         /// </summary>
         /// <param name="dueTime">A <see cref="TimeSpan"/> specifying a time period before the <see cref="Elapsed"/> event will be raised for the first time</param>
@@ -128,7 +128,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
         }
 
         /// <summary>
-        /// Starts (or restarts if already running) the current instance so the <see cref="Elapsed"/> event will be raised once. 
+        /// Starts (or restarts if already running) the current instance so the <see cref="Elapsed"/> event will be raised once.
         /// Note the <paramref name="dueTime"/> will not override values used by the <see cref="Start()"/> method
         /// </summary>
         /// <param name="dueTime">The due time</param>
@@ -138,7 +138,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
         }
 
         /// <summary>
-        /// Stops the current instance (if running) so it will no longer raise the <see cref="Elapsed"/> event. If the 
+        /// Stops the current instance (if running) so it will no longer raise the <see cref="Elapsed"/> event. If the
         /// current instance was already stopped the call has no effect.
         /// </summary>
         public void Stop()

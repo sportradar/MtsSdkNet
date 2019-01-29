@@ -88,7 +88,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             _currency = currency;
             _channel = channel;
         }
-        
+
         /// <summary>
         /// The <see cref="ISdkConfigurationSection"/> loaded from app.config
         /// </summary>

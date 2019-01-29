@@ -45,7 +45,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         {
             _bookmakerId = bookmakerId;
         }
-        
+
         /// <summary>
         /// The <see cref="SdkConfigurationSection"/> loaded from app.config
         /// </summary>

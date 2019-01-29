@@ -7,7 +7,7 @@
 namespace Sportradar.MTS.SDK.Entities.Internal.REST
 {
     /// <summary>
-    /// Represents all messages (entities) received from the REST API 
+    /// Represents all messages (entities) received from the REST API
     /// </summary>
     public abstract class RestMessage
     {

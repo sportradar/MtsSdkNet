@@ -22,7 +22,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the code
         /// </summary>
         int Code { get; }
-        
+
         /// <summary>
         /// Gets the message.
         /// </summary>

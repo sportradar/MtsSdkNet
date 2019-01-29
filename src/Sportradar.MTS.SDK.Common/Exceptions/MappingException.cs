@@ -42,7 +42,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
         /// <param name="propertyValue">The <see cref="string"/> representation of the property value which caused the exception</param>
         /// <param name="targetTypeName">The <see cref="TargetTypeName"/> of the target entity</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference if no inner exception is specified</param>
-        public MappingException(string message, string propertyName, string propertyValue, string targetTypeName,  Exception innerException) 
+        public MappingException(string message, string propertyName, string propertyValue, string targetTypeName,  Exception innerException)
             : base(message, innerException)
         {
             PropertyName = propertyName;
@@ -55,7 +55,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
         /// </summary>
         /// <param name="info">The <see cref="SerializationInfo" /> that holds the serialized object data about the exception being thrown</param>
         /// <param name="context">The <see cref="StreamingContext" /> that contains contextual information about the source or destination</param>
-        public MappingException(SerializationInfo info, StreamingContext context) 
+        public MappingException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             PropertyName = info.GetString("sdkPropertyName");

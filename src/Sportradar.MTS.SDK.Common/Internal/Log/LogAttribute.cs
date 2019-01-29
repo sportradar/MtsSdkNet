@@ -18,7 +18,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         public readonly LoggerType LoggerType;
 
         /// <summary>
-        /// Initializes new Log attribute with specified <see cref="LoggerType"/> 
+        /// Initializes new Log attribute with specified <see cref="LoggerType"/>
         /// </summary>
         /// <param name="loggerType">A <see cref="LoggerType"/> used to create new log attribute</param>
         public LogAttribute(LoggerType loggerType = LoggerType.Execution)

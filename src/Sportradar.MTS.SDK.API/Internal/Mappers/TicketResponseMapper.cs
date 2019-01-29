@@ -42,7 +42,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
             var autoAcceptedOdds = source.AutoAcceptedOdds?.Select(s => new AutoAcceptedOdds(s.SelectionIndex, s.RequestedOdds, s.UsedOdds));
             return new TicketResponse(_ticketSender,
                                       source.Result.TicketId,
-                                      MtsTicketHelper.Convert(source.Result.Status), 
+                                      MtsTicketHelper.Convert(source.Result.Status),
                                       new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
                                       source.Result.BetDetails?.ToList().ConvertAll(b => new BetDetail(b)),
                                       correlationId,
