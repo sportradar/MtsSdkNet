@@ -1,6 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
 using System.Linq;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.API.Internal.TicketImpl;
@@ -35,9 +37,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id</param>
+        /// <param name="additionalInfo">The additional information</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         /// <returns>ITicketResponse</returns>
-        public ITicketResponse Map(TicketResponseDTO source, string correlationId, string orgJson)
+        public ITicketResponse Map(TicketResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             var autoAcceptedOdds = source.AutoAcceptedOdds?.Select(s => new AutoAcceptedOdds(s.SelectionIndex, s.RequestedOdds, s.UsedOdds));
             return new TicketResponse(_ticketSender,
@@ -49,7 +52,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
                                       source.Signature,
                                       source.ExchangeRate,
                                       source.Version,
-                                      null,
+                                      additionalInfo,
                                       autoAcceptedOdds,
                                       orgJson);
         }

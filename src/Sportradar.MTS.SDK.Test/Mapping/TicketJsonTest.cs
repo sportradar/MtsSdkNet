@@ -621,7 +621,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         public void TicketResponseToJsonTest()
         {
             var dto = TicketBuilderHelper.GetTicketResponse();
-            var ticket = new TicketResponseMapper(null).Map(dto, "c1", dto.ToJson());
+            var ticket = new TicketResponseMapper(null).Map(dto, "c1", null, dto.ToJson());
             var ticketJson = ticket.ToJson();
             var dtoJson = dto.ToJson();
 
@@ -635,7 +635,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         public void TicketCancelResponseToJsonTest()
         {
             var dto = TicketBuilderHelper.GetTicketCancelResponse();
-            var ticket = new TicketCancelResponseMapper(null).Map(dto, "c1", dto.ToJson());
+            var ticket = new TicketCancelResponseMapper(null).Map(dto, "c1", null, dto.ToJson());
             var ticketJson = ticket.ToJson();
             var dtoJson = dto.ToJson();
 
@@ -649,7 +649,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         public void TicketCashoutResponseToJsonTest()
         {
             var dto = TicketBuilderHelper.GetTicketCashoutResponse(SR.S1000, Status.Accepted);
-            var ticket = new TicketCashoutResponseMapper(null).Map(dto, "c1", dto.ToJson());
+            var ticket = new TicketCashoutResponseMapper(null).Map(dto, "c1", null, dto.ToJson());
             var ticketJson = ticket.ToJson();
             var dtoJson = dto.ToJson();
 

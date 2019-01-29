@@ -19,7 +19,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
         {
             var ticket = TicketBuilderHelper.GetTicket();
             var ticketResponseDto = TicketBuilderHelper.GetTicketResponse(ticket, Status.Rejected, true, false);
-            var ticketResponse = new TicketResponseMapper(null).Map(ticketResponseDto, S1000, ticketResponseDto.ToJson());
+            var ticketResponse = new TicketResponseMapper(null).Map(ticketResponseDto, S1000, null, ticketResponseDto.ToJson());
             Thread.Sleep(500);
             var reofferTicket = TicketReofferBuilder.Create().Set(ticket, ticketResponse, "reofferTicket-" + I1000P).BuildTicket();
 
@@ -33,7 +33,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
         {
             var ticket = TicketBuilderHelper.GetTicket();
             var ticketResponseDto = TicketBuilderHelper.GetTicketResponse(ticket, Status.Rejected, false, true);
-            var ticketResponse = new TicketResponseMapper(null).Map(ticketResponseDto, S1000, ticketResponseDto.ToJson());
+            var ticketResponse = new TicketResponseMapper(null).Map(ticketResponseDto, S1000, null, ticketResponseDto.ToJson());
             Thread.Sleep(500);
             var reofferTicket = TicketAltStakeBuilder.Create().Set(ticket, ticketResponse, "altStakeTicket-" + I1000P).BuildTicket();
 

@@ -41,9 +41,10 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         long ExchangeRate { get; }
 
         /// <summary>
-        /// Gets the additional information
+        /// Gets the additional information about the response
         /// </summary>
         /// <value>The additional information</value>
+        /// <remarks>Contains timestamps describing mts processing (receivedUtcTimestamp, validatedUtcTimestamp, respondedUtcTimestamp)</remarks>
         IDictionary<string, string> AdditionalInfo { get; }
 
         /// <summary>

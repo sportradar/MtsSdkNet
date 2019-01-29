@@ -43,28 +43,30 @@ namespace Sportradar.MTS.SDK.API.Internal
                                       orgJson);
         }
 
-        public ITicketCancelResponse Map(TicketCancelResponseDTO source, string correlationId, string orgJson)
+        public ITicketCancelResponse Map(TicketCancelResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCancelResponse(_ticketCancelAckSender,
-                                      source.Result.TicketId,
-                                      MtsTicketHelper.Convert(source.Result.Status),
-                                      new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
-                                      correlationId,
-                                      source.Signature,
-                                      source.Version,
-                                      orgJson);
+                                            source.Result.TicketId,
+                                            MtsTicketHelper.Convert(source.Result.Status),
+                                            new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
+                                            correlationId,
+                                            source.Signature,
+                                            source.Version,
+                                            additionalInfo,
+                                            orgJson);
         }
 
-        public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, string orgJson)
+        public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCashoutResponse(null,
-                source.Result.TicketId,
-                MtsTicketHelper.Convert(source.Result.Status),
-                new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
-                correlationId,
-                source.Signature,
-                source.Version,
-                orgJson);
+                                             source.Result.TicketId,
+                                             MtsTicketHelper.Convert(source.Result.Status),
+                                             new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
+                                             correlationId,
+                                             source.Signature,
+                                             source.Version,
+                                             additionalInfo,
+                                             orgJson);
         }
 
         public ISdkTicket GetTicketResponseFromJson(string json, string routingKey, TicketResponseType type, string correlationId, IDictionary<string, string> additionalInfo)
@@ -78,12 +80,12 @@ namespace Sportradar.MTS.SDK.API.Internal
             if (type == TicketResponseType.TicketCancel)
             {
                 var cancelDto = TicketCancelResponseDTO.FromJson(json);
-                return Map(cancelDto, correlationId, json);
+                return Map(cancelDto, correlationId, additionalInfo, json);
             }
             if (type == TicketResponseType.TicketCashout)
             {
                 var cashoutDto = TicketCashoutResponseDTO.FromJson(json);
-                return Map(cashoutDto, correlationId, json);
+                return Map(cashoutDto, correlationId, additionalInfo, json);
             }
 
             //old
@@ -94,7 +96,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             }
 
             var cancel2Dto = TicketCancelResponseDTO.FromJson(json);
-            return Map(cancel2Dto, correlationId, json);
+            return Map(cancel2Dto, correlationId, additionalInfo, json);
         }
     }
 }
