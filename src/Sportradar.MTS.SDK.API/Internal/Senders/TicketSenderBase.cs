@@ -93,7 +93,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         {
             _executionLog.Info($"Message publishing failed with correlationId: {messagePublishFailedEventArgs.CorrelationId}, errorMessage: {messagePublishFailedEventArgs.ErrorMessage}, routingKey: {messagePublishFailedEventArgs.RoutingKey}.");
 
-            string ticketId = string.Empty;
+            var ticketId = string.Empty;
             var ci = _ticketCache.Values.FirstOrDefault(f => f.CorrelationId == messagePublishFailedEventArgs.CorrelationId);
             if (!string.IsNullOrEmpty(ci?.TicketId))
             {
@@ -163,7 +163,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <returns>System.Byte[]</returns>
         protected byte[] GetByteMsg(ISdkTicket sdkTicket)
         {
-            string json = GetMappedDtoJsonMsg(sdkTicket);
+            var json = GetMappedDtoJsonMsg(sdkTicket);
             if (_feedLog.IsDebugEnabled)
             {
                 _feedLog.Debug($"Sending {sdkTicket.GetType().Name}: {json}");

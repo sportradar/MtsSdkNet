@@ -65,71 +65,71 @@ namespace Sportradar.MTS.SDK.API.Internal
         public static IMtsChannelSettings GetTicketChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             var headers = new Dictionary<string, object> { { "replyRoutingKey", $"node{nodeId}.ticket.confirm" } };
-            return new MtsChannelSettings(null,
-                                          $"{rootExchangeName}-Submit",
-                                          ExchangeType.Fanout,
-                                          $"{username}-Confirm-node{nodeId}",
-                                          new ReadOnlyDictionary<string, object>(headers),
-                                          headers.First().Value.ToString(),
-                                          environment);
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Submit",
+                                          exchangeType: ExchangeType.Fanout,
+                                          routingKey: $"{username}-Confirm-node{nodeId}",
+                                          headerProperties: new ReadOnlyDictionary<string, object>(dictionary: headers),
+                                          replyToRoutingKey: headers.First().Value.ToString(),
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketResponseChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            return new MtsChannelSettings($"{username}-Confirm-node{nodeId}",
-                                          $"{rootExchangeName}-Confirm",
-                                          ExchangeType.Topic,
-                                          $"node{nodeId}.ticket.confirm",
-                                          null,
-                                          null,
-                                          environment);
+            return new MtsChannelSettings(queueName: $"{username}-Confirm-node{nodeId}",
+                                          exchangeName: $"{rootExchangeName}-Confirm",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: $"node{nodeId}.ticket.confirm",
+                                          headerProperties: null,
+                                          replyToRoutingKey: null,
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketAckChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Confirm-node{nodeId}" } };
-            return new MtsChannelSettings(null,
-                                          $"{rootExchangeName}-Ack",
-                                          ExchangeType.Topic,
-                                          "ack.ticket",
-                                          null,
-                                          null,
-                                          environment);
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Ack",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: "ack.ticket",
+                                          headerProperties: null,
+                                          replyToRoutingKey: null,
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketCancelChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             var headers = new Dictionary<string, object> { { "replyRoutingKey", $"node{nodeId}.cancel.confirm" } };
-            return new MtsChannelSettings(null,
-                                          $"{rootExchangeName}-Control",
-                                          ExchangeType.Topic,
-                                          $"{username}-Reply-node{nodeId}",
-                                          new ReadOnlyDictionary<string, object>(headers),
-                                          headers.First().Value.ToString(),
-                                          environment);
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Control",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: "cancel",
+                                          headerProperties: new ReadOnlyDictionary<string, object>(dictionary: headers),
+                                          replyToRoutingKey: headers.First().Value.ToString(),
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketCancelResponseChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            return new MtsChannelSettings($"{username}-Reply-node{nodeId}",
-                                          $"{rootExchangeName}-Reply",
-                                          ExchangeType.Topic,
-                                          $"node{nodeId}.cancel.confirm",
-                                          null,
-                                          null,
-                                          environment);
+            return new MtsChannelSettings(queueName: $"{username}-Reply-node{nodeId}",
+                                          exchangeName: $"{rootExchangeName}-Reply",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: $"node{nodeId}.cancel.confirm",
+                                          headerProperties: null,
+                                          replyToRoutingKey: null,
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketCancelAckChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Reply-node{nodeId}" } };
-            return new MtsChannelSettings(null,
-                                          $"{rootExchangeName}-Ack",
-                                          ExchangeType.Topic,
-                                          "ack.cancel",
-                                          null,
-                                          null,
-                                          environment);
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Ack",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: "ack.cancel",
+                                          headerProperties: null,
+                                          replyToRoutingKey: null,
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketReofferChannelSettings(string rootExchangeName, string username, int nodeId)
@@ -139,37 +139,37 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public static IMtsChannelSettings GetTicketReofferCancelChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Reply-node{nodeId}" } };
-            return new MtsChannelSettings(null,
-                                          $"{rootExchangeName}-Control",
-                                          ExchangeType.Topic,
-                                          "cancel.reoffer",
-                                          new ReadOnlyDictionary<string, object>(headers),
-                                          null,
-                                          environment);
+            //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Reply-node{nodeId}" } };
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Control",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: "cancel.reoffer",
+                                          headerProperties: null, // new ReadOnlyDictionary<string, object>(dictionary: headers),
+                                          replyToRoutingKey: null,
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketCashoutChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             var headers = new Dictionary<string, object> { { "replyRoutingKey", $"node{nodeId}.ticket.cashout" } };
-            return new MtsChannelSettings(null,
-                                          $"{rootExchangeName}-Control",
-                                          ExchangeType.Topic,
-                                          "ticket.cashout",
-                                          new ReadOnlyDictionary<string, object>(headers),
-                                          headers.First().Value.ToString(),
-                                          environment);
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Control",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: "ticket.cashout",
+                                          headerProperties: new ReadOnlyDictionary<string, object>(dictionary: headers),
+                                          replyToRoutingKey: headers.First().Value.ToString(),
+                                          environment: environment);
         }
 
         public static IMtsChannelSettings GetTicketCashoutResponseChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            return new MtsChannelSettings($"{username}-Reply-cashout-node{nodeId}",
-                                          $"{rootExchangeName}-Reply",
-                                          ExchangeType.Topic,
-                                          $"node{nodeId}.ticket.cashout",
-                                          null,
-                                          null,
-                                          environment);
+            return new MtsChannelSettings(queueName: $"{username}-Reply-cashout-node{nodeId}",
+                                          exchangeName: $"{rootExchangeName}-Reply",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: $"node{nodeId}.ticket.cashout",
+                                          headerProperties: null,
+                                          replyToRoutingKey: null,
+                                          environment: environment);
         }
     }
 }
