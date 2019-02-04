@@ -42,9 +42,19 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             return FileHelper.OpenFileAsync(GetPathWithReplacements(uri.PathAndQuery));
         }
 
+        public Task<Stream> GetDataAsync(string authorization, Uri uri)
+        {
+            return GetDataAsync(uri);
+        }
+
         public virtual Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
         {
             return Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Accepted));
+        }
+
+        public Task<HttpResponseMessage> PostDataAsync(string authorization, Uri uri, HttpContent content = null)
+        {
+            return PostDataAsync(uri, content);
         }
     }
 }

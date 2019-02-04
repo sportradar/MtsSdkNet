@@ -99,5 +99,30 @@ namespace Sportradar.MTS.SDK.Entities
         /// Should the rabbit consumer channel be exclusive
         /// </summary>
         bool ExclusiveConsumer { get; }
+
+        /// <summary>
+        /// Gets the Keycloak host for authorization
+        /// </summary>
+        string KeycloakHost { get; }
+
+        /// <summary>
+        /// Gets the username used to connect authenticate to Keycloak
+        /// </summary>
+        string KeycloakUsername { get; }
+
+        /// <summary>
+        /// Gets the password used to connect authenticate to Keycloak
+        /// </summary>
+        string KeycloakPassword { get; }
+
+        /// <summary>
+        /// Gets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        string KeycloakSecret { get; }
+
+        /// <summary>
+        /// Gets the Client API host
+        /// </summary>
+        string MtsClientApiHost { get; }
     }
 }

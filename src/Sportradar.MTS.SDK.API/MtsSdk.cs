@@ -61,6 +61,7 @@ namespace Sportradar.MTS.SDK.API
         private readonly object _lockForTicketsForNonBlockingRequestsCache;
         private CacheItemPolicy _cacheItemPolicyForTicketsForNonBlockingRequestsCache;
 
+        private readonly IMtsClientApi _mtsClientApi;
 
         /// <summary>
         /// A <see cref="IUnityContainer"/> used to resolve
@@ -141,6 +142,8 @@ namespace Sportradar.MTS.SDK.API
             _rabbitMqMessageReceiverForTickets = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketResponseMessageReceiver");
             _rabbitMqMessageReceiverForTicketCancels = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketCancelResponseMessageReceiver");
             _rabbitMqMessageReceiverForTicketCashouts = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketCashoutResponseMessageReceiver");
+
+            _mtsClientApi = _unityContainer.Resolve<IMtsClientApi>();
 
             _autoResetEventsForBlockingRequests = new ConcurrentDictionary<string, AutoResetEvent>();
             _responsesFromBlockingRequests = new ConcurrentDictionary<string, ISdkTicket>();
@@ -580,6 +583,11 @@ namespace Sportradar.MTS.SDK.API
             logger.Info(msg);
             logger = SdkLoggerFactory.GetLoggerForExecution(typeof(MtsSdk));
             logger.Info(msg);
+        }
+
+        public IMtsClientApi GetClientApi()
+        {
+            return _mtsClientApi;
         }
     }
 }

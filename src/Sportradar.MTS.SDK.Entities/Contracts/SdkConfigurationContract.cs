@@ -89,6 +89,21 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         public bool ExclusiveConsumer => Contract.Result<bool>();
 
         [Pure]
+        public string KeycloakHost => Contract.Result<string>();
+
+        [Pure]
+        public string KeycloakUsername => Contract.Result<string>();
+
+        [Pure]
+        public string KeycloakPassword => Contract.Result<string>();
+
+        [Pure]
+        public string KeycloakSecret => Contract.Result<string>();
+
+        [Pure]
+        public string MtsClientApiHost => Contract.Result<string>();
+
+        [Pure]
         public string AccessToken => Contract.Result<string>();
 
         [Pure]

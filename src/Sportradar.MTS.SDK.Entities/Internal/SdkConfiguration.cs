@@ -14,6 +14,26 @@ namespace Sportradar.MTS.SDK.Entities.Internal
     /// <seealso cref="ISdkConfiguration" />
     public class SdkConfiguration : ISdkConfiguration
     {
+        private string _username;
+        private string _password;
+        private string _host;
+        private string _vhost;
+        private bool _useSsl;
+        private int _nodeId;
+        private int _bookmakerId;
+        private int _limitId;
+        private string _currency;
+        private SenderChannel? _senderChannel;
+        private string _accessToken;
+        private bool _provideAdditionalMarketSpecifiers;
+        private int _port;
+        private bool _exclusiveConsumer;
+        private string _keycloakHost;
+        private string _keycloakUsername;
+        private string _keycloakPassword;
+        private string _keycloakSecret;
+        private string _mtsClientApiHost;
+
         /// <summary>
         /// Gets an username used when establishing connection to the AMQP broker
         /// </summary>
@@ -102,6 +122,31 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public bool ExclusiveConsumer { get; }
 
         /// <summary>
+        /// Gets the Keycloak host for authorization
+        /// </summary>
+        public string KeycloakHost { get; }
+
+        /// <summary>
+        /// Gets the username used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakUsername { get; }
+
+        /// <summary>
+        /// Gets the password used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakPassword { get; }
+
+        /// <summary>
+        /// Gets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakSecret { get; }
+
+        /// <summary>
+        /// Gets the Client API host
+        /// </summary>
+        public string MtsClientApiHost { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
         /// <param name="username">The username used when connecting to AMQP broker</param>
@@ -118,6 +163,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="provideAdditionalMarketSpecifiers">The value indicating if the additional market specifiers should be provided</param>
         /// <param name="port">The port number used to connect to the AMQP broker</param>
         /// <param name="exclusiveConsumer">Should the consumer channel be exclusive</param>
+        /// <param name="keycloakHost">The Keycloak host for authorization</param>
+        /// <param name="keycloakUsername">The username used to connect authenticate to Keycloak</param>
+        /// <param name="keycloakPassword">The password used to connect authenticate to Keycloak</param>
+        /// <param name="keycloakSecret">The secret used to connect authenticate to Keycloak</param>
+        /// <param name="mtsClientApiHost">The Client API host</param>
         public SdkConfiguration(
             string username,
             string password,
@@ -132,7 +182,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             string accessToken = null,
             bool provideAdditionalMarketSpecifiers = true,
             int port = 0,
-            bool exclusiveConsumer = true)
+            bool exclusiveConsumer = true,
+            string keycloakHost = null,
+            string keycloakUsername = null,
+            string keycloakPassword = null,
+            string keycloakSecret = null,
+            string mtsClientApiHost = null)
         {
             Contract.Requires(!string.IsNullOrEmpty(username));
             Contract.Requires(!string.IsNullOrEmpty(password));
@@ -170,6 +225,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             }
+
+            KeycloakHost = keycloakHost;
+            KeycloakUsername = keycloakUsername;
+            KeycloakPassword = keycloakPassword;
+            KeycloakSecret = keycloakSecret;
+            MtsClientApiHost = mtsClientApiHost;
         }
 
         /// <summary>
