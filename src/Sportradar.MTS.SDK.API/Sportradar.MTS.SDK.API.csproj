@@ -163,10 +163,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\MtsClientApiContract.cs" />
     <Compile Include="Contracts\MtsSdkContract.cs" />
     <Compile Include="Contracts\RabbitMqPublisherChannelContract.cs" />
     <Compile Include="Contracts\RabbitMqConsumerChannelContract.cs" />
     <Compile Include="Contracts\SdkConfigurationBuilderContract.cs" />
+    <Compile Include="IMtsClientApi.cs" />
     <Compile Include="Internal\SdkConfigurationBuilder.cs" />
     <Compile Include="ISdkConfigurationBuilder.cs" />
     <Compile Include="IMtsSdk.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Internal\Mappers\TicketReofferCancelMapper.cs" />
     <Compile Include="Internal\Mappers\TicketCashoutResponseMapper.cs" />
     <Compile Include="Internal\MtsChannelSettings.cs" />
+    <Compile Include="MtsClientApi.cs" />
     <Compile Include="MtsSdk.cs" />
     <Compile Include="Internal\Senders\ITicketSender.cs" />
     <Compile Include="Internal\Senders\ITicketSenderFactory.cs" />

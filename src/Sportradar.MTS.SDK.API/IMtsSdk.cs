@@ -70,5 +70,11 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="ticket">A <see cref="ITicketCashout"/> to be send</param>
         /// <returns>Returns a <see cref="ITicketCashoutResponse"/></returns>
         ITicketCashoutResponse SendTicketCashoutBlocking(ITicketCashout ticket);
+
+        /// <summary>
+        /// Gets the <see cref="IMtsClientApi"/> instance used to send requests to MTS REST API
+        /// </summary>
+        /// <value>The client api</value>
+        IMtsClientApi GetClientApi();
     }
 }

@@ -24,6 +24,11 @@ namespace Sportradar.MTS.SDK.API.Internal
         private bool _provideAdditionalMarketSpecifiers;
         private int _port;
         private bool _exclusiveConsumer;
+        private string _keycloakHost;
+        private string _keycloakUsername;
+        private string _keycloakPassword;
+        private string _keycloakSecret;
+        private string _mtsClientApiHost;
 
         internal SdkConfigurationBuilder()
         {
@@ -161,6 +166,56 @@ namespace Sportradar.MTS.SDK.API.Internal
             return this;
         }
 
+        public ISdkConfigurationBuilder SetKeycloakHost(string keycloakHost)
+        {
+            if (string.IsNullOrEmpty(keycloakHost))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakHost));
+            }
+            _keycloakHost = keycloakHost;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakUsername(string keycloakUsername)
+        {
+            if (string.IsNullOrEmpty(keycloakUsername))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakUsername));
+            }
+            _keycloakUsername = keycloakUsername;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakPassword(string keycloakPassword)
+        {
+            if (string.IsNullOrEmpty(keycloakPassword))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakPassword));
+            }
+            _keycloakPassword = keycloakPassword;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakSecret(string keycloakSecret)
+        {
+            if (string.IsNullOrEmpty(keycloakSecret))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakSecret));
+            }
+            _keycloakSecret = keycloakSecret;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetMtsClientApiHost(string mtsClientApiHost)
+        {
+            if (string.IsNullOrEmpty(mtsClientApiHost))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(mtsClientApiHost));
+            }
+            _mtsClientApiHost = mtsClientApiHost;
+            return this;
+        }
+
         public ISdkConfiguration Build()
         {
             if (string.IsNullOrEmpty(_username))
@@ -188,7 +243,12 @@ namespace Sportradar.MTS.SDK.API.Internal
                                         _accessToken,
                                         _provideAdditionalMarketSpecifiers,
                                         _port,
-                                        _exclusiveConsumer);
+                                        _exclusiveConsumer,
+                                        _keycloakHost,
+                                        _keycloakUsername,
+                                        _keycloakPassword,
+                                        _keycloakSecret,
+                                        _mtsClientApiHost);
         }
     }
 }

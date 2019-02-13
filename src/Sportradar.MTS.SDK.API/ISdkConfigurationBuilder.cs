@@ -115,6 +115,41 @@ namespace Sportradar.MTS.SDK.API
         ISdkConfigurationBuilder SetExclusiveConsumer(bool exclusiveConsumer);
 
         /// <summary>
+        /// Sets the Keycloak host for authorization
+        /// </summary>
+        /// <param name="keycloakHost">The Keycloak host to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakHost(string keycloakHost);
+
+        /// <summary>
+        /// Sets the username used to connect authenticate to Keycloak
+        /// </summary>
+        /// <param name="keycloakUsername">The username to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakUsername(string keycloakUsername);
+
+        /// <summary>
+        /// Sets the password used to connect authenticate to Keycloak
+        /// </summary>
+        /// <param name="keycloakPassword">The password to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakPassword(string keycloakPassword);
+
+        /// <summary>
+        /// Sets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        /// <param name="keycloakSecret">The secret to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakSecret(string keycloakSecret);
+
+        /// <summary>
+        /// Sets the Client API host
+        /// </summary>
+        /// <param name="mtsClientApiHost">The Client API host to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetMtsClientApiHost(string mtsClientApiHost);
+
+        /// <summary>
         /// Builds the <see cref="ISdkConfiguration" />
         /// </summary>
         /// <returns>Returns a <see cref="ISdkConfiguration"/></returns>

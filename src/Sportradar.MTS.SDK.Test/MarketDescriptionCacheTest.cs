@@ -50,6 +50,7 @@ namespace Sportradar.MTS.SDK.Test
             _dataProvider = new DataProvider<market_descriptions, IEnumerable<MarketDescriptionDTO>>(
                     uri.AbsoluteUri,
                     _mockDataFetcher.Object,
+                    _mockDataFetcher.Object,
                     _deserializer,
                     _mapper);
 

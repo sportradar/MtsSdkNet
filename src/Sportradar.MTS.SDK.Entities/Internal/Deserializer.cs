@@ -30,7 +30,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         // ReSharper disable StaticFieldInGenericType
         private static readonly Type[] BaseTypes = {
-            typeof(RestMessage)
+            typeof(XmlRestMessage)
         };
         // ReSharper restore StaticFieldInGenericType
 
