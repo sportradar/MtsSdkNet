@@ -78,7 +78,6 @@ namespace Sportradar.MTS.SDK.API
             Contract.Requires(maxStakeDataProvider != null);
             Contract.Requires(ccfDataProvider != null);
             Contract.Requires(authorizationDataProvider != null);
-            Contract.Requires(!string.IsNullOrWhiteSpace(secret));
 
             _maxStakeDataProvider = maxStakeDataProvider;
             _ccfDataProvider = ccfDataProvider;
@@ -99,7 +98,6 @@ namespace Sportradar.MTS.SDK.API
             Contract.Invariant(_maxStakeDataProvider != null);
             Contract.Invariant(_ccfDataProvider != null);
             Contract.Invariant(_authorizationDataProvider != null);
-            Contract.Invariant(!string.IsNullOrWhiteSpace(_secret));
             Contract.Invariant(_tokenCache != null);
             Contract.Invariant(_tokenSemaphore != null);
         }

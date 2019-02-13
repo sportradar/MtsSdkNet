@@ -411,9 +411,9 @@ namespace Sportradar.MTS.SDK.API.Internal
                     new ResolvedParameter<IDataProvider<MaxStakeDTO>>(),
                     new ResolvedParameter<IDataProvider<CcfDTO>>(),
                     new ResolvedParameter<IDataProvider<KeycloakAuthorizationDTO>>(),
-                    userConfig.KeycloakUsername,
-                    userConfig.KeycloakPassword,
-                    userConfig.KeycloakSecret
+                    new InjectionParameter<string>(userConfig.KeycloakUsername),
+                    new InjectionParameter<string>(userConfig.KeycloakPassword),
+                    new InjectionParameter<string>(userConfig.KeycloakSecret)
                 ));
         }
     }

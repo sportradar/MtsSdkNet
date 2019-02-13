@@ -272,6 +272,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             }
+
+            KeycloakHost = section.KeycloakHost;
+            KeycloakUsername = section.KeycloakUsername;
+            KeycloakPassword = section.KeycloakPassword;
+            KeycloakSecret = section.KeycloakSecret;
+            MtsClientApiHost = section.MtsClientApiHost;
         }
 
         /// <summary>

@@ -63,7 +63,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
             Stream responseStream;
             try
             {
-                responseStream = await base.GetDataAsync(uri).ConfigureAwait(false);
+                responseStream = await base.GetDataAsync(authorization, uri).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
             HttpResponseMessage response;
             try
             {
-                response = await base.PostDataAsync(uri, content);
+                response = await base.PostDataAsync(authorization, uri, content);
             }
             catch (Exception ex)
             {
