@@ -11,18 +11,18 @@ namespace Sportradar.MTS.SDK.API.Contracts
     [ContractClassFor(typeof(IMtsClientApi))]
     internal abstract class MtsClientApiContract : IMtsClientApi
     {
-        public Task<long?> GetMaxStakeAsync(ITicket ticket)
+        public Task<long> GetMaxStakeAsync(ITicket ticket)
         {
             Contract.Requires(ticket != null);
-            return Contract.Result<Task<long?>>();
+            return Contract.Result<Task<long>>();
         }
 
-        public Task<long?> GetMaxStakeAsync(ITicket ticket, string username, string password)
+        public Task<long> GetMaxStakeAsync(ITicket ticket, string username, string password)
         {
             Contract.Requires(ticket != null);
             Contract.Requires(username != null);
             Contract.Requires(password != null);
-            return Contract.Result<Task<long?>>();
+            return Contract.Result<Task<long>>();
         }
 
         public Task<ICcf> GetCcfAsync(string sourceId)
