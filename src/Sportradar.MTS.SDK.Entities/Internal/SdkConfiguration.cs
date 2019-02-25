@@ -231,6 +231,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             KeycloakPassword = keycloakPassword;
             KeycloakSecret = keycloakSecret;
             MtsClientApiHost = mtsClientApiHost;
+
+            if (MtsClientApiHost != null)
+            {
+                if (KeycloakHost == null)
+                    throw new ArgumentException("KeycloakHost must be set.");
+                if (KeycloakSecret == null)
+                    throw new ArgumentException("KeycloakSecret must be set.");
+            }
         }
 
         /// <summary>
@@ -278,6 +286,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             KeycloakPassword = section.KeycloakPassword;
             KeycloakSecret = section.KeycloakSecret;
             MtsClientApiHost = section.MtsClientApiHost;
+
+            if (MtsClientApiHost != null)
+            {
+                if (KeycloakHost == null)
+                    throw new ArgumentException("KeycloakHost must be set.");
+                if (KeycloakSecret == null)
+                    throw new ArgumentException("KeycloakSecret must be set.");
+            }
         }
 
         /// <summary>
