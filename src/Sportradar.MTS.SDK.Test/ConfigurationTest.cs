@@ -28,7 +28,12 @@ namespace Sportradar.MTS.SDK.Test
                                           .SetCurrency("mBTC")
                                           .SetNode(10)
                                           .SetExclusiveConsumer(false)
-                                          .SetSenderChannel(SenderChannel.Mobile);
+                                          .SetSenderChannel(SenderChannel.Mobile)
+                                          .SetMtsClientApiHost("127.0.0.1/ClientApi")
+                                          .SetKeycloakHost("127.0.0.1/Keycloak")
+                                          .SetKeycloakUsername("keycloak_username")
+                                          .SetKeycloakPassword("keycloak_password")
+                                          .SetKeycloakSecret("keycloak_secret");
         }
 
         [TestMethod]
@@ -48,6 +53,11 @@ namespace Sportradar.MTS.SDK.Test
             Assert.AreEqual(SenderChannel.Mobile, config.Channel);
             Assert.AreEqual(5671, config.Port);
             Assert.AreEqual(false, config.ExclusiveConsumer);
+            Assert.AreEqual("127.0.0.1/ClientApi", config.MtsClientApiHost);
+            Assert.AreEqual("127.0.0.1/Keycloak", config.KeycloakHost);
+            Assert.AreEqual("keycloak_username", config.KeycloakUsername);
+            Assert.AreEqual("keycloak_password", config.KeycloakPassword);
+            Assert.AreEqual("keycloak_secret", config.KeycloakSecret);
         }
 
         [TestMethod]
@@ -120,6 +130,68 @@ namespace Sportradar.MTS.SDK.Test
 
             Assert.IsNotNull(config);
             Assert.AreEqual(111, config.Port);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConfigurationBuilder_MissingKeycloakHost()
+        {
+            MtsSdk.CreateConfigurationBuilder()
+                .SetUsername("test")
+                .SetPassword("test")
+                .SetHost("127.0.0.1")
+                .SetVirtualHost("/test")
+                .SetUseSsl(false)
+                .SetLimitId(111)
+                .SetBookmakerId(222)
+                .SetAccessToken("aaa")
+                .SetCurrency("mBTC")
+                .SetNode(10)
+                .SetPort(111)
+                .SetMtsClientApiHost("127.0.0.1")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConfigurationBuilder_MissingKeycloakSecret()
+        {
+            MtsSdk.CreateConfigurationBuilder()
+                .SetUsername("test")
+                .SetPassword("test")
+                .SetHost("127.0.0.1")
+                .SetVirtualHost("/test")
+                .SetUseSsl(false)
+                .SetLimitId(111)
+                .SetBookmakerId(222)
+                .SetAccessToken("aaa")
+                .SetCurrency("mBTC")
+                .SetNode(10)
+                .SetPort(111)
+                .SetMtsClientApiHost("127.0.0.1")
+                .SetKeycloakHost("127.0.0.1")
+                .Build();
+        }
+
+        [TestMethod]
+        public void ConfigurationBuilder_AllowMissingKeycloakUsernameAndPassword()
+        {
+            MtsSdk.CreateConfigurationBuilder()
+                .SetUsername("test")
+                .SetPassword("test")
+                .SetHost("127.0.0.1")
+                .SetVirtualHost("/test")
+                .SetUseSsl(false)
+                .SetLimitId(111)
+                .SetBookmakerId(222)
+                .SetAccessToken("aaa")
+                .SetCurrency("mBTC")
+                .SetNode(10)
+                .SetPort(111)
+                .SetMtsClientApiHost("127.0.0.1")
+                .SetKeycloakHost("127.0.0.1")
+                .SetKeycloakSecret("secret")
+                .Build();
         }
     }
 }
