@@ -5,11 +5,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.EventArguments;
@@ -23,6 +26,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     public class RabbitMqPublisherChannel : IRabbitMqPublisherChannel
     {
         /// <summary>
+        /// Gets the unique identifier
+        /// </summary>
+        /// <value>The unique identifier</value>
+        public int UniqueId { get; }
+
+        /// <summary>
         /// Raised when the attempt to publish message failed
         /// </summary>
         public event EventHandler<MessagePublishFailedEventArgs> MqMessagePublishFailed;
@@ -31,6 +40,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// The ILog used execution logging
         /// </summary>
         private static readonly ILog ExecutionLog = SdkLoggerFactory.GetLogger(typeof(RabbitMqPublisherChannel));
+
+        /// <summary>
+        /// The feed log
+        /// </summary>
         private static readonly ILog FeedLog = SdkLoggerFactory.GetLoggerForFeedTraffic(typeof(RabbitMqPublisherChannel));
 
         /// <summary>
@@ -39,14 +52,14 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private readonly IChannelFactory _channelFactory;
 
         /// <summary>
-        /// The <see cref="IModel" /> representing the channel to the broker
-        /// </summary>
-        private IModel _channel;
-
-        /// <summary>
         /// Value indicating whether the current instance is opened. 1 means opened, 0 means closed
         /// </summary>
         private long _isOpened;
+
+        /// <summary>
+        /// Value indicating whether the current instance should be opened. 1 means yes, 0 means no
+        /// </summary>
+        private long _shouldBeOpened;
 
         /// <summary>
         /// Gets a value indicating whether the current <see cref="RabbitMqMessageReceiver" /> is currently opened;
@@ -55,10 +68,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public bool IsOpened => Interlocked.Read(ref _isOpened) == 1;
 
         /// <summary>
-        /// The channel basic properties
+        /// The MTS channel settings
         /// </summary>
-        private IBasicProperties _channelBasicProperties;
-
         private readonly IMtsChannelSettings _mtsChannelSettings;
 
         /// <summary>
@@ -120,6 +131,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 _queueTimer.Elapsed += OnTimerElapsed;
                 _queueTimer.FireOnce(new TimeSpan(0, 0, 5));
             }
+            _shouldBeOpened = 0;
+
+            UniqueId = _channelFactory.GetUniqueId();
         }
 
         /// <summary>
@@ -164,16 +178,16 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                         {
                             if (FeedLog.IsDebugEnabled)
                             {
-                                FeedLog.Debug($"PUBLISH succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, ReplyRoutingKey={pqi.ReplyRoutingKey}, Added={pqi.Timestamp}.");
+                                FeedLog.Debug($"Publish succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, ReplyRoutingKey={pqi.ReplyRoutingKey}, Added={pqi.Timestamp}.");
                             }
                             else
                             {
-                                FeedLog.Info($"PUBLISH succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}.");
+                                FeedLog.Info($"Publish succeeded. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}.");
                             }
                         }
                         else
                         {
-                            FeedLog.Warn($"PUBLISH failed. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}. Reason={publishResult.Message}");
+                            FeedLog.Warn($"Publish failed. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}. Reason={publishResult.Message}");
                             RaiseMessagePublishFailedEvent(pqi.Message, pqi.CorrelationId, pqi.RoutingKey, publishResult.Message);
                         }
                     }
@@ -188,7 +202,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
             if (_useQueue)
             {
-                _queueTimer.FireOnce(TimeSpan.FromMilliseconds(300)); // recheck after X milliseconds
+                _queueTimer.FireOnce(TimeSpan.FromMilliseconds(250)); // recheck after X milliseconds
             }
         }
 
@@ -203,6 +217,41 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         {
             var args = new MessagePublishFailedEventArgs(rawData, correlationId, routingKey, message);
             MqMessagePublishFailed?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Publishes the specified message
+        /// </summary>
+        /// <param name="msg">The message to be published</param>
+        /// <param name="routingKey">The routing key to be set while publishing</param>
+        /// <param name="correlationId">The correlation identifier</param>
+        /// <param name="replyRoutingKey">The reply routing key</param>
+        /// <returns>A <see cref="IMqPublishResult" /></returns>
+        /// <exception cref="System.InvalidOperationException">The instance is closed</exception>
+        public IMqPublishResult Publish(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
+        {
+            if (_shouldBeOpened == 0)
+            {
+                throw new InvalidOperationException("The instance is closed");
+            }
+            if (_useQueue)
+            {
+                return AddToPublishingQueue(msg, routingKey, correlationId, replyRoutingKey);
+            }
+            return PublishMsg(msg, routingKey, correlationId, replyRoutingKey);
+        }
+
+        /// <summary>
+        /// Publish message as an asynchronous operation
+        /// </summary>
+        /// <param name="msg">The message to be published</param>
+        /// <param name="routingKey">The routing key to be set while publishing</param>
+        /// <param name="correlationId">The correlation identifier</param>
+        /// <param name="replyRoutingKey">The reply routing key</param>
+        /// <returns>A <see cref="IMqPublishResult" /></returns>
+        public async Task<IMqPublishResult> PublishAsync(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
+        {
+            return await Task.Run(() => Publish(msg, routingKey, correlationId, replyRoutingKey)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -229,6 +278,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             }
 
             _msgQueue.Enqueue(item);
+            FeedLog.Debug($"Message with correlationId:{correlationId} and routingKey:{routingKey} added to publishing queue.");
             return new MqPublishResult(correlationId, true, "Item added to publishing queue.");
         }
 
@@ -243,70 +293,127 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <exception cref="System.InvalidOperationException">The instance is closed</exception>
         private IMqPublishResult PublishMsg(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
         {
-            if (_isOpened == 0)
-            {
-                throw new InvalidOperationException("The instance is closed");
-            }
             try
             {
-                if (_channelBasicProperties.Headers == null)
+                var channelWrapper = _channelFactory.GetChannel(UniqueId);
+                CreateAndOpenPublisherChannel();
+                if (channelWrapper.ChannelBasicProperties == null)
                 {
-                    _channelBasicProperties.Headers = new Dictionary<string, object>();
+                    throw new OperationCanceledException($"Channel {UniqueId} is not initiated.");
+                }
+                var channelBasicProperties = channelWrapper.ChannelBasicProperties;
+                if (channelBasicProperties.Headers == null)
+                {
+                    channelBasicProperties.Headers = new Dictionary<string, object>();
                 }
                 if (!string.IsNullOrEmpty(correlationId))
                 {
                     //_channelBasicProperties.Headers["correlationId"] = correlationId;
-                    _channelBasicProperties.CorrelationId = correlationId;
+                    channelBasicProperties.CorrelationId = correlationId;
                 }
                 if (!string.IsNullOrEmpty(replyRoutingKey))
                 {
-                    _channelBasicProperties.Headers["replyRoutingKey"] = replyRoutingKey;
+                    channelBasicProperties.Headers["replyRoutingKey"] = replyRoutingKey;
                 }
-
-                //FeedLog.Debug($"BasicPublish msg with correlationId:{correlationId}.");
-                _channel.BasicPublish(_mtsChannelSettings.ExchangeName, routingKey, _channelBasicProperties, msg);
+                channelWrapper.Channel.BasicPublish(_mtsChannelSettings.ExchangeName, routingKey, channelBasicProperties, msg);
+                FeedLog.Debug($"Publish of message with correlationId:{correlationId} and routingKey:{routingKey} succeeded.");
                 return new MqPublishResult(correlationId);
             }
             catch (Exception e)
             {
-                FeedLog.Info($"BasicPublish of message with correlationId:{correlationId} and routingKey:{routingKey} failed.", e);
+                FeedLog.Error($"Publish of message with correlationId:{correlationId} and routingKey:{routingKey} failed.", e);
                 return new MqPublishResult(correlationId, false, e.Message);
             }
         }
 
-        /// <summary>
-        /// Publishes the specified message
-        /// </summary>
-        /// <param name="msg">The message to be published</param>
-        /// <param name="routingKey">The routing key to be set while publishing</param>
-        /// <param name="correlationId">The correlation identifier</param>
-        /// <param name="replyRoutingKey">The reply routing key</param>
-        /// <returns>A <see cref="IMqPublishResult" /></returns>
-        /// <exception cref="System.InvalidOperationException">The instance is closed</exception>
-        public IMqPublishResult Publish(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
+        private void CreateAndOpenPublisherChannel()
         {
-            if (_isOpened == 0)
+            var sleepTime = 1000;
+            while (Interlocked.Read(ref _shouldBeOpened) == 1)
             {
-                throw new InvalidOperationException("The instance is closed");
+                try
+                {
+                    var channelWrapper = _channelFactory.GetChannel(UniqueId);
+                    if (channelWrapper == null)
+                    {
+                        throw new OperationCanceledException("Missing publisher channel wrapper.");
+                    }
+                    if (channelWrapper.MarkedForDeletion)
+                    {
+                        throw new OperationCanceledException("Publisher channel marked for deletion.");
+                    }
+                    if (channelWrapper.Channel.IsOpen && channelWrapper.ChannelBasicProperties != null)
+                    {
+                        return;
+                    }
+                    channelWrapper.Channel.ModelShutdown += ChannelOnModelShutdown;
+                    ExecutionLog.Info($"Opening the publisher channel with channelNumber: {UniqueId} and exchangeName: {_mtsChannelSettings.ExchangeName}.");
+
+                    // try to declare the exchange if it is not the default one
+                    if (!string.IsNullOrEmpty(_mtsChannelSettings.ExchangeName))
+                    {
+                        try
+                        {
+                            channelWrapper.Channel.ExchangeDeclare(_mtsChannelSettings.ExchangeName,
+                                                     _mtsChannelSettings.ExchangeType.ToString().ToLower(),
+                                                     _channelSettings.QueueIsDurable,
+                                                     false,
+                                                     null);
+                        }
+                        catch (Exception ie)
+                        {
+                            ExecutionLog.Error(ie.Message, ie);
+                            ExecutionLog.Warn($"Exchange {_mtsChannelSettings.ExchangeName} creation failed, will try to recreate it.");
+                            channelWrapper.Channel.ExchangeDelete(_mtsChannelSettings.ExchangeName);
+                            channelWrapper.Channel.ExchangeDeclare(_mtsChannelSettings.ExchangeName,
+                                                     _mtsChannelSettings.ExchangeType.ToString().ToLower(),
+                                                     _channelSettings.QueueIsDurable,
+                                                     false,
+                                                     null);
+                        }
+                    }
+
+                    var channelBasicProperties = channelWrapper.Channel.CreateBasicProperties();
+                    channelBasicProperties.ContentType = "application/json";
+                    channelBasicProperties.DeliveryMode = _channelSettings.UsePersistentDeliveryMode ? (byte)2 : (byte)1;
+
+                    //headerProperties like replyRoutingKey
+                    channelBasicProperties.Headers = new Dictionary<string, object>();
+                    if (_mtsChannelSettings.HeaderProperties != null && _mtsChannelSettings.HeaderProperties.Any())
+                    {
+                        foreach (var h in _mtsChannelSettings.HeaderProperties)
+                        {
+                            channelBasicProperties.Headers.Add(h.Key, h.Value);
+                        }
+                    }
+
+                    channelWrapper.ChannelBasicProperties = channelBasicProperties;
+
+                    Interlocked.CompareExchange(ref _isOpened, 1, 0);
+                    //ExecutionLog.Debug($"Opening the publisher channel with channelNumber: {UniqueId} and exchangeName: {_mtsChannelSettings.ExchangeName} finished.");
+                    return;
+                }
+                catch (Exception e)
+                {
+                    ExecutionLog.Info($"Error opening the publisher channel with channelNumber: {UniqueId} and exchangeName: {_mtsChannelSettings.ExchangeName}.", e);
+                    if (e is IOException || e is AlreadyClosedException || e is SocketException)
+                    {
+                        sleepTime = SdkInfo.Increase(sleepTime, 500, 10000);
+                    }
+                    else
+                    {
+                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInSec * 1000);
+                    }
+                    ExecutionLog.Info($"Opening the publisher channel will be retried in next {sleepTime} ms.");
+                    Thread.Sleep(sleepTime);
+                }
             }
-            if (_useQueue)
-            {
-                return AddToPublishingQueue(msg, routingKey, correlationId, replyRoutingKey);
-            }
-            return PublishMsg(msg, routingKey, correlationId, replyRoutingKey);
         }
 
-        /// <summary>
-        /// Publish message as an asynchronous operation
-        /// </summary>
-        /// <param name="msg">The message to be published</param>
-        /// <param name="routingKey">The routing key to be set while publishing</param>
-        /// <param name="correlationId">The correlation identifier</param>
-        /// <param name="replyRoutingKey">The reply routing key</param>
-        /// <returns>A <see cref="IMqPublishResult" /></returns>
-        public async Task<IMqPublishResult> PublishAsync(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
+        private void ChannelOnModelShutdown(object sender, ShutdownEventArgs e)
         {
-            return await Task.Run(() => Publish(msg, routingKey, correlationId, replyRoutingKey));
+            ExecutionLog.Info($"Shutdown publisher channel with channelNumber: {UniqueId} and exchangeName: {_mtsChannelSettings.ExchangeName}. Reason={e.ReplyCode}-{e.ReplyText}, Cause={e.Cause}");
+            Interlocked.CompareExchange(ref _isOpened, 0, 1);
         }
 
         /// <summary>
@@ -315,52 +422,14 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <exception cref="System.InvalidOperationException">The instance is already opened</exception>
         public void Open()
         {
-            if (Interlocked.CompareExchange(ref _isOpened, 1, 0) != 0)
+            if (Interlocked.Read(ref _isOpened) != 0)
             {
                 ExecutionLog.Error("Opening an already opened channel is not allowed");
                 throw new InvalidOperationException("The instance is already opened");
             }
 
-            _channel = _channelFactory.CreateChannel();
-            ExecutionLog.Info($"Opening the 'Publisher' channel with channelNumber: {_channel.ChannelNumber} and exchangeName: {_mtsChannelSettings.ExchangeName}.");
-
-            // try to declare the exchange if it is not the default one
-            if (!string.IsNullOrEmpty(_mtsChannelSettings.ExchangeName))
-            {
-                try
-                {
-                    _channel.ExchangeDeclare(_mtsChannelSettings.ExchangeName,
-                                                _mtsChannelSettings.ExchangeType.ToString().ToLower(),
-                                                _channelSettings.QueueIsDurable,
-                                                false,
-                                                null);
-                }
-                catch (Exception ie)
-                {
-                    ExecutionLog.Error(ie.Message, ie);
-                    ExecutionLog.Warn($"Exchange {_mtsChannelSettings.ExchangeName} creation failed, will try to recreate it.");
-                    _channel.ExchangeDelete(_mtsChannelSettings.ExchangeName);
-                    _channel.ExchangeDeclare(_mtsChannelSettings.ExchangeName,
-                                                _mtsChannelSettings.ExchangeType.ToString().ToLower(),
-                                                _channelSettings.QueueIsDurable,
-                                                false,
-                                                null);
-                }
-            }
-
-            _channelBasicProperties = _channel.CreateBasicProperties();
-            _channelBasicProperties.ContentType = "application/json";
-            _channelBasicProperties.DeliveryMode = _channelSettings.UsePersistentDeliveryMode ? (byte)2 : (byte)1;
-
-            //headerProperties like replyRoutingKey
-            _channelBasicProperties.Headers = new Dictionary<string, object>();
-            if (_mtsChannelSettings.HeaderProperties != null && _mtsChannelSettings.HeaderProperties.Any())
-            {
-                foreach (var h in _mtsChannelSettings.HeaderProperties)
-                {
-                    _channelBasicProperties.Headers.Add(h.Key, h.Value);
-                }
-            }
+            Interlocked.CompareExchange(ref _shouldBeOpened, 1, 0);
+            CreateAndOpenPublisherChannel();
         }
 
         /// <summary>
@@ -369,14 +438,13 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <exception cref="System.InvalidOperationException">The instance is already closed</exception>
         public void Close()
         {
-            Contract.Assume(_channel != null);
+            //Contract.Assume(_channel != null);
             if (Interlocked.CompareExchange(ref _isOpened, 0, 1) != 1)
             {
-                ExecutionLog.Error($"Cannot close the channel on channelNumber: {_channel.ChannelNumber}, because this channel is already closed.");
-                throw new InvalidOperationException("The instance is already closed");
+                ExecutionLog.Error($"Cannot close the publisher channel on channelNumber: {UniqueId}, because this channel is already closed.");
+                //throw new InvalidOperationException("The instance is already closed");
             }
-
-            _channel.Dispose();
+            Interlocked.CompareExchange(ref _shouldBeOpened, 0, 1);
         }
     }
 }

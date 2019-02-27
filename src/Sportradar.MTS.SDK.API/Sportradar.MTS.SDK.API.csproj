@@ -173,6 +173,7 @@
     <Compile Include="Contracts\RabbitMqConsumerChannelContract.cs" />
     <Compile Include="Contracts\SdkConfigurationBuilderContract.cs" />
     <Compile Include="IMtsClientApi.cs" />
+    <Compile Include="Internal\RabbitMq\ChannelWrapper.cs" />
     <Compile Include="Internal\SdkConfigurationBuilder.cs" />
     <Compile Include="ISdkConfigurationBuilder.cs" />
     <Compile Include="IMtsSdk.cs" />

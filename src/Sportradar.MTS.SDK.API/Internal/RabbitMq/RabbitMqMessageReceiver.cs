@@ -21,7 +21,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     /// <summary>
     /// A <see cref="IRabbitMqMessageReceiver" /> implementation using RabbitMQ broker to deliver feed messages
     /// </summary>
-    /// <seealso cref="Sportradar.MTS.SDK.API.Internal.RabbitMq.IRabbitMqMessageReceiver" />
+    /// <seealso cref="IRabbitMqMessageReceiver" />
     public sealed class RabbitMqMessageReceiver : IRabbitMqMessageReceiver, IHealthStatusProvider
     {
         /// <summary>
@@ -32,13 +32,13 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// A <see cref="IRabbitMqConsumerChannel" /> representing a channel to the RabbitMQ broker
         /// </summary>
-        private readonly IRabbitMqConsumerChannel _channel;
+        private readonly IRabbitMqConsumerChannel _consumerChannel;
 
         /// <summary>
         /// Gets a value indicating whether the current <see cref="RabbitMqMessageReceiver" /> is currently opened;
         /// </summary>
         /// <value><c>true</c> if this instance is opened; otherwise, <c>false</c></value>
-        public bool IsOpened => _channel.IsOpened;
+        public bool IsOpened => _consumerChannel.IsOpened;
 
         /// <summary>
         /// Event raised when the <see cref="IRabbitMqConsumerChannel" /> receives the message
@@ -61,7 +61,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         {
             Contract.Requires(channel != null);
 
-            _channel = channel;
+            _consumerChannel = channel;
             _expectedTicketResponseType = expectedResponseType;
         }
 
@@ -71,7 +71,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(_channel != null);
+            Contract.Invariant(_consumerChannel != null);
         }
 
         /// <summary>
@@ -165,8 +165,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// </summary>
         public void Open()
         {
-            _channel.Open();
-            _channel.ChannelMessageReceived += Consumer_OnMessageReceived;
+            _consumerChannel.ChannelMessageReceived += Consumer_OnMessageReceived;
+            _consumerChannel.Open();
         }
 
         /// <summary>
@@ -175,8 +175,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="routingKeys">A list of routing keys specifying which messages should the <see cref="RabbitMqMessageReceiver" /> deliver</param>
         public void Open(IEnumerable<string> routingKeys)
         {
-            _channel.Open(routingKeys);
-            _channel.ChannelMessageReceived += Consumer_OnMessageReceived;
+            _consumerChannel.ChannelMessageReceived += Consumer_OnMessageReceived;
+            _consumerChannel.Open(routingKeys);
         }
 
         /// <summary>
@@ -186,8 +186,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="routingKeys">A <see cref="IEnumerable{String}" /> specifying the routing keys of the constructed queue</param>
         public void Open(string queueName, IEnumerable<string> routingKeys)
         {
-            _channel.Open(queueName, routingKeys);
-            _channel.ChannelMessageReceived += Consumer_OnMessageReceived;
+            _consumerChannel.ChannelMessageReceived += Consumer_OnMessageReceived;
+            _consumerChannel.Open(queueName, routingKeys);
         }
 
         /// <summary>
@@ -195,8 +195,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// </summary>
         public void Close()
         {
-            _channel.ChannelMessageReceived -= Consumer_OnMessageReceived;
-            _channel.Close();
+            _consumerChannel.ChannelMessageReceived -= Consumer_OnMessageReceived;
+            _consumerChannel.Close();
         }
 
         /// <summary>

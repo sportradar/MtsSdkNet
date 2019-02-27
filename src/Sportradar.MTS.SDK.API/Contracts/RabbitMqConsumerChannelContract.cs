@@ -13,6 +13,8 @@ namespace Sportradar.MTS.SDK.API.Contracts
     [ContractClassFor(typeof(IRabbitMqConsumerChannel))]
     internal abstract class RabbitMqConsumerChannelContract : IRabbitMqConsumerChannel
     {
+        public int UniqueId { get; }
+
         public abstract bool IsOpened { get; }
 
         public abstract void Close();
@@ -34,7 +36,6 @@ namespace Sportradar.MTS.SDK.API.Contracts
             Contract.Requires(!string.IsNullOrEmpty(queueName));
             Contract.Requires(routingKeys != null);
             Contract.Requires(routingKeys.Any());
-            Contract.Ensures(IsOpened);
         }
     }
 }

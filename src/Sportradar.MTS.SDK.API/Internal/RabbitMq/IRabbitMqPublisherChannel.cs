@@ -17,6 +17,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     public interface IRabbitMqPublisherChannel : IOpenable
     {
         /// <summary>
+        /// Gets the unique identifier
+        /// </summary>
+        /// <value>The unique identifier</value>
+        int UniqueId { get; }
+
+        /// <summary>
         /// Raised when the attempt to publish message failed
         /// </summary>
         event EventHandler<MessagePublishFailedEventArgs> MqMessagePublishFailed;
