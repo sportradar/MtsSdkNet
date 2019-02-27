@@ -110,12 +110,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             _channelSettings = channelSettings;
 
             _useQueue = false;
-            if (channelSettings.PublishQueueTimeoutInSec > 0 || channelSettings.PublishQueueLimit > 0)
+            if (channelSettings.PublishQueueTimeoutInMs > 0 || channelSettings.PublishQueueLimit > 0)
             {
                 _useQueue = true;
                 _msgQueue = new ConcurrentQueue<PublishQueueItem>();
                 _queueLimit = channelSettings.PublishQueueLimit > 1 ? _channelSettings.PublishQueueLimit : -1;
-                _queueTimeout = channelSettings.PublishQueueTimeoutInSec >= 10 ? _channelSettings.PublishQueueTimeoutInSec : 15;
+                _queueTimeout = channelSettings.PublishQueueTimeoutInMs >= 10000 ? _channelSettings.PublishQueueTimeoutInMs : 15000;
                 _queueTimer = new SdkTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 1));
                 _queueTimer.Elapsed += OnTimerElapsed;
                 _queueTimer.FireOnce(new TimeSpan(0, 0, 5));
@@ -148,7 +148,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     if (_msgQueue.TryDequeue(out pqi))
                     {
                         //check if expired
-                        if (pqi.Timestamp < DateTime.Now.AddSeconds(-_queueTimeout))
+                        if (pqi.Timestamp < DateTime.Now.AddMilliseconds(-_queueTimeout))
                         {
                             var msg = $"At {DateTime.Now} publishing queue item is expired. CorrelationId={pqi.CorrelationId}, RoutingKey={pqi.RoutingKey}, Added={pqi.Timestamp}.";
                             ExecutionLog.Error(msg);

@@ -466,7 +466,7 @@ namespace Sportradar.MTS.SDK.API
                     {
                         _cacheItemPolicyForTicketsForNonBlockingRequestsCache = new CacheItemPolicy
                                                                                 {
-                                                                                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddSeconds(ticketSender.GetCacheTimeout)),
+                                                                                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddMilliseconds(ticketSender.GetCacheTimeout)),
                                                                                     RemovedCallback = RemovedFromCacheForTicketsForNonBlockingRequestsCallback
                                                                                 };
                         _ticketsForNonBlockingRequests.Add(ticket.TicketId, ticket, _cacheItemPolicyForTicketsForNonBlockingRequestsCache);
@@ -493,7 +493,7 @@ namespace Sportradar.MTS.SDK.API
             var autoResetEvent = new AutoResetEvent(false);
             _autoResetEventsForBlockingRequests.TryAdd(ticket.TicketId, autoResetEvent);
 
-            autoResetEvent.WaitOne(TimeSpan.FromSeconds(responseTimeout));
+            autoResetEvent.WaitOne(TimeSpan.FromMilliseconds(responseTimeout));
 
             ISdkTicket responseTicket;
             if (_responsesFromBlockingRequests.TryRemove(ticket.TicketId, out responseTicket))

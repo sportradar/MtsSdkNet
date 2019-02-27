@@ -64,6 +64,15 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         [Pure]
         public string MtsClientApiHost => Contract.Result<string>();
 
+        [Pure]
+        public int TicketResponseTimeout => Contract.Result<int>();
+
+        [Pure]
+        public int TicketCancellationResponseTimeout => Contract.Result<int>();
+
+        [Pure]
+        public int TicketCashoutResponseTimeout => Contract.Result<int>();
+
         public abstract string AccessToken { get; }
 
         public abstract bool ProvideAdditionalMarketSpecifiers { get; }

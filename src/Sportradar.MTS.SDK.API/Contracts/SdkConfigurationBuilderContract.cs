@@ -146,6 +146,24 @@ namespace Sportradar.MTS.SDK.API.Contracts
             return Contract.Result<ISdkConfigurationBuilder>();
         }
 
+        public ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
         public ISdkConfiguration Build()
         {
             Contract.Ensures(Contract.Result<ISdkConfiguration>() != null);

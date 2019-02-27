@@ -136,8 +136,9 @@ namespace Sportradar.MTS.SDK.API.Internal
             Contract.Assume(container.Resolve<IChannelFactory>() != null);
 
             container.RegisterType<IRabbitMqChannelSettings, RabbitMqChannelSettings>(new ContainerControlledLifetimeManager());
-            var rabbitMqChannelSettings = new RabbitMqChannelSettings(true, config.ExclusiveConsumer);
-            container.RegisterInstance(rabbitMqChannelSettings);
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketResponseTimeout));
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketCancellationChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketCancellationResponseTimeout));
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketCashoutChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketCashoutResponseTimeout));
 
             var rootExchangeName = config.VirtualHost.Replace("/", string.Empty);
             container.RegisterType<IMtsChannelSettings, MtsChannelSettings>(new ContainerControlledLifetimeManager());
@@ -166,13 +167,13 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterType<IRabbitMqConsumerChannel, RabbitMqConsumerChannel>(new HierarchicalLifetimeManager());
             var ticketResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketResponseChannelSettings"),
-                                                                            container.Resolve<IRabbitMqChannelSettings>());
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings"));
             var ticketCancelResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketCancelResponseChannelSettings"),
-                                                                            container.Resolve<IRabbitMqChannelSettings>());
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketCashoutResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketCashoutResponseChannelSettings"),
-                                                                            container.Resolve<IRabbitMqChannelSettings>());
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings"));
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketConsumerChannel", ticketResponseConsumerChannel);
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketCancelConsumerChannel", ticketCancelResponseConsumerChannel);
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketCashoutConsumerChannel", ticketCashoutResponseConsumerChannel);
@@ -185,22 +186,22 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterType<IRabbitMqPublisherChannel, RabbitMqPublisherChannel>(new HierarchicalLifetimeManager());
             var ticketPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings"));
             var ticketAckPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketAckChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings"));
             var ticketCancelPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCancelChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketCancelAckPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCancelAckChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketReofferCancelPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketReofferCancelChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketCashoutPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCashoutChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings"));
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketPublisherChannel", ticketPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketAckPublisherChannel", ticketAckPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketCancelPublisherChannel", ticketCancelPC);
@@ -218,32 +219,32 @@ namespace Sportradar.MTS.SDK.API.Internal
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings").PublishQueueTimeoutInMs);
             var ticketAckSender = new TicketAckSender(new TicketAckMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketAckPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketAckChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings").PublishQueueTimeoutInMs);
             var ticketCancelSender = new TicketCancelSender(new TicketCancelMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketCancelPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCancelChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings").PublishQueueTimeoutInMs);
             var ticketCancelAckSender = new TicketCancelAckSender(new TicketCancelAckMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketCancelAckPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCancelAckChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings").PublishQueueTimeoutInMs);
             var ticketReofferCancelSender = new TicketReofferCancelSender(new TicketReofferCancelMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketReofferCancelPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketReofferCancelChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings").PublishQueueTimeoutInMs);
             var ticketCashoutSender = new TicketCashoutSender(new TicketCashoutMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketCashoutPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCashoutChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings").PublishQueueTimeoutInMs);
             container.RegisterInstance<ITicketSender>("TicketSender", ticketSender);
             container.RegisterInstance<ITicketSender>("TicketAckSender", ticketAckSender);
             container.RegisterInstance<ITicketSender>("TicketCancelSender", ticketCancelSender);

@@ -58,6 +58,9 @@ namespace Sportradar.MTS.SDK.Test
             Assert.AreEqual("keycloak_username", config.KeycloakUsername);
             Assert.AreEqual("keycloak_password", config.KeycloakPassword);
             Assert.AreEqual("keycloak_secret", config.KeycloakSecret);
+            Assert.AreEqual(15000, config.TicketResponseTimeout);
+            Assert.AreEqual(600000, config.TicketCancellationResponseTimeout);
+            Assert.AreEqual(600000, config.TicketCashoutResponseTimeout);
         }
 
         [TestMethod]
