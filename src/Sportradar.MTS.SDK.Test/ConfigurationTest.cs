@@ -4,6 +4,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sportradar.MTS.SDK.API;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Test
@@ -58,9 +59,9 @@ namespace Sportradar.MTS.SDK.Test
             Assert.AreEqual("keycloak_username", config.KeycloakUsername);
             Assert.AreEqual("keycloak_password", config.KeycloakPassword);
             Assert.AreEqual("keycloak_secret", config.KeycloakSecret);
-            Assert.AreEqual(15000, config.TicketResponseTimeout);
-            Assert.AreEqual(600000, config.TicketCancellationResponseTimeout);
-            Assert.AreEqual(600000, config.TicketCashoutResponseTimeout);
+            Assert.AreEqual(SdkInfo.TicketResponseTimeoutDefault, config.TicketResponseTimeout);
+            Assert.AreEqual(SdkInfo.TicketCancellationResponseTimeoutDefault, config.TicketCancellationResponseTimeout);
+            Assert.AreEqual(SdkInfo.TicketCashoutResponseTimeoutDefault, config.TicketCashoutResponseTimeout);
         }
 
         [TestMethod]

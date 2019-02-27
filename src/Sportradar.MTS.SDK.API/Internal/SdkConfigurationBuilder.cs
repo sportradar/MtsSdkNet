@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -38,9 +39,9 @@ namespace Sportradar.MTS.SDK.API.Internal
             _useSsl = true;
             _provideAdditionalMarketSpecifiers = true;
             _exclusiveConsumer = true;
-            _ticketResponseTimeout = 15000;
-            _ticketCancellationResponseTimeout = 600000;
-            _ticketCashoutResponseTimeout = 600000;
+            _ticketResponseTimeout = SdkInfo.TicketResponseTimeoutDefault;
+            _ticketCancellationResponseTimeout = SdkInfo.TicketCancellationResponseTimeoutDefault;
+            _ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault;
         }
 
         public ISdkConfigurationBuilder SetUsername(string username)
@@ -224,30 +225,30 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout)
         {
-            if (responseTimeout < 10000)
-                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
-            if (responseTimeout > 30000)
-                throw new ArgumentException("responseTimeout must be less than 30000ms", nameof(responseTimeout));
+            if (responseTimeout < SdkInfo.TicketResponseTimeoutMin)
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketResponseTimeoutMin}ms", nameof(responseTimeout));
+            if (responseTimeout > SdkInfo.TicketResponseTimeoutMax)
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketResponseTimeoutMax}ms", nameof(responseTimeout));
             _ticketResponseTimeout = responseTimeout;
             return this;
         }
 
         public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
         {
-            if (responseTimeout < 10000)
-                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
-            if (responseTimeout > 3600000)
-                throw new ArgumentException("responseTimeout must be less than 3600000ms", nameof(responseTimeout));
+            if (responseTimeout < SdkInfo.TicketCancellationResponseTimeoutMin)
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms", nameof(responseTimeout));
+            if (responseTimeout > SdkInfo.TicketCancellationResponseTimeoutMax)
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms", nameof(responseTimeout));
             _ticketCancellationResponseTimeout = responseTimeout;
             return this;
         }
 
         public ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout)
         {
-            if (responseTimeout < 10000)
-                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
-            if (responseTimeout > 3600000)
-                throw new ArgumentException("responseTimeout must be less than 3600000ms", nameof(responseTimeout));
+            if (responseTimeout < SdkInfo.TicketCashoutResponseTimeoutMin)
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms", nameof(responseTimeout));
+            if (responseTimeout > SdkInfo.TicketCashoutResponseTimeoutMax)
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms", nameof(responseTimeout));
             _ticketCashoutResponseTimeout = responseTimeout;
             return this;
         }

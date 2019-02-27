@@ -4,6 +4,7 @@
 using System;
 using System.Configuration;
 using System.Diagnostics.Contracts;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
@@ -156,16 +157,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <summary>
         /// Gets the ticket response timeout(ms)
         /// </summary>
+        [ConfigurationProperty("ticketResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketResponseTimeoutDefault)]
         public int TicketResponseTimeout => (int)base["ticketResponseTimeout"];
 
         /// <summary>
         /// Gets the ticket cancellation response timeout(ms)
         /// </summary>
+        [ConfigurationProperty("ticketCancellationResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketCancellationResponseTimeoutDefault)]
         public int TicketCancellationResponseTimeout => (int)base["ticketCancellationResponseTimeout"];
 
         /// <summary>
         /// Gets the ticket cashout response timeout(ms)
         /// </summary>
+        [ConfigurationProperty("ticketCashoutResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketCashoutResponseTimeoutDefault)]
         public int TicketCashoutResponseTimeout => (int)base["ticketCashoutResponseTimeout"];
 
         /// <summary>

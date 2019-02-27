@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
@@ -186,19 +187,38 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             string keycloakPassword = null,
             string keycloakSecret = null,
             string mtsClientApiHost = null,
-            int ticketResponseTimeout = 15000,
-            int ticketCancellationResponseTimeout = 600000,
-            int ticketCashoutResponseTimeout = 600000)
+            int ticketResponseTimeout = SdkInfo.TicketResponseTimeoutDefault,
+            int ticketCancellationResponseTimeout = SdkInfo.TicketCancellationResponseTimeoutDefault,
+            int ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault)
         {
             Contract.Requires(!string.IsNullOrEmpty(username));
             Contract.Requires(!string.IsNullOrEmpty(password));
             Contract.Requires(!string.IsNullOrEmpty(host));
-            Contract.Requires(ticketResponseTimeout >= 10000, "ticketResponseTimeout must be more than 10000ms");
-            Contract.Requires(ticketResponseTimeout <= 30000, "ticketResponseTimeout must be less than 30000ms");
-            Contract.Requires(ticketCancellationResponseTimeout >= 10000, "ticketCancellationResponseTimeout must be more than 10000ms");
-            Contract.Requires(ticketCancellationResponseTimeout <= 3600000, "ticketCancellationResponseTimeout must be less than 3600000ms");
-            Contract.Requires(ticketCashoutResponseTimeout >= 10000, "ticketCashoutResponseTimeout must be more than 10000ms");
-            Contract.Requires(ticketCashoutResponseTimeout <= 3600000, "ticketCashoutResponseTimeout must be less than 3600000ms");
+
+            if (ticketResponseTimeout < SdkInfo.TicketResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
+            }
+            if (ticketResponseTimeout > SdkInfo.TicketResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketResponseTimeout must be less than {SdkInfo.TicketResponseTimeoutMax}ms");
+            }
+            if (ticketCancellationResponseTimeout < SdkInfo.TicketCancellationResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketCancellationResponseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms");
+            }
+            if (ticketCancellationResponseTimeout > SdkInfo.TicketCancellationResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
+            }
+            if (ticketCashoutResponseTimeout < SdkInfo.TicketCashoutResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
+            }
+            if (ticketCashoutResponseTimeout > SdkInfo.TicketCashoutResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
+            }
 
             Username = username;
             Password = password;
@@ -323,12 +343,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Contract.Invariant(!string.IsNullOrEmpty(VirtualHost));
             Contract.Invariant(Port > 0);
             Contract.Invariant(!Host.Contains(":"), "Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
-            Contract.Invariant(TicketResponseTimeout >= 10000, "TicketResponseTimeout must be more than 10000ms");
-            Contract.Invariant(TicketResponseTimeout <= 30000, "TicketResponseTimeout must be less than 30000ms");
-            Contract.Invariant(TicketCancellationResponseTimeout >= 10000, "TicketCancellationResponseTimeout must be more than 10000ms");
-            Contract.Invariant(TicketCancellationResponseTimeout <= 3600000, "TicketCancellationResponseTimeout must be less than 3600000ms");
-            Contract.Invariant(TicketCashoutResponseTimeout >= 10000, "TicketCashoutResponseTimeout must be more than 10000ms");
-            Contract.Invariant(TicketCashoutResponseTimeout <= 3600000, "TicketCashoutResponseTimeout must be less than 3600000ms");
+            Contract.Invariant(TicketResponseTimeout >= SdkInfo.TicketResponseTimeoutMin, $"TicketResponseTimeout must be more than {SdkInfo.TicketResponseTimeoutMin}ms");
+            Contract.Invariant(TicketResponseTimeout <= SdkInfo.TicketResponseTimeoutMax, $"TicketResponseTimeout must be less than {SdkInfo.TicketResponseTimeoutMax}ms");
+            Contract.Invariant(TicketCancellationResponseTimeout >= SdkInfo.TicketCancellationResponseTimeoutMin, $"TicketCancellationResponseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms");
+            Contract.Invariant(TicketCancellationResponseTimeout <= SdkInfo.TicketCancellationResponseTimeoutMax, $"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
+            Contract.Invariant(TicketCashoutResponseTimeout >= SdkInfo.TicketCashoutResponseTimeoutMin, $"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
+            Contract.Invariant(TicketCashoutResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
         }
     }
 }

@@ -10,6 +10,16 @@ namespace Sportradar.MTS.SDK.Common.Internal
     /// </summary>
     public static class SdkInfo
     {
+        public const int TicketResponseTimeoutDefault = 15000;
+        public const int TicketCancellationResponseTimeoutDefault = 600000;
+        public const int TicketCashoutResponseTimeoutDefault = 600000;
+        public const int TicketResponseTimeoutMin = 10000;
+        public const int TicketCancellationResponseTimeoutMin = 10000;
+        public const int TicketCashoutResponseTimeoutMin = 10000;
+        public const int TicketResponseTimeoutMax = 30000;
+        public const int TicketCancellationResponseTimeoutMax = 3600000;
+        public const int TicketCashoutResponseTimeoutMax = 3600000;
+
         /// <summary>
         /// Gets the version number of the executing assembly
         /// </summary>
