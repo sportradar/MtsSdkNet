@@ -124,6 +124,51 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public int StatisticsRecordLimit => (int)base["statsMaxRecord"];
 
         /// <summary>
+        /// Gets the Keycloak host for authorization
+        /// </summary>
+        [ConfigurationProperty("keycloakHost", IsRequired = false)]
+        public string KeycloakHost => (string)base["keycloakHost"];
+
+        /// <summary>
+        /// Gets the username used to connect authenticate to Keycloak
+        /// </summary>
+        [ConfigurationProperty("keycloakUsername", IsRequired = false)]
+        public string KeycloakUsername => (string)base["keycloakUsername"];
+
+        /// <summary>
+        /// Gets the password used to connect authenticate to Keycloak
+        /// </summary>
+        [ConfigurationProperty("keycloakPassword", IsRequired = false)]
+        public string KeycloakPassword => (string)base["keycloakPassword"];
+
+        /// <summary>
+        /// Gets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        [ConfigurationProperty("keycloakSecret", IsRequired = false)]
+        public string KeycloakSecret => (string)base["keycloakSecret"];
+
+        /// <summary>
+        /// Gets the Client API host
+        /// </summary>
+        [ConfigurationProperty("mtsClientApiHost", IsRequired = false)]
+        public string MtsClientApiHost => (string)base["mtsClientApiHost"];
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms)
+        /// </summary>
+        public int TicketResponseTimeout => (int)base["ticketResponseTimeout"];
+
+        /// <summary>
+        /// Gets the ticket cancellation response timeout(ms)
+        /// </summary>
+        public int TicketCancellationResponseTimeout => (int)base["ticketCancellationResponseTimeout"];
+
+        /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        public int TicketCashoutResponseTimeout => (int)base["ticketCashoutResponseTimeout"];
+
+        /// <summary>
         /// Gets the file path to the configuration file for the log4net repository used by the SDK
         /// </summary>
         [ConfigurationProperty("sdkLogConfigPath", IsRequired = false)]

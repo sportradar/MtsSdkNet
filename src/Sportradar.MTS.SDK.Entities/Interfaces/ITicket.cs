@@ -44,7 +44,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         bool TestSource { get; }
 
         /// <summary>
-        /// Gets the type of the odds change Accept change in odds (optional, default none) 
+        /// Gets the type of the odds change Accept change in odds (optional, default none)
         /// <see cref="OddsChangeType.None"/>: default behavior
         /// <see cref="OddsChangeType.Any"/>: any odds change accepted
         /// <see cref="OddsChangeType.Higher"/>: accept higher odds

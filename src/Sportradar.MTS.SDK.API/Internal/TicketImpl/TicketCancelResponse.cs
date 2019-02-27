@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -56,6 +57,14 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// </summary>
         /// <value>The signature</value>
         public string Signature { get; }
+
+        /// <summary>
+        /// Gets the additional information about the response
+        /// </summary>
+        /// <value>The additional information</value>
+        /// <remarks>Contains timestamps describing mts processing (receivedUtcTimestamp, validatedUtcTimestamp, respondedUtcTimestamp)</remarks>
+        public IDictionary<string, string> AdditionalInfo { get; }
+
         /// <summary>
         /// Gets the timestamp of ticket placement (UTC)
         /// </summary>
@@ -74,15 +83,17 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <param name="correlationId">The correlation id</param>
         /// <param name="signature">The signature</param>
         /// <param name="version">The version</param>
+        /// <param name="additionalInfo">The additional information</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         public TicketCancelResponse(ITicketSender ticketCancelSender,
-                              string ticketId,
-                              TicketCancelAcceptance status,
-                              IResponseReason reason,
-                              string correlationId,
-                              string signature,
-                              string version = TicketHelper.MtsTicketVersion,
-                              string orgJson = null)
+                                    string ticketId,
+                                    TicketCancelAcceptance status,
+                                    IResponseReason reason,
+                                    string correlationId,
+                                    string signature,
+                                    string version = TicketHelper.MtsTicketVersion,
+                                    IDictionary<string, string> additionalInfo = null,
+                                    string orgJson = null)
         {
             TicketId = ticketId;
             Status = status;
@@ -91,6 +102,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             Version = version;
             Timestamp = DateTime.UtcNow;
             CorrelationId = correlationId;
+            AdditionalInfo = additionalInfo;
             _originalJson = orgJson;
 
             _ticketCancelSender = ticketCancelSender;
@@ -123,10 +135,10 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             {
                 throw new NullReferenceException("Missing TicketCancelSender. Can not be null.");
             }
-            var ticketCancelAck = new TicketCancelAck(TicketId, 
+            var ticketCancelAck = new TicketCancelAck(TicketId,
                                                       bookmakerId,
-                                                      markAccepted ? TicketCancelAckStatus.Cancelled : TicketCancelAckStatus.NotCancelled, 
-                                                      code, 
+                                                      markAccepted ? TicketCancelAckStatus.Cancelled : TicketCancelAckStatus.NotCancelled,
+                                                      code,
                                                       message);
             _ticketCancelSender.SendTicket(ticketCancelAck);
         }

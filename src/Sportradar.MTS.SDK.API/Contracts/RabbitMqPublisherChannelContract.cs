@@ -21,7 +21,7 @@ namespace Sportradar.MTS.SDK.API.Contracts
         public abstract void Close();
 
         public abstract void Open();
-        
+
         public void Open(IEnumerable<string> routingKeys)
         {
             Contract.Requires(routingKeys != null);

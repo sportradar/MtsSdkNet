@@ -63,5 +63,11 @@ namespace Sportradar.MTS.SDK.API.Contracts
             Contract.Ensures(Contract.Result<ITicketCashoutResponse>() != null);
             return Contract.Result<ITicketCashoutResponse>();
         }
+
+        public IMtsClientApi GetClientApi()
+        {
+            Contract.Ensures(Contract.Result<IMtsClientApi>() != null);
+            return Contract.Result<IMtsClientApi>();
+        }
     }
 }

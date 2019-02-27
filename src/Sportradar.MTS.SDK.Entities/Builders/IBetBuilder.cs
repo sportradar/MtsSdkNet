@@ -10,7 +10,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
     /// <summary>
     /// Defines a contract for classes implementing builder for <see cref="IBet"/>
     /// </summary>
-    public interface IBetBuilder 
+    public interface IBetBuilder
     {
         /// <summary>
         /// Sets the <see cref="IBetBonus" />

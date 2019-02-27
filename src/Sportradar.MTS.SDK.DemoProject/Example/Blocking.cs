@@ -22,7 +22,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         /// <summary>
         /// The MTS SDK instance
         /// </summary>
-        private MtsSdk _mtsSdk;
+        private IMtsSdk _mtsSdk;
 
         private IBuilderFactory _factory;
 
@@ -120,7 +120,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         private void AttachToFeedEvents(IMtsSdk mtsSdk)
         {
             Contract.Requires(mtsSdk != null);
-            
+
             mtsSdk.SendTicketFailed += OnSendTicketFailed;
             mtsSdk.TicketResponseReceived += OnTicketResponseReceived;
             mtsSdk.UnparsableTicketResponseReceived += OnUnparsableTicketResponseReceived;
@@ -133,7 +133,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         private void DetachFromFeedEvents(IMtsSdk mtsSdk)
         {
             Contract.Requires(mtsSdk != null);
-            
+
             mtsSdk.SendTicketFailed -= OnSendTicketFailed;
             mtsSdk.TicketResponseReceived -= OnTicketResponseReceived;
             mtsSdk.UnparsableTicketResponseReceived -= OnUnparsableTicketResponseReceived;

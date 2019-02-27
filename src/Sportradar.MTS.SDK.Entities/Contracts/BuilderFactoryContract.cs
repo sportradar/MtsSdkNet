@@ -16,7 +16,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         public abstract IEndCustomerBuilder CreateEndCustomerBuilder();
 
         public abstract IBetBuilder CreateBetBuilder();
-        
+
         public abstract ITicketAltStakeBuilder CreateAltStakeBuilder();
 
         public ITicketCancelBuilder CreateTicketCancelBuilder()

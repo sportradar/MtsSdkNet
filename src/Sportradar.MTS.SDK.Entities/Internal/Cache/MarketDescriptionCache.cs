@@ -82,11 +82,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="accessToken">The <see cref="ISdkConfigurationSection.AccessToken"/> used to access UF REST API</param>
         /// <param name="fetchInterval">The fetch interval</param>
         /// <param name="cacheItemPolicy">The cache item policy</param>
-        public MarketDescriptionCache(ObjectCache cache, 
-                                      IDataProvider<IEnumerable<MarketDescriptionDTO>> dataProvider, 
-                                      IEnumerable<CultureInfo> prefetchLanguages, 
-                                      string accessToken, 
-                                      TimeSpan fetchInterval, 
+        public MarketDescriptionCache(ObjectCache cache,
+                                      IDataProvider<IEnumerable<MarketDescriptionDTO>> dataProvider,
+                                      IEnumerable<CultureInfo> prefetchLanguages,
+                                      string accessToken,
+                                      TimeSpan fetchInterval,
                                       CacheItemPolicy cacheItemPolicy)
         {
             Contract.Requires(cache != null);
@@ -194,8 +194,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         }
 
         /// <summary>
-        /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified 
-        /// language are fetched from the service and stored/merged into the local cache. 
+        /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified
+        /// language are fetched from the service and stored/merged into the local cache.
         /// </summary>
         /// <param name="id">The id of the <see cref="MarketDescriptionCacheItem"/> instance to get</param>
         /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}"/> specifying the languages which the returned item must contain</param>
@@ -225,8 +225,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         }
 
         /// <summary>
-        /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified 
-        /// language are fetched from the service and stored/merged into the local cache. 
+        /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified
+        /// language are fetched from the service and stored/merged into the local cache.
         /// </summary>
         /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}"/> specifying the languages which the returned item must contain</param>
         /// <returns>A <see cref="Task"/> representing the async operation</returns>

@@ -6,7 +6,7 @@
     <NugetUrl>http://www.nuget.org</NugetUrl>
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">1</MajorVersion>
-    <MinorVersion Condition="'$(MinorVersion)' == ''">6</MinorVersion>
+    <MinorVersion Condition="'$(MinorVersion)' == ''">7</MinorVersion>
     <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
@@ -14,7 +14,7 @@
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Support for ticket version 2.2!NL!Added AutoAcceptedOdd to TicketResponse!NL!Added TotalCombinations to Ticket and TicketBuilder!NL!Added BetCashout to TicketCashout - support for partial cashout!NL!Added BetCancel to TicketCancel - support for partial cancellation!NL!Added AutoAcceptedOdds to ITicketResponse!NL!EndCustomer.Ip type changed from IPAddress to string!NL!Removed deletion of consumer queues on close!NL!Reviewed and updated documentation and properties files!NL!Removed property ExceptionHandlingStrategy from config, builder, ...!NL!Fix: in HandleMarketDescription when adding specifiers</BuildChangeLog> 
+    <BuildChangeLog>Adding acking on consumers message processed!NL!Added AutoAcceptedOdds to ITicketResponse!NL!Added AdditionalInfo to all ticket responses!NL!Fix: settings corrected for sending ticket cancel and reoffer cancel message</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 

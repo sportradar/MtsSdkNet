@@ -102,6 +102,46 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public bool ExclusiveConsumer { get; }
 
         /// <summary>
+        /// Gets the Keycloak host for authorization
+        /// </summary>
+        public string KeycloakHost { get; }
+
+        /// <summary>
+        /// Gets the username used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakUsername { get; }
+
+        /// <summary>
+        /// Gets the password used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakPassword { get; }
+
+        /// <summary>
+        /// Gets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakSecret { get; }
+
+        /// <summary>
+        /// Gets the Client API host
+        /// </summary>
+        public string MtsClientApiHost { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms)
+        /// </summary>
+        public int TicketResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cancellation response timeout(ms)
+        /// </summary>
+        public int TicketCancellationResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        public int TicketCashoutResponseTimeout { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
         /// <param name="username">The username used when connecting to AMQP broker</param>
@@ -118,6 +158,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="provideAdditionalMarketSpecifiers">The value indicating if the additional market specifiers should be provided</param>
         /// <param name="port">The port number used to connect to the AMQP broker</param>
         /// <param name="exclusiveConsumer">Should the consumer channel be exclusive</param>
+        /// <param name="keycloakHost">The Keycloak host for authorization</param>
+        /// <param name="keycloakUsername">The username used to connect authenticate to Keycloak</param>
+        /// <param name="keycloakPassword">The password used to connect authenticate to Keycloak</param>
+        /// <param name="keycloakSecret">The secret used to connect authenticate to Keycloak</param>
+        /// <param name="mtsClientApiHost">The Client API host</param>
+        /// <param name="ticketResponseTimeout">The ticket response timeout(ms)</param>
+        /// <param name="ticketCancellationResponseTimeout">The ticket cancellation response timeout(ms)</param>
+        /// <param name="ticketCashoutResponseTimeout">The ticket cashout response timeout(ms)</param>
         public SdkConfiguration(
             string username,
             string password,
@@ -132,11 +180,25 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             string accessToken = null,
             bool provideAdditionalMarketSpecifiers = true,
             int port = 0,
-            bool exclusiveConsumer = true)
+            bool exclusiveConsumer = true,
+            string keycloakHost = null,
+            string keycloakUsername = null,
+            string keycloakPassword = null,
+            string keycloakSecret = null,
+            string mtsClientApiHost = null,
+            int ticketResponseTimeout = 15000,
+            int ticketCancellationResponseTimeout = 600000,
+            int ticketCashoutResponseTimeout = 600000)
         {
             Contract.Requires(!string.IsNullOrEmpty(username));
             Contract.Requires(!string.IsNullOrEmpty(password));
             Contract.Requires(!string.IsNullOrEmpty(host));
+            Contract.Requires(ticketResponseTimeout >= 10000, "ticketResponseTimeout must be more than 10000ms");
+            Contract.Requires(ticketResponseTimeout <= 30000, "ticketResponseTimeout must be less than 30000ms");
+            Contract.Requires(ticketCancellationResponseTimeout >= 10000, "ticketCancellationResponseTimeout must be more than 10000ms");
+            Contract.Requires(ticketCancellationResponseTimeout <= 3600000, "ticketCancellationResponseTimeout must be less than 3600000ms");
+            Contract.Requires(ticketCashoutResponseTimeout >= 10000, "ticketCashoutResponseTimeout must be more than 10000ms");
+            Contract.Requires(ticketCashoutResponseTimeout <= 3600000, "ticketCashoutResponseTimeout must be less than 3600000ms");
 
             Username = username;
             Password = password;
@@ -170,6 +232,24 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             }
+
+            KeycloakHost = keycloakHost;
+            KeycloakUsername = keycloakUsername;
+            KeycloakPassword = keycloakPassword;
+            KeycloakSecret = keycloakSecret;
+            MtsClientApiHost = mtsClientApiHost;
+
+            if (MtsClientApiHost != null)
+            {
+                if (KeycloakHost == null)
+                    throw new ArgumentException("KeycloakHost must be set.");
+                if (KeycloakSecret == null)
+                    throw new ArgumentException("KeycloakSecret must be set.");
+            }
+
+            TicketResponseTimeout = ticketResponseTimeout;
+            TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
+            TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
         }
 
         /// <summary>
@@ -211,6 +291,24 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 throw new ArgumentException("Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             }
+
+            KeycloakHost = section.KeycloakHost;
+            KeycloakUsername = section.KeycloakUsername;
+            KeycloakPassword = section.KeycloakPassword;
+            KeycloakSecret = section.KeycloakSecret;
+            MtsClientApiHost = section.MtsClientApiHost;
+
+            if (MtsClientApiHost != null)
+            {
+                if (KeycloakHost == null)
+                    throw new ArgumentException("KeycloakHost must be set.");
+                if (KeycloakSecret == null)
+                    throw new ArgumentException("KeycloakSecret must be set.");
+            }
+
+            TicketResponseTimeout = section.TicketResponseTimeout;
+            TicketCancellationResponseTimeout = section.TicketCancellationResponseTimeout;
+            TicketCashoutResponseTimeout = section.TicketCashoutResponseTimeout;
         }
 
         /// <summary>
@@ -225,6 +323,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Contract.Invariant(!string.IsNullOrEmpty(VirtualHost));
             Contract.Invariant(Port > 0);
             Contract.Invariant(!Host.Contains(":"), "Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
+            Contract.Invariant(TicketResponseTimeout >= 10000, "TicketResponseTimeout must be more than 10000ms");
+            Contract.Invariant(TicketResponseTimeout <= 30000, "TicketResponseTimeout must be less than 30000ms");
+            Contract.Invariant(TicketCancellationResponseTimeout >= 10000, "TicketCancellationResponseTimeout must be more than 10000ms");
+            Contract.Invariant(TicketCancellationResponseTimeout <= 3600000, "TicketCancellationResponseTimeout must be less than 3600000ms");
+            Contract.Invariant(TicketCashoutResponseTimeout >= 10000, "TicketCashoutResponseTimeout must be more than 10000ms");
+            Contract.Invariant(TicketCashoutResponseTimeout <= 3600000, "TicketCashoutResponseTimeout must be less than 3600000ms");
         }
     }
 }

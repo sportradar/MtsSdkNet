@@ -38,7 +38,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public string ApiHost { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SdkConfiguration"/> class 
+        /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
         public SdkConfigurationInternal(ISdkConfiguration config)
             : base(config.Username, config.Password, config.Host, config.VirtualHost, config.UseSsl, config.NodeId, config.BookmakerId, config.LimitId, config.Currency, config.Channel, config.AccessToken, config.ProvideAdditionalMarketSpecifiers, config.Port, config.ExclusiveConsumer)

@@ -111,6 +111,59 @@ namespace Sportradar.MTS.SDK.API.Contracts
             return Contract.Result<ISdkConfigurationBuilder>();
         }
 
+        public ISdkConfigurationBuilder SetKeycloakHost(string keycloakHost)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(keycloakHost));
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakUsername(string keycloakUsername)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(keycloakUsername));
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakPassword(string keycloakPassword)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(keycloakPassword));
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakSecret(string keycloakSecret)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(keycloakSecret));
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetMtsClientApiHost(string mtsClientApiHost)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(mtsClientApiHost));
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        public ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
         public ISdkConfiguration Build()
         {
             Contract.Ensures(Contract.Result<ISdkConfiguration>() != null);

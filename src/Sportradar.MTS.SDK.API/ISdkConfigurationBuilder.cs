@@ -12,7 +12,7 @@ namespace Sportradar.MTS.SDK.API
     /// Defines a contract for classes implementing builder for <see cref="ISdkConfiguration"/>
     /// </summary>
     [ContractClass(typeof(SdkConfigurationBuilderContract))]
-    public interface ISdkConfigurationBuilder 
+    public interface ISdkConfigurationBuilder
     {
         /// <summary>
         /// Sets the username
@@ -58,7 +58,7 @@ namespace Sportradar.MTS.SDK.API
         ISdkConfigurationBuilder SetNode(int nodeId);
 
         /// <summary>
-        /// Sets the value indicating whether a secure connection to the message broker should be used 
+        /// Sets the value indicating whether a secure connection to the message broker should be used
         /// </summary>
         /// <param name="useSsl">The value to be set</param>
         /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
@@ -113,6 +113,62 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="exclusiveConsumer">The value to be set</param>
         /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
         ISdkConfigurationBuilder SetExclusiveConsumer(bool exclusiveConsumer);
+
+        /// <summary>
+        /// Sets the Keycloak host for authorization
+        /// </summary>
+        /// <param name="keycloakHost">The Keycloak host to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakHost(string keycloakHost);
+
+        /// <summary>
+        /// Sets the username used to connect authenticate to Keycloak
+        /// </summary>
+        /// <param name="keycloakUsername">The username to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakUsername(string keycloakUsername);
+
+        /// <summary>
+        /// Sets the password used to connect authenticate to Keycloak
+        /// </summary>
+        /// <param name="keycloakPassword">The password to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakPassword(string keycloakPassword);
+
+        /// <summary>
+        /// Sets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        /// <param name="keycloakSecret">The secret to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetKeycloakSecret(string keycloakSecret);
+
+        /// <summary>
+        /// Sets the Client API host
+        /// </summary>
+        /// <param name="mtsClientApiHost">The Client API host to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetMtsClientApiHost(string mtsClientApiHost);
+
+        /// <summary>
+        /// Sets the ticket response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout);
+
+        /// <summary>
+        /// Sets the ticket cancellation response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout);
+
+        /// <summary>
+        /// Sets the ticket cashout response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout);
 
         /// <summary>
         /// Builds the <see cref="ISdkConfiguration" />

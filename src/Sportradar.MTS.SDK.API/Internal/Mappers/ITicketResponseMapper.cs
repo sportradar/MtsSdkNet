@@ -1,6 +1,9 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
+
 namespace Sportradar.MTS.SDK.API.Internal.Mappers
 {
     /// <summary>
@@ -15,8 +18,9 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id</param>
+        /// <param name="additionalInfo">The additional information</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         /// <returns>TOut</returns>
-        TOut Map(TIn source, string correlationId, string orgJson);
+        TOut Map(TIn source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson);
     }
 }

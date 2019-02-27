@@ -46,7 +46,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public bool UseSsl { get; }
 
         /// <summary>
-        /// Gets the default sender bookmakerId 
+        /// Gets the default sender bookmakerId
         /// </summary>
         public int BookmakerId { get; }
 
@@ -100,8 +100,74 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         /// Should the rabbit consumer be exclusive
         /// </summary>
         public bool ExclusiveConsumer { get; }
+        
+        /// <summary>
+        /// Gets the Keycloak host for authorization
+        /// </summary>
+        public string KeycloakHost { get; }
 
-        public SdkConfigurationSectionTest(string username, string password, string host, int port, string virtualHost, int nodeId, bool useSsl, int bookmakerId, int limitId, string currency, SenderChannel? channel, string accessToken, bool provideAdditionalMarketSpecifiers, bool statisticsEnabled, int statisticsTimeout, int statisticsRecordLimit, string sdkLogConfigPath, bool exclusiveConsumer)
+        /// <summary>
+        /// Gets the username used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakUsername { get; }
+
+        /// <summary>
+        /// Gets the password used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakPassword { get; }
+
+        /// <summary>
+        /// Gets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        public string KeycloakSecret { get; }
+
+        /// <summary>
+        /// Gets the Client API host
+        /// </summary>
+        public string MtsClientApiHost { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms)
+        /// </summary>
+        public int TicketResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cancellation response timeout(ms)
+        /// </summary>
+        public int TicketCancellationResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        public int TicketCashoutResponseTimeout { get; }
+
+        public SdkConfigurationSectionTest(
+            string username, 
+            string password, 
+            string host,
+            int port,
+            string virtualHost,
+            int nodeId,
+            bool useSsl,
+            int bookmakerId, 
+            int limitId, 
+            string currency,
+            SenderChannel? channel,
+            string accessToken,
+            bool provideAdditionalMarketSpecifiers, 
+            bool statisticsEnabled, 
+            int statisticsTimeout,
+            int statisticsRecordLimit,
+            string sdkLogConfigPath,
+            bool exclusiveConsumer,
+            string keycloakHost,
+            string keycloakUsername,
+            string keycloakPassword,
+            string keycloakSecret, 
+            string mtsClientApiHost,
+            int ticketResponseTimeout,
+            int ticketCancellationResponseTimeout,
+            int ticketCashoutResponseTimeout)
         {
             Username = username;
             Password = password;
@@ -121,6 +187,14 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             StatisticsRecordLimit = statisticsRecordLimit;
             SdkLogConfigPath = sdkLogConfigPath;
             ExclusiveConsumer = exclusiveConsumer;
+            KeycloakHost = keycloakHost;
+            KeycloakUsername = keycloakUsername;
+            KeycloakPassword = keycloakPassword;
+            KeycloakSecret = keycloakSecret;
+            MtsClientApiHost = mtsClientApiHost;
+            TicketResponseTimeout = ticketResponseTimeout;
+            TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
+            TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
         }
 
         public static SdkConfigurationSectionTest Create()
@@ -143,7 +217,15 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    statisticsTimeout: 60,
                                                    statisticsRecordLimit: 1000,
                                                    sdkLogConfigPath: string.Empty,
-                                                   exclusiveConsumer: true);
+                                                   exclusiveConsumer: true,
+                                                   keycloakHost: string.Empty, 
+                                                   keycloakUsername: string.Empty, 
+                                                   keycloakPassword: string.Empty, 
+                                                   keycloakSecret: string.Empty, 
+                                                   mtsClientApiHost: string.Empty,
+                                                   ticketResponseTimeout: 15000,
+                                                   ticketCancellationResponseTimeout: 600000,
+                                                   ticketCashoutResponseTimeout: 600000);
         }
     }
 }

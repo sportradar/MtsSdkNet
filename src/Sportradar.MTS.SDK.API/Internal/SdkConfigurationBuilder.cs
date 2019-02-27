@@ -24,12 +24,23 @@ namespace Sportradar.MTS.SDK.API.Internal
         private bool _provideAdditionalMarketSpecifiers;
         private int _port;
         private bool _exclusiveConsumer;
+        private string _keycloakHost;
+        private string _keycloakUsername;
+        private string _keycloakPassword;
+        private string _keycloakSecret;
+        private string _mtsClientApiHost;
+        private int _ticketResponseTimeout;
+        private int _ticketCancellationResponseTimeout;
+        private int _ticketCashoutResponseTimeout;
 
         internal SdkConfigurationBuilder()
         {
             _useSsl = true;
             _provideAdditionalMarketSpecifiers = true;
             _exclusiveConsumer = true;
+            _ticketResponseTimeout = 15000;
+            _ticketCancellationResponseTimeout = 600000;
+            _ticketCashoutResponseTimeout = 600000;
         }
 
         public ISdkConfigurationBuilder SetUsername(string username)
@@ -161,6 +172,86 @@ namespace Sportradar.MTS.SDK.API.Internal
             return this;
         }
 
+        public ISdkConfigurationBuilder SetKeycloakHost(string keycloakHost)
+        {
+            if (string.IsNullOrEmpty(keycloakHost))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakHost));
+            }
+            _keycloakHost = keycloakHost;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakUsername(string keycloakUsername)
+        {
+            if (string.IsNullOrEmpty(keycloakUsername))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakUsername));
+            }
+            _keycloakUsername = keycloakUsername;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakPassword(string keycloakPassword)
+        {
+            if (string.IsNullOrEmpty(keycloakPassword))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakPassword));
+            }
+            _keycloakPassword = keycloakPassword;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetKeycloakSecret(string keycloakSecret)
+        {
+            if (string.IsNullOrEmpty(keycloakSecret))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(keycloakSecret));
+            }
+            _keycloakSecret = keycloakSecret;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetMtsClientApiHost(string mtsClientApiHost)
+        {
+            if (string.IsNullOrEmpty(mtsClientApiHost))
+            {
+                throw new ArgumentException("Value cannot be a null reference or an empty string", nameof(mtsClientApiHost));
+            }
+            _mtsClientApiHost = mtsClientApiHost;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < 10000)
+                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
+            if (responseTimeout > 30000)
+                throw new ArgumentException("responseTimeout must be less than 30000ms", nameof(responseTimeout));
+            _ticketResponseTimeout = responseTimeout;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < 10000)
+                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
+            if (responseTimeout > 3600000)
+                throw new ArgumentException("responseTimeout must be less than 3600000ms", nameof(responseTimeout));
+            _ticketCancellationResponseTimeout = responseTimeout;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < 10000)
+                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
+            if (responseTimeout > 3600000)
+                throw new ArgumentException("responseTimeout must be less than 3600000ms", nameof(responseTimeout));
+            _ticketCashoutResponseTimeout = responseTimeout;
+            return this;
+        }
+
         public ISdkConfiguration Build()
         {
             if (string.IsNullOrEmpty(_username))
@@ -188,7 +279,15 @@ namespace Sportradar.MTS.SDK.API.Internal
                                         _accessToken,
                                         _provideAdditionalMarketSpecifiers,
                                         _port,
-                                        _exclusiveConsumer);
+                                        _exclusiveConsumer,
+                                        _keycloakHost,
+                                        _keycloakUsername,
+                                        _keycloakPassword,
+                                        _keycloakSecret,
+                                        _mtsClientApiHost,
+                                        _ticketResponseTimeout,
+                                        _ticketCancellationResponseTimeout,
+                                        _ticketCashoutResponseTimeout);
         }
     }
 }

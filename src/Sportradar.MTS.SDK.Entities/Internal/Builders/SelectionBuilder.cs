@@ -92,6 +92,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             var dataProvider = new DataProvider<market_descriptions, IEnumerable<MarketDescriptionDTO>>(
                 configInternal.ApiHost + "/v1/descriptions/{0}/markets.xml?include_mappings=true",
                 dataFetcher,
+                dataFetcher,
                 deserializer,
                 mapper);
 

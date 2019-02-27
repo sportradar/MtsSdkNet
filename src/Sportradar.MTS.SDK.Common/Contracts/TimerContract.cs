@@ -17,7 +17,7 @@ namespace Sportradar.MTS.SDK.Common.Contracts
         public event EventHandler Elapsed;
 
         public void Start()
-        { 
+        {
         }
 
         public void Start(TimeSpan dueTime, TimeSpan period)

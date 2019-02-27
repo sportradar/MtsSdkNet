@@ -24,7 +24,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         /// <summary>
         /// The MTS SDK instance
         /// </summary>
-        private MtsSdk _mtsSdk;
+        private IMtsSdk _mtsSdk;
 
         private IBuilderFactory _factory;
 
@@ -176,7 +176,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
                 ticket.Acknowledge();
 
                 // handle ticket response
-               
+
                 //if for some reason we want to cancel ticket, this is how we can do it
                 var ticketCancel = _factory.CreateTicketCancelBuilder().SetTicketId(ticket.TicketId).SetCode(TicketCancellationReason.BookmakerTechnicalIssue).BuildTicket();
                 _mtsSdk.SendTicket(ticketCancel);

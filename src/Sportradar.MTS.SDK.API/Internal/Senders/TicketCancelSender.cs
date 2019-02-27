@@ -12,18 +12,18 @@ using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel;
 namespace Sportradar.MTS.SDK.API.Internal.Senders
 {
     public class TicketCancelSender : TicketSenderBase
-    { 
+    {
         private readonly ITicketMapper<ITicketCancel, TicketCancelDTO> _ticketMapper;
 
         internal TicketCancelSender(ITicketMapper<ITicketCancel, TicketCancelDTO> ticketMapper,
                               IRabbitMqPublisherChannel publisherChannel,
                               ConcurrentDictionary<string, TicketCacheItem> ticketCache,
                               IMtsChannelSettings mtsChannelSettings,
-                              int ticketCacheTimeoutInSec)
-            : base(publisherChannel, ticketCache, mtsChannelSettings, ticketCacheTimeoutInSec)
+                              int ticketCacheTimeoutInMs)
+            : base(publisherChannel, ticketCache, mtsChannelSettings, ticketCacheTimeoutInMs)
         {
             Contract.Requires(ticketMapper != null);
-            
+
             _ticketMapper = ticketMapper;
         }
 

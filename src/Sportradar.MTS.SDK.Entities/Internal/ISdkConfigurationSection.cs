@@ -47,7 +47,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         bool UseSsl { get; }
 
         /// <summary>
-        /// Gets the default sender bookmakerId 
+        /// Gets the default sender bookmakerId
         /// </summary>
         int BookmakerId { get; }
 
@@ -101,5 +101,45 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// Should the rabbit consumer channel be exclusive
         /// </summary>
         bool ExclusiveConsumer { get; }
+
+        /// <summary>
+        /// Gets the Keycloak host for authorization
+        /// </summary>
+        string KeycloakHost { get; }
+
+        /// <summary>
+        /// Gets the username used to connect authenticate to Keycloak
+        /// </summary>
+        string KeycloakUsername { get; }
+
+        /// <summary>
+        /// Gets the password used to connect authenticate to Keycloak
+        /// </summary>
+        string KeycloakPassword { get; }
+
+        /// <summary>
+        /// Gets the secret used to connect authenticate to Keycloak
+        /// </summary>
+        string KeycloakSecret { get; }
+
+        /// <summary>
+        /// Gets the Client API host
+        /// </summary>
+        string MtsClientApiHost { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms)
+        /// </summary>
+        int TicketResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cancellation response timeout(ms)
+        /// </summary>
+        int TicketCancellationResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        int TicketCashoutResponseTimeout { get; }
     }
 }

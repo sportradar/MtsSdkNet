@@ -16,7 +16,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
     public class CommunicationException : FeedSdkException
     {
         /// <summary>
-        /// Gets the <see cref="string"/> representation of the url specifying the resource which was being accessed 
+        /// Gets the <see cref="string"/> representation of the url specifying the resource which was being accessed
         /// </summary>
         /// <value>The URL</value>
         public string Url { get; }
@@ -40,7 +40,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
         /// <param name="message">The error message that explains the reason for the exception</param>
         /// <param name="url">The <see cref="string"/> representation of the url specifying the resource which was being accessed </param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference if no inner exception is specified</param>
-        public CommunicationException(string message, string url, Exception innerException) 
+        public CommunicationException(string message, string url, Exception innerException)
             : base(message, innerException)
         {
             Url = url;
@@ -67,7 +67,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
         /// </summary>
         /// <param name="info">The <see cref="SerializationInfo" /> that holds the serialized object data about the exception being thrown</param>
         /// <param name="context">The <see cref="StreamingContext" /> that contains contextual information about the source or destination</param>
-        public CommunicationException(SerializationInfo info, StreamingContext context) 
+        public CommunicationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             Url = info.GetString("sdkUrl");

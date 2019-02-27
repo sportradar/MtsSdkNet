@@ -1,6 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Contracts;
@@ -28,5 +30,12 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the response signature/hash (previous BetAcceptanceId)
         /// </summary>
         string Signature { get; }
+
+        /// <summary>
+        /// Gets the additional information about the response
+        /// </summary>
+        /// <value>The additional information</value>
+        /// <remarks>Contains timestamps describing mts processing (receivedUtcTimestamp, validatedUtcTimestamp, respondedUtcTimestamp)</remarks>
+        IDictionary<string, string> AdditionalInfo { get; }
     }
 }

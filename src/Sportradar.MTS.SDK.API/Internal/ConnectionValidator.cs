@@ -64,7 +64,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                         return ConnectionValidationResult.ConnectionRefused;
                     }
                     return ex.ErrorCode >= 11001 && ex.ErrorCode <= 11004
-                        ? ConnectionValidationResult.NoInternetConnection 
+                        ? ConnectionValidationResult.NoInternetConnection
                         : ConnectionValidationResult.Unknown;
                 }
                 return ConnectionValidationResult.Success;

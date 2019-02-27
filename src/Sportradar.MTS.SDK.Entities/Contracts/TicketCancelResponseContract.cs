@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -38,6 +39,8 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
                 return Contract.Result<string>();
             }
         }
+
+        public IDictionary<string, string> AdditionalInfo => Contract.Result<IDictionary<string, string>>();
 
         public abstract void Acknowledge(bool markAccepted, int bookmakerId, int code, string message);
 

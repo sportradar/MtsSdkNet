@@ -1,6 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.API.Internal.TicketImpl;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -34,18 +36,20 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id of the response</param>
+        /// <param name="additionalInfo">The additional information</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         /// <returns>ITicketCashoutResponse</returns>
-        public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, string orgJson)
+        public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCashoutResponse(_ticketSender,
-                                            source.Result.TicketId,
-                                            MtsTicketHelper.Convert(source.Result.Status),
-                                            new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
-                                            correlationId,
-                                            source.Signature,
-                                            source.Version,
-                                            orgJson);
+                                             source.Result.TicketId,
+                                             MtsTicketHelper.Convert(source.Result.Status),
+                                             new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
+                                             correlationId,
+                                             source.Signature,
+                                             source.Version,
+                                             additionalInfo,
+                                             orgJson);
         }
     }
 }

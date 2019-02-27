@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Sportradar.MTS.SDK.Common.Exceptions;
@@ -68,10 +69,25 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         public virtual async Task<Stream> GetDataAsync(Uri uri)
         {
+            return await GetDataAsync(null, uri);
+        }
+
+        /// <summary>
+        /// Asynchronously gets a <see cref="Stream" /> containing data fetched from the provided <see cref="Uri" />
+        /// </summary>
+        /// <param name="authorization">The value of authorization header</param>
+        /// <param name="uri">The <see cref="Uri" /> of the resource to be fetched</param>
+        /// <returns>A <see cref="Task" /> which, when completed will return a <see cref="Stream" /> containing fetched data</returns>
+        /// <exception cref="CommunicationException">Failed to execute http get</exception>
+        public virtual async Task<Stream> GetDataAsync(string authorization, Uri uri)
+        {
             ValidateConnection(uri);
             var responseMessage = new HttpResponseMessage();
             try
             {
+                _client.DefaultRequestHeaders.Authorization = authorization != null
+                    ? new AuthenticationHeaderValue("Bearer", authorization)
+                    : null;
                 responseMessage = await _client.GetAsync(uri);
                 RecordSuccess();
                 if (!responseMessage.IsSuccessStatusCode)
@@ -100,10 +116,26 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// <exception cref="CommunicationException">Failed to execute http post</exception>
         public virtual async Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
         {
+            return await PostDataAsync(null, uri, content);
+        }
+
+        /// <summary>
+        /// Asynchronously gets a <see cref="Stream" /> containing data fetched from the provided <see cref="Uri" />
+        /// </summary>
+        /// <param name="authorization">The value of authorization header</param>
+        /// <param name="uri">The <see cref="Uri" /> of the resource to be fetched</param>
+        /// <param name="content">A <see cref="HttpContent" /> to be posted to the specific <see cref="Uri" /></param>
+        /// <returns>A <see cref="Task" /> which, when successfully completed will return a <see cref="HttpResponseMessage" /></returns>
+        /// <exception cref="CommunicationException">Failed to execute http post</exception>
+        public virtual async Task<HttpResponseMessage> PostDataAsync(string authorization, Uri uri, HttpContent content = null)
+        {
             ValidateConnection(uri);
             var responseMessage = new HttpResponseMessage();
             try
             {
+                _client.DefaultRequestHeaders.Authorization = authorization != null
+                    ? new AuthenticationHeaderValue("Bearer", authorization)
+                    : null;
                 responseMessage = await _client.PostAsync(uri, content ?? new StringContent(string.Empty));
                 RecordSuccess();
                 return responseMessage;

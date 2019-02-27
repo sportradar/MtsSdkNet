@@ -47,9 +47,10 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// Asynchronously gets a <see cref="Stream" /> containing data fetched from the provided <see cref="Uri" />
         /// </summary>
         /// <param name="uri">The <see cref="Uri" /> of the resource to be fetched</param>
+        /// <param name="authorization">The value of authorization header</param>
         /// <returns>A <see cref="Task" /> which, when completed will return a <see cref="Stream" /> containing fetched data</returns>
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
-        public override async Task<Stream> GetDataAsync(Uri uri)
+        public override async Task<Stream> GetDataAsync(string authorization, Uri uri)
         {
             Metric.Context("FEED").Meter("LogHttpDataFetcher->GetDataAsync", Unit.Requests).Mark();
 
@@ -62,7 +63,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
             Stream responseStream;
             try
             {
-                responseStream = await base.GetDataAsync(uri).ConfigureAwait(false);
+                responseStream = await base.GetDataAsync(authorization, uri).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -90,7 +91,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
             writer.Write(responseContent);
             writer.Flush();
             memoryStream.Position = 0;
-            
+
             RestLog.Debug($"Id:{dataId} Fetching from {uri.AbsoluteUri} took {watch.ElapsedMilliseconds} ms. Data={responseContent}");
 
             return memoryStream;
@@ -100,10 +101,11 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// Asynchronously gets a <see cref="Stream"/> containing data fetched from the provided <see cref="Uri"/>
         /// </summary>
         /// <param name="uri">The <see cref="Uri"/> of the resource to be fetched</param>
+        /// <param name="authorization">The value of authorization header</param>
         /// <param name="content">A <see cref="HttpContent"/> to be posted to the specific <see cref="Uri"/></param>
         /// <returns>A <see cref="Task"/> which, when successfully completed will return a <see cref="HttpResponseMessage"/></returns>
         /// <exception cref="CommunicationException">Failed to execute http post</exception>
-        public override async Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
+        public override async Task<HttpResponseMessage> PostDataAsync(string authorization, Uri uri, HttpContent content = null)
         {
             Metric.Context("FEED").Meter("LogHttpDataFetcher->PostDataAsync", Unit.Requests).Mark();
 
@@ -122,7 +124,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
             HttpResponseMessage response;
             try
             {
-                response = await base.PostDataAsync(uri, content);
+                response = await base.PostDataAsync(authorization, uri, content);
             }
             catch (Exception ex)
             {

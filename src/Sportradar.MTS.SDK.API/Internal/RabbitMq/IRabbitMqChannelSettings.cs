@@ -52,7 +52,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// Gets the timeout for items in publish queue
         /// </summary>
         /// <value>Default 15 seconds</value>
-        int PublishQueueTimeoutInSec { get; }
+        int PublishQueueTimeoutInMs { get; }
 
         /// <summary>
         /// Gets a value indicating whether the rabbit consumer channel should be exclusive

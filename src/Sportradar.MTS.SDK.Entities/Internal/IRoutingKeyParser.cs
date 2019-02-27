@@ -6,7 +6,7 @@ using Sportradar.MTS.SDK.Entities.Internal.Enums;
 namespace Sportradar.MTS.SDK.Entities.Internal
 {
     /// <summary>
-    /// Defines a contract implemented by classes used to parse the RabbitMq routing key in order to 
+    /// Defines a contract implemented by classes used to parse the RabbitMq routing key in order to
     /// determine the sportId of the sport associated with the message
     /// </summary>
     public interface IRoutingKeyParser

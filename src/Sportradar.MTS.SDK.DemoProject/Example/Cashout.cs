@@ -25,7 +25,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         /// <summary>
         /// The MTS SDK instance
         /// </summary>
-        private MtsSdk _mtsSdk;
+        private IMtsSdk _mtsSdk;
         private IBuilderFactory _factory;
 
         public Cashout(ILog log)

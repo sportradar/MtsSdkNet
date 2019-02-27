@@ -54,9 +54,9 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         private bool _isOpened;
 
         /// <summary>
-        /// Gets the get cache timeout
+        /// Gets the get cache timeout in ms
         /// </summary>
-        /// <value>The get cache timeout</value>
+        /// <value>The get cache timeout in ms</value>
         public int GetCacheTimeout { get; }
 
         /// <summary>
@@ -65,11 +65,11 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <param name="publisherChannel">The publisher channel</param>
         /// <param name="ticketCache">The ticket cache</param>
         /// <param name="mtsChannelSettings">The MTS channel settings</param>
-        /// <param name="ticketCacheTimeoutInSec">The ticket cache timeout in sec</param>
-        internal TicketSenderBase(IRabbitMqPublisherChannel publisherChannel, 
-                              ConcurrentDictionary<string, TicketCacheItem> ticketCache, 
+        /// <param name="ticketCacheTimeoutInMs">The ticket cache timeout in ms</param>
+        internal TicketSenderBase(IRabbitMqPublisherChannel publisherChannel,
+                              ConcurrentDictionary<string, TicketCacheItem> ticketCache,
                               IMtsChannelSettings mtsChannelSettings,
-                              int ticketCacheTimeoutInSec)
+                              int ticketCacheTimeoutInMs)
         {
             Contract.Requires(publisherChannel != null);
             Contract.Requires(ticketCache != null);
@@ -81,19 +81,19 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
 
             _publisherChannel.MqMessagePublishFailed += PublisherChannelOnMqMessagePublishFailed;
 
-            GetCacheTimeout = ticketCacheTimeoutInSec < 10 ? 20 : ticketCacheTimeoutInSec;
+            GetCacheTimeout = ticketCacheTimeoutInMs < 10000 ? 20000 : ticketCacheTimeoutInMs;
 
-            _timer = new SdkTimer(new TimeSpan(0, 0, GetCacheTimeout), new TimeSpan(0, 0, 10));
+            _timer = new SdkTimer(new TimeSpan(0, 0, 0, 0, GetCacheTimeout), new TimeSpan(0, 0, 10));
             _timer.Elapsed += OnTimerElapsed;
-            _timer.FireOnce(new TimeSpan(0, 0, GetCacheTimeout));
+            _timer.FireOnce(new TimeSpan(0, 0, 0, 0, GetCacheTimeout));
         }
 
         private void PublisherChannelOnMqMessagePublishFailed(object sender,
             MessagePublishFailedEventArgs messagePublishFailedEventArgs)
         {
             _executionLog.Info($"Message publishing failed with correlationId: {messagePublishFailedEventArgs.CorrelationId}, errorMessage: {messagePublishFailedEventArgs.ErrorMessage}, routingKey: {messagePublishFailedEventArgs.RoutingKey}.");
-            
-            string ticketId = string.Empty;
+
+            var ticketId = string.Empty;
             var ci = _ticketCache.Values.FirstOrDefault(f => f.CorrelationId == messagePublishFailedEventArgs.CorrelationId);
             if (!string.IsNullOrEmpty(ci?.TicketId))
             {
@@ -141,7 +141,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// </summary>
         private void DeleteExpiredCacheItems()
         {
-            var expiredItems = _ticketCache.Where(t => t.Value.Timestamp < DateTime.Now.AddSeconds(-GetCacheTimeout));
+            var expiredItems = _ticketCache.Where(t => t.Value.Timestamp < DateTime.Now.AddMilliseconds(-GetCacheTimeout));
             foreach (var ei in expiredItems)
             {
                 TicketCacheItem ci;
@@ -163,7 +163,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <returns>System.Byte[]</returns>
         protected byte[] GetByteMsg(ISdkTicket sdkTicket)
         {
-            string json = GetMappedDtoJsonMsg(sdkTicket);
+            var json = GetMappedDtoJsonMsg(sdkTicket);
             if (_feedLog.IsDebugEnabled)
             {
                 _feedLog.Debug($"Sending {sdkTicket.GetType().Name}: {json}");
@@ -195,7 +195,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             {
                 _feedLog.Warn($"Ticket: {sdkTicket.TicketId} is missing CorrelationId.");
             }
-            
+
             var ticketCI = new TicketCacheItem(TicketHelper.GetTicketTypeFromTicket(sdkTicket), sdkTicket.TicketId, sdkTicket.CorrelationId, _mtsChannelSettings.ReplyToRoutingKey, null, sdkTicket);
 
             // we clear cache, since already sent ticket with the same ticketId are obsolete (example: sending ticket, ticketAck, ticketCancel, ticketCancelAck)

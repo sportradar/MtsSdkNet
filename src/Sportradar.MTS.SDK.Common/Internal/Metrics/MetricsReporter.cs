@@ -31,7 +31,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics
         /// <param name="runHealthStatus">Indicates if it should execute <see cref="RunHealthStatus"/> before completing <see cref="RunReport"/></param>
         public MetricsReporter(MetricsReportPrintMode printMode = MetricsReportPrintMode.Normal, int decimals = 2, bool runHealthStatus = true)
         {
-            _log = null; 
+            _log = null;
             _printMode = printMode;
             _decimals = decimals;
             _runHealthStatus = runHealthStatus;

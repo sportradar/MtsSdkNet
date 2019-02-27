@@ -7,7 +7,7 @@ namespace Sportradar.MTS.SDK.Entities.Enums
     /// Enum BetBonusMode
     /// </summary>
     public enum BetBonusMode
-    {       
+    {
         ///// <summary>
         ///// Any: if at least one bet wins entire bonus is paid out
         ///// </summary>

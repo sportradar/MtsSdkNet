@@ -30,7 +30,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
                 return Contract.Result<DateTime>();
             }
         }
-        
+
         public string Version
         {
             get

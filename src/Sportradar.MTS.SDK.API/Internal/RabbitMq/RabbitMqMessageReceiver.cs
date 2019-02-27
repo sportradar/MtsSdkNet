@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using log4net;
 using Metrics;
 using RabbitMQ.Client;
@@ -140,7 +141,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
             Metric.Context("RABBIT").Meter("RabbitMqMessageReceiver", Unit.Items).Mark(eventArgs.Exchange);
 
-            RaiseMessageReceived(messageBody, eventArgs.RoutingKey, correlationId, additionalInfo);
+            RaiseMessageReceived(messageBody, eventArgs.RoutingKey, correlationId, additionalInfo.Any() ? additionalInfo : null);
 
             stopwatch.Stop();
             FeedLog.Info($"CONSUME END Message: {correlationId}. Processed in {stopwatch.ElapsedMilliseconds} ms.");

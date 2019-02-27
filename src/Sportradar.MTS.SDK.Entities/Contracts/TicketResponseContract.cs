@@ -60,6 +60,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
 
         public IDictionary<string, string> AdditionalInfo => Contract.Result<IDictionary<string, string>>();
 
+        /// <summary>
+        /// Gets the automatic accepted odds
+        /// </summary>
+        /// <value>The automatic accepted odds</value>
+        public IEnumerable<IAutoAcceptedOdds> AutoAcceptedOdds => Contract.Result<IEnumerable<IAutoAcceptedOdds>>();
+
         public abstract void Acknowledge(bool markAccepted, int bookmakerId, int code, string message);
 
         public abstract void Acknowledge(bool markAccepted = true);

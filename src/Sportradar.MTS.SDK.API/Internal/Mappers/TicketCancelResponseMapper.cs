@@ -1,6 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.API.Internal.TicketImpl;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -30,13 +32,13 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         }
 
         /// <summary>
-        /// Maps the specified source.
+        /// Maps the specified source
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id of the response</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         /// <returns>ITicketCancelResponse</returns>
-        public ITicketCancelResponse Map(TicketCancelResponseDTO source, string correlationId, string orgJson)
+        public ITicketCancelResponse Map(TicketCancelResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCancelResponse(_ticketCancelAckSender,
                                             source.Result.TicketId,
@@ -45,6 +47,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
                                             correlationId,
                                             source.Signature,
                                             source.Version,
+                                            additionalInfo,
                                             orgJson);
         }
     }

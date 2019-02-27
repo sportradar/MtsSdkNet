@@ -89,8 +89,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <exception cref="NotImplementedException"></exception>
         public ITicket BuildTicket()
         {
-            return _ticketResponse != null 
-                ? BuildReofferTicket(_builderFactory, _ticket, _ticketResponse, _newTicketId) 
+            return _ticketResponse != null
+                ? BuildReofferTicket(_builderFactory, _ticket, _ticketResponse, _newTicketId)
                 : BuildReofferTicket(_builderFactory, _ticket, _newStake, _newTicketId);
         }
 

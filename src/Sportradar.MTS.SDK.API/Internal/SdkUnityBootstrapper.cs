@@ -28,6 +28,7 @@ using Sportradar.MTS.SDK.Entities.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.Cache;
 using Sportradar.MTS.SDK.Entities.Internal.REST;
+using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
 
 // ReSharper disable RedundantTypeArgumentsOfMethod
@@ -56,6 +57,8 @@ namespace Sportradar.MTS.SDK.API.Internal
             RegisterMarketDescriptionCache(container, userConfig);
 
             RegisterSdkStatisticsWriter(container, userConfig);
+
+            RegisterClientApi(container, userConfig);
         }
 
         private static void RegisterBaseClasses(IUnityContainer container, ISdkConfiguration config)
@@ -106,7 +109,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                     (long)value,
                     long.MaxValue));
 
-            container.RegisterType<HttpDataFetcher, HttpDataFetcher>(
+            container.RegisterType<HttpDataFetcher, HttpDataFetcher>("Base",
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     new ResolvedParameter<HttpClient>(),
@@ -114,7 +117,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                     RestConnectionFailureLimit,
                     RestConnectionFailureTimeoutInSec));
 
-            container.RegisterType<LogHttpDataFetcher, LogHttpDataFetcher>(
+            container.RegisterType<LogHttpDataFetcher, LogHttpDataFetcher>("Base",
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     new ResolvedParameter<HttpClient>(),
@@ -123,9 +126,9 @@ namespace Sportradar.MTS.SDK.API.Internal
                     RestConnectionFailureLimit,
                     RestConnectionFailureTimeoutInSec));
 
-            var logFetcher = container.Resolve<LogHttpDataFetcher>();
-            container.RegisterInstance<IDataFetcher>(logFetcher, new ContainerControlledLifetimeManager());
-            container.RegisterInstance<IDataPoster>(logFetcher, new ContainerControlledLifetimeManager());
+            var logFetcher = container.Resolve<LogHttpDataFetcher>("Base");
+            container.RegisterInstance<IDataFetcher>("Base", logFetcher, new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IDataPoster>("Base", logFetcher, new ContainerControlledLifetimeManager());
         }
 
         private static void RegisterRabbitMqTypes(IUnityContainer container, ISdkConfiguration config, string environment)
@@ -133,8 +136,9 @@ namespace Sportradar.MTS.SDK.API.Internal
             Contract.Assume(container.Resolve<IChannelFactory>() != null);
 
             container.RegisterType<IRabbitMqChannelSettings, RabbitMqChannelSettings>(new ContainerControlledLifetimeManager());
-            var rabbitMqChannelSettings = new RabbitMqChannelSettings(true, config.ExclusiveConsumer);
-            container.RegisterInstance(rabbitMqChannelSettings);
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketResponseTimeout));
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketCancellationChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketCancellationResponseTimeout));
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketCashoutChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketCashoutResponseTimeout));
 
             var rootExchangeName = config.VirtualHost.Replace("/", string.Empty);
             container.RegisterType<IMtsChannelSettings, MtsChannelSettings>(new ContainerControlledLifetimeManager());
@@ -163,13 +167,13 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterType<IRabbitMqConsumerChannel, RabbitMqConsumerChannel>(new HierarchicalLifetimeManager());
             var ticketResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketResponseChannelSettings"),
-                                                                            container.Resolve<IRabbitMqChannelSettings>());
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings"));
             var ticketCancelResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketCancelResponseChannelSettings"),
-                                                                            container.Resolve<IRabbitMqChannelSettings>());
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketCashoutResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketCashoutResponseChannelSettings"),
-                                                                            container.Resolve<IRabbitMqChannelSettings>());
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings"));
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketConsumerChannel", ticketResponseConsumerChannel);
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketCancelConsumerChannel", ticketCancelResponseConsumerChannel);
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketCashoutConsumerChannel", ticketCashoutResponseConsumerChannel);
@@ -182,22 +186,22 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterType<IRabbitMqPublisherChannel, RabbitMqPublisherChannel>(new HierarchicalLifetimeManager());
             var ticketPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings"));
             var ticketAckPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketAckChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings"));
             var ticketCancelPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCancelChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketCancelAckPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCancelAckChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketReofferCancelPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketReofferCancelChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings"));
             var ticketCashoutPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCashoutChannelSettings,
-                                                        container.Resolve<IRabbitMqChannelSettings>());
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings"));
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketPublisherChannel", ticketPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketAckPublisherChannel", ticketAckPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketCancelPublisherChannel", ticketCancelPC);
@@ -215,32 +219,32 @@ namespace Sportradar.MTS.SDK.API.Internal
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings").PublishQueueTimeoutInMs);
             var ticketAckSender = new TicketAckSender(new TicketAckMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketAckPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketAckChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings").PublishQueueTimeoutInMs);
             var ticketCancelSender = new TicketCancelSender(new TicketCancelMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketCancelPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCancelChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings").PublishQueueTimeoutInMs);
             var ticketCancelAckSender = new TicketCancelAckSender(new TicketCancelAckMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketCancelAckPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCancelAckChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings").PublishQueueTimeoutInMs);
             var ticketReofferCancelSender = new TicketReofferCancelSender(new TicketReofferCancelMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketReofferCancelPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketReofferCancelChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCancellationChannelSettings").PublishQueueTimeoutInMs);
             var ticketCashoutSender = new TicketCashoutSender(new TicketCashoutMapper(),
                                                 container.Resolve<IRabbitMqPublisherChannel>("TicketCashoutPublisherChannel"),
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCashoutChannelSettings"),
-                                                container.Resolve<IRabbitMqChannelSettings>().PublishQueueTimeoutInSec);
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings").PublishQueueTimeoutInMs);
             container.RegisterInstance<ITicketSender>("TicketSender", ticketSender);
             container.RegisterInstance<ITicketSender>("TicketAckSender", ticketAckSender);
             container.RegisterInstance<ITicketSender>("TicketCancelSender", ticketCancelSender);
@@ -300,7 +304,8 @@ namespace Sportradar.MTS.SDK.API.Internal
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     configInternal.ApiHost + "/v1/descriptions/{0}/markets.xml?include_mappings=true",
-                    new ResolvedParameter<IDataFetcher>(),
+                    new ResolvedParameter<IDataFetcher>("Base"),
+                    new ResolvedParameter<IDataPoster>("Base"),
                     new ResolvedParameter<IDeserializer<market_descriptions>>(),
                     new ResolvedParameter<ISingleTypeMapperFactory<market_descriptions, IEnumerable<MarketDescriptionDTO>>>()));
 
@@ -340,6 +345,77 @@ namespace Sportradar.MTS.SDK.API.Internal
                 new InjectionConstructor(
                     new ResolvedParameter<ISdkConfigurationInternal>(),
                     new ResolvedParameter<IMarketDescriptionProvider>()));
+        }
+
+        private static void RegisterClientApi(IUnityContainer container, ISdkConfiguration userConfig)
+        {
+            container.RegisterType<HttpDataFetcher, HttpDataFetcher>("MtsClientApi",
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<HttpClient>(),
+                    string.Empty,
+                    RestConnectionFailureLimit,
+                    RestConnectionFailureTimeoutInSec));
+
+            container.RegisterType<LogHttpDataFetcher, LogHttpDataFetcher>("MtsClientApi",
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<HttpClient>(),
+                    string.Empty,
+                    new ResolvedParameter<ISequenceGenerator>(),
+                    RestConnectionFailureLimit,
+                    RestConnectionFailureTimeoutInSec));
+
+            var logFetcher = container.Resolve<LogHttpDataFetcher>("MtsClientApi");
+            container.RegisterInstance<IDataFetcher>("MtsClientApi", logFetcher, new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IDataPoster>("MtsClientApi", logFetcher, new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IDeserializer<KeycloakAuthorization>, Entities.Internal.JsonDeserializer<KeycloakAuthorization>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<KeycloakAuthorization, KeycloakAuthorizationDTO>, KeycloakAuthorizationMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<KeycloakAuthorizationDTO>,
+                DataProvider<KeycloakAuthorization, KeycloakAuthorizationDTO>>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    userConfig.KeycloakHost + "/auth/realms/mts/protocol/openid-connect/token",
+                    new ResolvedParameter<IDataFetcher>("MtsClientApi"),
+                    new ResolvedParameter<IDataPoster>("MtsClientApi"),
+                    new ResolvedParameter<IDeserializer<KeycloakAuthorization>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<KeycloakAuthorization, KeycloakAuthorizationDTO>>()));
+
+            container.RegisterType<IDeserializer<MaxStakeResponse>, Entities.Internal.JsonDeserializer<MaxStakeResponse>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<MaxStakeResponse, MaxStakeDTO>, MaxStakeMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<MaxStakeDTO>,
+                DataProvider<MaxStakeResponse, MaxStakeDTO>>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    userConfig.MtsClientApiHost + "/ClientApi/api/maxStake/v1",
+                    new ResolvedParameter<IDataFetcher>("MtsClientApi"),
+                    new ResolvedParameter<IDataPoster>("MtsClientApi"),
+                    new ResolvedParameter<IDeserializer<MaxStakeResponse>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<MaxStakeResponse, MaxStakeDTO>>()));
+
+            container.RegisterType<IDeserializer<CcfResponse>, Entities.Internal.JsonDeserializer<CcfResponse>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<CcfResponse, CcfDTO>, CcfMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<CcfDTO>,
+                DataProvider<CcfResponse, CcfDTO>>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    userConfig.MtsClientApiHost + "/ClientApi/api/ccf/v1?sourceId={0}",
+                    new ResolvedParameter<IDataFetcher>("MtsClientApi"),
+                    new ResolvedParameter<IDataPoster>("MtsClientApi"),
+                    new ResolvedParameter<IDeserializer<CcfResponse>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<CcfResponse, CcfDTO>>()));
+
+            container.RegisterType<IMtsClientApi, MtsClientApi>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<IDataProvider<MaxStakeDTO>>(),
+                    new ResolvedParameter<IDataProvider<CcfDTO>>(),
+                    new ResolvedParameter<IDataProvider<KeycloakAuthorizationDTO>>(),
+                    new InjectionParameter<string>(userConfig.KeycloakUsername),
+                    new InjectionParameter<string>(userConfig.KeycloakPassword),
+                    new InjectionParameter<string>(userConfig.KeycloakSecret)
+                ));
         }
     }
 }

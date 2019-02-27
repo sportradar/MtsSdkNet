@@ -15,7 +15,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
         internal string ProductOutcomeId { get; }
 
         internal string ProductOutcomeName { get; }
-        
+
         internal OutcomeMappingDTO(mappingsMappingMapping_outcome outcome)
         {
             Contract.Requires(outcome != null);

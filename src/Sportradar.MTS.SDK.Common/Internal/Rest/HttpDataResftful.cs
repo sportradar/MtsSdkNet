@@ -29,7 +29,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// Initializes a new instance of the <see cref="HttpDataRestful"/> class
         /// </summary>
         /// <param name="client">A <see cref="T:System.Net.Http.HttpClient" /> used to invoke HTTP requests</param>
-        /// <param name="accessToken">A token used when making the http requests</param> 
+        /// <param name="accessToken">A token used when making the http requests</param>
         /// <param name="connectionFailureLimit">Indicates the limit of consecutive request failures, after which it goes in "blocking mode"</param>
         /// <param name="connectionFailureTimeout">indicates the timeout after which comes out of "blocking mode" (in seconds)</param>
         public HttpDataRestful(HttpClient client, string accessToken, int connectionFailureLimit = 5, int connectionFailureTimeout = 15)

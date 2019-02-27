@@ -4,7 +4,7 @@
 namespace Sportradar.MTS.SDK.Entities.Builders
 {
     /// <summary>
-    /// Defines a contract for classes implementing any ticket builder 
+    /// Defines a contract for classes implementing any ticket builder
     /// </summary>
     public interface ISdkTicketBuilder
     {

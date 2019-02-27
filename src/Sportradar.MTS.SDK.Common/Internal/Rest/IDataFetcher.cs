@@ -20,5 +20,15 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// <returns>A <see cref="Task"/> which, when completed will return a <see cref="Stream"/> containing fetched data</returns>
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         Task<Stream> GetDataAsync(Uri uri);
+
+        /// <summary>
+        /// Asynchronously gets a <see cref="Stream"/> containing data fetched from the provided <see cref="Uri"/>
+        /// </summary>
+        /// <param name="uri">The <see cref="Uri"/> of the resource to be fetched</param>
+        /// <param name="authorization">The value of authorization header</param>
+        /// <returns>A <see cref="Task"/> which, when completed will return a <see cref="Stream"/> containing fetched data</returns>
+        /// <exception cref="CommunicationException">Failed to execute http get</exception>
+        Task<Stream> GetDataAsync(string authorization, Uri uri);
+
     }
 }
