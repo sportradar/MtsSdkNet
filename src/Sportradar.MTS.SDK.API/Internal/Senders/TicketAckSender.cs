@@ -19,8 +19,8 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
                               IRabbitMqPublisherChannel publisherChannel,
                               ConcurrentDictionary<string, TicketCacheItem> ticketCache,
                               IMtsChannelSettings mtsChannelSettings,
-                              int ticketCacheTimeoutInSec)
-            : base(publisherChannel, ticketCache, mtsChannelSettings, ticketCacheTimeoutInSec)
+                              int ticketCacheTimeoutInMs)
+            : base(publisherChannel, ticketCache, mtsChannelSettings, ticketCacheTimeoutInMs)
         {
             Contract.Requires(ticketMapper != null);
 

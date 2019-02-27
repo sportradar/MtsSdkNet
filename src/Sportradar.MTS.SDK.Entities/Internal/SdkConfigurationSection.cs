@@ -154,6 +154,21 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public string MtsClientApiHost => (string)base["mtsClientApiHost"];
 
         /// <summary>
+        /// Gets the ticket response timeout(ms)
+        /// </summary>
+        public int TicketResponseTimeout => (int)base["ticketResponseTimeout"];
+
+        /// <summary>
+        /// Gets the ticket cancellation response timeout(ms)
+        /// </summary>
+        public int TicketCancellationResponseTimeout => (int)base["ticketCancellationResponseTimeout"];
+
+        /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        public int TicketCashoutResponseTimeout => (int)base["ticketCashoutResponseTimeout"];
+
+        /// <summary>
         /// Gets the file path to the configuration file for the log4net repository used by the SDK
         /// </summary>
         [ConfigurationProperty("sdkLogConfigPath", IsRequired = false)]

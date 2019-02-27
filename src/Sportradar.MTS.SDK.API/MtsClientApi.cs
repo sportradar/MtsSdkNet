@@ -102,12 +102,12 @@ namespace Sportradar.MTS.SDK.API
             Contract.Invariant(_tokenSemaphore != null);
         }
 
-        public async Task<long?> GetMaxStakeAsync(ITicket ticket)
+        public async Task<long> GetMaxStakeAsync(ITicket ticket)
         {
             return await GetMaxStakeAsync(ticket, _username, _password);
         }
 
-        public async Task<long?> GetMaxStakeAsync(ITicket ticket, string username, string password)
+        public async Task<long> GetMaxStakeAsync(ITicket ticket, string username, string password)
         {
             Metric.Context("MtsClientApi").Meter("GetMaxStakeAsync", Unit.Items).Mark();
             InteractionLog.Info($"Called GetMaxStakeAsync with ticketId={ticket.TicketId}.");
@@ -117,13 +117,15 @@ namespace Sportradar.MTS.SDK.API
                 var token = await GetToken(username, password);
                 var content = new StringContent(ticket.ToJson(), Encoding.UTF8, "application/json");
                 var maxStake = await _maxStakeDataProvider.GetDataAsync(token, content, new[] { "" });
+                if (maxStake == null)
+                    throw new Exception("Failed to get max stake.");
                 return maxStake.MaxStake;
             }
             catch (Exception e)
             {
                 ExecutionLog.Error(e.Message, e);
                 ExecutionLog.Warn($"Getting max stake for ticketId={ticket.TicketId} failed.");
-                return null;
+                throw;
             }
         }
 
@@ -146,7 +148,7 @@ namespace Sportradar.MTS.SDK.API
             {
                 ExecutionLog.Error(e.Message, e);
                 ExecutionLog.Warn($"Getting ccf for sourceId={sourceId} failed.");
-                return null;
+                throw;
             }
         }
 
@@ -183,7 +185,7 @@ namespace Sportradar.MTS.SDK.API
                 {
                     ExecutionLog.Error(e.Message, e);
                     ExecutionLog.Warn("Error getting token from auth server.");
-                    return "";
+                    throw;
                 }
             }
             finally

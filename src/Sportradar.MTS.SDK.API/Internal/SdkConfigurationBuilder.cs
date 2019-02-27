@@ -29,12 +29,18 @@ namespace Sportradar.MTS.SDK.API.Internal
         private string _keycloakPassword;
         private string _keycloakSecret;
         private string _mtsClientApiHost;
+        private int _ticketResponseTimeout;
+        private int _ticketCancellationResponseTimeout;
+        private int _ticketCashoutResponseTimeout;
 
         internal SdkConfigurationBuilder()
         {
             _useSsl = true;
             _provideAdditionalMarketSpecifiers = true;
             _exclusiveConsumer = true;
+            _ticketResponseTimeout = 15000;
+            _ticketCancellationResponseTimeout = 600000;
+            _ticketCashoutResponseTimeout = 600000;
         }
 
         public ISdkConfigurationBuilder SetUsername(string username)
@@ -216,6 +222,36 @@ namespace Sportradar.MTS.SDK.API.Internal
             return this;
         }
 
+        public ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < 10000)
+                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
+            if (responseTimeout > 30000)
+                throw new ArgumentException("responseTimeout must be less than 30000ms", nameof(responseTimeout));
+            _ticketResponseTimeout = responseTimeout;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < 10000)
+                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
+            if (responseTimeout > 3600000)
+                throw new ArgumentException("responseTimeout must be less than 3600000ms", nameof(responseTimeout));
+            _ticketCancellationResponseTimeout = responseTimeout;
+            return this;
+        }
+
+        public ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < 10000)
+                throw new ArgumentException("responseTimeout must be more than 10000ms", nameof(responseTimeout));
+            if (responseTimeout > 3600000)
+                throw new ArgumentException("responseTimeout must be less than 3600000ms", nameof(responseTimeout));
+            _ticketCashoutResponseTimeout = responseTimeout;
+            return this;
+        }
+
         public ISdkConfiguration Build()
         {
             if (string.IsNullOrEmpty(_username))
@@ -248,7 +284,10 @@ namespace Sportradar.MTS.SDK.API.Internal
                                         _keycloakUsername,
                                         _keycloakPassword,
                                         _keycloakSecret,
-                                        _mtsClientApiHost);
+                                        _mtsClientApiHost,
+                                        _ticketResponseTimeout,
+                                        _ticketCancellationResponseTimeout,
+                                        _ticketCashoutResponseTimeout);
         }
     }
 }

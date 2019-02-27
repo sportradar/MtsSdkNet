@@ -124,5 +124,20 @@ namespace Sportradar.MTS.SDK.Entities
         /// Gets the Client API host
         /// </summary>
         string MtsClientApiHost { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms)
+        /// </summary>
+        int TicketResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cancellation response timeout(ms)
+        /// </summary>
+        int TicketCancellationResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        int TicketCashoutResponseTimeout { get; }
     }
 }

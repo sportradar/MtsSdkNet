@@ -19,7 +19,7 @@ namespace Sportradar.MTS.SDK.API
         /// </summary>
         /// <param name="ticket">A <see cref="ITicket"/> to be send</param>
         /// <returns>Maximum reoffer stake (quantity multiplied by 10000 and rounded to a long value)</returns>
-        Task<long?> GetMaxStakeAsync(ITicket ticket);
+        Task<long> GetMaxStakeAsync(ITicket ticket);
 
         /// <summary>
         /// Gets maximum stake for a ticket
@@ -28,7 +28,7 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="username">A username used for authentication</param>
         /// <param name="password">A password used for authentication</param>
         /// <returns>Maximum reoffer stake (quantity multiplied by 10000 and rounded to a long value)</returns>
-        Task<long?> GetMaxStakeAsync(ITicket ticket, string username, string password);
+        Task<long> GetMaxStakeAsync(ITicket ticket, string username, string password);
 
         /// <summary>
         /// Gets customer confidence factor for a customer

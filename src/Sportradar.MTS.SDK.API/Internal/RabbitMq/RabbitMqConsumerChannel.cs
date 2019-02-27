@@ -331,7 +331,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     }
                     else
                     {
-                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInSec * 1000);
+                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInMs * 1000);
                     }
                     ExecutionLog.Info($"Opening the consumer channel will be retried in next {sleepTime} ms.");
                     Thread.Sleep(sleepTime);

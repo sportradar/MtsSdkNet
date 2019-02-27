@@ -415,16 +415,14 @@ namespace Sportradar.MTS.SDK.API
 
             //ExecutionLog.Debug($"Processing ticket response from JSON (time: {stopwatch.ElapsedMilliseconds} ms).");
 
-            //ExecutionLog.Debug($"Checking if message for ticket {ticket.TicketId} in autoResetEvents lists.");
             // check if it was called from SendBlocking
             if (_autoResetEventsForBlockingRequests.ContainsKey(ticket.TicketId))
             {
                 _responsesFromBlockingRequests.TryAdd(ticket.TicketId, ticket);
                 ReleaseAutoResetEventFromDictionary(ticket.TicketId);
-                ExecutionLog.Info($"Processing TicketResponseReceived event for {eventArgs.ResponseType} response with correlationId={eventArgs.CorrelationId} finished in {stopwatch.ElapsedMilliseconds} ms (blocking).");
                 return;
             }
-            //ExecutionLog.Debug($"Processing ticket response for non-AutoResetEvent (time: {stopwatch.ElapsedMilliseconds} ms).");
+            //ExecutionLog.Debug($"Processing ticket response from AutoResetEvent (time: {stopwatch.ElapsedMilliseconds} ms).");
 
             //else raise event
             var ticketReceivedEventArgs = new TicketResponseReceivedEventArgs(ticket);
@@ -468,7 +466,7 @@ namespace Sportradar.MTS.SDK.API
                     {
                         _cacheItemPolicyForTicketsForNonBlockingRequestsCache = new CacheItemPolicy
                                                                                 {
-                                                                                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddSeconds(ticketSender.GetCacheTimeout)),
+                                                                                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddMilliseconds(ticketSender.GetCacheTimeout)),
                                                                                     RemovedCallback = RemovedFromCacheForTicketsForNonBlockingRequestsCallback
                                                                                 };
                         _ticketsForNonBlockingRequests.Add(ticket.TicketId, ticket, _cacheItemPolicyForTicketsForNonBlockingRequestsCache);
@@ -492,13 +490,10 @@ namespace Sportradar.MTS.SDK.API
             var stopwatch = Stopwatch.StartNew();
             var responseTimeout = SendTicketBase(ticket, true);
 
-            //ExecutionLog.Info($"Adding AutoResetEvent for ticketId: {ticket.TicketId}.");
             var autoResetEvent = new AutoResetEvent(false);
             _autoResetEventsForBlockingRequests.TryAdd(ticket.TicketId, autoResetEvent);
-            //ExecutionLog.Debug($"Added autoResetEvent for ticket {ticket.TicketId}.");
 
-            autoResetEvent.WaitOne(TimeSpan.FromSeconds(responseTimeout));
-            //ExecutionLog.Debug($"Proceed with autoResetEvent for ticket {ticket.TicketId}.");
+            autoResetEvent.WaitOne(TimeSpan.FromMilliseconds(responseTimeout));
 
             ISdkTicket responseTicket;
             if (_responsesFromBlockingRequests.TryRemove(ticket.TicketId, out responseTicket))
