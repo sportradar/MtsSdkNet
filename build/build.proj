@@ -6,7 +6,7 @@
     <NugetUrl>http://www.nuget.org</NugetUrl>
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">1</MajorVersion>
-    <MinorVersion Condition="'$(MinorVersion)' == ''">7</MinorVersion>
+    <MinorVersion Condition="'$(MinorVersion)' == ''">8</MinorVersion>
     <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
@@ -14,7 +14,7 @@
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Adding acking on consumers message processed!NL!Added AutoAcceptedOdds to ITicketResponse!NL!Added AdditionalInfo to all ticket responses!NL!Fix: settings corrected for sending ticket cancel and reoffer cancel message</BuildChangeLog> 
+    <BuildChangeLog>Added support for Client API - added property ClientApi on IMtsSdk!NL!Added configuration for ticket, ticket cancellation and ticket cashout message timeouts!NL!Improvement: inflation of rabbit channels when many disconnects</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 

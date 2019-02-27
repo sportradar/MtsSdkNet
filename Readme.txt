@@ -21,6 +21,11 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-02-27 1.8.0.0
+Added support for Client API - added property ClientApi on IMtsSdk
+Added configuration for ticket, ticket cancellation and ticket cashout message timeouts
+Improvement: inflation of rabbit channels when many disconnects
+
 2019-02-07 1.7.0.0
 Adding acking on consumers message processed
 Added AutoAcceptedOdds to ITicketResponse
