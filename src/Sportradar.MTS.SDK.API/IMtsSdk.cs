@@ -75,6 +75,6 @@ namespace Sportradar.MTS.SDK.API
         /// Gets the <see cref="IMtsClientApi"/> instance used to send requests to MTS REST API
         /// </summary>
         /// <value>The client api</value>
-        IMtsClientApi GetClientApi();
+        IMtsClientApi ClientApi { get; }
     }
 }
