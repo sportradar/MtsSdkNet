@@ -14,6 +14,8 @@ namespace Sportradar.MTS.SDK.API.Contracts
     [ContractClassFor(typeof(IRabbitMqPublisherChannel))]
     internal abstract class RabbitMqPublisherChannelContract : IRabbitMqPublisherChannel
     {
+        public abstract int UniqueId { get; }
+
         public event EventHandler<MessagePublishFailedEventArgs> MqMessagePublishFailed;
 
         public abstract bool IsOpened { get; }

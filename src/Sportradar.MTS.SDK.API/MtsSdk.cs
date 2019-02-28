@@ -61,8 +61,6 @@ namespace Sportradar.MTS.SDK.API
         private readonly object _lockForTicketsForNonBlockingRequestsCache;
         private CacheItemPolicy _cacheItemPolicyForTicketsForNonBlockingRequestsCache;
 
-        private readonly IMtsClientApi _mtsClientApi;
-
         /// <summary>
         /// A <see cref="IUnityContainer"/> used to resolve
         /// </summary>
@@ -143,7 +141,7 @@ namespace Sportradar.MTS.SDK.API
             _rabbitMqMessageReceiverForTicketCancels = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketCancelResponseMessageReceiver");
             _rabbitMqMessageReceiverForTicketCashouts = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketCashoutResponseMessageReceiver");
 
-            _mtsClientApi = _unityContainer.Resolve<IMtsClientApi>();
+            ClientApi = _unityContainer.Resolve<IMtsClientApi>();
 
             _autoResetEventsForBlockingRequests = new ConcurrentDictionary<string, AutoResetEvent>();
             _responsesFromBlockingRequests = new ConcurrentDictionary<string, ISdkTicket>();
@@ -568,6 +566,12 @@ namespace Sportradar.MTS.SDK.API
             return (ITicketCashoutResponse)SendTicketBlockingBase(ticket);
         }
 
+        /// <summary>
+        /// Gets the <see cref="IMtsClientApi"/> instance used to send requests to MTS REST API
+        /// </summary>
+        /// <value>The client api</value>
+        public IMtsClientApi ClientApi { get; }
+
         private static void LogInit()
         {
             var msg = "MtsSdk initialization. Version: " + SdkInfo.GetVersion();
@@ -583,16 +587,6 @@ namespace Sportradar.MTS.SDK.API
             logger.Info(msg);
             logger = SdkLoggerFactory.GetLoggerForExecution(typeof(MtsSdk));
             logger.Info(msg);
-        }
-
-        public IMtsClientApi GetClientApi()
-        {
-            return _mtsClientApi;
-        }
-
-        public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
-        {
-            throw new NotImplementedException();
         }
     }
 }

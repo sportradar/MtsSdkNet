@@ -17,6 +17,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     public interface IRabbitMqConsumerChannel : IOpenable
     {
         /// <summary>
+        /// Gets the unique identifier
+        /// </summary>
+        /// <value>The unique identifier</value>
+        int UniqueId { get; }
+
+        /// <summary>
         /// Opens the current channel and binds the created queue to provided routing keys
         /// </summary>
         /// <param name="routingKeys">A <see cref="IEnumerable{String}"/> specifying the routing keys of the constructed queue</param>

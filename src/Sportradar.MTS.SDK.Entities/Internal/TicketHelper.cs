@@ -111,15 +111,21 @@ namespace Sportradar.MTS.SDK.Entities.Internal
                 case SdkTicketType.Ticket:
                     return (ITicket) ci.Custom;
                 case SdkTicketType.TicketAck:
-                    return (ITicketAck)ci.Custom;
+                    return (ITicketAck) ci.Custom;
                 case SdkTicketType.TicketCancel:
-                    return (ITicketCancel)ci.Custom;
+                    return (ITicketCancel) ci.Custom;
                 case SdkTicketType.TicketCancelAck:
-                    return (ITicketCancelAck)ci.Custom;
+                    return (ITicketCancelAck) ci.Custom;
                 case SdkTicketType.TicketResponse:
-                    return (ITicketResponse)ci.Custom;
+                    return (ITicketResponse) ci.Custom;
                 case SdkTicketType.TicketCancelResponse:
-                    return (ITicketCancelResponse)ci.Custom;
+                    return (ITicketCancelResponse) ci.Custom;
+                case SdkTicketType.TicketCashout:
+                    return (ITicketCashout) ci.Custom;
+                case SdkTicketType.TicketCashoutResponse:
+                    return (ITicketCashoutResponse) ci.Custom;
+                case SdkTicketType.TicketReofferCancel:
+                    return (ITicketReofferCancel) ci.Custom;
             }
             throw new ArgumentOutOfRangeException($"Unknown ticket type {ci.TicketType}.");
         }

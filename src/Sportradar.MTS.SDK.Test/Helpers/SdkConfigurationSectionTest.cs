@@ -100,7 +100,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         /// Should the rabbit consumer be exclusive
         /// </summary>
         public bool ExclusiveConsumer { get; }
-        
+
         /// <summary>
         /// Gets the Keycloak host for authorization
         /// </summary>
@@ -142,20 +142,20 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public int TicketCashoutResponseTimeout { get; }
 
         public SdkConfigurationSectionTest(
-            string username, 
-            string password, 
+            string username,
+            string password,
             string host,
             int port,
             string virtualHost,
             int nodeId,
             bool useSsl,
-            int bookmakerId, 
-            int limitId, 
+            int bookmakerId,
+            int limitId,
             string currency,
             SenderChannel? channel,
             string accessToken,
-            bool provideAdditionalMarketSpecifiers, 
-            bool statisticsEnabled, 
+            bool provideAdditionalMarketSpecifiers,
+            bool statisticsEnabled,
             int statisticsTimeout,
             int statisticsRecordLimit,
             string sdkLogConfigPath,
@@ -163,7 +163,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             string keycloakHost,
             string keycloakUsername,
             string keycloakPassword,
-            string keycloakSecret, 
+            string keycloakSecret,
             string mtsClientApiHost,
             int ticketResponseTimeout,
             int ticketCancellationResponseTimeout,
@@ -218,10 +218,10 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    statisticsRecordLimit: 1000,
                                                    sdkLogConfigPath: string.Empty,
                                                    exclusiveConsumer: true,
-                                                   keycloakHost: string.Empty, 
-                                                   keycloakUsername: string.Empty, 
-                                                   keycloakPassword: string.Empty, 
-                                                   keycloakSecret: string.Empty, 
+                                                   keycloakHost: string.Empty,
+                                                   keycloakUsername: string.Empty,
+                                                   keycloakPassword: string.Empty,
+                                                   keycloakSecret: string.Empty,
                                                    mtsClientApiHost: string.Empty,
                                                    ticketResponseTimeout: 15000,
                                                    ticketCancellationResponseTimeout: 600000,

@@ -75,7 +75,8 @@ namespace Sportradar.MTS.SDK.API
         /// Gets the <see cref="IMtsClientApi"/> instance used to send requests to MTS REST API
         /// </summary>
         /// <value>The client api</value>
-        IMtsClientApi GetClientApi();
+
+        IMtsClientApi ClientApi { get; }
 
         /// <summary>
         /// Sends the non-sr ticket to the MTS server and wait for the response message on the feed
@@ -83,5 +84,6 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="ticket">A <see cref="ITicketNonSrSettle"/> to be send</param>
         /// <returns>Returns a <see cref="ITicketNonSrSettleResponse"/></returns>
         ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket);
+
     }
 }
