@@ -589,5 +589,10 @@ namespace Sportradar.MTS.SDK.API
         {
             return _mtsClientApi;
         }
+
+        public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

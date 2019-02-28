@@ -139,6 +139,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterInstance<IRabbitMqChannelSettings>("TicketChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketResponseTimeout));
             container.RegisterInstance<IRabbitMqChannelSettings>("TicketCancellationChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketCancellationResponseTimeout));
             container.RegisterInstance<IRabbitMqChannelSettings>("TicketCashoutChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketCashoutResponseTimeout));
+            container.RegisterInstance<IRabbitMqChannelSettings>("TicketNonSrSettleChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs: config.TicketNonSrSettleResponseTimeout));
 
             var rootExchangeName = config.VirtualHost.Replace("/", string.Empty);
             container.RegisterType<IMtsChannelSettings, MtsChannelSettings>(new ContainerControlledLifetimeManager());
@@ -148,10 +149,12 @@ namespace Sportradar.MTS.SDK.API.Internal
             var mtsTicketCancelAckChannelSettings = MtsChannelSettings.GetTicketCancelAckChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
             var mtsTicketReofferCancelChannelSettings = MtsChannelSettings.GetTicketReofferCancelChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
             var mtsTicketCashoutChannelSettings = MtsChannelSettings.GetTicketCashoutChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
+            var mtsTicketNonSrSettleChannelSettings = MtsChannelSettings.GetTicketNonSrSettleChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
 
             var mtsTicketResponseChannelSettings = MtsChannelSettings.GetTicketResponseChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
             var mtsTicketCancelResponseChannelSettings = MtsChannelSettings.GetTicketCancelResponseChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
             var mtsTicketCashoutResponseChannelSettings = MtsChannelSettings.GetTicketCashoutResponseChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
+            var mtsTicketNonSrSettleResponseChannelSettings = MtsChannelSettings.GetTicketNonSrSettleResponseChannelSettings(rootExchangeName, config.Username, config.NodeId, environment);
 
             container.RegisterInstance<IMtsChannelSettings>("TicketChannelSettings", mtsTicketChannelSettings);
             container.RegisterInstance<IMtsChannelSettings>("TicketCancelChannelSettings", mtsTicketCancelChannelSettings);
@@ -159,10 +162,12 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterInstance<IMtsChannelSettings>("TicketCancelAckChannelSettings", mtsTicketCancelAckChannelSettings);
             container.RegisterInstance<IMtsChannelSettings>("TicketReofferCancelChannelSettings", mtsTicketReofferCancelChannelSettings);
             container.RegisterInstance<IMtsChannelSettings>("TicketCashoutChannelSettings", mtsTicketCashoutChannelSettings);
+            container.RegisterInstance<IMtsChannelSettings>("TicketNonSrSettleChannelSettings", mtsTicketNonSrSettleChannelSettings);
 
             container.RegisterInstance<IMtsChannelSettings>("TicketResponseChannelSettings", mtsTicketResponseChannelSettings);
             container.RegisterInstance<IMtsChannelSettings>("TicketCancelResponseChannelSettings", mtsTicketCancelResponseChannelSettings);
             container.RegisterInstance<IMtsChannelSettings>("TicketCashoutResponseChannelSettings", mtsTicketCashoutResponseChannelSettings);
+            container.RegisterInstance<IMtsChannelSettings>("TicketNonSrSettleResponseChannelSettings", mtsTicketNonSrSettleResponseChannelSettings);
 
             container.RegisterType<IRabbitMqConsumerChannel, RabbitMqConsumerChannel>(new HierarchicalLifetimeManager());
             var ticketResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
@@ -174,14 +179,19 @@ namespace Sportradar.MTS.SDK.API.Internal
             var ticketCashoutResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
                                                                             container.Resolve<IMtsChannelSettings>("TicketCashoutResponseChannelSettings"),
                                                                             container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings"));
+            var ticketNonSrSettleResponseConsumerChannel = new RabbitMqConsumerChannel(container.Resolve<IChannelFactory>(),
+                                                                            container.Resolve<IMtsChannelSettings>("TicketNonSrSettleResponseChannelSettings"),
+                                                                            container.Resolve<IRabbitMqChannelSettings>("TicketNonSrSettleChannelSettings"));
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketConsumerChannel", ticketResponseConsumerChannel);
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketCancelConsumerChannel", ticketCancelResponseConsumerChannel);
             container.RegisterInstance<IRabbitMqConsumerChannel>("TicketCashoutConsumerChannel", ticketCashoutResponseConsumerChannel);
+            container.RegisterInstance<IRabbitMqConsumerChannel>("TicketNonSrSettleConsumerChannel", ticketNonSrSettleResponseConsumerChannel);
 
             container.RegisterType<IRabbitMqMessageReceiver, RabbitMqMessageReceiver>(new HierarchicalLifetimeManager());
             container.RegisterInstance<IRabbitMqMessageReceiver>("TicketResponseMessageReceiver", new RabbitMqMessageReceiver(ticketResponseConsumerChannel, TicketResponseType.Ticket));
             container.RegisterInstance<IRabbitMqMessageReceiver>("TicketCancelResponseMessageReceiver", new RabbitMqMessageReceiver(ticketCancelResponseConsumerChannel, TicketResponseType.TicketCancel));
             container.RegisterInstance<IRabbitMqMessageReceiver>("TicketCashoutResponseMessageReceiver", new RabbitMqMessageReceiver(ticketCashoutResponseConsumerChannel, TicketResponseType.TicketCashout));
+            container.RegisterInstance<IRabbitMqMessageReceiver>("TicketNonSrSettleResponseMessageReceiver", new RabbitMqMessageReceiver(ticketNonSrSettleResponseConsumerChannel, TicketResponseType.TicketNonSrSettle));
 
             container.RegisterType<IRabbitMqPublisherChannel, RabbitMqPublisherChannel>(new HierarchicalLifetimeManager());
             var ticketPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
@@ -202,12 +212,16 @@ namespace Sportradar.MTS.SDK.API.Internal
             var ticketCashoutPC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
                                                         mtsTicketCashoutChannelSettings,
                                                         container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings"));
+            var ticketNonSrSettlePC = new RabbitMqPublisherChannel(container.Resolve<IChannelFactory>(),
+                                                        mtsTicketNonSrSettleChannelSettings,
+                                                        container.Resolve<IRabbitMqChannelSettings>("TicketNonSrSettleChannelSettings"));
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketPublisherChannel", ticketPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketAckPublisherChannel", ticketAckPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketCancelPublisherChannel", ticketCancelPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketCancelAckPublisherChannel", ticketCancelAckPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketReofferCancelPublisherChannel", ticketReofferCancelPC);
             container.RegisterInstance<IRabbitMqPublisherChannel>("TicketCashoutPublisherChannel", ticketCashoutPC);
+            container.RegisterInstance<IRabbitMqPublisherChannel>("TicketNonSrSettlePublisherChannel", ticketNonSrSettlePC);
         }
 
         private static void RegisterTicketSenders(IUnityContainer container)
@@ -245,12 +259,18 @@ namespace Sportradar.MTS.SDK.API.Internal
                                                 ticketCache,
                                                 container.Resolve<IMtsChannelSettings>("TicketCashoutChannelSettings"),
                                                 container.Resolve<IRabbitMqChannelSettings>("TicketCashoutChannelSettings").PublishQueueTimeoutInMs);
+            var ticketNonSrSettleSender = new TicketNonSrSettleSender(new TicketNonSrSettleMapper(),
+                                                container.Resolve<IRabbitMqPublisherChannel>("TicketNonSrSettlePublisherChannel"),
+                                                ticketCache,
+                                                container.Resolve<IMtsChannelSettings>("TicketNonSrSettleChannelSettings"),
+                                                container.Resolve<IRabbitMqChannelSettings>("TicketNonSrSettleChannelSettings").PublishQueueTimeoutInMs);
             container.RegisterInstance<ITicketSender>("TicketSender", ticketSender);
             container.RegisterInstance<ITicketSender>("TicketAckSender", ticketAckSender);
             container.RegisterInstance<ITicketSender>("TicketCancelSender", ticketCancelSender);
             container.RegisterInstance<ITicketSender>("TicketCancelAckSender", ticketCancelAckSender);
             container.RegisterInstance<ITicketSender>("TicketReofferCancelSender", ticketReofferCancelSender);
             container.RegisterInstance<ITicketSender>("TicketCashoutSender", ticketCashoutSender);
+            container.RegisterInstance<ITicketSender>("TicketNonSrSettleSender", ticketNonSrSettleSender);
 
             var senders = new Dictionary<SdkTicketType, ITicketSender>
             {
@@ -260,6 +280,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                 {SdkTicketType.TicketCancelAck, container.Resolve<ITicketSender>("TicketCancelAckSender")},
                 {SdkTicketType.TicketReofferCancel, container.Resolve<ITicketSender>("TicketReofferCancelSender")},
                 {SdkTicketType.TicketCashout, container.Resolve<ITicketSender>("TicketCashoutSender")},
+                {SdkTicketType.TicketNonSrSettle, container.Resolve<ITicketSender>("TicketNonSrSettleSender")},
             };
 
             var senderFactory = new TicketSenderFactory(senders);
@@ -419,3 +440,4 @@ namespace Sportradar.MTS.SDK.API.Internal
         }
     }
 }
+

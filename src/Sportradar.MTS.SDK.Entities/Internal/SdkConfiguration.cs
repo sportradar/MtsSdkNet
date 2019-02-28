@@ -142,6 +142,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public int TicketCashoutResponseTimeout { get; }
 
         /// <summary>
+        /// Gets the ticket non-sr settle response timeout(ms)
+        /// </summary>
+        public int TicketNonSrSettleResponseTimeout { get; }
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
         /// <param name="username">The username used when connecting to AMQP broker</param>

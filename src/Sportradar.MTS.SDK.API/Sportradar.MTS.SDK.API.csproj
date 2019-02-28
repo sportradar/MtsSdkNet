@@ -169,7 +169,11 @@
     <Compile Include="Contracts\RabbitMqConsumerChannelContract.cs" />
     <Compile Include="Contracts\SdkConfigurationBuilderContract.cs" />
     <Compile Include="IMtsClientApi.cs" />
+    <Compile Include="Internal\Mappers\TicketNonSrSettleResponseMapper.cs" />
+    <Compile Include="Internal\Mappers\TicketNonSrSettleMapper.cs" />
     <Compile Include="Internal\SdkConfigurationBuilder.cs" />
+    <Compile Include="Internal\Senders\TicketNonSrSettleSender.cs" />
+    <Compile Include="Internal\TicketImpl\TicketNonSrSettleResponse.cs" />
     <Compile Include="ISdkConfigurationBuilder.cs" />
     <Compile Include="IMtsSdk.cs" />
     <Compile Include="Internal\EntitiesMapper.cs" />
@@ -222,10 +226,50 @@
     <Compile Include="Internal\RabbitMq\RabbitMqPublisherChannel.cs" />
     <Compile Include="Internal\RabbitMq\RabbitServer.cs" />
     <Compile Include="Internal\SdkUnityBootstrapper.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Content Include="bin\Debug\log4net.dll" />
+    <Content Include="bin\Debug\log4net.xml" />
+    <Content Include="bin\Debug\Metrics.dll" />
+    <Content Include="bin\Debug\Metrics.pdb" />
+    <Content Include="bin\Debug\Metrics.xml" />
+    <Content Include="bin\Debug\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="bin\Debug\Microsoft.Practices.ServiceLocation.pdb" />
+    <Content Include="bin\Debug\Microsoft.Practices.ServiceLocation.xml" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.Configuration.dll" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.Configuration.xml" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.dll" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.xml" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\RabbitMQ.Client.dll" />
+    <Content Include="bin\Debug\RabbitMQ.Client.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.API.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.API.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.API.XML" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Common.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Common.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Common.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.XmlSerializers.dll" />
+    <Content Include="obj\Debug\Sportradar.MTS.SDK.API.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\Sportradar.MTS.SDK.API.dll" />
+    <Content Include="obj\Debug\Sportradar.MTS.SDK.API.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\build.force" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\Sportradar.MTS.SDK.API.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\Sportradar.MTS.SDK.API.csprojAssemblyReference.cache" />
+    <None Include="obj\Debug\Sportradar.MTS.SDK.API.csprojResolveAssemblyReference.cache" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +281,10 @@
       <Project>{1613C031-5891-42D6-A892-939C2132BD48}</Project>
       <Name>Sportradar.MTS.SDK.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

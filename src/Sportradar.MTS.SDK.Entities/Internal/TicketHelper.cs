@@ -22,13 +22,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         public static SdkTicketType GetTicketTypeFromTicket(ISdkTicket ticket)
         {
+            //TODO why some ticket types sre missing 
             if (ticket is ITicket)
             {
                 return SdkTicketType.Ticket;
             }
             else if (ticket is ITicketCancel)
             {
-                return  SdkTicketType.TicketCancel;
+                return SdkTicketType.TicketCancel;
             }
             else if (ticket is ITicketAck)
             {
@@ -58,7 +59,15 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 return SdkTicketType.TicketCashoutResponse;
             }
-            throw new ArgumentOutOfRangeException();
+            else if (ticket is ITicketNonSrSettleResponse)
+            {
+                return SdkTicketType.TicketNonSrSettleResponse;
+            }
+            else if (ticket is ITicketNonSrSettle)
+            {
+                return SdkTicketType.TicketNonSrSettle;
+            }
+                throw new ArgumentOutOfRangeException();
         }
 
         public static SdkTicketType GetTicketAckTypeFromTicket(ISdkTicket ticket)
@@ -98,6 +107,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         {
             switch (ci.TicketType)
             {
+                //TODO why some ticket types sre missing 
                 case SdkTicketType.Ticket:
                     return (ITicket) ci.Custom;
                 case SdkTicketType.TicketAck:

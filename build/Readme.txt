@@ -2,12 +2,6 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
-2019-02-07 1.7.0.0
-Adding acking on consumers message processed
-Added AutoAcceptedOdds to ITicketResponse
-Added AdditionalInfo to all ticket responses
-Fix: settings corrected for sending ticket cancel and reoffer cancel message
-
 2018-11-28 1.6.0.0
 Support for ticket version 2.2
 Added AutoAcceptedOdd to TicketResponse

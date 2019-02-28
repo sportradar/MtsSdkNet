@@ -139,5 +139,10 @@ namespace Sportradar.MTS.SDK.Entities
         /// Gets the ticket cashout response timeout(ms)
         /// </summary>
         int TicketCashoutResponseTimeout { get; }
+
+        /// <summary>
+        /// Gets the ticket non-sportradar settle response timeout(ms)
+        /// </summary>
+        int TicketNonSrSettleResponseTimeout { get;}
     }
 }

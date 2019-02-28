@@ -69,5 +69,12 @@ namespace Sportradar.MTS.SDK.API.Contracts
             Contract.Ensures(Contract.Result<IMtsClientApi>() != null);
             return Contract.Result<IMtsClientApi>();
         }
+
+        public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
+        {
+            Contract.Requires(ticket != null);
+            Contract.Ensures(Contract.Result<ITicketCashoutResponse>() != null);
+            return Contract.Result<ITicketNonSrSettleResponse>();
+        }
     }
 }

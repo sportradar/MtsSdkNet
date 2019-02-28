@@ -9,9 +9,9 @@ using System.Collections.ObjectModel;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 {
-#pragma warning disable // Disable all warnings
+    #pragma warning disable // Disable all warnings
 
-    /// <summary>Ticket version 2.2 schema</summary>
+    /// <summary>Ticket version 2.3 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class TicketDTO : System.ComponentModel.INotifyPropertyChanged
     {
@@ -37,7 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         public string ToJson() 
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this.Ticket);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
         
         public static TicketDTO FromJson(string data)
@@ -67,6 +67,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         private bool _testSource;
         private TicketOddsChange? _oddsChange = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.TicketOddsChange.None;
         private int? _totalCombinations;
+        private long? _lastMatchEndTime;
     
         /// <summary>Timestamp of ticket placement (in UNIX time millis)</summary>
         [Newtonsoft.Json.JsonProperty("timestampUtc", Required = Newtonsoft.Json.Required.Always)]
@@ -181,11 +182,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             }
         }
     
-        /// <summary>JSON format version (must be '2.2')</summary>
+        /// <summary>JSON format version (must be '2.3')</summary>
         [Newtonsoft.Json.JsonProperty("version", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         [System.ComponentModel.DataAnnotations.StringLength(3, MinimumLength = 3)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^(2\.2)$")]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^(2\.3)$")]
         public string Version
         {
             get { return _version; }
@@ -212,10 +213,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 }
             }
         }
-
-        /// <summary>Accept change in odds (optional, default none) none: default behavior, any: any odds change accepted, higher: accept higher odds</summary>
+    
+        /// <summary>Accept change in odds (optional, default none) none: default behaviour, any: any odds change accepted, higher: accept higher odds</summary>
         [Newtonsoft.Json.JsonProperty("oddsChange", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TicketOddsChange? OddsChange
         {
             get { return _oddsChange; }
@@ -240,6 +240,22 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 if (_totalCombinations != value)
                 {
                     _totalCombinations = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        /// <summary>End time of last (non Sportradar) match on ticket.</summary>
+        [Newtonsoft.Json.JsonProperty("lastMatchEndTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(1.0, double.MaxValue)]
+        public long? LastMatchEndTime
+        {
+            get { return _lastMatchEndTime; }
+            set 
+            {
+                if (_lastMatchEndTime != value)
+                {
+                    _lastMatchEndTime = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -669,7 +685,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Type (optional, default total)</summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public BonusType? Type
         {
             get { return _type; }
@@ -685,7 +700,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Payout mode (optional, default all). Relevant mostly for system bets. All: all bets must win for bonus to be paid out.</summary>
         [Newtonsoft.Json.JsonProperty("mode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public BonusMode? Mode
         {
             get { return _mode; }
@@ -743,7 +757,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         /// <summary>Type of stake (optional, default total)</summary>
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public StakeType? Type
         {
             get { return _type; }
