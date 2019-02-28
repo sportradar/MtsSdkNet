@@ -572,6 +572,13 @@ namespace Sportradar.MTS.SDK.API
         /// <value>The client api</value>
         public IMtsClientApi ClientApi { get; }
 
+        public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
+        {
+            Metric.Context("MtsSdk").Meter("SendTicketNonSrSettleBlocking", Unit.Items).Mark();
+            InteractionLog.Info($"Called SendTicketNonSrSettleBlocking with ticketId={ticket.TicketId}.");
+            return (ITicketNonSrSettleResponse)SendTicketBlockingBase(ticket);
+        }
+
         private static void LogInit()
         {
             var msg = "MtsSdk initialization. Version: " + SdkInfo.GetVersion();
