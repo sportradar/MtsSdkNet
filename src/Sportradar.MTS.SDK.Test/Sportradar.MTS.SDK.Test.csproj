@@ -99,6 +99,7 @@
     <Compile Include="Builders\TicketCancelBuilderTest.cs" />
     <Compile Include="Builders\TicketBuilderTest.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Helpers\SdkConfigurationSectionHelper.cs" />
     <Compile Include="Helpers\SdkConfigurationSectionTest.cs" />
     <Compile Include="Mapping\EnumMappingTest.cs" />
     <Compile Include="Mapping\TicketJsonTest.cs" />
