@@ -90,14 +90,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <value>End time of last (non Sportradar) match on ticket</value>
         public DateTime? LastMatchEndTime { get; }
 
-        DateTime ITicket.LastMatchEndTime
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public string ToJson()
         {
             var dto = EntitiesMapper.Map(this);

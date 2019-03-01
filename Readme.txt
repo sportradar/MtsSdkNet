@@ -21,17 +21,28 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
-2018-11-28 1.6.0.0
-Support for ticket version 2.2
-Added AutoAcceptedOdd to TicketResponse
-Added TotalCombinations to Ticket and TicketBuilder
-Added BetCashout to TicketCashout - support for partial cashout
-Added BetCancel to TicketCancel - support for partial cancellation
-Added AutoAcceptedOdds to ITicketResponse
-EndCustomer.Ip type changed from IPAddress to string
-Removed deletion of consumer queues on close
-Reviewed and updated documentation and properties files
-Removed property ExceptionHandlingStrategy from config, builder, ...
+2019-02-27 1.8.0.0	
+Added support for Client API - added property ClientApi on IMtsSdk	
+Added configuration for ticket, ticket cancellation and ticket cashout message timeouts	
+Improvement: inflation of rabbit channels when many disconnects	
+
+2019-02-07 1.7.0.0	
+Adding acking on consumers message processed	
+Added AutoAcceptedOdds to ITicketResponse	
+Added AdditionalInfo to all ticket responses	
+Fix: settings corrected for sending ticket cancel and reoffer cancel message	
+
+2018-11-28 1.6.0.0	2018-11-28 1.6.0.0
+Support for ticket version 2.2	Support for ticket version 2.2
+Added AutoAcceptedOdd to TicketResponse	Added AutoAcceptedOdd to TicketResponse
+Added TotalCombinations to Ticket and TicketBuilder	Added TotalCombinations to Ticket and TicketBuilder
+Added BetCashout to TicketCashout - support for partial cashout	Added BetCashout to TicketCashout - support for partial cashout
+Added BetCancel to TicketCancel - support for partial cancellation	Added BetCancel to TicketCancel - support for partial cancellation
+Added AutoAcceptedOdds to ITicketResponse	Added AutoAcceptedOdds to ITicketResponse
+EndCustomer.Ip type changed from IPAddress to string	EndCustomer.Ip type changed from IPAddress to string
+Removed deletion of consumer queues on close	Removed deletion of consumer queues on close
+Reviewed and updated documentation and properties files	Reviewed and updated documentation and properties files
+Removed property ExceptionHandlingStrategy from config, builder, ...	Removed property ExceptionHandlingStrategy from config, builder, ...
 Fix: in HandleMarketDescription when adding specifiers
 
 2018-10-05 1.5.0.0

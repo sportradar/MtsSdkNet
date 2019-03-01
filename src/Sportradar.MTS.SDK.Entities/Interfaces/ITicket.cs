@@ -67,6 +67,6 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets end time of last (non Sportradar) match on ticket.
         /// </summary>
         /// <value>End time of last (non Sportradar) match on ticket.</value>
-        DateTime LastMatchEndTime { get; }
+        DateTime? LastMatchEndTime { get; }
     }
 }

@@ -34,7 +34,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         public string ToJson() 
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this.Ticket);
         }
         
         public static TicketDTO FromJson(string data)

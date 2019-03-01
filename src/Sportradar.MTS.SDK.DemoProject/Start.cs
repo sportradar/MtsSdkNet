@@ -40,7 +40,8 @@ namespace Sportradar.MTS.SDK.DemoProject
             Console.WriteLine(" 2 - Blocking \t\t\t(sending ticket and receiving response with blocking mode)");
             Console.WriteLine(" 3 - Reoffer \t\t\t(sending reoffer to the declined ticket and receiving response)");
             Console.WriteLine(" 4 - Cashout \t\t\t(creating and sending cashout ticket)");
-            Console.WriteLine(" 5 - Examples \t\t\t(creating and sending ticket examples from MTS integration guide)");
+            Console.WriteLine(" 5 - NonSrSettle \t\t\t(creating and sending ticket fo settling non-sportradar ticket)");
+            Console.WriteLine(" 6 - Examples \t\t\t(creating and sending ticket examples from MTS integration guide)");
             Console.Write(" Enter number: ");
             var k = Console.ReadKey();
 
@@ -70,6 +71,11 @@ namespace Sportradar.MTS.SDK.DemoProject
                     break;
                 }
                 case '5':
+                    {
+                        new NonSrSettle(_log).Run();
+                        break;
+                    }
+                case '6':
                     {
                         new Examples(_log).Run();
                         break;
