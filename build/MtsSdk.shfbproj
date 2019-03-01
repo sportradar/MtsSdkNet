@@ -31,7 +31,6 @@
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CleanIntermediates>True</CleanIntermediates>
     <HelpFileVersion>1.8.0.0</HelpFileVersion>
-
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#</SyntaxFilters>
@@ -78,7 +77,7 @@
       <NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketReofferCancel" isDocumented="False" />
       <NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.REST" isDocumented="False" />
       <NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.REST.Dto" isDocumented="False" />
-	  <NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Enums" isDocumented="False" />
+      <NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Enums" isDocumented="False" />
     </NamespaceSummaries>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter, AutoDocumentDispose</MissingTags>
     <RootNamespaceTitle>
