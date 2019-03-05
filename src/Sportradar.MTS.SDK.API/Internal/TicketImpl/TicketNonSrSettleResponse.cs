@@ -64,7 +64,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <value>The timestamp</value>
         public DateTime Timestamp { get; }
         /// <summary>
-        /// Gets the status of the ticket cashout submission
+        /// Gets the status of the ticket non-sr settle submission
         /// </summary>
         /// <value>The status</value>
         public NonSrSettleAcceptance Status { get; }
@@ -125,7 +125,7 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <param name="bookmakerId">The sender identifier (bookmakerId)</param>
         /// <param name="code">The code</param>
         /// <param name="message">The message</param>
-        /// <exception cref="NullReferenceException">Missing TicketCashoutSender. Can not be null</exception>
+        /// <exception cref="NullReferenceException">Missing TicketNonSrSettleSender. Can not be null</exception>
         public void Acknowledge(bool markAccepted, int bookmakerId, int code, string message)
         {
             // acking is not supported

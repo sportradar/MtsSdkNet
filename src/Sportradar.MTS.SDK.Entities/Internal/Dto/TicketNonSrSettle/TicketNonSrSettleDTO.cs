@@ -68,8 +68,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle
                 }
             }
         }
-    
-        /// <summary>Non-Sportradar settle stake in same currency as original ticket. Quantity multiplied by 10_000 and rounded to a long value. Applicable only if performing full cashout.</summary>
+
+        /// <summary>Non-Sportradar settle stake in same currency as original ticket. Quantity multiplied by 10_000 and rounded to a long value. Applicable only if performing full non-sportradar settle.</summary>
         [Newtonsoft.Json.JsonProperty("nonSrSettleStake", Required = Newtonsoft.Json.Required.AllowNull)]
         [System.ComponentModel.DataAnnotations.Range(1.0, 1000000000000000000.0)]
         public long? NonSrSettleStake

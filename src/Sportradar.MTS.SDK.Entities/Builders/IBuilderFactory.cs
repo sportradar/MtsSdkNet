@@ -31,6 +31,12 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         ITicketCashoutBuilder CreateTicketCashoutBuilder();
 
         /// <summary>
+        /// Constructs and returns a new instance of the <see cref="ITicketNonSrSettleBuilder"/> class
+        /// </summary>
+        /// <returns>A new instance of the <see cref="ITicketNonSrSettleBuilder"/> class</returns>
+        ITicketNonSrSettleBuilder CreateTicketNonSrSettleBuilder(); 
+
+        /// <summary>
         /// Constructs and returns a new instance of the <see cref="ISenderBuilder"/> class
         /// </summary>
         /// <returns>A new instance of the <see cref="ISenderBuilder"/> class</returns>

@@ -31,9 +31,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <value>The bookmaker identifier</value>
         public int BookmakerId { get; }
         /// <summary>
-        /// Gets the cashout stake
+        /// Gets the non-sportradar settle stake
         /// </summary>
-        /// <value>The cashout stake</value>
+        /// <value>The non-sportradar settle stake</value>
         public long NonSrSettleStake { get; }
         /// <summary>
         /// Gets the ticket format version
@@ -54,11 +54,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TicketCashout"/> class
+        /// Initializes a new instance of the <see cref="ITicketNonSrSettle"/> class
         /// </summary>
         /// <param name="ticketId">The ticket identifier</param>
         /// <param name="bookmakerId">The bookmaker identifier</param>
-        /// <param name="stake">The cashout stake</param>
+        /// <param name="stake">The non-sportradar settle stake</param>
         public TicketNonSrSettle(string ticketId, int bookmakerId, long stake)
         {
             Contract.Requires(TicketHelper.ValidateTicketId(ticketId));

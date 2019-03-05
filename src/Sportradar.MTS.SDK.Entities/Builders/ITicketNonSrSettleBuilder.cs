@@ -10,7 +10,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
     public interface ITicketNonSrSettleBuilder : ISdkTicketBuilder
     {
         /// <summary>
-        /// Sets the ticket id to cashout
+        /// Sets the ticket id to non-sportradar settle
         /// </summary>
         /// <param name="ticketId">The ticket id</param>
         /// <returns>Returns a <see cref="ITicketNonSrSettleBuilder"/></returns>
@@ -25,9 +25,9 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         ITicketNonSrSettleBuilder SetBookmakerId(int bookmakerId);
 
         /// <summary>
-        /// Sets the cashout stake
+        /// Sets the non-sportradar settle stake
         /// </summary>
-        /// <param name="stake">The cashout stake</param>
+        /// <param name="stake">The non-sportradar settle stake</param>
         /// <returns>Returns a <see cref="ITicketNonSrSettleBuilder"/></returns>
         ITicketNonSrSettleBuilder SetNonSrSettleStake(long stake);
 
@@ -36,8 +36,8 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// </summary>
         /// <param name="ticketId">The ticket id</param>
         /// <param name="bookmakerId">The bookmaker id</param>
-        /// <param name="stake">The cashout stake</param>
-        /// <returns>ITicketCashout</returns>
+        /// <param name="stake">The non-sportradar settle stake</param>
+        /// <returns>ITicketNonSrSettle</returns>
         ITicketNonSrSettle BuildTicket(string ticketId, int bookmakerId, long stake);
 
         /// <summary>

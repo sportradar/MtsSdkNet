@@ -171,6 +171,13 @@ namespace Sportradar.MTS.SDK.API
         ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout);
 
         /// <summary>
+        /// Sets the ticket non-sr settle response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetNonSrSettleResponseTimeout(int responseTimeout);
+
+        /// <summary>
         /// Builds the <see cref="ISdkConfiguration" />
         /// </summary>
         /// <returns>Returns a <see cref="ISdkConfiguration"/></returns>

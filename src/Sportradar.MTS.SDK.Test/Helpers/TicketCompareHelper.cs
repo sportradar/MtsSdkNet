@@ -16,6 +16,7 @@ using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketReofferCancel;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse;
 using Anonymous = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.Anonymous;
 using Anonymous2 = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.Anonymous2;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 
 namespace Sportradar.MTS.SDK.Test.Helpers
 {
@@ -254,6 +255,21 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         }
 
         public static void Compare(ITicketCashoutResponse ticket, TicketCashoutResponseDTO dto)
+        {
+            Assert.IsTrue(ticket != null);
+            Assert.IsTrue(dto != null);
+
+            Assert.AreEqual(ticket.TicketId, dto.Result.TicketId);
+            Assert.AreEqual(ticket.Signature, dto.Signature);
+            Assert.AreEqual(ticket.Version, dto.Version);
+
+            Assert.AreEqual(ticket.Status, MtsTicketHelper.Convert(dto.Result.Status));
+            Assert.AreEqual(ticket.Reason.Code, dto.Result.Reason.Code);
+            Assert.AreEqual(ticket.Reason.Message, dto.Result.Reason.Message);
+            Assert.IsFalse(string.IsNullOrEmpty(ticket.CorrelationId));
+        }
+
+        public static void Compare(ITicketNonSrSettleResponse ticket, TicketNonSrSettleResponseDTO dto)
         {
             Assert.IsTrue(ticket != null);
             Assert.IsTrue(dto != null);

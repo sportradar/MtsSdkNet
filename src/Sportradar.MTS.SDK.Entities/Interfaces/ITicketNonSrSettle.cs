@@ -18,7 +18,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// </summary>
         int BookmakerId { get; }
         /// <summary>
-        /// Gets the cashout stake
+        /// Gets the non-sportradar settle stake
         /// </summary>
         long NonSrSettleStake { get; }
     }

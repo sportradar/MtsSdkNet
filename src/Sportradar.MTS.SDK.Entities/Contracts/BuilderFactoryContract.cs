@@ -1,6 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+using System;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Builders;
 
@@ -59,6 +60,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         {
             Contract.Ensures(Contract.Result<ITicketCancelAckBuilder>() != null);
             return Contract.Result<ITicketCancelAckBuilder>();
+        }
+
+        public ITicketNonSrSettleBuilder CreateTicketNonSrSettleBuilder()
+        {
+            Contract.Ensures(Contract.Result<ITicketNonSrSettleBuilder>() != null);
+            return Contract.Result<ITicketNonSrSettleBuilder>();
         }
     }
 }

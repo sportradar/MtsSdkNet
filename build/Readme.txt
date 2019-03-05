@@ -1,7 +1,18 @@
-﻿A MTS SDK library
+﻿﻿A MTS SDK library
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2019-02-27 1.8.0.0
+Added support for Client API - added property ClientApi on IMtsSdk
+Added configuration for ticket, ticket cancellation and ticket cashout message timeouts
+Improvement: inflation of rabbit channels when many disconnects
+
+2019-02-07 1.7.0.0
+Adding acking on consumers message processed
+Added AutoAcceptedOdds to ITicketResponse
+Added AdditionalInfo to all ticket responses
+Fix: settings corrected for sending ticket cancel and reoffer cancel message
+
 2018-11-28 1.6.0.0
 Support for ticket version 2.2
 Added AutoAcceptedOdd to TicketResponse

@@ -69,7 +69,7 @@ namespace Sportradar.MTS.SDK.API.Contracts
         public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
         {
             Contract.Requires(ticket != null);
-            Contract.Ensures(Contract.Result<ITicketCashoutResponse>() != null);
+            Contract.Ensures(Contract.Result<ITicketNonSrSettleResponse>() != null);
             return Contract.Result<ITicketNonSrSettleResponse>();
         }
     }

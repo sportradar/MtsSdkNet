@@ -33,6 +33,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         private int _ticketResponseTimeout;
         private int _ticketCancellationResponseTimeout;
         private int _ticketCashoutResponseTimeout;
+        private int _ticketNonSrSettleResponseTimeout;
 
         internal SdkConfigurationBuilder()
         {
@@ -42,6 +43,8 @@ namespace Sportradar.MTS.SDK.API.Internal
             _ticketResponseTimeout = SdkInfo.TicketResponseTimeoutDefault;
             _ticketCancellationResponseTimeout = SdkInfo.TicketCancellationResponseTimeoutDefault;
             _ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault;
+            //TODO implement non-sr settle timeout
+            _ticketNonSrSettleResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault;
         }
 
         public ISdkConfigurationBuilder SetUsername(string username)
@@ -253,6 +256,16 @@ namespace Sportradar.MTS.SDK.API.Internal
             return this;
         }
 
+        public ISdkConfigurationBuilder SetNonSrSettleResponseTimeout(int responseTimeout)
+        {
+            if (responseTimeout < SdkInfo.TicketCashoutResponseTimeoutMin)
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms", nameof(responseTimeout));
+            if (responseTimeout > SdkInfo.TicketCashoutResponseTimeoutMax)
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms", nameof(responseTimeout));
+            _ticketNonSrSettleResponseTimeout = responseTimeout;
+            return this;
+        }
+
         public ISdkConfiguration Build()
         {
             if (string.IsNullOrEmpty(_username))
@@ -288,7 +301,8 @@ namespace Sportradar.MTS.SDK.API.Internal
                                         _mtsClientApiHost,
                                         _ticketResponseTimeout,
                                         _ticketCancellationResponseTimeout,
-                                        _ticketCashoutResponseTimeout);
+                                        _ticketCashoutResponseTimeout,
+                                        _ticketNonSrSettleResponseTimeout);
         }
     }
 }

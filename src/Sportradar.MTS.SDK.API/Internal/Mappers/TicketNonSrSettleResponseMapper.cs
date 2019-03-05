@@ -22,9 +22,9 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         private readonly ITicketSender _ticketSender;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TicketCashoutResponseMapper"/> class
+        /// Initializes a new instance of the <see cref="TicketNonSrSettleResponseMapper"/> class
         /// </summary>
-        /// <param name="ticketSender">The ticket cashout ack sender (null)</param>
+        /// <param name="ticketSender">The ticket non-sportradar settle ack sender (null)</param>
         public TicketNonSrSettleResponseMapper(ITicketSender ticketSender)
         {
             _ticketSender = ticketSender;
@@ -37,7 +37,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         /// <param name="correlationId">The correlation id of the response</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         /// <param name="additionalInfo">The additional information</param>
-        /// <returns>ITicketCashoutResponse</returns>
+        /// <returns>TicketNonSrSettleResponse</returns>
         public ITicketNonSrSettleResponse Map(TicketNonSrSettleResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketNonSrSettleResponse(_ticketSender,
