@@ -242,9 +242,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             LimitId = limitId;
             Currency = currency;
             Channel = channel;
-            StatisticsEnabled = true;
+            StatisticsEnabled = false;
             StatisticsRecordLimit = 1000000;
-            StatisticsTimeout = 600;
+            StatisticsTimeout = 3600;
 
             AccessToken = accessToken ?? string.Empty;
             ProvideAdditionalMarketSpecifiers = provideAdditionalMarketSpecifiers;
@@ -351,6 +351,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Contract.Invariant(!string.IsNullOrEmpty(Host));
             Contract.Invariant(!string.IsNullOrEmpty(VirtualHost));
             Contract.Invariant(Port > 0);
+            Contract.Invariant(NodeId > 0);
+            Contract.Invariant(BookmakerId >= 0);
+            Contract.Invariant(LimitId >= 0);
+            Contract.Invariant(Currency == null || (Currency.Length >= 3 && Currency.Length <= 4));
             Contract.Invariant(!Host.Contains(":"), "Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
             Contract.Invariant(TicketResponseTimeout >= SdkInfo.TicketResponseTimeoutMin, $"TicketResponseTimeout must be more than {SdkInfo.TicketResponseTimeoutMin}ms");
             Contract.Invariant(TicketResponseTimeout <= SdkInfo.TicketResponseTimeoutMax, $"TicketResponseTimeout must be less than {SdkInfo.TicketResponseTimeoutMax}ms");

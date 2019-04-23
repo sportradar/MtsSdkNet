@@ -195,7 +195,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         {
             ExecutionLog.Info($"Shutdown consumer channel with channelNumber: {UniqueId} and queueName: {_queueName}. Reason={e.ReplyCode}-{e.ReplyText}, Cause={e.Cause}");
             Interlocked.CompareExchange(ref _isOpened, 0, 1);
-            CreateAndOpenConsumerChannel();
+            _healthTimer.FireOnce(TimeSpan.FromMilliseconds(100));
         }
 
         /// <summary>

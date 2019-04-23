@@ -2,6 +2,9 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2019-04-18 1.8.1.0
+Fix: reconnecting issue after being disconnected by the server
+
 2019-02-27 1.8.0.0
 Added support for Client API - added property ClientApi on IMtsSdk
 Added configuration for ticket, ticket cancellation and ticket cashout message timeouts

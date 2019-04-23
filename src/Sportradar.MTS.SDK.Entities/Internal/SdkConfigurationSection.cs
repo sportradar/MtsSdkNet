@@ -78,7 +78,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// Gets the default sender currency sign (3 or 4 letter)
         /// </summary>
         [ConfigurationProperty("currency", IsRequired = false)]
-        public string Currency => (string)base["currency"];
+        public string Currency => GetNullableString("currency");
 
         /// <summary>
         /// Gets the default sender channel (see <see cref="SenderChannel"/> for possible values)
@@ -128,31 +128,31 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// Gets the Keycloak host for authorization
         /// </summary>
         [ConfigurationProperty("keycloakHost", IsRequired = false)]
-        public string KeycloakHost => (string)base["keycloakHost"];
+        public string KeycloakHost => GetNullableString("keycloakHost");
 
         /// <summary>
         /// Gets the username used to connect authenticate to Keycloak
         /// </summary>
         [ConfigurationProperty("keycloakUsername", IsRequired = false)]
-        public string KeycloakUsername => (string)base["keycloakUsername"];
+        public string KeycloakUsername => GetNullableString("keycloakUsername");
 
         /// <summary>
         /// Gets the password used to connect authenticate to Keycloak
         /// </summary>
         [ConfigurationProperty("keycloakPassword", IsRequired = false)]
-        public string KeycloakPassword => (string)base["keycloakPassword"];
+        public string KeycloakPassword => GetNullableString("keycloakPassword");
 
         /// <summary>
         /// Gets the secret used to connect authenticate to Keycloak
         /// </summary>
         [ConfigurationProperty("keycloakSecret", IsRequired = false)]
-        public string KeycloakSecret => (string)base["keycloakSecret"];
+        public string KeycloakSecret => GetNullableString("keycloakSecret");
 
         /// <summary>
         /// Gets the Client API host
         /// </summary>
         [ConfigurationProperty("mtsClientApiHost", IsRequired = false)]
-        public string MtsClientApiHost => (string)base["mtsClientApiHost"];
+        public string MtsClientApiHost => GetNullableString("mtsClientApiHost");
 
         /// <summary>
         /// Gets the ticket response timeout(ms)
@@ -223,6 +223,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
                 throw new InvalidOperationException($"Could not retrieve section {SectionName} from exe configuration");
             }
             return section;
+        }
+
+        private string GetNullableString(string propertyName)
+        {
+            var property = ElementInformation.Properties[propertyName];
+            return property?.ValueOrigin == PropertyValueOrigin.Default ? null : (string) property?.Value;
         }
     }
 }

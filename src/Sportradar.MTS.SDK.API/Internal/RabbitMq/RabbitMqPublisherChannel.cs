@@ -441,7 +441,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             //Contract.Assume(_channel != null);
             if (Interlocked.CompareExchange(ref _isOpened, 0, 1) != 1)
             {
-                ExecutionLog.Error($"Cannot close the publisher channel on channelNumber: {UniqueId}, because this channel is already closed.");
+                // Do not show error if the channel is scheduled to be open
+                if (Interlocked.Read(ref _shouldBeOpened) != 1)
+                    ExecutionLog.Error($"Cannot close the publisher channel on channelNumber: {UniqueId}, because this channel is already closed.");
                 //throw new InvalidOperationException("The instance is already closed");
             }
             Interlocked.CompareExchange(ref _shouldBeOpened, 0, 1);

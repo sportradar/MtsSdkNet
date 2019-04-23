@@ -7,7 +7,7 @@
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">1</MajorVersion>
     <MinorVersion Condition="'$(MinorVersion)' == ''">8</MinorVersion>
-    <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">1</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
