@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
+using System;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
@@ -61,5 +62,11 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// </summary>
         /// <value>The total combinations</value>
         int? TotalCombinations { get; }
+
+        /// <summary>
+        /// Gets end time of last (non Sportradar) match on ticket.
+        /// </summary>
+        /// <value>End time of last (non Sportradar) match on ticket.</value>
+        DateTime LastMatchEndTime { get; }
     }
 }

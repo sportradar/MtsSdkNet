@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "additionalProperties": false,
-  "description": "Ticket version 2.2 schema",
+  "description": "Ticket version 2.3 schema",
   "title": "Ticket container",
   "required": [
     "ticket"
@@ -311,8 +311,8 @@
         },
         "version": {
           "type": "string",
-          "description": "JSON format version (must be '2.2')",
-          "pattern": "^(2\\.2)$",
+          "description": "JSON format version (must be '2.3')",
+          "pattern": "^(2\\.3)$",
           "minLength": 3,
           "maxLength": 3
         },
@@ -332,6 +332,11 @@
         "totalCombinations": {
           "type": ["integer", "null"],
           "description": "Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations.",
+          "minimum": 1
+        },
+        "lastMatchEndTime": {
+          "type": ["number", "null"],
+          "description": "End time of last (non Sportradar) match on ticket.",
           "minimum": 1
         }
       }

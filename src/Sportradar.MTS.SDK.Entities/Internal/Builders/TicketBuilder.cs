@@ -57,6 +57,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         private int? _totalCombinations;
 
         /// <summary>
+        /// End time of last (non Sportradar) match on ticket
+        /// </summary>
+        private DateTime? _lastMatchEndTime;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TicketBuilder"/> class
         /// </summary>
         internal TicketBuilder()
@@ -174,6 +179,22 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         }
 
         /// <summary>
+        /// End time of last (non Sportradar) match on ticket
+        /// </summary>
+        /// <param name="lastMatchEndTime">End time of last (non Sportradar) match on ticket</param>
+        /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
+        public ITicketBuilder SetLastMatchEndTime(DateTime lastMatchEndTime)
+        {
+            if (lastMatchEndTime == null || lastMatchEndTime < new DateTime(2000, 1, 1))
+            {
+                throw new ArgumentException("LastMatchEndTime not valied or in the past.");
+            }
+            _lastMatchEndTime = lastMatchEndTime;
+            return this;
+        }
+
+
+        /// <summary>
         /// Gets the bets
         /// </summary>
         /// <returns>Returns all the bets</returns>
@@ -185,7 +206,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicket" /></returns>
         public ITicket BuildTicket()
         {
-            var ticket = new Ticket(_ticketId, _sender, _bets, _reofferId, _altStakeRefId, _isTest, _oddsChangeType, _totalCombinations);
+            var ticket = new Ticket(_ticketId, _sender, _bets, _reofferId, _altStakeRefId, _isTest, _oddsChangeType, _totalCombinations, _lastMatchEndTime);
             _ticketId = null;
             _sender = null;
             _bets = null;
@@ -194,6 +215,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             _isTest = false;
             _oddsChangeType = null;
             _totalCombinations = null;
+            _lastMatchEndTime = null;
             return ticket;
         }
 

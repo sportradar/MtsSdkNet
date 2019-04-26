@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
+using System;
 
 namespace Sportradar.MTS.SDK.Entities.Builders
 {
@@ -73,6 +74,13 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <param name="totalCombinations">The expected total number of generated combinations</param>
         /// <returns>Returns a <see cref="ITicketBuilder"/></returns>
         ITicketBuilder SetTotalCombinations(int totalCombinations);
+
+        /// <summary>
+        /// Sets end time of last (non Sportradar) match on ticket
+        /// </summary>
+        /// <param name="lastMatchEndTime">End time of last (non Sportradar) match on ticket</param>
+        /// <returns>Returns a <see cref="ITicketBuilder"/></returns>
+        ITicketBuilder SetLastMatchEndTime(DateTime lastMatchEndTime);
 
         /// <summary>
         /// Builds the <see cref="ITicket" />
