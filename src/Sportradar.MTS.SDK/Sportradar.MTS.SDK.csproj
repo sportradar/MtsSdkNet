@@ -132,6 +132,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,12 +152,51 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\Help\QuickStart.xml" />
+    <Content Include="bin\Debug\log4net.dll" />
+    <Content Include="bin\Debug\log4net.xml" />
+    <Content Include="bin\Debug\Metrics.dll" />
+    <Content Include="bin\Debug\Metrics.pdb" />
+    <Content Include="bin\Debug\Metrics.xml" />
+    <Content Include="bin\Debug\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="bin\Debug\Microsoft.Practices.ServiceLocation.pdb" />
+    <Content Include="bin\Debug\Microsoft.Practices.ServiceLocation.xml" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.dll" />
+    <Content Include="bin\Debug\Microsoft.Practices.Unity.xml" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\RabbitMQ.Client.dll" />
+    <Content Include="bin\Debug\RabbitMQ.Client.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.API.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.API.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.API.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Common.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Common.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Common.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.xml" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.Entities.XmlSerializers.dll" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.pdb" />
+    <Content Include="bin\Debug\Sportradar.MTS.SDK.XML" />
     <Content Include="Help\QuickStart.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="obj\Debug\Sportradar.MTS.SDK.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\Sportradar.MTS.SDK.dll" />
+    <Content Include="obj\Debug\Sportradar.MTS.SDK.pdb" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\Sportradar.MTS.SDK.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\Sportradar.MTS.SDK.csprojAssemblyReference.cache" />
+    <None Include="obj\Debug\Sportradar.MTS.SDK.csprojResolveAssemblyReference.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+using System;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
@@ -111,6 +112,9 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
 
         [Pure]
         public int TicketCashoutResponseTimeout => Contract.Result<int>();
+
+        [Pure]
+        public int TicketNonSrSettleResponseTimeout => Contract.Result<int>();
 
         [Pure]
         public string AccessToken => Contract.Result<string>();

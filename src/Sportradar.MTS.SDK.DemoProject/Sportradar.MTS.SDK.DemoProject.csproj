@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Example\Examples.cs" />
     <Compile Include="Example\Cashout.cs" />
+    <Compile Include="Example\NonSrSettle.cs" />
     <Compile Include="Example\Reoffer.cs" />
     <Compile Include="Example\Blocking.cs" />
     <Compile Include="Example\Basic.cs" />

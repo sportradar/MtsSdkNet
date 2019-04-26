@@ -1,4 +1,4 @@
-﻿A MTS SDK library
+﻿﻿A MTS SDK library
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:

@@ -12,6 +12,9 @@ cls
 ..\..\build\tools\nswag\nswag.exe jsonschema2csclient /arraytype:IEnumerable /name:TicketCashoutDTO /namespace:Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashout /input:ticket-cashout-schema.json /output:TicketCashout\TicketCashoutDTO.cs
 ..\..\build\tools\nswag\nswag.exe jsonschema2csclient /arraytype:IEnumerable /name:TicketCashoutResponseDTO /namespace:Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse /input:ticket-cashout-response-schema.json /output:TicketCashoutResponse\TicketCashoutResponseDTO.cs
 
+..\..\build\tools\nswag\nswag.exe jsonschema2csclient /arraytype:IEnumerable /name:TicketNonSrSettleDTO /namespace:Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle /input:ticket-non-sr-settle-schema.json /output:TicketNonSrSettle\TicketNonSrSettleDTO.cs
+..\..\build\tools\nswag\nswag.exe jsonschema2csclient /arraytype:IEnumerable /name:TicketNonSrSettleResponseDTO /namespace:Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse /input:ticket-non-sr-settle-response-schema.json /output:TicketNonSrSettleResponse\TicketNonSrSettleResponseDTO.cs
+
 echo.
 echo Replacing 'double' to 'long' ...
 ..\..\build\tools\fart.exe -r *.cs  " double " " long "

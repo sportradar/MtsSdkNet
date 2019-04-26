@@ -143,6 +143,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public int TicketCashoutResponseTimeout { get; }
 
         /// <summary>
+        /// Gets the ticket non-sportradar settle response timeout(ms)
+        /// </summary>
+        public int TicketNonSrSettleResponseTimeout { get; }
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
         /// <param name="username">The username used when connecting to AMQP broker</param>
@@ -167,6 +173,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="ticketResponseTimeout">The ticket response timeout(ms)</param>
         /// <param name="ticketCancellationResponseTimeout">The ticket cancellation response timeout(ms)</param>
         /// <param name="ticketCashoutResponseTimeout">The ticket cashout response timeout(ms)</param>
+        /// <param name="ticketNonSrSettleResponseTimeout">The ticket cashout response timeout(ms)</param>
         public SdkConfiguration(
             string username,
             string password,
@@ -189,7 +196,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             string mtsClientApiHost = null,
             int ticketResponseTimeout = SdkInfo.TicketResponseTimeoutDefault,
             int ticketCancellationResponseTimeout = SdkInfo.TicketCancellationResponseTimeoutDefault,
-            int ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault)
+            int ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault,
+            int ticketNonSrSettleResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault)
         {
             Contract.Requires(!string.IsNullOrEmpty(username));
             Contract.Requires(!string.IsNullOrEmpty(password));
@@ -270,6 +278,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             TicketResponseTimeout = ticketResponseTimeout;
             TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
+            TicketNonSrSettleResponseTimeout = ticketCashoutResponseTimeout;
         }
 
         /// <summary>
@@ -353,6 +362,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Contract.Invariant(TicketCancellationResponseTimeout <= SdkInfo.TicketCancellationResponseTimeoutMax, $"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
             Contract.Invariant(TicketCashoutResponseTimeout >= SdkInfo.TicketCashoutResponseTimeoutMin, $"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
             Contract.Invariant(TicketCashoutResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
+            Contract.Invariant(TicketNonSrSettleResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
         }
     }
 }

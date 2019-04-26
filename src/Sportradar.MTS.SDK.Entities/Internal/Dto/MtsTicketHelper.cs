@@ -214,6 +214,20 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto
             throw new InvalidEnumArgumentException($"Invalid TicketCashoutResponse. Status value: {status}.");
         }
 
+        public static NonSrSettleAcceptance Convert(TicketNonSrSettleResponse.Status status)
+        {
+            if (status == TicketNonSrSettleResponse.Status.Accepted)
+            {
+                return NonSrSettleAcceptance.Accepted;
+            }
+
+            if (status == TicketNonSrSettleResponse.Status.Rejected)
+            {
+                return NonSrSettleAcceptance.Rejected;
+            }
+            throw new InvalidEnumArgumentException($"Invalid TicketNonSrSettleResponse. Status value: {status}.");
+        }
+
         public static TicketResponseType Convert(ISdkTicket ticket)
         {
             if (ticket == null)
@@ -231,6 +245,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto
             if (ticket is ITicketCashoutResponse)
             {
                 return TicketResponseType.TicketCashout;
+            }
+            if (ticket is ITicketNonSrSettleResponse)
+            {
+                return TicketResponseType.TicketNonSrSettle;
             }
             throw new InvalidEnumArgumentException($"Invalid ticket type. Ticket type: {ticket.GetType()}.");
         }

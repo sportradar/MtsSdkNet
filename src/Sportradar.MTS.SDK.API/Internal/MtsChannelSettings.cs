@@ -171,5 +171,28 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           replyToRoutingKey: null,
                                           environment: environment);
         }
+
+        public static IMtsChannelSettings GetTicketNonSrSettleChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
+        {
+            var headers = new Dictionary<string, object> { { "replyRoutingKey", $"node{nodeId}.ticket.nonsrsettle" } };
+            return new MtsChannelSettings(queueName: null,
+                                          exchangeName: $"{rootExchangeName}-Control",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: "ticket.nonsrsettle",
+                                          headerProperties: new ReadOnlyDictionary<string, object>(dictionary: headers),
+                                          replyToRoutingKey: headers.First().Value.ToString(),
+                                          environment: environment);
+        }
+
+        public static IMtsChannelSettings GetTicketNonSrSettleResponseChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
+        {
+            return new MtsChannelSettings(queueName: $"{username}-Reply-nonsrsettle-node{nodeId}",
+                                          exchangeName: $"{rootExchangeName}-Reply",
+                                          exchangeType: ExchangeType.Topic,
+                                          routingKey: $"node{nodeId}.ticket.nonsrsettle",
+                                          headerProperties: null,
+                                          replyToRoutingKey: null,
+                                          environment: environment);
+        }
     }
 }

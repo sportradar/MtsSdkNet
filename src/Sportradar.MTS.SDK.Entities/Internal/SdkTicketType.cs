@@ -17,10 +17,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         TicketCashout = 20,
 
+        TicketNonSrSettle = 30,
+
         TicketResponse = 100,
 
         TicketCancelResponse = 101,
 
-        TicketCashoutResponse = 102
+        TicketCashoutResponse = 102,
+
+        TicketNonSrSettleResponse = 103
     }
 }

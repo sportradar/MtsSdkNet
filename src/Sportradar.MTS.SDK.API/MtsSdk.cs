@@ -54,6 +54,7 @@ namespace Sportradar.MTS.SDK.API
         private readonly IRabbitMqMessageReceiver _rabbitMqMessageReceiverForTickets;
         private readonly IRabbitMqMessageReceiver _rabbitMqMessageReceiverForTicketCancels;
         private readonly IRabbitMqMessageReceiver _rabbitMqMessageReceiverForTicketCashouts;
+        private readonly IRabbitMqMessageReceiver _rabbitMqMessageReceiverForTicketNonSrSettle;
 
         private readonly ConcurrentDictionary<string, AutoResetEvent> _autoResetEventsForBlockingRequests;
         private readonly ConcurrentDictionary<string, ISdkTicket> _responsesFromBlockingRequests;
@@ -140,6 +141,7 @@ namespace Sportradar.MTS.SDK.API
             _rabbitMqMessageReceiverForTickets = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketResponseMessageReceiver");
             _rabbitMqMessageReceiverForTicketCancels = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketCancelResponseMessageReceiver");
             _rabbitMqMessageReceiverForTicketCashouts = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketCashoutResponseMessageReceiver");
+            _rabbitMqMessageReceiverForTicketNonSrSettle = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketNonSrSettleResponseMessageReceiver");
 
             ClientApi = _unityContainer.Resolve<IMtsClientApi>();
 
@@ -188,6 +190,7 @@ namespace Sportradar.MTS.SDK.API
             Contract.Invariant(_rabbitMqMessageReceiverForTickets != null);
             Contract.Invariant(_rabbitMqMessageReceiverForTicketCancels != null);
             Contract.Invariant(_rabbitMqMessageReceiverForTicketCashouts != null);
+            Contract.Invariant(_rabbitMqMessageReceiverForTicketNonSrSettle != null);
             Contract.Invariant(_autoResetEventsForBlockingRequests != null);
             Contract.Invariant(_responsesFromBlockingRequests != null);
         }
@@ -275,6 +278,10 @@ namespace Sportradar.MTS.SDK.API
             //_rabbitMqMessageReceiverForTicketCashouts.MqMessageDeserializationFailed -= OnMqMessageDeserializationFailed;
             _rabbitMqMessageReceiverForTicketCashouts.Close();
 
+            _rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageReceived -= OnMqMessageReceived;
+            //_rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageDeserializationFailed -= OnMqMessageDeserializationFailed;
+            _rabbitMqMessageReceiverForTicketNonSrSettle.Close();
+
             _ticketPublisherFactory.Close();
 
             foreach (var item in _autoResetEventsForBlockingRequests)
@@ -334,6 +341,10 @@ namespace Sportradar.MTS.SDK.API
                 _rabbitMqMessageReceiverForTicketCashouts.MqMessageReceived += OnMqMessageReceived;
                 //_rabbitMqMessageReceiverForTicketCashouts.MqMessageDeserializationFailed += OnMqMessageDeserializationFailed;
                 _rabbitMqMessageReceiverForTicketCashouts.Open();
+
+                _rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageReceived += OnMqMessageReceived;
+                //_rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageDeserializationFailed += OnMqMessageDeserializationFailed;
+                _rabbitMqMessageReceiverForTicketNonSrSettle.Open();
 
                 _ticketPublisherFactory.Open();
             }
@@ -571,6 +582,18 @@ namespace Sportradar.MTS.SDK.API
         /// </summary>
         /// <value>The client api</value>
         public IMtsClientApi ClientApi { get; }
+
+        /// <summary>
+        /// Sends the cashout ticket to the MTS server and wait for the response message on the feed
+        /// </summary>
+        /// <param name="ticket">A <see cref="ITicketNonSrSettle" /> to be send</param>
+        /// <returns>Returns a <see cref="ITicketNonSrSettleResponse" /></returns>
+        public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
+        {
+            Metric.Context("MtsSdk").Meter("SendTicketNonSrSettleBlocking", Unit.Items).Mark();
+            InteractionLog.Info($"Called SendTicketNonSrSettleBlocking with ticketId={ticket.TicketId}.");
+            return (ITicketNonSrSettleResponse)SendTicketBlockingBase(ticket);
+        }
 
         private static void LogInit()
         {

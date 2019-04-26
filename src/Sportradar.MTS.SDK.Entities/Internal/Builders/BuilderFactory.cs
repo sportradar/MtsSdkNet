@@ -1,6 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+using System;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.Cache;
@@ -107,6 +108,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         public ITicketCancelAckBuilder CreateTicketCancelAckBuilder()
         {
             return new TicketCancelAckBuilder(_config);
+        }
+
+        /// <summary>
+        /// Constructs and returns a new instance of the <see cref="ITicketNonSrSettleBuilder" /> class
+        /// </summary>
+        /// <returns>A new instance of the <see cref="ITicketNonSrSettleBuilder" /> class</returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public ITicketNonSrSettleBuilder CreateTicketNonSrSettleBuilder()
+        {
+            return new TicketNonSrSettleBuilder(_config);
         }
     }
 }

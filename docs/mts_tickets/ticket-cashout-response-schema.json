@@ -2,7 +2,7 @@
    "$schema":"http://json-schema.org/draft-04/schema#",
    "type":"object",
    "additionalProperties":false,
-   "description":"Ticket cashout response 2.2 schema",
+   "description":"Ticket cashout response 2.3 schema",
    "title":"Ticket cashout response",
    "required":[
       "version",
@@ -70,8 +70,8 @@
       },
       "version":{
          "type":"string",
-         "description":"JSON format version (must be '2.2')",
-         "pattern":"^(2\\.2)$",
+         "description":"JSON format version (must be '2.3')",
+         "pattern":"^(2\\.3)$",
          "minLength":3,
          "maxLength":3
       }

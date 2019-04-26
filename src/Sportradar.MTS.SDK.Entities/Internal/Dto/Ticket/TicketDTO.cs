@@ -9,9 +9,9 @@ using System.Collections.ObjectModel;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 {
-#pragma warning disable // Disable all warnings
+    #pragma warning disable // Disable all warnings
 
-    /// <summary>Ticket version 2.2 schema</summary>
+    /// <summary>Ticket version 2.3 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class TicketDTO : System.ComponentModel.INotifyPropertyChanged
     {
@@ -67,6 +67,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         private bool _testSource;
         private TicketOddsChange? _oddsChange = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.TicketOddsChange.None;
         private int? _totalCombinations;
+        private long? _lastMatchEndTime;
     
         /// <summary>Timestamp of ticket placement (in UNIX time millis)</summary>
         [Newtonsoft.Json.JsonProperty("timestampUtc", Required = Newtonsoft.Json.Required.Always)]
@@ -181,11 +182,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             }
         }
     
-        /// <summary>JSON format version (must be '2.2')</summary>
+        /// <summary>JSON format version (must be '2.3')</summary>
         [Newtonsoft.Json.JsonProperty("version", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         [System.ComponentModel.DataAnnotations.StringLength(3, MinimumLength = 3)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^(2\.2)$")]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^(2\.3)$")]
         public string Version
         {
             get { return _version; }
@@ -212,8 +213,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 }
             }
         }
-
-        /// <summary>Accept change in odds (optional, default none) none: default behavior, any: any odds change accepted, higher: accept higher odds</summary>
+    
+        /// <summary>Accept change in odds (optional, default none) none: default behaviour, any: any odds change accepted, higher: accept higher odds</summary>
         [Newtonsoft.Json.JsonProperty("oddsChange", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TicketOddsChange? OddsChange
@@ -245,6 +246,22 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             }
         }
     
+        /// <summary>End time of last (non Sportradar) match on ticket.</summary>
+        [Newtonsoft.Json.JsonProperty("lastMatchEndTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(1.0, double.MaxValue)]
+        public long? LastMatchEndTime
+        {
+            get { return _lastMatchEndTime; }
+            set 
+            {
+                if (_lastMatchEndTime != value)
+                {
+                    _lastMatchEndTime = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
     
         public string ToJson() 
@@ -269,7 +286,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     public partial class Anonymous : System.ComponentModel.INotifyPropertyChanged
     {
         private Bonus _bonus = new Bonus();
+        private bool? _customBet = false;
+        private int? _calculationOdds;
         private Stake _stake = new Stake();
+        private EntireStake _entireStake = new EntireStake();
         private string _id;
         private IEnumerable<int> _selectedSystems = new Collection<int>();
         private IEnumerable<Anonymous3> _selectionRefs = new Collection<Anonymous3>();
@@ -291,6 +311,37 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             }
         }
     
+        /// <summary>Flag if bet is a custom bet (optional, default false)</summary>
+        [Newtonsoft.Json.JsonProperty("customBet", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? CustomBet
+        {
+            get { return _customBet; }
+            set 
+            {
+                if (_customBet != value)
+                {
+                    _customBet = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        /// <summary>Odds calculated for custom bet multiplied by 10_000 and rounded to int value</summary>
+        [Newtonsoft.Json.JsonProperty("calculationOdds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(10000.0, 1000000000.0)]
+        public int? CalculationOdds
+        {
+            get { return _calculationOdds; }
+            set 
+            {
+                if (_calculationOdds != value)
+                {
+                    _calculationOdds = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
         /// <summary>Stake of the bet</summary>
         [Newtonsoft.Json.JsonProperty("stake", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -302,6 +353,21 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 if (_stake != value)
                 {
                     _stake = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        /// <summary>Entire stake of the bet</summary>
+        [Newtonsoft.Json.JsonProperty("entireStake", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public EntireStake EntireStake
+        {
+            get { return _entireStake; }
+            set 
+            {
+                if (_entireStake != value)
+                {
+                    _entireStake = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -777,6 +843,64 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         }
     }
     
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
+    public partial class EntireStake : System.ComponentModel.INotifyPropertyChanged
+    {
+        private long _value;
+        private EntireStakeType? _type = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.EntireStakeType.Total;
+    
+        /// <summary>Quantity multiplied by 10_000 and rounded to a long value</summary>
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Range(1.0, 1000000000000000000.0)]
+        public long Value
+        {
+            get { return _value; }
+            set 
+            {
+                if (_value != value)
+                {
+                    _value = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        /// <summary>Type of stake (optional, default total)</summary>
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public EntireStakeType? Type
+        {
+            get { return _type; }
+            set 
+            {
+                if (_type != value)
+                {
+                    _type = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static EntireStake FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<EntireStake>(data);
+        }
+    
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
     /// <summary>Array of selection references to form the bet (optional, if missing all selections are taken)</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class Anonymous3 : System.ComponentModel.INotifyPropertyChanged
@@ -990,6 +1114,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public enum StakeType
+    {
+        [System.Runtime.Serialization.EnumMember(Value = "total")]
+        Total = 0,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "unit")]
+        Unit = 1,
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
+    public enum EntireStakeType
     {
         [System.Runtime.Serialization.EnumMember(Value = "total")]
         Total = 0,

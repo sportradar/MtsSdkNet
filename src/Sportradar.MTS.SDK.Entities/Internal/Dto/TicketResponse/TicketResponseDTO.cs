@@ -3,13 +3,12 @@
 //     Generated using the NJsonSchema v8.6.6263.34621 (http://NJsonSchema.org)
 // </auto-generated>
 //----------------------
-
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse
 {
-#pragma warning disable // Disable all warnings
+    #pragma warning disable // Disable all warnings
 
     /// <summary>Object carrying information about rejection cause</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
@@ -80,7 +79,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse
     
     }
     
-    /// <summary>Ticket response 2.2 schema</summary>
+    /// <summary>Ticket response 2.3 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class TicketResponseDTO : System.ComponentModel.INotifyPropertyChanged
     {
@@ -120,11 +119,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse
             }
         }
     
-        /// <summary>JSON format version (must be '2.2')</summary>
+        /// <summary>JSON format version (must be '2.3')</summary>
         [Newtonsoft.Json.JsonProperty("version", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         [System.ComponentModel.DataAnnotations.StringLength(3, MinimumLength = 3)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^(2\.2)$")]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^(2\.3)$")]
         public string Version
         {
             get { return _version; }

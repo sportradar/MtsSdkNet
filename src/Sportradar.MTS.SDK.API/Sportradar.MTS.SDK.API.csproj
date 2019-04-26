@@ -173,8 +173,12 @@
     <Compile Include="Contracts\RabbitMqConsumerChannelContract.cs" />
     <Compile Include="Contracts\SdkConfigurationBuilderContract.cs" />
     <Compile Include="IMtsClientApi.cs" />
+    <Compile Include="Internal\Mappers\TicketNonSrSettleMapper.cs" />
+    <Compile Include="Internal\Mappers\TicketNonSrSettleResponseMapper.cs" />
     <Compile Include="Internal\RabbitMq\ChannelWrapper.cs" />
     <Compile Include="Internal\SdkConfigurationBuilder.cs" />
+    <Compile Include="Internal\Senders\TicketNonSrSettleSender.cs" />
+    <Compile Include="Internal\TicketImpl\TicketNonSrSettleResponse.cs" />
     <Compile Include="ISdkConfigurationBuilder.cs" />
     <Compile Include="IMtsSdk.cs" />
     <Compile Include="Internal\EntitiesMapper.cs" />

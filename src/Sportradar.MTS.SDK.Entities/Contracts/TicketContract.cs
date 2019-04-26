@@ -89,13 +89,13 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             }
         }
 
-        public DateTime LastMatchEndTime
+        public DateTime? LastMatchEndTime
         {
             get
             {
-                Contract.Ensures(Contract.Result<DateTime>() == null 
-                                || Contract.Result<DateTime>() > new DateTime(2000, 1, 1));
-                return Contract.Result<DateTime>();
+                Contract.Ensures(Contract.Result<DateTime?>() == null 
+                                || Contract.Result<DateTime?>() > new DateTime(2000, 1, 1));
+                return Contract.Result<DateTime?>();
             }
         }
 

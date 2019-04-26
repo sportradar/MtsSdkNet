@@ -70,10 +70,46 @@
                   }
                 }
               },
+              "customBet": {
+                "description": "Flag if bet is a custom bet (optional, default false)",
+                "type": ["boolean", "null"],
+                "default": false
+              },
+              "calculationOdds": {
+                "type": ["integer", "null"],
+                "description": "Odds calculated for custom bet multiplied by 10_000 and rounded to int value",
+                "maximum": 1000000000,
+                "minimum": 10000
+              },
               "stake": {
                 "type": "object",
                 "additionalProperties": false,
                 "description": "Stake of the bet",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "description": "Quantity multiplied by 10_000 and rounded to a long value",
+                    "maximum": 1000000000000000000,
+                    "minimum": 1
+                  },
+                  "type": {
+                    "type": ["string", "null"],
+                    "description": "Type of stake (optional, default total)",
+                    "default": "total",
+                    "enum": [
+                      "total",
+                      "unit"
+                    ]
+                  }
+                }
+              },
+              "entireStake": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "Entire stake of the bet",
                 "required": [
                   "value"
                 ],

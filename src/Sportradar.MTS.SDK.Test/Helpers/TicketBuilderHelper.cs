@@ -18,6 +18,8 @@ using Reason = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Reason;
 using Result = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Result;
 using SR = Sportradar.MTS.SDK.Test.Helpers.StaticRandom;
 using Status = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Status;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 
 namespace Sportradar.MTS.SDK.Test.Helpers
 {
@@ -250,6 +252,29 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                 Result = new SDK.Entities.Internal.Dto.TicketCashoutResponse.Result
                 {
                     Reason = new SDK.Entities.Internal.Dto.TicketCashoutResponse.Reason
+                    {
+                        Code = SR.I1000,
+                        Message = "message " + SR.I1000
+                    },
+                    Status = status,
+                    TicketId = ticketId
+                }
+            };
+        }
+
+        public static TicketNonSrSettleResponseDTO GetTicketNonSrSettleResponse(string ticketId, SDK.Entities.Internal.Dto.TicketNonSrSettleResponse.Status status)
+        {
+            if (string.IsNullOrEmpty(ticketId))
+            {
+                ticketId = "ticket-" + SR.I1000P;
+            }
+            return new TicketNonSrSettleResponseDTO
+            {
+                Signature = SR.S1000,
+                Version = "2.3",
+                Result = new SDK.Entities.Internal.Dto.TicketNonSrSettleResponse.Result
+                {
+                    Reason = new SDK.Entities.Internal.Dto.TicketNonSrSettleResponse.Reason
                     {
                         Code = SR.I1000,
                         Message = "message " + SR.I1000

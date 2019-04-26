@@ -12,6 +12,7 @@ using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelResponse;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse;
 using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 
 namespace Sportradar.MTS.SDK.API.Internal
 {
@@ -46,27 +47,40 @@ namespace Sportradar.MTS.SDK.API.Internal
         public ITicketCancelResponse Map(TicketCancelResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCancelResponse(_ticketCancelAckSender,
-                                            source.Result.TicketId,
-                                            MtsTicketHelper.Convert(source.Result.Status),
-                                            new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
-                                            correlationId,
-                                            source.Signature,
-                                            source.Version,
-                                            additionalInfo,
-                                            orgJson);
+                                      source.Result.TicketId,
+                                      MtsTicketHelper.Convert(source.Result.Status),
+                                      new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
+                                      correlationId,
+                                      source.Signature,
+                                      source.Version,
+                                      additionalInfo,
+                                      orgJson);
         }
 
         public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCashoutResponse(null,
-                                             source.Result.TicketId,
-                                             MtsTicketHelper.Convert(source.Result.Status),
-                                             new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
-                                             correlationId,
-                                             source.Signature,
-                                             source.Version,
-                                             additionalInfo,
-                                             orgJson);
+                source.Result.TicketId,
+                MtsTicketHelper.Convert(source.Result.Status),
+                new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
+                correlationId,
+                source.Signature,
+                source.Version,
+                additionalInfo,
+                orgJson);
+        }
+
+        public ITicketNonSrSettleResponse Map(TicketNonSrSettleResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
+        {
+            return new TicketNonSrSettleResponse(null,
+                source.Result.TicketId,
+                MtsTicketHelper.Convert(source.Result.Status),
+                new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
+                correlationId,
+                source.Signature,
+                source.Version,
+                additionalInfo,
+                orgJson);
         }
 
         public ISdkTicket GetTicketResponseFromJson(string json, string routingKey, TicketResponseType type, string correlationId, IDictionary<string, string> additionalInfo)
@@ -86,6 +100,11 @@ namespace Sportradar.MTS.SDK.API.Internal
             {
                 var cashoutDto = TicketCashoutResponseDTO.FromJson(json);
                 return Map(cashoutDto, correlationId, additionalInfo, json);
+            }
+            if (type == TicketResponseType.TicketNonSrSettle)
+            {
+                var nonSrSettleDto = TicketNonSrSettleResponseDTO.FromJson(json);
+                return Map(nonSrSettleDto, correlationId, additionalInfo, json);
             }
 
             //old

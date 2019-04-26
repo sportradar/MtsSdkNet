@@ -36,7 +36,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         /// <param name="reofferRefId">The reoffer reference id</param>
         /// <param name="altStakeRefId">The alternative stake reference id</param>
         /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
-        public Ticket(string ticketId, Sender sender, IEnumerable<Anonymous> bets, IEnumerable<Anonymous2> selections, TicketOddsChange oddsChange, bool isTestSource, DateTime timestamp, string version, string reofferRefId, string altStakeRefId, int? totalCombinations)
+        /// <param name="lastMatchEndTime">Time of last non-sportradar selection on ticket</param>
+        public Ticket(string ticketId, Sender sender, IEnumerable<Anonymous> bets, IEnumerable<Anonymous2> selections, TicketOddsChange oddsChange, bool isTestSource, DateTime timestamp, string version, string reofferRefId, string altStakeRefId, int? totalCombinations, DateTime? lastMatchEndTime)
         {
             TicketId = ticketId;
             Sender = sender;
@@ -49,6 +50,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             ReofferRefId = string.IsNullOrEmpty(reofferRefId) ? null : reofferRefId;
             AltStakeRefId = string.IsNullOrEmpty(altStakeRefId) ? null : altStakeRefId;
             TotalCombinations = totalCombinations;
+            LastMatchEndTime = lastMatchEndTime.Value.ToFileTimeUtc();
         }
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             ReofferRefId = string.IsNullOrEmpty(ticket.ReofferId) ? null : ticket.ReofferId;
             AltStakeRefId = string.IsNullOrEmpty(ticket.AltStakeRefId) ? null : ticket.AltStakeRefId;
             TotalCombinations = ticket.TotalCombinations;
+            LastMatchEndTime = ticket.LastMatchEndTime.HasValue ? ticket.LastMatchEndTime.Value.ToFileTimeUtc() : (long?) null;
         }
 
         /// <summary>

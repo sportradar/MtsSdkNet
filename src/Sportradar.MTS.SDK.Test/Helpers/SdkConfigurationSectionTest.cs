@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
+using System;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -141,6 +142,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         /// </summary>
         public int TicketCashoutResponseTimeout { get; }
 
+        public int TicketNonSrSettleResponseTimeout{ get; }
+
         public SdkConfigurationSectionTest(
             string username,
             string password,
@@ -167,7 +170,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             string mtsClientApiHost,
             int ticketResponseTimeout,
             int ticketCancellationResponseTimeout,
-            int ticketCashoutResponseTimeout)
+            int ticketCashoutResponseTimeout,
+            int ticketNonSrSettleTimeout)
         {
             Username = username;
             Password = password;
@@ -195,6 +199,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             TicketResponseTimeout = ticketResponseTimeout;
             TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
+            TicketNonSrSettleResponseTimeout = ticketNonSrSettleTimeout;
         }
 
         public static SdkConfigurationSectionTest Create()
@@ -225,7 +230,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    mtsClientApiHost: string.Empty,
                                                    ticketResponseTimeout: 15000,
                                                    ticketCancellationResponseTimeout: 600000,
-                                                   ticketCashoutResponseTimeout: 600000);
+                                                   ticketCashoutResponseTimeout: 600000,
+                                                   ticketNonSrSettleTimeout: 600000);
         }
     }
 }
