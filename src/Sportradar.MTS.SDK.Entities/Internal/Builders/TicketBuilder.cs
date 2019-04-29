@@ -185,14 +185,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ITicketBuilder SetLastMatchEndTime(DateTime lastMatchEndTime)
         {
-            if (lastMatchEndTime == null || lastMatchEndTime < new DateTime(2000, 1, 1))
+            if (lastMatchEndTime == null || lastMatchEndTime > DateTime.Now)
             {
-                throw new ArgumentException("LastMatchEndTime not valied or in the past.");
+                throw new ArgumentException("LastMatchEndTime not valid or in the past.");
             }
             _lastMatchEndTime = lastMatchEndTime;
             return this;
         }
-
 
         /// <summary>
         /// Gets the bets

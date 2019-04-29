@@ -84,6 +84,5 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="ticket">A <see cref="ITicketNonSrSettle"/> to be send</param>
         /// <returns>Returns a <see cref="ITicketNonSrSettleResponse"/></returns>
         ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket);
-
     }
 }

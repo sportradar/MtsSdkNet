@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
-using System;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -228,10 +228,10 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    keycloakPassword: string.Empty,
                                                    keycloakSecret: string.Empty,
                                                    mtsClientApiHost: string.Empty,
-                                                   ticketResponseTimeout: 15000,
-                                                   ticketCancellationResponseTimeout: 600000,
-                                                   ticketCashoutResponseTimeout: 600000,
-                                                   ticketNonSrSettleTimeout: 600000);
+                                                   ticketResponseTimeout: SdkInfo.TicketResponseTimeoutDefault,
+                                                   ticketCancellationResponseTimeout: SdkInfo.TicketCancellationResponseTimeoutDefault,
+                                                   ticketCashoutResponseTimeout: SdkInfo.TicketCashoutResponseTimeoutDefault,
+                                                   ticketNonSrSettleTimeout: SdkInfo.TicketNonSrResponseTimeoutDefault);
         }
     }
 }

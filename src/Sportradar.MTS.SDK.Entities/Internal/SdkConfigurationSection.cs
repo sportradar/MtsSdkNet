@@ -173,16 +173,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public int TicketCashoutResponseTimeout => (int)base["ticketCashoutResponseTimeout"];
 
         /// <summary>
+        /// Gets the ticket cashout response timeout(ms)
+        /// </summary>
+        [ConfigurationProperty("ticketNonSrSettleResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketNonSrResponseTimeoutDefault)]
+        public int TicketNonSrSettleResponseTimeout => (int)base["ticketNonSrSettleResponseTimeout"];
+
+        /// <summary>
         /// Gets the file path to the configuration file for the log4net repository used by the SDK
         /// </summary>
         [ConfigurationProperty("sdkLogConfigPath", IsRequired = false)]
         public string SdkLogConfigPath => (string)base["sdkLogConfigPath"];
-
-        /// <summary>
-        /// Gets the ticket cashout response timeout(ms)
-        /// </summary>
-        [ConfigurationProperty("ticketNonSrSettleResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketCashoutResponseTimeoutDefault)]
-        public int TicketNonSrSettleResponseTimeout => (int)base["ticketNonSrSettleResponseTimeout"];
 
         /// <summary>
         /// Attempts to construct the <see cref="SdkConfigurationSection"/> from the app.config file

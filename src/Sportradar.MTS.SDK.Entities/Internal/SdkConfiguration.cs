@@ -226,6 +226,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 throw new ArgumentException($"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
             }
+            if (ticketNonSrSettleResponseTimeout < SdkInfo.TicketNonSrResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketNonSrResponseTimeout must be more than {SdkInfo.TicketNonSrResponseTimeoutMin}ms");
+            }
+            if (ticketNonSrSettleResponseTimeout > SdkInfo.TicketNonSrResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketNonSrResponseTimeout must be less than {SdkInfo.TicketNonSrResponseTimeoutMax}ms");
+            }
 
             Username = username;
             Password = password;
@@ -277,7 +285,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             TicketResponseTimeout = ticketResponseTimeout;
             TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
-            TicketNonSrSettleResponseTimeout = ticketCashoutResponseTimeout;
+            TicketNonSrSettleResponseTimeout = ticketNonSrSettleResponseTimeout;
         }
 
         /// <summary>
@@ -337,6 +345,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             TicketResponseTimeout = section.TicketResponseTimeout;
             TicketCancellationResponseTimeout = section.TicketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = section.TicketCashoutResponseTimeout;
+            TicketNonSrSettleResponseTimeout = section.TicketNonSrSettleResponseTimeout;
         }
 
         /// <summary>
@@ -361,7 +370,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Contract.Invariant(TicketCancellationResponseTimeout <= SdkInfo.TicketCancellationResponseTimeoutMax, $"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
             Contract.Invariant(TicketCashoutResponseTimeout >= SdkInfo.TicketCashoutResponseTimeoutMin, $"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
             Contract.Invariant(TicketCashoutResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
-            Contract.Invariant(TicketNonSrSettleResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
+            Contract.Invariant(TicketNonSrSettleResponseTimeout >= SdkInfo.TicketNonSrResponseTimeoutMin, $"TicketNonSrSettleResponseTimeout must be more than {SdkInfo.TicketNonSrResponseTimeoutMin}ms");
+            Contract.Invariant(TicketNonSrSettleResponseTimeout <= SdkInfo.TicketNonSrResponseTimeoutMax, $"TicketNonSrSettleResponseTimeout must be less than {SdkInfo.TicketNonSrResponseTimeoutMax}ms");
         }
     }
 }

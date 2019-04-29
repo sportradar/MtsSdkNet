@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following

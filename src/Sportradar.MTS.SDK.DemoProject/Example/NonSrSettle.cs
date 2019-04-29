@@ -1,4 +1,7 @@
-﻿using log4net;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using log4net;
 using Sportradar.MTS.SDK.API;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;

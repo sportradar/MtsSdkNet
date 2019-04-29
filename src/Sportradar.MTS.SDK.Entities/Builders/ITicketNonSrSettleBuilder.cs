@@ -1,9 +1,7 @@
-﻿using Sportradar.MTS.SDK.Entities.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Builders
 {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System;
 using System.Net;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;

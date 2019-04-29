@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using log4net;
