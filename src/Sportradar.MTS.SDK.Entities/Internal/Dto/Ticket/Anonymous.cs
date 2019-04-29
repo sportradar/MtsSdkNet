@@ -37,6 +37,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 _selectionRefs = selectionRefs as IReadOnlyCollection<Anonymous3>;
             }
             _reofferRefId = string.IsNullOrEmpty(reofferRefId) ? null : reofferRefId;
+
+            _customBet = null;
+            _calculationOdds = null;
+            _entireStake = null;
         }
 
         public Anonymous(IBet bet, IEnumerable<ISelectionRef> selectionRefs)
@@ -59,6 +63,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             {
                 _selectionRefs = selectionRefs.ToList().ConvertAll(b => new Anonymous3(b));
             }
+
+            _customBet = null;
+            _calculationOdds = null;
+            _entireStake = null;
         }
     }
 }

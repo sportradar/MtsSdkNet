@@ -44,38 +44,38 @@ namespace Sportradar.MTS.SDK.Test.Mapping
         private void CheckRequiredFields(string json)
         {
             Assert.IsTrue(!string.IsNullOrEmpty(json));
-            Assert.IsTrue(json.Contains(TicketHelper.MtsTicketVersion));
-            Assert.IsTrue(json.Contains("timestampUtc"));
-            Assert.IsTrue(json.Contains("bets"));
-            Assert.IsTrue(json.Contains("stake"));
-            Assert.IsTrue(json.Contains("selections"));
-            Assert.IsTrue(json.Contains("sender"));
-            Assert.IsTrue(json.Contains("limitId"));
-            Assert.IsTrue(json.Contains("bookmakerId"));
-            Assert.IsTrue(json.Contains("currency"));
-            Assert.IsTrue(json.Contains("channel"));
-            Assert.IsTrue(json.Contains("ticketId"));
-            Assert.IsTrue(json.Contains("eventId"));
-            Assert.IsTrue(json.Contains("odds"));
-            Assert.IsTrue(json.Contains("testSource"));
-            Assert.IsTrue(json.Contains("selectedSystems"));
+            Assert.IsTrue(json.Contains(TicketHelper.MtsTicketVersion), "Wrong ticket version");
+            Assert.IsTrue(json.Contains("timestampUtc"), "missing timestamp");
+            Assert.IsTrue(json.Contains("bets"), "missing bets");
+            Assert.IsTrue(json.Contains("stake"), "missing stake");
+            Assert.IsTrue(json.Contains("selections"), "missing selections");
+            Assert.IsTrue(json.Contains("sender"), "missing sender");
+            Assert.IsTrue(json.Contains("limitId"), "missing  limitId");
+            Assert.IsTrue(json.Contains("bookmakerId"), "missing bookmakerId");
+            Assert.IsTrue(json.Contains("currency"), "missing currency");
+            Assert.IsTrue(json.Contains("channel"), "missing channel");
+            Assert.IsTrue(json.Contains("ticketId"), "missing ticketId");
+            Assert.IsTrue(json.Contains("eventId"), "missing eventId");
+            Assert.IsTrue(json.Contains("odds"), "missing odds");
+            Assert.IsTrue(json.Contains("testSource"), "missing testSource");
+            Assert.IsTrue(json.Contains("selectedSystems"), "missing selectedSystems");
         }
 
         private void CheckMandatoryFields(string json)
         {
             Assert.IsTrue(!string.IsNullOrEmpty(json));
-            Assert.IsTrue(json.Contains("version"));
-            Assert.IsTrue(json.Contains("timestampUtc"));
-            Assert.IsTrue(json.Contains("ticketId"));
+            Assert.IsTrue(json.Contains("version"), "missing version");
+            Assert.IsTrue(json.Contains("timestampUtc"), "missing timestamp");
+            Assert.IsTrue(json.Contains("ticketId"), "missing ticketId");
         }
 
         private void CheckResponseFields(string json)
         {
             Assert.IsTrue(!string.IsNullOrEmpty(json));
-            Assert.IsTrue(json.Contains("version"));
-            Assert.IsTrue(json.Contains("signature"));
-            Assert.IsTrue(json.Contains("ticketId"));
-            Assert.IsTrue(json.Contains("status"));
+            Assert.IsTrue(json.Contains("version"), "missing version");
+            Assert.IsTrue(json.Contains("signature"), "missing signature");
+            Assert.IsTrue(json.Contains("ticketId"), "missing ticketId");
+            Assert.IsTrue(json.Contains("status"), "missing status");
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Sportradar.MTS.SDK.Test.Mapping
             var json = dto.ToJson();
 
             CheckRequiredFields(json);
-            Assert.IsTrue(json.Contains("totalCombinations"));
+            Assert.IsTrue(json.Contains("totalCombinations"), "missing totalCombinations");
         }
 
         [TestMethod]
@@ -98,10 +98,10 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             CheckRequiredFields(json);
 
-            Assert.IsTrue(json.Contains("totalCombinations"));
-            Assert.IsTrue(json.Contains("total"));
-            Assert.IsTrue(json.Contains("all"));
-            Assert.IsTrue(json.Contains("internet"));
+            Assert.IsTrue(json.Contains("totalCombinations"), "missing totalCombinations");
+            Assert.IsTrue(json.Contains("total"), "missing total");
+            Assert.IsTrue(json.Contains("all"), "missing all");
+            Assert.IsTrue(json.Contains("internet"), "missing internet");
         }
 
         [TestMethod]
@@ -113,10 +113,10 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             CheckRequiredFields(json);
 
-            Assert.IsTrue(json.Contains("totalCombinations"));
-            Assert.IsTrue(!json.Contains("oddsChange"));
-            Assert.IsTrue(!json.Contains("higher"));
-            Assert.IsTrue(!json.Contains("none"));
+            Assert.IsTrue(json.Contains("totalCombinations"), "missing totalCombinations");
+            Assert.IsTrue(!json.Contains("oddsChange"), "extra oddsChange");
+            Assert.IsTrue(!json.Contains("higher"), "extra higher");
+            Assert.IsTrue(!json.Contains("none"), "extra none");
         }
 
         [TestMethod]
@@ -195,10 +195,10 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             CheckRequiredFields(json);
 
-            Assert.IsTrue(json.Contains("stake"));
-            Assert.IsTrue(!json.Contains("type"));
-            Assert.IsTrue(!json.Contains("total"));
-            Assert.IsTrue(!json.Contains("unit"));
+            Assert.IsTrue(json.Contains("stake"), "missing stake");
+            Assert.IsTrue(!json.Contains("type"), "extra type");
+            Assert.IsTrue(!json.Contains("total"), "extra total");
+            Assert.IsTrue(!json.Contains("unit"), "extra unit");
         }
 
         [TestMethod]
@@ -218,10 +218,10 @@ namespace Sportradar.MTS.SDK.Test.Mapping
 
             CheckRequiredFields(json);
 
-            Assert.IsTrue(json.Contains("stake"));
-            Assert.IsTrue(json.Contains("type"));
-            Assert.IsTrue(!json.Contains("total"));
-            Assert.IsTrue(json.Contains("unit"));
+            Assert.IsTrue(json.Contains("stake"), "missing stake");
+            Assert.IsTrue(json.Contains("type"), "missing type");
+            Assert.IsTrue(!json.Contains("total"), "extra total");
+            Assert.IsTrue(json.Contains("unit"), "missing unit");
         }
 
         [TestMethod]

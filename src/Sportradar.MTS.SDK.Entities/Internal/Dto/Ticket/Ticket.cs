@@ -50,7 +50,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             ReofferRefId = string.IsNullOrEmpty(reofferRefId) ? null : reofferRefId;
             AltStakeRefId = string.IsNullOrEmpty(altStakeRefId) ? null : altStakeRefId;
             TotalCombinations = totalCombinations;
-            LastMatchEndTime = lastMatchEndTime.Value.ToFileTimeUtc();
+            LastMatchEndTime = lastMatchEndTime == null ? (long?)null : MtsTicketHelper.Convert(lastMatchEndTime.Value);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             ReofferRefId = string.IsNullOrEmpty(ticket.ReofferId) ? null : ticket.ReofferId;
             AltStakeRefId = string.IsNullOrEmpty(ticket.AltStakeRefId) ? null : ticket.AltStakeRefId;
             TotalCombinations = ticket.TotalCombinations;
-            LastMatchEndTime = ticket.LastMatchEndTime.HasValue ? ticket.LastMatchEndTime.Value.ToFileTimeUtc() : (long?) null;
+            LastMatchEndTime = ticket.LastMatchEndTime == null ? (long?) null : MtsTicketHelper.Convert(ticket.LastMatchEndTime.Value);
         }
 
         /// <summary>

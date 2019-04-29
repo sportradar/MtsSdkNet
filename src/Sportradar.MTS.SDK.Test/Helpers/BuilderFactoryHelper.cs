@@ -32,7 +32,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             var config = (ISdkConfiguration) configInternal;
             container.RegisterTypes(config);
 
-            container.RegisterInstance<IDataFetcher>(new DataFetcherHelper(UriReplacements), new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IDataFetcher>("Base", new DataFetcherHelper(UriReplacements), new ContainerControlledLifetimeManager());
 
             MarketDescriptionCache = container.Resolve<IMarketDescriptionCache>();
 
