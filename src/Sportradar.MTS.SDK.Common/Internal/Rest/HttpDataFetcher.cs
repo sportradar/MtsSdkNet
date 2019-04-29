@@ -69,7 +69,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         public virtual async Task<Stream> GetDataAsync(Uri uri)
         {
-            return await GetDataAsync(null, uri);
+            return await GetDataAsync(null, uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -88,13 +88,13 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
                 _client.DefaultRequestHeaders.Authorization = authorization != null
                     ? new AuthenticationHeaderValue("Bearer", authorization)
                     : null;
-                responseMessage = await _client.GetAsync(uri);
+                responseMessage = await _client.GetAsync(uri).ConfigureAwait(false);
                 RecordSuccess();
                 if (!responseMessage.IsSuccessStatusCode)
                 {
                     throw new CommunicationException($"Response StatusCode={responseMessage.StatusCode} does not indicate success.", uri.ToString(), responseMessage.StatusCode, null);
                 }
-                return await responseMessage.Content.ReadAsStreamAsync();
+                return await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// <exception cref="CommunicationException">Failed to execute http post</exception>
         public virtual async Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
         {
-            return await PostDataAsync(null, uri, content);
+            return await PostDataAsync(null, uri, content).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
                 _client.DefaultRequestHeaders.Authorization = authorization != null
                     ? new AuthenticationHeaderValue("Bearer", authorization)
                     : null;
-                responseMessage = await _client.PostAsync(uri, content ?? new StringContent(string.Empty));
+                responseMessage = await _client.PostAsync(uri, content ?? new StringContent(string.Empty)).ConfigureAwait(false);
                 RecordSuccess();
                 return responseMessage;
             }

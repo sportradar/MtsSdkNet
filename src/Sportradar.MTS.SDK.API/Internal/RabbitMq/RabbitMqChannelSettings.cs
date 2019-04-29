@@ -16,16 +16,16 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public int PublishQueueTimeoutInMs { get; }
         public bool ExclusiveConsumer { get; }
 
-        public RabbitMqChannelSettings( bool queueDurable = false,
-                                        bool exclusiveConsumer = true,
-                                        bool enableUserAqs = true,
-                                        bool deleteQueueOnClose = true,
-                                        int heartBeat = 0,
-                                        int ackBatchLimit = 1,
-                                        int ackTimeout = 60,
-                                        bool usePersistentDeliveryMode = false,
-                                        int publishQueueLimit = 0,
-                                        int publishQueueTimeoutInMs = 15000)
+        public RabbitMqChannelSettings(bool queueDurable = false,
+                                       bool exclusiveConsumer = true,
+                                       bool enableUserAqs = true,
+                                       bool deleteQueueOnClose = true,
+                                       int heartBeat = 0,
+                                       int ackBatchLimit = 1,
+                                       int ackTimeout = 60,
+                                       bool usePersistentDeliveryMode = false,
+                                       int publishQueueLimit = 0,
+                                       int publishQueueTimeoutInMs = 15000)
         {
             DeleteQueueOnClose = deleteQueueOnClose;
             QueueIsDurable = queueDurable;
