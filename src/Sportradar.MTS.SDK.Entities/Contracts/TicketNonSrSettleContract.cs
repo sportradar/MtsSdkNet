@@ -28,12 +28,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
 
         public abstract string CorrelationId { get; }
 
-        public long NonSrSettleStake
+        public long? NonSrSettleStake
         {
             get
             {
-                Contract.Ensures(Contract.Result<long>() >= 0);
-                return Contract.Result<long>();
+                Contract.Ensures(Contract.Result<long?>() == null || Contract.Result<long?>() >= 0);
+                return Contract.Result<long?>();
             }
         }
 

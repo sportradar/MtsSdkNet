@@ -2,8 +2,8 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
-using Sportradar.MTS.SDK.Entities.Contracts;
 using System.Diagnostics.Contracts;
+using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
@@ -20,6 +20,7 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// <summary>
         /// Gets the non-sportradar settle stake
         /// </summary>
-        long NonSrSettleStake { get; }
+        /// <remarks>If value is 0 means the ticket was not settled</remarks>
+        long? NonSrSettleStake { get; }
     }
 }

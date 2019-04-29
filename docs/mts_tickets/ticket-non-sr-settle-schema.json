@@ -44,7 +44,7 @@
          "type": ["number", "null"],
          "description":"Non-Sportradar settle stake in same currency as original ticket. Quantity multiplied by 10_000 and rounded to a long value. Applicable only if performing full cashout.",
          "maximum":1000000000000000000,
-         "minimum":1
+         "minimum":0
       },
       "version":{
          "type":"string",

@@ -1,13 +1,9 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using Sportradar.MTS.SDK.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 {
@@ -37,7 +33,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Gets the non-sportradar settle stake
         /// </summary>
         /// <value>The non-sportradar settle stake</value>
-        public long NonSrSettleStake { get; }
+        public long? NonSrSettleStake { get; }
         /// <summary>
         /// Gets the ticket format version
         /// </summary>
@@ -88,7 +84,5 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(BookmakerId > 0);
             Contract.Invariant(NonSrSettleStake >= 0);
         }
-
-
     }
 }
