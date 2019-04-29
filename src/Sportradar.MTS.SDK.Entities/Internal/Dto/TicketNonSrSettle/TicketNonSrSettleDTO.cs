@@ -7,12 +7,10 @@
 //     Generated using the NJsonSchema v8.6.6263.34621 (http://NJsonSchema.org)
 // </auto-generated>
 //----------------------
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle
 {
-    #pragma warning disable // Disable all warnings
+#pragma warning disable // Disable all warnings
 
     /// <summary>Non-Sportradar settle version 2.3 schema</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
@@ -75,7 +73,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle
 
         /// <summary>Non-Sportradar settle stake in same currency as original ticket. Quantity multiplied by 10_000 and rounded to a long value. Applicable only if performing full non-sportradar settle.</summary>
         [Newtonsoft.Json.JsonProperty("nonSrSettleStake", Required = Newtonsoft.Json.Required.AllowNull)]
-        [System.ComponentModel.DataAnnotations.Range(1.0, 1000000000000000000.0)]
+        [System.ComponentModel.DataAnnotations.Range(0, 1000000000000000000.0)]
         public long? NonSrSettleStake
         {
             get { return _nonSrSettleStake; }
