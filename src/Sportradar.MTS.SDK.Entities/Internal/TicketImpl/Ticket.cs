@@ -169,7 +169,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(string.IsNullOrEmpty(AltStakeRefId) || TicketHelper.ValidateTicketId(AltStakeRefId));
             Contract.Invariant(!(!string.IsNullOrEmpty(ReofferId) && !string.IsNullOrEmpty(AltStakeRefId)));
             Contract.Invariant(TotalCombinations == null || TotalCombinations > 0);
-            Contract.Invariant(LastMatchEndTime == null || LastMatchEndTime < new DateTime(2000, 1, 1));
+            Contract.Invariant(LastMatchEndTime == null || LastMatchEndTime.Value > new DateTime(2000, 1, 1));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.Contracts;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
 

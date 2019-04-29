@@ -1,7 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-
 using System.IO;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Common.Internal;

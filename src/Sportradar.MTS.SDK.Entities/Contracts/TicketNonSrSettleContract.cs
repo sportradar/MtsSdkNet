@@ -2,12 +2,13 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
-using Sportradar.MTS.SDK.Entities.Interfaces;
 using System;
 using System.Diagnostics.Contracts;
+using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Contracts
 {
+    [ContractClassFor(typeof(ITicketNonSrSettle))]
     internal abstract class TicketNonSrSettleContract : ITicketNonSrSettle
     {
         public abstract DateTime Timestamp { get; }

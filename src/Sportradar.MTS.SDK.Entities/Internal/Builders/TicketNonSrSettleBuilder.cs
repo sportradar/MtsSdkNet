@@ -1,4 +1,7 @@
-﻿using Sportradar.MTS.SDK.Entities.Builders;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using Sportradar.MTS.SDK.Entities.Builders;
 using System;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using System.Diagnostics.Contracts;
