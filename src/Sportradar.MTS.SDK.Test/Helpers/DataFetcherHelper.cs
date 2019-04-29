@@ -37,24 +37,24 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                 : _uriReplacements.Aggregate(path, (current, replacement) => current.Replace(replacement.Item1, replacement.Item2));
         }
 
-        public virtual Task<Stream> GetDataAsync(Uri uri)
+        public virtual async Task<Stream> GetDataAsync(Uri uri)
         {
-            return FileHelper.OpenFileAsync(GetPathWithReplacements(uri.PathAndQuery));
+            return await FileHelper.OpenFileAsync(GetPathWithReplacements(uri.PathAndQuery)).ConfigureAwait(false);
         }
 
-        public Task<Stream> GetDataAsync(string authorization, Uri uri)
+        public async Task<Stream> GetDataAsync(string authorization, Uri uri)
         {
-            return GetDataAsync(uri);
+            return await GetDataAsync(uri).ConfigureAwait(false);
         }
 
-        public virtual Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
+        public virtual async Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
         {
-            return Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Accepted));
+            return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Accepted)).ConfigureAwait(false);
         }
 
-        public Task<HttpResponseMessage> PostDataAsync(string authorization, Uri uri, HttpContent content = null)
+        public async Task<HttpResponseMessage> PostDataAsync(string authorization, Uri uri, HttpContent content = null)
         {
-            return PostDataAsync(uri, content);
+            return await PostDataAsync(uri, content).ConfigureAwait(false);
         }
     }
 }

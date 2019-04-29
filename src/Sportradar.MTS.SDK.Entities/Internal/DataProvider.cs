@@ -113,7 +113,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             var responseMessage = await _poster.PostDataAsync(authorization, uri, content).ConfigureAwait(false);
             if (!responseMessage.IsSuccessStatusCode)
                 throw new CommunicationException($"Response StatusCode={responseMessage.StatusCode} does not indicate success.", uri.ToString(), responseMessage.StatusCode, null);
-            var stream = await responseMessage.Content.ReadAsStreamAsync();
+            var stream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
             var deserializedObject = _deserializer.Deserialize(stream);
             return _mapperFactory.CreateMapper(deserializedObject).Map();
         }
@@ -141,7 +141,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         public async Task<TOut> GetDataAsync(string languageCode)
         {
-            return await GetDataAsync((string) null, languageCode);
+            return await GetDataAsync((string) null, languageCode).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public async Task<TOut> GetDataAsync(string authorization, string languageCode)
         {
             var uri = GetRequestUri(languageCode);
-            return await GetDataAsyncInternal(authorization, uri);
+            return await GetDataAsyncInternal(authorization, uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         public async Task<TOut> GetDataAsync(params string[] identifiers)
         {
-            return await GetDataAsync((string) null, identifiers);
+            return await GetDataAsync((string) null, identifiers).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         {
             // ReSharper disable once CoVariantArrayConversion
             var uri = GetRequestUri(identifiers);
-            return await GetDataAsyncInternal(authorization, uri);
+            return await GetDataAsyncInternal(authorization, uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         public async Task<TOut> GetDataAsync(HttpContent content, string languageCode)
         {
-            return await GetDataAsync(content, null, languageCode);
+            return await GetDataAsync(content, null, languageCode).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public async Task<TOut> GetDataAsync(string authorization, HttpContent content, string languageCode)
         {
             var uri = GetRequestUri(languageCode);
-            return await PostDataAsyncInternal(authorization, content, uri);
+            return await PostDataAsyncInternal(authorization, content, uri).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         public async Task<TOut> GetDataAsync(HttpContent content, params string[] identifiers)
         {
-            return await GetDataAsync(null, content, identifiers);
+            return await GetDataAsync(null, content, identifiers).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         {
             // ReSharper disable once CoVariantArrayConversion
             var uri = GetRequestUri(identifiers);
-            return await PostDataAsyncInternal(authorization, content, uri);
+            return await PostDataAsyncInternal(authorization, content, uri).ConfigureAwait(false);
         }
     }
 }
