@@ -14,7 +14,7 @@
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Added support for ticket 2.3!NL!Exposed property LastMatchEndTime on ITicket!NL!Added support for Non-SR content (new ticket type and ticket builder)</BuildChangeLog> 
+    <BuildChangeLog>Support for ticket version 2.3!NL!Support for non-Sportradar ticket settlement!NL!Added LastMatchEndTime to ITicket and ITicketBuilder!NL!Added ITicketNonSrSettle and ITicketNonSrSettleBuilder</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 
@@ -158,7 +158,7 @@
   
   <Target Name="ExportDemoProject">
     <PropertyGroup>
-      <DemoProjectRootDir>..\NetMtsSdkDemo\Sportradar.MTS.SDK.DemoProject</DemoProjectRootDir>
+      <DemoProjectRootDir>..\src\Sportradar.MTS.SDK.DemoProject</DemoProjectRootDir>
     </PropertyGroup>
   
     <ItemGroup>

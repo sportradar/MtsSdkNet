@@ -22,9 +22,10 @@ The package contains:
 
 CHANGE LOG:
 2019-05-10 2.3.0.0
-Added support for ticket 2.3
-Added property LastMatchEndTime on ITicket
-Added support for Non-SR content (new ticket type and ticket builder)
+Support for ticket version 2.3
+Support for non-Sportradar ticket settlement
+Added LastMatchEndTime to ITicket and ITicketBuilder
+Added ITicketNonSrSettle and ITicketNonSrSettleBuilder
 
 2019-04-18 1.8.1.0
 Fix: reconnecting issue after being disconnected by the server
