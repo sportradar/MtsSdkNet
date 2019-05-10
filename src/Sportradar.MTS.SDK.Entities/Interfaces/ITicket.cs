@@ -1,12 +1,12 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
-using System;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
@@ -64,9 +64,9 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         int? TotalCombinations { get; }
 
         /// <summary>
-        /// Gets end time of last (non Sportradar) match on ticket.
+        /// Gets end time of last (non Sportradar) match on ticket
         /// </summary>
-        /// <value>End time of last (non Sportradar) match on ticket.</value>
+        /// <value>End time of last (non Sportradar) match on ticket</value>
         DateTime? LastMatchEndTime { get; }
     }
 }

@@ -5,16 +5,16 @@
     <ReleaseMode>Release</ReleaseMode>
     <NugetUrl>http://www.nuget.org</NugetUrl>
     <NugetKey></NugetKey>
-    <MajorVersion Condition="'$(MajorVersion)' == ''">1</MajorVersion>
-    <MinorVersion Condition="'$(MinorVersion)' == ''">8</MinorVersion>
-    <BuildNumber Condition="'$(BuildNumber)' == ''">1</BuildNumber>
+    <MajorVersion Condition="'$(MajorVersion)' == ''">2</MajorVersion>
+    <MinorVersion Condition="'$(MinorVersion)' == ''">3</MinorVersion>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Added support for Client API - added property ClientApi on IMtsSdk!NL!Added configuration for ticket, ticket cancellation and ticket cashout message timeouts!NL!Improvement: inflation of rabbit channels when many disconnects</BuildChangeLog> 
+    <BuildChangeLog>Added support for ticket 2.3!NL!Exposed property LastMatchEndTime on ITicket!NL!Added support for Non-SR content (new ticket type and ticket builder)</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 

@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -26,14 +25,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             }
         }
 
-        public IEnumerable<IBetDetail> BetDetails
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<IEnumerable<IBetDetail>>().Any());
-                return Contract.Result<IEnumerable<IBetDetail>>();
-            }
-        }
+        public IEnumerable<IBetDetail> BetDetails => Contract.Result<IEnumerable<IBetDetail>>();
 
         public abstract string Version { get; }
 

@@ -12,8 +12,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 {
     public static class TicketHelper
     {
+        // ReSharper disable once MemberCanBePrivate.Global
         public const string BetIdPattern = "^[0-9A-Za-z:_-]*";
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public const string USerIdPattern = "^[0-9A-Za-z_-]*";
 
         public const string MtsTicketVersion = "2.3";
@@ -22,7 +24,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         public static SdkTicketType GetTicketTypeFromTicket(ISdkTicket ticket)
         {
-            //TODO why some ticket types sre missing 
+            //TODO why some ticket types sre missing
             if (ticket is ITicket)
             {
                 return SdkTicketType.Ticket;
@@ -107,7 +109,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         {
             switch (ci.TicketType)
             {
-                //TODO why some ticket types sre missing 
+                //TODO why some ticket types are missing
                 case SdkTicketType.Ticket:
                     return (ITicket) ci.Custom;
                 case SdkTicketType.TicketAck:

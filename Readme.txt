@@ -1,18 +1,18 @@
 A MTS SDK library
 
 Notice: before starting DemoProject make sure to enter your bookmaker access token in app.config file 
-	and restore nuget packages by right-clicking the solution item and selecting "Restore NuGet Packages".
+    and restore nuget packages by right-clicking the solution item and selecting "Restore NuGet Packages".
 
 The SDK is also available via NuGet package manager. Use the following command in the Package Manager Console to install it along with it's dependencies
-	- Install-Package Sportradar.MTS.SDK
-	
+    - Install-Package Sportradar.MTS.SDK
+    
 The SDK uses the following 3rd party libraries which must be added via the NuGet package manager
         - Metrics
-      	- log4net
-      	- RabbitMQ.Client
-      	- Microsoft.Practices.Unity
-	- CommonServiceLocator
-	- Newtonsoft.Json
+        - log4net
+        - RabbitMQ.Client
+        - Microsoft.Practices.Unity
+    - CommonServiceLocator
+    - Newtonsoft.Json
 
 The package contains:
  - DemoProject: A Visual Studio 2015 solution containing a demo project showing the basic usage of the SDK
@@ -21,6 +21,11 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-05-10 2.3.0.0
+Added support for ticket 2.3
+Added property LastMatchEndTime on ITicket
+Added support for Non-SR content (new ticket type and ticket builder)
+
 2019-04-18 1.8.1.0
 Fix: reconnecting issue after being disconnected by the server
 

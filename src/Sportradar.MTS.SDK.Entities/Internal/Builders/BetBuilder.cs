@@ -266,7 +266,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             {
                 if (_selectedSystems != null && (_selectedSystems.Count() > _selections.Count || _selectedSystems.Any(a => a > _selections.Count)))
                 {
-                    throw  new ArgumentException("SelectionSystem are not valid.");
+                    throw new ArgumentException("SelectionSystem are not valid.");
                 }
             }
         }
