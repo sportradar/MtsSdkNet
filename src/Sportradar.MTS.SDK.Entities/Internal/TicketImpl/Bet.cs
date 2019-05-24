@@ -26,6 +26,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <value>The stake</value>
         public IStake Stake { get; }
         /// <summary>
+        /// Gets the entire stake of the bet
+        /// </summary>
+        public IStake EntireStake { get; }
+        /// <summary>
         /// Gets the id of the bet
         /// </summary>
         /// <value>The identifier</value>
@@ -50,18 +54,29 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         /// <value>The sum of wins</value>
         public long SumOfWins { get; }
+        /// <summary>
+        /// Gets the flag if bet is a custom bet (optional, default false)
+        /// </summary>
+        public bool? CustomBet { get; }
+        /// <summary>
+        /// Gets the odds calculated for custom bet multiplied by 10_000 and rounded to int value
+        /// </summary>
+        public int? CalculationOdds { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bet"/> class
         /// </summary>
         /// <param name="bonus">The bonus</param>
         /// <param name="stake">The stake</param>
+        /// <param name="entireStake">The entire stake</param>
         /// <param name="betId">The bet identifier</param>
         /// <param name="selectedSystems">The selected systems</param>
         /// <param name="selections">The selections</param>
         /// <param name="reofferRefId">The reoffer reference identifier</param>
         /// <param name="sumOfWins">The sum of wins</param>
-        public Bet(IBetBonus bonus, IStake stake, string betId, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins)
+        /// <param name="customBet">The flag if bet is a custom bet</param>
+        /// <param name="calculationOdds">The odds calculated for custom bet</param>
+        public Bet(IBetBonus bonus, IStake stake, IStake entireStake, string betId, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins, bool? customBet, int? calculationOdds)
         {
             Contract.Requires(stake != null);
             Contract.Requires(string.IsNullOrEmpty(betId) || TicketHelper.ValidateTicketId(betId));
@@ -76,14 +91,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                               && selections.Count() == selections.Distinct().Count());
             Contract.Requires(string.IsNullOrEmpty(reofferRefId) || reofferRefId.Length <= 50);
             Contract.Requires(sumOfWins >= 0);
+            bool customBetBool = customBet ?? false;
+            Contract.Requires((customBetBool && calculationOdds != null && calculationOdds >= 0) || (!customBetBool && calculationOdds == null));
 
             Bonus = bonus;
             Stake = stake;
+            EntireStake = entireStake;
             Id = betId;
             SelectedSystems = selectedSystems;
             Selections = selections;
             ReofferRefId = reofferRefId;
             SumOfWins = sumOfWins;
+            CustomBet = customBet;
+            CalculationOdds = calculationOdds;
 
             if (SelectedSystems != null)
             {

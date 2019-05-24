@@ -48,9 +48,24 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         private IStake _stake;
 
         /// <summary>
+        /// The stake
+        /// </summary>
+        private IStake _entireStake;
+
+        /// <summary>
         /// The list of all selections for this bet
         /// </summary>
         private List<ISelection> _selections;
+
+        /// <summary>
+        /// The flag if bet is a custom bet (optional, default false)
+        /// </summary>
+        private bool? _customBet;
+
+        /// <summary>
+        /// The odds calculated for custom bet multiplied by 10_000 and rounded to int value
+        /// </summary>
+        private int? _calculationOdds;
 
         /// <summary>
         /// Gets the array of selected systems
@@ -167,6 +182,29 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         }
 
         /// <summary>
+        /// Sets the <see cref="IStake" />
+        /// </summary>
+        /// <param name="value">The quantity multiplied by 10000 and rounded to a long value</param>
+        /// <returns>Returns a <see cref="IBetBuilder" /></returns>
+        public IBetBuilder SetEntireStake(long value)
+        {
+            _entireStake = new Stake(value);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IStake" />
+        /// </summary>
+        /// <param name="value">The quantity multiplied by 10000 and rounded to a long value</param>
+        /// <param name="stakeType">Type of the stake</param>
+        /// <returns>Returns a <see cref="IBetBuilder" /></returns>
+        public IBetBuilder SetEntireStake(long value, StakeType stakeType)
+        {
+            _entireStake = new Stake(value, stakeType);
+            return this;
+        }
+
+        /// <summary>
         /// Adds the selection
         /// </summary>
         /// <param name="selection">A <see cref="ISelection" /> to be added to this bet</param>
@@ -200,13 +238,35 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         }
 
         /// <summary>
+        /// Sets the flag if bet is a custom bet (optional, default false)
+        /// </summary>
+        /// <param name="customBet">The flag if bet is a custom bet (optional, default false)</param>
+        /// <returns>Returns a <see cref="IBetBuilder" /></returns>
+        public IBetBuilder SetCustomBet(bool? customBet)
+        {
+            _customBet = customBet;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the odds calculated for custom bet multiplied by 10_000 and rounded to int value
+        /// </summary>
+        /// <param name="calculationOdds">The odds calculated for custom bet multiplied by 10_000 and rounded to int value</param>
+        /// <returns>Returns a <see cref="IBetBuilder" /></returns>
+        public IBetBuilder SetCalculationOdds(int? calculationOdds)
+        {
+            _calculationOdds = calculationOdds;
+            return this;
+        }
+
+        /// <summary>
         /// Builds the <see cref="IBet" />
         /// </summary>
         /// <returns>Returns a <see cref="IBet" /></returns>
         public IBet Build()
         {
             ValidateData(true);
-            return new Bet(_betBonus, _stake, _betId, _selectedSystems, _selections, _reofferRefId, _sum);
+            return new Bet(_betBonus, _stake, _entireStake, _betId, _selectedSystems, _selections, _reofferRefId, _sum, _customBet, _calculationOdds);
         }
 
 

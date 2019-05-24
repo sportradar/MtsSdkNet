@@ -5,27 +5,27 @@ using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 {
-    public partial class Stake
+    public partial class EntireStake
     {
-        public Stake()
+        public EntireStake()
         {
         }
 
-        public Stake(long value)
+        public EntireStake(long value)
         {
             _value = value;
         }
 
-        public Stake(long value, StakeType type)
+        public EntireStake(long value, EntireStakeType type)
         {
             _value = value;
             _type = type;
         }
 
-        public Stake(IStake stake)
+        public EntireStake(IStake stake)
         {
             _value = stake.Value;
-            _type = stake.Type.HasValue ? MtsTicketHelper.ConvertStakeType(stake.Type.Value) : (StakeType?)null;
+            _type = stake.Type.HasValue ? MtsTicketHelper.ConvertEntireStakeType(stake.Type.Value) : (EntireStakeType?)null;
         }
     }
 }

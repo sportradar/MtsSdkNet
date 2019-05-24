@@ -24,6 +24,11 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         IStake Stake { get; }
 
         /// <summary>
+        /// Gets the entire stake of the bet
+        /// </summary>
+        IStake EntireStake { get; }
+
+        /// <summary>
         /// Gets the id of the bet
         /// </summary>
         string Id { get; }
@@ -47,5 +52,15 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// Gets the sum of all wins for all generated combinations for this bet (in ticket currency, used in validation)
         /// </summary>
         long SumOfWins { get; }
+
+        /// <summary>
+        /// Gets the flag if bet is a custom bet (optional, default false)
+        /// </summary>
+        bool? CustomBet { get; }
+
+        /// <summary>
+        /// Gets the odds calculated for custom bet multiplied by 10_000 and rounded to int value
+        /// </summary>
+        int? CalculationOdds { get; }
     }
 }

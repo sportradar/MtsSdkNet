@@ -48,6 +48,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             _id = string.IsNullOrEmpty(bet.Id) ? null : bet.Id;
             _sumOfWins = bet.SumOfWins > 0 ? bet.SumOfWins : (long?)null;
             _stake = new Stake(bet.Stake);
+            if (bet.EntireStake != null)
+                _entireStake = new EntireStake(bet.EntireStake);
             _bonus = null;
             if (bet.Bonus != null)
             {
@@ -64,9 +66,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
                 _selectionRefs = selectionRefs.ToList().ConvertAll(b => new Anonymous3(b));
             }
 
-            _customBet = null;
-            _calculationOdds = null;
-            _entireStake = null;
+            _customBet = bet.CustomBet;
+            _calculationOdds = bet.CalculationOdds;
         }
     }
 }

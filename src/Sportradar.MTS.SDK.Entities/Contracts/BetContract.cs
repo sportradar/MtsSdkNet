@@ -23,6 +23,8 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             }
         }
 
+        public IStake EntireStake { get; }
+
         [Pure]
         public string Id
         {
@@ -75,6 +77,9 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
                 return Contract.Result<long>();
             }
         }
+
+        public bool? CustomBet { get; }
+        public int? CalculationOdds { get; }
     }
 }
 

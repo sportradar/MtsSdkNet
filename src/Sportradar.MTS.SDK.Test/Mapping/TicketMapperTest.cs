@@ -867,5 +867,118 @@ namespace Sportradar.MTS.SDK.Test.Mapping
             TicketCompareHelper.Compare(ticket, dto);
             TicketCompareHelper.Compare(ticket, newDto);
         }
+
+        [TestMethod]
+        public void BuildBetWithDefaultCustomBet()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+
+            Assert.IsNotNull(ticket);
+            Assert.IsNull(ticket.Bets.Single().CustomBet);
+            Assert.IsNull(ticket.Bets.Single().CalculationOdds);
+        }
+
+        [TestMethod]
+        public void BuildBetWithoutCustomBet()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().SetCustomBet(false).AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+
+            Assert.IsNotNull(ticket);
+            Assert.IsFalse(ticket.Bets.Single().CustomBet.Value);
+            Assert.IsNull(ticket.Bets.Single().CalculationOdds);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+        public void BuildBetWithoutCustomBetWithCalculationOdds()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().SetCustomBet(false).SetCalculationOdds(1000).AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+        public void BuildBetWithCustomBet()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().SetCustomBet(true).AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+        }
+
+        [TestMethod]
+        public void BuildBetWithCustomBetWithCalculationOdds()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().SetCustomBet(true).SetCalculationOdds(1000).AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+
+            Assert.IsNotNull(ticket);
+            Assert.IsTrue(ticket.Bets.Single().CustomBet.Value);
+            Assert.AreEqual(1000, ticket.Bets.Single().CalculationOdds.Value);
+        }
+
+        [TestMethod]
+        public void BuildBetWithoutEntireStake()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+
+            Assert.IsNotNull(ticket);
+            Assert.IsNull(ticket.Bets.Single().EntireStake);
+        }
+
+        [TestMethod]
+        public void BuildBetWithEntireStake()
+        {
+            var ticket = _builderFactory.CreateTicketBuilder()
+                .SetTicketId("ticket-" + SR.S1000)
+                .SetOddsChange(OddsChangeType.Any)
+                .SetSender(_sender)
+                .AddBet(_builderFactory.CreateBetBuilder().SetEntireStake(12345, StakeType.Total).AddSelectedSystem(1).SetBetId("bet-id-" + SR.I1000).SetBetBonus(SR.I1000).SetStake(92343, StakeType.Total)
+                    .AddSelection(_builderFactory.CreateSelectionBuilder().SetEventId(9691139).SetIdLcoo(324, 1, "", "1").SetOdds(16000).SetBanker(true).Build())
+                    .Build())
+                .BuildTicket();
+
+            Assert.IsNotNull(ticket);
+            Assert.IsNotNull(ticket.Bets.Single().EntireStake);
+            Assert.AreEqual(12345,ticket.Bets.Single().EntireStake.Value);
+            Assert.AreEqual(StakeType.Total, ticket.Bets.Single().EntireStake.Type);
+        }
     }
 }

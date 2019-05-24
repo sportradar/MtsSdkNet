@@ -107,7 +107,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto
             return TicketHelper.DateTimeToUnixTime(dateTime);
         }
 
-        public static StakeType Convert(Entities.Enums.StakeType type)
+        public static StakeType ConvertStakeType(Entities.Enums.StakeType type)
         {
             if (type == Entities.Enums.StakeType.Total)
             {
@@ -117,6 +117,20 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto
             if (type == Entities.Enums.StakeType.Unit)
             {
                 return StakeType.Unit;
+            }
+            throw new InvalidEnumArgumentException($"Invalid Entities.Enums.StakeType value: {type}.");
+        }
+
+        public static EntireStakeType ConvertEntireStakeType(Entities.Enums.StakeType type)
+        {
+            if (type == Entities.Enums.StakeType.Total)
+            {
+                return EntireStakeType.Total;
+            }
+
+            if (type == Entities.Enums.StakeType.Unit)
+            {
+                return EntireStakeType.Unit;
             }
             throw new InvalidEnumArgumentException($"Invalid Entities.Enums.StakeType value: {type}.");
         }

@@ -202,6 +202,7 @@
     <Compile Include="Internal\Dto\TicketNonSrSettle\DTO.cs" />
     <Compile Include="Internal\Dto\TicketNonSrSettle\Sender.cs" />
     <Compile Include="Internal\Dto\TicketNonSrSettle\TicketNonSrSettleDTO.cs" />
+    <Compile Include="Internal\Dto\Ticket\EntireStake.cs" />
     <Compile Include="Internal\EntitiesMapper.cs" />
     <Compile Include="Internal\Enums\ResourceTypeGroup.cs" />
     <Compile Include="Internal\Builders\BetBuilder.cs" />

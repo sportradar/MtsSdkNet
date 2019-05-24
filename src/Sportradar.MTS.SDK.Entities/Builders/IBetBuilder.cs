@@ -37,6 +37,21 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         IBetBuilder SetStake(long value, StakeType stakeType);
 
         /// <summary>
+        /// Sets the <see cref="IStake" />
+        /// </summary>
+        /// <param name="value">The quantity multiplied by 10000 and rounded to a long value</param>
+        /// <returns>Returns a <see cref="IBetBuilder"/></returns>
+        IBetBuilder SetEntireStake(long value);
+
+        /// <summary>
+        /// Sets the <see cref="IStake" />
+        /// </summary>
+        /// <param name="value">The quantity multiplied by 10000 and rounded to a long value</param>
+        /// <param name="stakeType">Type of the stake</param>
+        /// <returns>Returns a <see cref="IBetBuilder"/></returns>
+        IBetBuilder SetEntireStake(long value, StakeType stakeType);
+
+        /// <summary>
         /// Sets the bet id
         /// </summary>
         /// <param name="id">The  bet id</param>
@@ -83,6 +98,20 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <returns>Returns all the selections</returns>
         IEnumerable<ISelection> GetSelections();
 
+        /// <summary>
+        /// Sets the flag if bet is a custom bet (optional, default false)
+        /// </summary>
+        /// <param name="customBet">The flag if bet is a custom bet (optional, default false)</param>
+        /// <returns>Returns a <see cref="IBetBuilder" /></returns>
+        IBetBuilder SetCustomBet(bool? customBet);
+
+        /// <summary>
+        /// Sets the odds calculated for custom bet multiplied by 10_000 and rounded to int value
+        /// </summary>
+        /// <param name="calculationOdds">The odds calculated for custom bet multiplied by 10_000 and rounded to int value</param>
+        /// <returns>Returns a <see cref="IBetBuilder" /></returns>
+        IBetBuilder SetCalculationOdds(int? calculationOdds);
+        
         /// <summary>
         /// Builds the <see cref="IBet" />
         /// </summary>

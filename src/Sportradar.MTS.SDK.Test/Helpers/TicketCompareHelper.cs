@@ -89,7 +89,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
 
             if (bet.Stake.Type.HasValue)
             {
-                Assert.AreEqual(MtsTicketHelper.Convert(bet.Stake.Type.Value), dto.Stake.Type);
+                Assert.AreEqual(MtsTicketHelper.ConvertStakeType(bet.Stake.Type.Value), dto.Stake.Type);
             }
 
             Assert.AreEqual(bet.SelectedSystems.Count(), dto.SelectedSystems.Count());
