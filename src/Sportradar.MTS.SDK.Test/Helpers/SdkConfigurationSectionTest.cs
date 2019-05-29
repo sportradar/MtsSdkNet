@@ -72,6 +72,11 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public string AccessToken { get; }
 
         /// <summary>
+        /// Gets the uf environment for the UF feed (only necessary if UF selections will be build)
+        /// </summary>
+        public UfEnvironment? UfEnvironment { get; }
+
+        /// <summary>
         /// This value is used to indicate if the sdk should add market specifiers for specific markets. Only used when building selection using UnifiedOdds ids. (default: true)
         /// </summary>
         /// <remarks>If this is set to true and the user uses UOF markets, when there are special cases (market 215, or $score in SOV/SBV template), sdk automatically tries to add appropriate specifier; if set to false, user will need to add this manually</remarks>
@@ -157,6 +162,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             string currency,
             SenderChannel? channel,
             string accessToken,
+            UfEnvironment? ufEnvironment,
             bool provideAdditionalMarketSpecifiers,
             bool statisticsEnabled,
             int statisticsTimeout,
@@ -185,6 +191,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             Currency = currency;
             Channel = channel;
             AccessToken = accessToken;
+            UfEnvironment = ufEnvironment;
             ProvideAdditionalMarketSpecifiers = provideAdditionalMarketSpecifiers;
             StatisticsEnabled = statisticsEnabled;
             StatisticsTimeout = statisticsTimeout;
@@ -217,6 +224,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    currency: "EUR",
                                                    channel: SenderChannel.Internet,
                                                    accessToken: "UfAccessToken",
+                                                   ufEnvironment: SDK.Entities.Enums.UfEnvironment.Integration,
                                                    provideAdditionalMarketSpecifiers: true,
                                                    statisticsEnabled: true,
                                                    statisticsTimeout: 60,

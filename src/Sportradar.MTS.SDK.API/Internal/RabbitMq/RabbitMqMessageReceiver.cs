@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using log4net;
 using Metrics;
 using RabbitMQ.Client;

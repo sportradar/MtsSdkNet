@@ -18,7 +18,6 @@ using Reason = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Reason;
 using Result = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Result;
 using SR = Sportradar.MTS.SDK.Test.Helpers.StaticRandom;
 using Status = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Status;
-using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 
 namespace Sportradar.MTS.SDK.Test.Helpers

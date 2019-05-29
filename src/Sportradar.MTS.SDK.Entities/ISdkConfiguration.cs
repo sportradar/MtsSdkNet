@@ -74,6 +74,12 @@ namespace Sportradar.MTS.SDK.Entities
         string AccessToken { get; }
 
         /// <summary>
+        /// Gets the uf environment for the UF feed (only necessary if UF selections will be build)
+        /// </summary>
+        /// <value>The UF environment</value>
+        UfEnvironment? UfEnvironment { get; }
+
+        /// <summary>
         /// Gets a value indicating whether additional market specifiers should be added
         /// </summary>
         /// <value><c>true</c> if [provide additional market specifiers]; otherwise, <c>false</c></value>

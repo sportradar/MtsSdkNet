@@ -48,8 +48,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             _id = string.IsNullOrEmpty(bet.Id) ? null : bet.Id;
             _sumOfWins = bet.SumOfWins > 0 ? bet.SumOfWins : (long?)null;
             _stake = new Stake(bet.Stake);
-            if (bet.EntireStake != null)
-                _entireStake = new EntireStake(bet.EntireStake);
+            _entireStake = bet.EntireStake != null ? new EntireStake(bet.EntireStake) : null;
             _bonus = null;
             if (bet.Bonus != null)
             {

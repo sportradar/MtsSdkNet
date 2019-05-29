@@ -22,6 +22,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         private string _currency;
         private SenderChannel? _senderChannel;
         private string _accessToken;
+        private UfEnvironment? _ufEnvironment;
         private bool _provideAdditionalMarketSpecifiers;
         private int _port;
         private bool _exclusiveConsumer;
@@ -159,6 +160,17 @@ namespace Sportradar.MTS.SDK.API.Internal
             return this;
         }
 
+        /// <summary>
+        /// Sets the uf environment
+        /// </summary>
+        /// <param name="ufEnvironment">The uf environment to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        public ISdkConfigurationBuilder SetUfEnvironment(UfEnvironment ufEnvironment)
+        {
+            _ufEnvironment = ufEnvironment;
+            return this;
+        }
+
         public ISdkConfigurationBuilder SetProvideAdditionalMarketSpecifiers(bool provideAdditionalMarketSpecifiers)
         {
             _provideAdditionalMarketSpecifiers = provideAdditionalMarketSpecifiers;
@@ -291,6 +303,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                                         _currency,
                                         _senderChannel,
                                         _accessToken,
+                                        _ufEnvironment,
                                         _provideAdditionalMarketSpecifiers,
                                         _port,
                                         _exclusiveConsumer,

@@ -100,6 +100,13 @@ namespace Sportradar.MTS.SDK.API
         ISdkConfigurationBuilder SetAccessToken(string accessToken);
 
         /// <summary>
+        /// Sets the uf environment
+        /// </summary>
+        /// <param name="ufEnvironment">The uf environment to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetUfEnvironment(UfEnvironment ufEnvironment);
+
+        /// <summary>
         /// This value is used to indicate if the sdk should add market specifiers for specific markets. Only used when building selection using UnifiedOdds ids. (default: true)
         /// </summary>
         /// <param name="provideAdditionalMarketSpecifiers">The value to be set</param>

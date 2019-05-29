@@ -172,7 +172,9 @@
     <Compile Include="Contracts\RabbitMqPublisherChannelContract.cs" />
     <Compile Include="Contracts\RabbitMqConsumerChannelContract.cs" />
     <Compile Include="Contracts\SdkConfigurationBuilderContract.cs" />
+    <Compile Include="ICustomBetManager.cs" />
     <Compile Include="IMtsClientApi.cs" />
+    <Compile Include="Internal\CustomBetManager.cs" />
     <Compile Include="Internal\Mappers\TicketNonSrSettleMapper.cs" />
     <Compile Include="Internal\Mappers\TicketNonSrSettleResponseMapper.cs" />
     <Compile Include="Internal\RabbitMq\ChannelWrapper.cs" />
@@ -188,7 +190,7 @@
     <Compile Include="Internal\Mappers\TicketReofferCancelMapper.cs" />
     <Compile Include="Internal\Mappers\TicketCashoutResponseMapper.cs" />
     <Compile Include="Internal\MtsChannelSettings.cs" />
-    <Compile Include="MtsClientApi.cs" />
+    <Compile Include="Internal\MtsClientApi.cs" />
     <Compile Include="MtsSdk.cs" />
     <Compile Include="Internal\Senders\ITicketSender.cs" />
     <Compile Include="Internal\Senders\ITicketSenderFactory.cs" />

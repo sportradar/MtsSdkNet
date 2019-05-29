@@ -28,6 +28,24 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
 
     }
 
+    [OverrideXmlNamespace(RootElementName = "available_selections", IgnoreNamespace = false)]
+    public partial class AvailableSelectionsType : XmlRestMessage
+    {
+
+    }
+
+    [OverrideXmlNamespace(RootElementName = "calculation_response", IgnoreNamespace = false)]
+    public partial class CalculationResponseType : XmlRestMessage
+    {
+
+    }
+
+    [OverrideXmlNamespace(RootElementName = "selections", IgnoreNamespace = false)]
+    public partial class SelectionsType : XmlRestMessage
+    {
+
+    }
+
     namespace ClientApi
     {
         public partial class CcfResponse : RestMessage

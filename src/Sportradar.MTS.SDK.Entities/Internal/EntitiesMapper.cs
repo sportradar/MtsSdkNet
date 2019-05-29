@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System;
+
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketAck;

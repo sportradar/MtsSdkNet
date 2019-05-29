@@ -79,7 +79,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         public static ISelectionBuilder Create()
         {
             //TODO: prone to fail in web app
-            var configInternal = new SdkConfigurationInternal(new SdkConfiguration(SdkConfigurationSection.GetSection()));
+            var configInternal = new SdkConfigurationInternal(new SdkConfiguration(SdkConfigurationSection.GetSection()), null);
             var value = new Random((int)DateTime.Now.Ticks).Next();
             var dataFetcher = new LogHttpDataFetcher(new HttpClient(),
                                                      configInternal.AccessToken,

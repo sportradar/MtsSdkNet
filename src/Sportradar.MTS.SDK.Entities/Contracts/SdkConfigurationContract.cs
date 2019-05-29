@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System;
+
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
@@ -118,6 +118,8 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
 
         [Pure]
         public string AccessToken => Contract.Result<string>();
+
+        public UfEnvironment? UfEnvironment => Contract.Result<UfEnvironment?>();
 
         [Pure]
         public bool ProvideAdditionalMarketSpecifiers => Contract.Result<bool>();

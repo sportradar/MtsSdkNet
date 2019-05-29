@@ -7,8 +7,6 @@
 //     Generated using the NJsonSchema v8.6.6263.34621 (http://NJsonSchema.org)
 // </auto-generated>
 //----------------------
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse
 {

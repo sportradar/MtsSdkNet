@@ -93,6 +93,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public string AccessToken => (string)base["accessToken"];
 
         /// <summary>
+        /// Gets the uf environment for the UF feed (only necessary if UF selections will be build)
+        /// </summary>
+        [ConfigurationProperty("ufEnvironment", IsRequired = false)]
+        public UfEnvironment? UfEnvironment => (UfEnvironment?)base["ufEnvironment"];
+
+        /// <summary>
         /// This value is used to indicate if the sdk should add market specifiers for specific markets. Only used when building selection using UnifiedOdds ids. (default: true)
         /// </summary>
         /// <remarks>If this is set to true and the user uses UOF markets, when there are special cases (market 215, or $score in SOV/SBV template), sdk automatically tries to add appropriate specifier; if set to false, user will need to add this manually</remarks>

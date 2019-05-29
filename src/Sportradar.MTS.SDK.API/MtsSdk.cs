@@ -144,6 +144,7 @@ namespace Sportradar.MTS.SDK.API
             _rabbitMqMessageReceiverForTicketNonSrSettle = _unityContainer.Resolve<IRabbitMqMessageReceiver>("TicketNonSrSettleResponseMessageReceiver");
 
             ClientApi = _unityContainer.Resolve<IMtsClientApi>();
+            CustomBetManager = _unityContainer.Resolve<ICustomBetManager>();
 
             _autoResetEventsForBlockingRequests = new ConcurrentDictionary<string, AutoResetEvent>();
             _responsesFromBlockingRequests = new ConcurrentDictionary<string, ISdkTicket>();
@@ -594,6 +595,12 @@ namespace Sportradar.MTS.SDK.API
             InteractionLog.Info($"Called SendTicketNonSrSettleBlocking with ticketId={ticket.TicketId}.");
             return (ITicketNonSrSettleResponse)SendTicketBlockingBase(ticket);
         }
+
+        /// <summary>
+        /// Gets a <see cref="ICustomBetManager" /> instance used to perform various custom bet operations
+        /// </summary>
+        /// <value>The custom bet manager</value>
+        public ICustomBetManager CustomBetManager { get; }
 
         private static void LogInit()
         {

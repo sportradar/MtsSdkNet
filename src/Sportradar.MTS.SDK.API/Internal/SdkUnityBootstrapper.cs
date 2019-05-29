@@ -27,6 +27,7 @@ using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.Cache;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.CustomBet;
 using Sportradar.MTS.SDK.Entities.Internal.REST;
 using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
@@ -59,40 +60,13 @@ namespace Sportradar.MTS.SDK.API.Internal
             RegisterSdkStatisticsWriter(container, userConfig);
 
             RegisterClientApi(container, userConfig);
+
+            RegisterCustomBet(container, userConfig);
         }
 
         private static void RegisterBaseClasses(IUnityContainer container, ISdkConfiguration config)
         {
             container.RegisterInstance(config, new ContainerControlledLifetimeManager());
-
-            container.RegisterType<ISdkConfigurationInternal, SdkConfigurationInternal>(new ContainerControlledLifetimeManager());
-            var configInternal = new SdkConfigurationInternal(config);
-            container.RegisterInstance(configInternal);
-
-            if (configInternal.Host.Contains("tradinggate"))
-            {
-                _environment = "PROD";
-            }
-            else if (configInternal.Host.Contains("integration"))
-            {
-                _environment = "CI";
-            }
-            else
-            {
-                _environment = "CUSTOM";
-            }
-
-            container.RegisterType<IRabbitServer>(new ContainerControlledLifetimeManager());
-            var rabbitServer = new RabbitServer(configInternal);
-            container.RegisterInstance<IRabbitServer>(rabbitServer);
-
-            container.RegisterType<ConnectionValidator, ConnectionValidator>(new ContainerControlledLifetimeManager());
-
-            container.RegisterType<IConnectionFactory, ConfiguredConnectionFactory>(new ContainerControlledLifetimeManager());
-
-            container.RegisterType<IChannelFactory, ChannelFactory>(new ContainerControlledLifetimeManager());
-
-            container.RegisterInstance<ISequenceGenerator>(new IncrementalSequenceGenerator(), new ContainerControlledLifetimeManager());
 
             //register common types
             container.RegisterType<HttpClient, HttpClient>(
@@ -129,6 +103,35 @@ namespace Sportradar.MTS.SDK.API.Internal
             var logFetcher = container.Resolve<LogHttpDataFetcher>("Base");
             container.RegisterInstance<IDataFetcher>("Base", logFetcher, new ContainerControlledLifetimeManager());
             container.RegisterInstance<IDataPoster>("Base", logFetcher, new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ISdkConfigurationInternal, SdkConfigurationInternal>(new ContainerControlledLifetimeManager());
+            var configInternal = new SdkConfigurationInternal(config, logFetcher);
+            container.RegisterInstance(configInternal);
+
+            if (configInternal.Host.Contains("tradinggate"))
+            {
+                _environment = "PROD";
+            }
+            else if (configInternal.Host.Contains("integration"))
+            {
+                _environment = "CI";
+            }
+            else
+            {
+                _environment = "CUSTOM";
+            }
+
+            container.RegisterType<IRabbitServer>(new ContainerControlledLifetimeManager());
+            var rabbitServer = new RabbitServer(configInternal);
+            container.RegisterInstance<IRabbitServer>(rabbitServer);
+
+            container.RegisterType<ConnectionValidator, ConnectionValidator>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IConnectionFactory, ConfiguredConnectionFactory>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IChannelFactory, ChannelFactory>(new ContainerControlledLifetimeManager());
+
+            container.RegisterInstance<ISequenceGenerator>(new IncrementalSequenceGenerator(), new ContainerControlledLifetimeManager());
         }
 
         private static void RegisterRabbitMqTypes(IUnityContainer container, ISdkConfiguration config, string environment)
@@ -438,6 +441,40 @@ namespace Sportradar.MTS.SDK.API.Internal
                     new InjectionParameter<string>(userConfig.KeycloakSecret)
                 ));
         }
+
+        private static void RegisterCustomBet(IUnityContainer container, ISdkConfiguration userConfig)
+        {
+            var configInternal = container.Resolve<ISdkConfigurationInternal>();
+
+            container.RegisterType<ICustomBetSelectionBuilder, CustomBetSelectionBuilder>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IDeserializer<AvailableSelectionsType>, Deserializer<AvailableSelectionsType>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<AvailableSelectionsType, AvailableSelectionsDTO>, AvailableSelectionsMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<AvailableSelectionsDTO>, DataProvider<AvailableSelectionsType, AvailableSelectionsDTO>>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    configInternal.ApiHost + "/v1/custombet/{0}/available_selections",
+                    new ResolvedParameter<IDataFetcher>("Base"),
+                    new ResolvedParameter<IDataPoster>("Base"),
+                    new ResolvedParameter<IDeserializer<AvailableSelectionsType>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<AvailableSelectionsType, AvailableSelectionsDTO>>()));
+
+            container.RegisterType<IDeserializer<CalculationResponseType>, Deserializer<CalculationResponseType>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<CalculationResponseType, CalculationDTO>, CalculationMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ICalculateProbabilityProvider, CalculateProbabilityProvider>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    configInternal.ApiHost + "/v1/custombet/calculate",
+                    new ResolvedParameter<IDataPoster>("Base"),
+                    new ResolvedParameter<IDeserializer<CalculationResponseType>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<CalculationResponseType, CalculationDTO>>()));
+
+            container.RegisterType<ICustomBetManager, CustomBetManager>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<IDataProvider<AvailableSelectionsDTO>>(),
+                    new ResolvedParameter<ICalculateProbabilityProvider>(),
+                    new ResolvedParameter<ICustomBetSelectionBuilder>()));
+        }
     }
 }
-

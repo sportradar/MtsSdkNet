@@ -72,5 +72,11 @@ namespace Sportradar.MTS.SDK.API.Contracts
             Contract.Ensures(Contract.Result<ITicketNonSrSettleResponse>() != null);
             return Contract.Result<ITicketNonSrSettleResponse>();
         }
+
+        /// <summary>
+        /// Gets a <see cref="ICustomBetManager" /> instance used to perform various custom bet operations
+        /// </summary>
+        /// <value>The custom bet manager</value>
+        public ICustomBetManager CustomBetManager => Contract.Result<ICustomBetManager>();
     }
 }

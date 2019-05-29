@@ -1,7 +1,11 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System;
 using System.Diagnostics.Contracts;
+using Sportradar.MTS.SDK.Common.Internal;
+using Sportradar.MTS.SDK.Common.Internal.Rest;
 
 // ReSharper disable UnusedMember.Local
 
@@ -40,24 +44,37 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <summary>
         /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
-        public SdkConfigurationInternal(ISdkConfiguration config)
-            : base(config.Username, config.Password, config.Host, config.VirtualHost, config.UseSsl, config.NodeId, config.BookmakerId, config.LimitId, config.Currency, config.Channel, config.AccessToken, config.ProvideAdditionalMarketSpecifiers, config.Port, config.ExclusiveConsumer)
+        public SdkConfigurationInternal(ISdkConfiguration config, IDataFetcher dataFetcher)
+            : base(config.Username, config.Password, config.Host, config.VirtualHost, config.UseSsl, config.NodeId, config.BookmakerId, config.LimitId, config.Currency, config.Channel, config.AccessToken, config.UfEnvironment, config.ProvideAdditionalMarketSpecifiers, config.Port, config.ExclusiveConsumer)
         {
             Contract.Requires(config != null);
+            ApiHost = null;
 
-            ApiHost = "https://api.betradar.com";
-        }
+            switch (config.UfEnvironment)
+            {
+                case Entities.Enums.UfEnvironment.Integration:
+                    ApiHost = SdkInfo.ApiHostIntegration;
+                    return;
+                case Entities.Enums.UfEnvironment.Production:
+                    ApiHost = SdkInfo.ApiHostProduction;
+                    return;
+            }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
-        /// </summary>
-        /// <param name="section">A <see cref="SdkConfigurationSection"/> instance containing config values</param>
-        internal SdkConfigurationInternal(ISdkConfigurationSection section)
-            : base(section)
-        {
-            Contract.Requires(section != null);
-
-            ApiHost = "https://api.betradar.com";
+            if (dataFetcher == null)
+                ApiHost = SdkInfo.ApiHostIntegration;
+            else
+            {
+                try
+                {
+                    var result = dataFetcher.GetDataAsync(new Uri($"{SdkInfo.ApiHostProduction}/v1/users/whoami.xml")).Result;
+                    ApiHost = SdkInfo.ApiHostProduction;
+                    result.Close();
+                }
+                catch (Exception)
+                {
+                    ApiHost = SdkInfo.ApiHostIntegration;
+                }
+            }
         }
     }
 }

@@ -7,6 +7,6 @@ call %DevEnvDir%\..\Tools\vsvars32.bat
 
 REM REM REM KILL KILL KILL
 
-@xsd.exe /c /l:C# /n:Sportradar.MTS.SDK.Entities.Internal.REST UnifiedFeedDescriptions.xsd
+@xsd.exe /c /l:C# /n:Sportradar.MTS.SDK.Entities.Internal.REST uf/UnifiedFeedDescriptions.xsd customBet/AvailableSelections.xsd customBet/Calculation.xsd customBet/CommonTypes.xsd customBet/ErrorResponse.xsd customBet/Selections.xsd
 
-rename UnifiedFeedDescriptions.cs RestMessages.cs
+rename Selections.cs RestMessages.cs

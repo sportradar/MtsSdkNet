@@ -91,6 +91,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public string AccessToken { get; }
 
         /// <summary>
+        /// Gets the uf environment for the UF feed (only necessary if UF selections will be build)
+        /// </summary>
+        /// <value>The UF environment</value>
+        public UfEnvironment? UfEnvironment { get; }
+
+        /// <summary>
         /// Gets a value indicating whether additional market specifiers should be added
         /// </summary>
         /// <value><c>true</c> if [provide additional market specifiers]; otherwise, <c>false</c></value>
@@ -161,6 +167,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="currency">The currency of the placed tickets or a null reference</param>
         /// <param name="channel">The <see cref="SenderChannel"/> specifying the origin of the tickets or a null reference</param>
         /// <param name="accessToken">The access token for the UF feed (only necessary if UF selections will be build)</param>
+        /// <param name="ufEnvironment">The uf environment for the UF feed (only necessary if UF selections will be build)</param>
         /// <param name="provideAdditionalMarketSpecifiers">The value indicating if the additional market specifiers should be provided</param>
         /// <param name="port">The port number used to connect to the AMQP broker</param>
         /// <param name="exclusiveConsumer">Should the consumer channel be exclusive</param>
@@ -185,6 +192,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             string currency = null,
             SenderChannel? channel = null,
             string accessToken = null,
+            UfEnvironment? ufEnvironment = null,
             bool provideAdditionalMarketSpecifiers = true,
             int port = 0,
             bool exclusiveConsumer = true,
@@ -254,6 +262,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             StatisticsTimeout = 3600;
 
             AccessToken = accessToken ?? string.Empty;
+            UfEnvironment = ufEnvironment;
             ProvideAdditionalMarketSpecifiers = provideAdditionalMarketSpecifiers;
 
             Port = UseSsl ? 5671 : 5672;
@@ -315,6 +324,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             StatisticsRecordLimit = section.StatisticsRecordLimit;
             StatisticsTimeout = section.StatisticsTimeout;
             AccessToken = section.AccessToken;
+            UfEnvironment = section.UfEnvironment;
             ProvideAdditionalMarketSpecifiers = section.ProvideAdditionalMarketSpecifiers;
             Port = UseSsl ? 5671 : 5672;
             if (section.Port > 0)

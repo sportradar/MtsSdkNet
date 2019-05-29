@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System;
+
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -78,6 +78,8 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         public int TicketNonSrSettleResponseTimeout => Contract.Result<int>();
 
         public abstract string AccessToken { get; }
+
+        public UfEnvironment? UfEnvironment => Contract.Result<UfEnvironment?>();
 
         public abstract bool ProvideAdditionalMarketSpecifiers { get; }
     }

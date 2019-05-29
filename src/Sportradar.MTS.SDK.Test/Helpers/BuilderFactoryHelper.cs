@@ -25,7 +25,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         {
             if (configInternal == null)
             {
-                configInternal = new SdkConfigurationInternal(new SdkConfiguration(SdkConfigurationSectionTest.Create()));
+                configInternal = new SdkConfigurationInternal(new SdkConfiguration(SdkConfigurationSectionTest.Create()), null);
             }
 
             var container = new UnityContainer();

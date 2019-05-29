@@ -22,6 +22,8 @@ namespace Sportradar.MTS.SDK.Common.Internal
         public const int TicketCancellationResponseTimeoutMax = 3600000;
         public const int TicketCashoutResponseTimeoutMax = 3600000;
         public const int TicketNonSrResponseTimeoutMax = 3600000;
+        public const string ApiHostIntegration = "https://stgapi.betradar.com";
+        public const string ApiHostProduction = "https://api.betradar.com";
 
         /// <summary>
         /// Gets the version number of the executing assembly

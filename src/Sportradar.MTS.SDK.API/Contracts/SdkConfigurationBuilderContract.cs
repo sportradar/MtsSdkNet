@@ -94,6 +94,12 @@ namespace Sportradar.MTS.SDK.API.Contracts
             return Contract.Result<ISdkConfigurationBuilder>();
         }
 
+        public ISdkConfigurationBuilder SetUfEnvironment(UfEnvironment ufEnvironment)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
         public ISdkConfigurationBuilder SetProvideAdditionalMarketSpecifiers(bool provideAdditionalMarketSpecifiers)
         {
             Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);

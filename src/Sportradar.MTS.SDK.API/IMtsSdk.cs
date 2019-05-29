@@ -84,5 +84,11 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="ticket">A <see cref="ITicketNonSrSettle"/> to be send</param>
         /// <returns>Returns a <see cref="ITicketNonSrSettleResponse"/></returns>
         ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket);
+
+        /// <summary>
+        /// Gets a <see cref="ICustomBetManager" /> instance used to perform various custom bet operations
+        /// </summary>
+        /// <value>The custom bet manager</value>
+        ICustomBetManager CustomBetManager { get; }
     }
 }
