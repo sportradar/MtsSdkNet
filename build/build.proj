@@ -7,14 +7,14 @@
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">2</MajorVersion>
     <MinorVersion Condition="'$(MinorVersion)' == ''">3</MinorVersion>
-    <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">1</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Support for ticket version 2.3!NL!Support for non-Sportradar ticket settlement!NL!Added LastMatchEndTime to ITicket and ITicketBuilder!NL!Added ITicketNonSrSettle and ITicketNonSrSettleBuilder</BuildChangeLog> 
+    <BuildChangeLog>Support for custom bet!NL!Added CustomBetManager to IMtsSdk!NL!Exposed custom bet fields on ITicket</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 

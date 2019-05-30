@@ -40,8 +40,8 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sportradar.MTS.SDK, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sportradar.MTS.SDK.2.3.0\lib\net45\Sportradar.MTS.SDK.dll</HintPath>
+    <Reference Include="Sportradar.MTS.SDK, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sportradar.MTS.SDK.2.3.1\lib\net45\Sportradar.MTS.SDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

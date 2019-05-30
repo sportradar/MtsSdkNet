@@ -21,6 +21,11 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-05-30 2.3.1.0
+Support for custom bet
+Added CustomBetManager to IMtsSdk
+Exposed custom bet fields on ITicket
+
 2019-05-10 2.3.0.0
 Support for ticket version 2.3
 Support for non-Sportradar ticket settlement
