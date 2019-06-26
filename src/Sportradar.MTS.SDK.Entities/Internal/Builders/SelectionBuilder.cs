@@ -411,6 +411,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                     ? new Dictionary<string, string>()
                     : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
+                if (sportEventStatus == null)
+                {
+                    throw new ArgumentException("SportEventStatus is missing.");
+                }
+
                 newSpecifiers.Add("$server", sportEventStatus["CurrentServer"].ToString());
 
                 return new ReadOnlyDictionary<string, string>(newSpecifiers);

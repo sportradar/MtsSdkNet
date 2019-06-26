@@ -112,7 +112,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
             var responseMessage = await _poster.PostDataAsync(authorization, uri, content).ConfigureAwait(false);
             if (!responseMessage.IsSuccessStatusCode)
+            {
                 throw new CommunicationException($"Response StatusCode={responseMessage.StatusCode} does not indicate success.", uri.ToString(), responseMessage.StatusCode, null);
+            }
             var stream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
             var deserializedObject = _deserializer.Deserialize(stream);
             return _mapperFactory.CreateMapper(deserializedObject).Map();

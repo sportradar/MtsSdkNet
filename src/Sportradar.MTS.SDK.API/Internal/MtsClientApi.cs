@@ -1,6 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -16,7 +17,7 @@ using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
 
-namespace Sportradar.MTS.SDK.API
+namespace Sportradar.MTS.SDK.API.Internal
 {
     /// <summary>
     /// A <see cref="IMtsClientApi"/> implementation acting as an entry point to the MTS Client API
@@ -104,7 +105,7 @@ namespace Sportradar.MTS.SDK.API
 
         public async Task<long> GetMaxStakeAsync(ITicket ticket)
         {
-            return await GetMaxStakeAsync(ticket, _username, _password);
+            return await GetMaxStakeAsync(ticket, _username, _password).ConfigureAwait(false);
         }
 
         public async Task<long> GetMaxStakeAsync(ITicket ticket, string username, string password)
@@ -114,11 +115,13 @@ namespace Sportradar.MTS.SDK.API
 
             try
             {
-                var token = await GetToken(username, password);
+                var token = await GetTokenAsync(username, password).ConfigureAwait(false);
                 var content = new StringContent(ticket.ToJson(), Encoding.UTF8, "application/json");
-                var maxStake = await _maxStakeDataProvider.GetDataAsync(token, content, new[] { "" });
+                var maxStake = await _maxStakeDataProvider.GetDataAsync(token, content, new[] { "" }).ConfigureAwait(false);
                 if (maxStake == null)
+                {
                     throw new Exception("Failed to get max stake.");
+                }
                 return maxStake.MaxStake;
             }
             catch (Exception e)
@@ -131,7 +134,7 @@ namespace Sportradar.MTS.SDK.API
 
         public async Task<ICcf> GetCcfAsync(string sourceId)
         {
-            return await GetCcfAsync(sourceId, _username, _password);
+            return await GetCcfAsync(sourceId, _username, _password).ConfigureAwait(false);
         }
 
         public async Task<ICcf> GetCcfAsync(string sourceId, string username, string password)
@@ -141,8 +144,8 @@ namespace Sportradar.MTS.SDK.API
 
             try
             {
-                var token = await GetToken(username, password);
-                return await _ccfDataProvider.GetDataAsync(token, new[] { sourceId });
+                var token = await GetTokenAsync(username, password).ConfigureAwait(false);
+                return await _ccfDataProvider.GetDataAsync(token, new[] { sourceId }).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -152,7 +155,7 @@ namespace Sportradar.MTS.SDK.API
             }
         }
 
-        private async Task<string> GetToken(string username, string password)
+        private async Task<string> GetTokenAsync(string username, string password)
         {
             var cacheKey = $"{_secret}:{username}:{password}";
             var ci = _tokenCache.GetCacheItem(cacheKey);
@@ -164,9 +167,11 @@ namespace Sportradar.MTS.SDK.API
                 await _tokenSemaphore.WaitAsync();
                 ci = _tokenCache.GetCacheItem(cacheKey);
                 if (ci?.Value != null)
+                {
                     return (string)ci.Value;
+                }
 
-                var content = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
+                var content = new FormUrlEncodedContent(new[]
                     {
                         new KeyValuePair<string, string>("client_id", "mts-edge-ext"),
                         new KeyValuePair<string, string>("client_secret", _secret),
@@ -177,14 +182,14 @@ namespace Sportradar.MTS.SDK.API
                     });
                 try
                 {
-                    var authorization = await _authorizationDataProvider.GetDataAsync(content, new[] { "" });
+                    var authorization = await _authorizationDataProvider.GetDataAsync(content, new[] { "" }).ConfigureAwait(false);
                     _tokenCache.Add(cacheKey, authorization.AccessToken, authorization.Expires.AddSeconds(-30));
                     return authorization.AccessToken;
                 }
                 catch (Exception e)
                 {
                     ExecutionLog.Error(e.Message, e);
-                    ExecutionLog.Warn("Error getting token from auth server.");
+                    ExecutionLog.Warn("Error getting token from authorization server.");
                     throw;
                 }
             }

@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
 
@@ -20,6 +21,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
             Contract.Requires(maxStakeResponse.MaxStake != null);
             Contract.Requires(maxStakeResponse.MaxStake.HasValue);
 
+            Debug.Assert(maxStakeResponse.MaxStake != null, "maxStakeResponse.MaxStake != null");
             MaxStake = Convert.ToInt64(maxStakeResponse.MaxStake.Value);
         }
     }
