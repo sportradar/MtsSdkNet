@@ -3,6 +3,7 @@
  */
 using System;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 // ReSharper disable UnusedMember.Local
@@ -56,17 +57,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="bookmakerId">The bookmaker identifier</param>
         /// <param name="currency">The currency</param>
         /// <param name="terminalId">The terminal identifier</param>
-        /// <param name="senderChannel">The sender channel</param>
+        /// <param name="channel">The sender channel</param>
         /// <param name="shopId">The shop identifier</param>
-        /// <param name="customer">The customer</param>
+        /// <param name="endCustomer">The customer</param>
         /// <param name="limitId">The limit identifier</param>
-        public Sender(int bookmakerId,
-                      string currency,
-                      string terminalId,
-                      SenderChannel senderChannel,
-                      string shopId,
-                      IEndCustomer customer,
-                      int limitId)
+        [JsonConstructor]
+        public Sender(int bookmakerId, string currency, string terminalId, SenderChannel channel, string shopId, IEndCustomer endCustomer, int limitId)
         {
             Contract.Requires(bookmakerId > 0);
             Contract.Requires(!string.IsNullOrEmpty(currency));
@@ -79,9 +75,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             BookmakerId = bookmakerId;
             Currency = currency.Length == 3 ? currency.ToUpper() : currency;
             TerminalId = terminalId;
-            Channel = senderChannel;
+            Channel = channel;
             ShopId = shopId;
-            EndCustomer = customer;
+            EndCustomer = endCustomer;
             LimitId = limitId;
 
             ValidateSenderData();

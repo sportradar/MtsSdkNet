@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -69,17 +70,18 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="bonus">The bonus</param>
         /// <param name="stake">The stake</param>
         /// <param name="entireStake">The entire stake</param>
-        /// <param name="betId">The bet identifier</param>
+        /// <param name="id">The bet identifier</param>
         /// <param name="selectedSystems">The selected systems</param>
         /// <param name="selections">The selections</param>
         /// <param name="reofferRefId">The reoffer reference identifier</param>
         /// <param name="sumOfWins">The sum of wins</param>
         /// <param name="customBet">The flag if bet is a custom bet</param>
         /// <param name="calculationOdds">The odds calculated for custom bet</param>
-        public Bet(IBetBonus bonus, IStake stake, IStake entireStake, string betId, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins, bool? customBet, int? calculationOdds)
+        [JsonConstructor]
+        public Bet(IBetBonus bonus, IStake stake, IStake entireStake, string id, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins, bool? customBet, int? calculationOdds)
         {
             Contract.Requires(stake != null);
-            Contract.Requires(string.IsNullOrEmpty(betId) || TicketHelper.ValidateTicketId(betId));
+            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidateTicketId(id));
             Contract.Requires(selectedSystems == null
                               || (selectedSystems.Any()
                               && selectedSystems.Count() < 64
@@ -97,7 +99,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Bonus = bonus;
             Stake = stake;
             EntireStake = entireStake;
-            Id = betId;
+            Id = id;
             SelectedSystems = selectedSystems;
             Selections = selections;
             ReofferRefId = reofferRefId;

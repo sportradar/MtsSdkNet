@@ -261,6 +261,15 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             };
         }
 
+        public static ITicketNonSrSettle GetTicketNonSrSettle(string ticketId = null)
+        {
+            if (string.IsNullOrEmpty(ticketId))
+            {
+                ticketId = "ticket-" + SR.I1000P;
+            }
+            return BuilderFactory.CreateTicketNonSrSettleBuilder().SetTicketId(ticketId).SetBookmakerId(SR.I1000).SetNonSrSettleStake(SR.I1000P).BuildTicket();
+        }
+
         public static TicketNonSrSettleResponseDTO GetTicketNonSrSettleResponse(string ticketId, SDK.Entities.Internal.Dto.TicketNonSrSettleResponse.Status status)
         {
             if (string.IsNullOrEmpty(ticketId))

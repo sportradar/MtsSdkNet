@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -11,6 +12,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
     {
         public long Value { get; }
         public StakeType? Type { get; }
+
+        [JsonConstructor]
+        private Stake(long value, StakeType? type)
+        {
+            Value = value;
+            Type = type;
+        }
 
         public Stake(long value)
         {

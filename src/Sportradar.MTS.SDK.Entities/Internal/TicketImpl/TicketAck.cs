@@ -3,6 +3,7 @@
  */
 using System;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -63,6 +64,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         /// <value>The message</value>
         public string Message { get; }
+
+        [JsonConstructor]
+        private TicketAck(DateTime timestamp, string ticketId, int bookmakerId, TicketAckStatus ticketStatus, int code, string version, string correlationId, string message)
+        {
+            Timestamp = timestamp;
+            TicketId = ticketId;
+            BookmakerId = bookmakerId;
+            TicketStatus = ticketStatus;
+            Code = code;
+            Version = version;
+            CorrelationId = correlationId;
+            Message = message;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketAck"/> class

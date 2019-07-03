@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -29,22 +30,23 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Construct the bet cashout
         /// </summary>
         /// <param name="betId">The bet id</param>
-        /// <param name="stake">The cashout stake value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
-        /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
-        public BetCashout(string betId, long stake, int? percent)
+        /// <param name="cashoutStake">The cashout stake value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        /// <param name="cashoutPercent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a long value)</param>
+        [JsonConstructor]
+        public BetCashout(string betId, long cashoutStake, int? cashoutPercent)
         {
-            if (stake < 1)
+            if (cashoutStake < 1)
             {
                 throw new ArgumentException("Stake not valid.");
             }
-            if (!TicketHelper.ValidatePercent(percent))
+            if (!TicketHelper.ValidatePercent(cashoutPercent))
             {
                 throw new ArgumentException("Percent not valid.");
             }
 
             BetId = betId;
-            CashoutStake = stake;
-            CashoutPercent = percent;
+            CashoutStake = cashoutStake;
+            CashoutPercent = cashoutPercent;
         }
     }
 }

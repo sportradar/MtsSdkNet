@@ -3,6 +3,7 @@
  */
 using System;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -15,13 +16,15 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         public BetBonusType Type { get; }
         public BetBonusMode Mode { get; }
 
-        public BetBonus(long value, BetBonusType betBonusType, BetBonusMode betBonusMode)
+
+        [JsonConstructor]
+        public BetBonus(long value, BetBonusType type, BetBonusMode mode)
         {
             Contract.Requires(value > 0 && value < 1000000000000000000);
 
             Value = value;
-            Type = betBonusType;
-            Mode = betBonusMode;
+            Type = type;
+            Mode = mode;
         }
 
         /// <summary>

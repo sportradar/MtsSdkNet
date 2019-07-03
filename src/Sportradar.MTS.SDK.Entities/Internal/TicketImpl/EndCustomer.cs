@@ -5,11 +5,12 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Net;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 {
-    public class EndCustomer : IEndCustomer, ISerializable
+    public class EndCustomer : IEndCustomer
     {
         public string Ip { get; }
         public string LanguageId { get; }
@@ -22,6 +23,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
         public long Confidence { get; }
 
+        [JsonConstructor]
         public EndCustomer(string ip, string languageId, string deviceId, string id, long confidence)
         {
             Contract.Requires(string.IsNullOrEmpty(languageId) || languageId.Length == 2);
