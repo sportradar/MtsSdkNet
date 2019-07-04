@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.Caching;
 using log4net;
@@ -47,6 +48,8 @@ namespace Sportradar.MTS.SDK.API.Internal
         {
             Contract.Requires(container != null);
             Contract.Requires(userConfig != null);
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             RegisterBaseClasses(container, userConfig);
 

@@ -55,10 +55,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
             Contract.Assume(Ssl != null);
             Ssl.Enabled = _server.UseSsl;
+            Ssl.Version = SslProtocols.Tls12 | SslProtocols.Tls11 | SslProtocols.Tls;
             if (_server.UseSsl && ShouldUseCertificateValidation(HostName))
             {
                 Ssl.ServerName = HostName;
-                Ssl.Version = SslProtocols.Tls12;
             }
             else if (_server.UseSsl)
             {
