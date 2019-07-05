@@ -1,16 +1,17 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Interfaces;
-using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
 
-namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
+namespace Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl
 {
     /// <summary>
     /// A data-transfer-object for customer confidence factor per sport
     /// </summary>
-    public class SportCcfDTO : ISportCcf
+    public class SportCcf : ISportCcf
     {
         public string SportId { get; }
 
@@ -18,19 +19,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
 
         public long LiveCcf { get; }
 
-
-        internal SportCcfDTO(SportCcf sportCcf)
+        internal SportCcf(Anonymous sportCcf)
         {
             Contract.Requires(sportCcf != null);
             Contract.Requires(sportCcf.SportId != null);
-            Contract.Requires(sportCcf.PrematchCcf != null);
-            Contract.Requires(sportCcf.PrematchCcf.HasValue);
-            Contract.Requires(sportCcf.LiveCcf != null);
-            Contract.Requires(sportCcf.LiveCcf.HasValue);
 
             SportId = sportCcf.SportId;
-            PrematchCcf = sportCcf.PrematchCcf.Value;
-            LiveCcf = sportCcf.LiveCcf.Value;
+            PrematchCcf = sportCcf.PrematchCcf;
+            LiveCcf = sportCcf.LiveCcf;
         }
     }
 }

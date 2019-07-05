@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -40,6 +41,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="id">The identifier</param>
         /// <param name="odds">The odds</param>
         /// <param name="isBanker">if set to <c>true</c> [is banker]</param>
+        [JsonConstructor]
         public Selection(string eventId, string id, int odds, bool isBanker = false)
         {
             Contract.Requires(!string.IsNullOrEmpty(eventId));

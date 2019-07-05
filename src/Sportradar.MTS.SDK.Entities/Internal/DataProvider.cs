@@ -199,9 +199,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        public async Task<TOut> GetDataAsync(HttpContent content, string languageCode)
+        public async Task<TOut> PostDataAsync(HttpContent content, string languageCode)
         {
-            return await GetDataAsync(content, null, languageCode).ConfigureAwait(false);
+            return await PostDataAsync(content, null, languageCode).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        public async Task<TOut> GetDataAsync(string authorization, HttpContent content, string languageCode)
+        public async Task<TOut> PostDataAsync(string authorization, HttpContent content, string languageCode)
         {
             var uri = GetRequestUri(languageCode);
             return await PostDataAsyncInternal(authorization, content, uri).ConfigureAwait(false);
@@ -229,9 +229,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        public async Task<TOut> GetDataAsync(HttpContent content, params string[] identifiers)
+        public async Task<TOut> PostDataAsync(HttpContent content, params string[] identifiers)
         {
-            return await GetDataAsync(null, content, identifiers).ConfigureAwait(false);
+            return await PostDataAsync(null, content, identifiers).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        public async Task<TOut> GetDataAsync(string authorization, HttpContent content, params string[] identifiers)
+        public async Task<TOut> PostDataAsync(string authorization, HttpContent content, params string[] identifiers)
         {
             // ReSharper disable once CoVariantArrayConversion
             var uri = GetRequestUri(identifiers);

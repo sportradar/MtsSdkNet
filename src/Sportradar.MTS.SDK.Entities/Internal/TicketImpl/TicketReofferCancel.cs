@@ -3,6 +3,7 @@
  */
 using System;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -45,6 +46,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         {
             var dto = EntitiesMapper.Map(this);
             return dto.ToJson();
+        }
+
+        [JsonConstructor]
+        private TicketReofferCancel(DateTime timestamp, string ticketId, int bookmakerId, string version, string correlationId)
+        {
+            Timestamp = timestamp;
+            TicketId = ticketId;
+            BookmakerId = bookmakerId;
+            Version = version;
+            CorrelationId = correlationId;
         }
 
         /// <summary>

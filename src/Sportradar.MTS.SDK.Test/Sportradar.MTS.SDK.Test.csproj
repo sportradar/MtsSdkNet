@@ -102,6 +102,7 @@
     <Compile Include="Helpers\SdkConfigurationSectionHelper.cs" />
     <Compile Include="Helpers\SdkConfigurationSectionTest.cs" />
     <Compile Include="Mapping\EnumMappingTest.cs" />
+    <Compile Include="Mapping\TicketSerializerTest.cs" />
     <Compile Include="Mapping\TicketJsonTest.cs" />
     <Compile Include="Mapping\TicketMapperTest.cs" />
     <Compile Include="MarketDescriptionCacheTest.cs" />

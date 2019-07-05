@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -63,6 +64,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         {
             var dto = EntitiesMapper.Map(this);
             return dto.Cancel.ToJson();
+        }
+
+        [JsonConstructor]
+        private TicketCancel(DateTime timestamp, string ticketId, int bookmakerId, TicketCancellationReason code, int? cancelPercent, IEnumerable<IBetCancel> betCancels, string version, string correlationId)
+        {
+            Timestamp = timestamp;
+            TicketId = ticketId;
+            BookmakerId = bookmakerId;
+            Code = code;
+            CancelPercent = cancelPercent;
+            BetCancels = betCancels;
+            Version = version;
+            CorrelationId = correlationId;
         }
 
         /// <summary>

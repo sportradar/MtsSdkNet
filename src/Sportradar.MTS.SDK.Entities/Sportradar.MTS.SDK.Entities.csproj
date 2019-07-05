@@ -305,20 +305,19 @@
     <Compile Include="Internal\REST\CalculationMapperFactory.cs" />
     <Compile Include="Internal\REST\CcfMapper.cs" />
     <Compile Include="Internal\REST\CcfMapperFactory.cs" />
-    <Compile Include="Internal\REST\ClientApi\CcfResponse.cs" />
-    <Compile Include="Internal\REST\ClientApi\KeycloakAuthorization.cs" />
-    <Compile Include="Internal\REST\ClientApi\MaxStakeResponse.cs" />
-    <Compile Include="Internal\REST\ClientApi\SportCcf.cs" />
-    <Compile Include="Internal\REST\Dto\CcfDTO.cs" />
-    <Compile Include="Internal\REST\Dto\KeycloakAuthorizationDTO.cs" />
+    <Compile Include="Internal\Dto\ClientApi\CcfResponseDTO.cs" />
+    <Compile Include="Internal\Dto\ClientApi\AccessTokenDTO.cs" />
+    <Compile Include="Internal\Dto\ClientApi\MaxStakeResponseDTO.cs" />
+    <Compile Include="Internal\REST\ClientApiImpl\CcfImpl.cs" />
+    <Compile Include="Internal\REST\ClientApiImpl\KeycloakAuthorization.cs" />
     <Compile Include="Internal\REST\Dto\MarketAttributeDTO.cs" />
     <Compile Include="Internal\REST\Dto\MarketDescriptionDTO.cs" />
     <Compile Include="Internal\REST\Dto\MarketMappingDTO.cs" />
-    <Compile Include="Internal\REST\Dto\MaxStakeDTO.cs" />
+    <Compile Include="Internal\REST\ClientApiImpl\MaxStakeImpl.cs" />
     <Compile Include="Internal\REST\Dto\OutcomeDescriptionDTO.cs" />
     <Compile Include="Internal\REST\Dto\OutcomeMappingDTO.cs" />
     <Compile Include="Internal\REST\Dto\MarketSpecifierDTO.cs" />
-    <Compile Include="Internal\REST\Dto\SportCcfDTO.cs" />
+    <Compile Include="Internal\REST\ClientApiImpl\SportCcf.cs" />
     <Compile Include="Internal\REST\ISIngleTypeMapper.cs" />
     <Compile Include="Internal\REST\ISingleTypeMapperFactory.cs" />
     <Compile Include="Internal\REST\KeycloakAuthorizationMapper.cs" />
@@ -405,6 +404,7 @@
     <Compile Include="Internal\Dto\MtsTicketHelper.cs" />
     <Compile Include="ISdkConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\JsonUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj">

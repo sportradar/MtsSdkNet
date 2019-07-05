@@ -4,6 +4,8 @@
 
 // ReSharper disable InconsistentNaming
 
+using Sportradar.MTS.SDK.Entities.Internal.REST;
+
 namespace Sportradar.MTS.SDK.Entities.Internal.REST
 {
     /// <summary>
@@ -45,27 +47,22 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
     {
 
     }
+}
 
-    namespace ClientApi
+namespace Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi
+{
+    public partial class CcfResponseDTO : RestMessage
     {
-        public partial class CcfResponse : RestMessage
-        {
 
-        }
+    }
 
-        public partial class MaxStakeResponse : RestMessage
-        {
+    public partial class MaxStakeResponseDTO : RestMessage
+    {
 
-        }
+    }
 
-        public partial class SportCcf : RestMessage
-        {
+    public partial class AccessTokenDTO : RestMessage
+    {
 
-        }
-
-        public partial class KeycloakAuthorization : RestMessage
-        {
-
-        }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -96,8 +97,23 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             return dto.Ticket.ToJson();
         }
 
-        internal Ticket()
-        { }
+        [JsonConstructor]
+        private Ticket(string ticketId, IEnumerable<IBet> bets, IEnumerable<ISelection> selections, ISender sender, string reofferId, string altStakeRefId, bool testSource, OddsChangeType? oddsChange, DateTime timestamp, string version, string correlationId, int? totalCombinations, DateTime? lastMatchEndTime)
+        {
+            TicketId = ticketId;
+            Bets = bets;
+            Selections = selections;
+            Sender = sender;
+            ReofferId = reofferId;
+            AltStakeRefId = altStakeRefId;
+            TestSource = testSource;
+            OddsChange = oddsChange;
+            Timestamp = timestamp;
+            Version = version;
+            CorrelationId = correlationId;
+            TotalCombinations = totalCombinations;
+            LastMatchEndTime = lastMatchEndTime;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Ticket"/> class

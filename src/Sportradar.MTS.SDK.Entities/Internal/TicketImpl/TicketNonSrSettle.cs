@@ -3,6 +3,7 @@
  */
 using System;
 using System.Diagnostics.Contracts;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -50,6 +51,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         {
             var dto = EntitiesMapper.Map(this);
             return dto.ToJson();
+        }
+
+        [JsonConstructor]
+        private TicketNonSrSettle(DateTime timestamp, string ticketId, int bookmakerId, long? nonSrSettleStake, string version, string correlationId)
+        {
+            Timestamp = timestamp;
+            TicketId = ticketId;
+            BookmakerId = bookmakerId;
+            NonSrSettleStake = nonSrSettleStake;
+            Version = version;
+            CorrelationId = correlationId;
         }
 
         /// <summary>

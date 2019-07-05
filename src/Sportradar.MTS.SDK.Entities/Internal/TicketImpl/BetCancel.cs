@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -23,20 +24,21 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Construct the bet cashout
         /// </summary>
         /// <param name="betId">The bet id</param>
-        /// <param name="percent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a int value)</param>
-        public BetCancel(string betId, int? percent)
+        /// <param name="cancelPercent">The cashout percent value of the assigned bet (quantity multiplied by 10_000 and rounded to a int value)</param>
+        [JsonConstructor]
+        public BetCancel(string betId, int? cancelPercent)
         {
             if (!TicketHelper.ValidateTicketId(betId))
             {
                 throw new ArgumentException("BetId not valid.");
             }
-            if (!TicketHelper.ValidatePercent(percent))
+            if (!TicketHelper.ValidatePercent(cancelPercent))
             {
                 throw new ArgumentException("Percent not valid.");
             }
 
             BetId = betId;
-            CancelPercent = percent;
+            CancelPercent = cancelPercent;
         }
     }
 }
