@@ -2,23 +2,23 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
-using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
+using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.REST
 {
-    internal class KeycloakAuthorizationMapper : ISingleTypeMapper<KeycloakAuthorizationDTO>
+    internal class KeycloakAuthorizationMapper : ISingleTypeMapper<KeycloakAuthorization>
     {
         /// <summary>
-        /// A <see cref="KeycloakAuthorization"/> instance containing data used to construct <see cref="KeycloakAuthorizationDTO"/> instance
+        /// A <see cref="AccessTokenDTO"/> instance containing data used to construct <see cref="KeycloakAuthorization"/> instance
         /// </summary>
-        private readonly KeycloakAuthorization _data;
+        private readonly AccessTokenDTO _data;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeycloakAuthorizationMapper"/> class
         /// </summary>
-        /// <param name="data">A <see cref="KeycloakAuthorization"/> instance containing data used to construct <see cref="KeycloakAuthorizationDTO"/> instance</param>
-        internal KeycloakAuthorizationMapper(KeycloakAuthorization data)
+        /// <param name="data">A <see cref="AccessTokenDTO"/> instance containing data used to construct <see cref="KeycloakAuthorization"/> instance</param>
+        internal KeycloakAuthorizationMapper(AccessTokenDTO data)
         {
             Contract.Requires(data != null);
 
@@ -26,12 +26,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
         }
 
         /// <summary>
-        /// Maps it's data to <see cref="KeycloakAuthorizationDTO"/> instance
+        /// Maps it's data to <see cref="KeycloakAuthorization"/> instance
         /// </summary>
-        /// <returns>The created <see cref="KeycloakAuthorizationDTO"/> instance</returns>
-        KeycloakAuthorizationDTO ISingleTypeMapper<KeycloakAuthorizationDTO>.Map()
+        /// <returns>The created <see cref="KeycloakAuthorization"/> instance</returns>
+        KeycloakAuthorization ISingleTypeMapper<KeycloakAuthorization>.Map()
         {
-            return new KeycloakAuthorizationDTO(_data);
+            return new KeycloakAuthorization(_data);
         }
     }
 }

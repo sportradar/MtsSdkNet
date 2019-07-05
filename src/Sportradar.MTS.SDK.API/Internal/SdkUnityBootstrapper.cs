@@ -27,9 +27,10 @@ using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.Cache;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.CustomBet;
 using Sportradar.MTS.SDK.Entities.Internal.REST;
-using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
+using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
 
 // ReSharper disable RedundantTypeArgumentsOfMethod
@@ -394,48 +395,48 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterInstance<IDataFetcher>("MtsClientApi", logFetcher, new ContainerControlledLifetimeManager());
             container.RegisterInstance<IDataPoster>("MtsClientApi", logFetcher, new ContainerControlledLifetimeManager());
 
-            container.RegisterType<IDeserializer<KeycloakAuthorization>, Entities.Internal.JsonDeserializer<KeycloakAuthorization>>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ISingleTypeMapperFactory<KeycloakAuthorization, KeycloakAuthorizationDTO>, KeycloakAuthorizationMapperFactory>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IDataProvider<KeycloakAuthorizationDTO>,
-                DataProvider<KeycloakAuthorization, KeycloakAuthorizationDTO>>(
+            container.RegisterType<IDeserializer<AccessTokenDTO>, Entities.Internal.JsonDeserializer<AccessTokenDTO>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<AccessTokenDTO, KeycloakAuthorization>, KeycloakAuthorizationMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<KeycloakAuthorization>,
+                DataProvider<AccessTokenDTO, KeycloakAuthorization>>(
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     userConfig.KeycloakHost + "/auth/realms/mts/protocol/openid-connect/token",
                     new ResolvedParameter<IDataFetcher>("MtsClientApi"),
                     new ResolvedParameter<IDataPoster>("MtsClientApi"),
-                    new ResolvedParameter<IDeserializer<KeycloakAuthorization>>(),
-                    new ResolvedParameter<ISingleTypeMapperFactory<KeycloakAuthorization, KeycloakAuthorizationDTO>>()));
+                    new ResolvedParameter<IDeserializer<AccessTokenDTO>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<AccessTokenDTO, KeycloakAuthorization>>()));
 
-            container.RegisterType<IDeserializer<MaxStakeResponse>, Entities.Internal.JsonDeserializer<MaxStakeResponse>>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ISingleTypeMapperFactory<MaxStakeResponse, MaxStakeDTO>, MaxStakeMapperFactory>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IDataProvider<MaxStakeDTO>,
-                DataProvider<MaxStakeResponse, MaxStakeDTO>>(
+            container.RegisterType<IDeserializer<MaxStakeResponseDTO>, Entities.Internal.JsonDeserializer<MaxStakeResponseDTO>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<MaxStakeResponseDTO, MaxStakeImpl>, MaxStakeMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<MaxStakeImpl>,
+                DataProvider<MaxStakeResponseDTO, MaxStakeImpl>>(
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     userConfig.MtsClientApiHost + "/ClientApi/api/maxStake/v1",
                     new ResolvedParameter<IDataFetcher>("MtsClientApi"),
                     new ResolvedParameter<IDataPoster>("MtsClientApi"),
-                    new ResolvedParameter<IDeserializer<MaxStakeResponse>>(),
-                    new ResolvedParameter<ISingleTypeMapperFactory<MaxStakeResponse, MaxStakeDTO>>()));
+                    new ResolvedParameter<IDeserializer<MaxStakeResponseDTO>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<MaxStakeResponseDTO, MaxStakeImpl>>()));
 
-            container.RegisterType<IDeserializer<CcfResponse>, Entities.Internal.JsonDeserializer<CcfResponse>>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ISingleTypeMapperFactory<CcfResponse, CcfDTO>, CcfMapperFactory>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IDataProvider<CcfDTO>,
-                DataProvider<CcfResponse, CcfDTO>>(
+            container.RegisterType<IDeserializer<CcfResponseDTO>, Entities.Internal.JsonDeserializer<CcfResponseDTO>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<CcfResponseDTO, CcfImpl>, CcfMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<CcfImpl>,
+                DataProvider<CcfResponseDTO, CcfImpl>>(
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     userConfig.MtsClientApiHost + "/ClientApi/api/ccf/v1?sourceId={0}",
                     new ResolvedParameter<IDataFetcher>("MtsClientApi"),
                     new ResolvedParameter<IDataPoster>("MtsClientApi"),
-                    new ResolvedParameter<IDeserializer<CcfResponse>>(),
-                    new ResolvedParameter<ISingleTypeMapperFactory<CcfResponse, CcfDTO>>()));
+                    new ResolvedParameter<IDeserializer<CcfResponseDTO>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<CcfResponseDTO, CcfImpl>>()));
 
             container.RegisterType<IMtsClientApi, MtsClientApi>(
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
-                    new ResolvedParameter<IDataProvider<MaxStakeDTO>>(),
-                    new ResolvedParameter<IDataProvider<CcfDTO>>(),
-                    new ResolvedParameter<IDataProvider<KeycloakAuthorizationDTO>>(),
+                    new ResolvedParameter<IDataProvider<MaxStakeImpl>>(),
+                    new ResolvedParameter<IDataProvider<CcfImpl>>(),
+                    new ResolvedParameter<IDataProvider<KeycloakAuthorization>>(),
                     new InjectionParameter<string>(userConfig.KeycloakUsername),
                     new InjectionParameter<string>(userConfig.KeycloakPassword),
                     new InjectionParameter<string>(userConfig.KeycloakSecret)

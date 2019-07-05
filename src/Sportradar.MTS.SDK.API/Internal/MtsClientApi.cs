@@ -15,7 +15,7 @@ using Metrics;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
-using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
+using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 
 namespace Sportradar.MTS.SDK.API.Internal
 {
@@ -35,19 +35,19 @@ namespace Sportradar.MTS.SDK.API.Internal
         private static readonly ILog InteractionLog = SdkLoggerFactory.GetLoggerForClientInteraction(typeof(MtsClientApi));
 
         /// <summary>
-        /// The <see cref="IDataProvider{MaxStakeDTO}>"/> for getting max stake
+        /// The <see cref="IDataProvider{MaxStakeImpl}>"/> for getting max stake
         /// </summary>
-        private readonly IDataProvider<MaxStakeDTO> _maxStakeDataProvider;
+        private readonly IDataProvider<MaxStakeImpl> _maxStakeDataProvider;
 
         /// <summary>
-        /// The <see cref="IDataProvider{CcfDTO}>"/> for getting ccf
+        /// The <see cref="IDataProvider{CcfImpl}>"/> for getting ccf
         /// </summary>
-        private readonly IDataProvider<CcfDTO> _ccfDataProvider;
+        private readonly IDataProvider<CcfImpl> _ccfDataProvider;
 
         /// <summary>
-        /// The <see cref="IDataProvider{KeycloakAuthorizationDTO}>"/> for getting authorization token
+        /// The <see cref="IDataProvider{KeycloakAuthorization}>"/> for getting authorization token
         /// </summary>
-        private readonly IDataProvider<KeycloakAuthorizationDTO> _authorizationDataProvider;
+        private readonly IDataProvider<KeycloakAuthorization> _authorizationDataProvider;
 
         /// <summary>
         /// Username used for getting authorization token
@@ -74,7 +74,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         /// </summary>
         private readonly SemaphoreSlim _tokenSemaphore = new SemaphoreSlim(1, 1);
 
-        public MtsClientApi(IDataProvider<MaxStakeDTO> maxStakeDataProvider, IDataProvider<CcfDTO> ccfDataProvider, IDataProvider<KeycloakAuthorizationDTO> authorizationDataProvider, string username, string password, string secret)
+        public MtsClientApi(IDataProvider<MaxStakeImpl> maxStakeDataProvider, IDataProvider<CcfImpl> ccfDataProvider, IDataProvider<KeycloakAuthorization> authorizationDataProvider, string username, string password, string secret)
         {
             Contract.Requires(maxStakeDataProvider != null);
             Contract.Requires(ccfDataProvider != null);
@@ -117,7 +117,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             {
                 var token = await GetTokenAsync(username, password).ConfigureAwait(false);
                 var content = new StringContent(ticket.ToJson(), Encoding.UTF8, "application/json");
-                var maxStake = await _maxStakeDataProvider.GetDataAsync(token, content, new[] { "" }).ConfigureAwait(false);
+                var maxStake = await _maxStakeDataProvider.PostDataAsync(token, content, new[] { "" }).ConfigureAwait(false);
                 if (maxStake == null)
                 {
                     throw new Exception("Failed to get max stake.");
@@ -182,7 +182,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                     });
                 try
                 {
-                    var authorization = await _authorizationDataProvider.GetDataAsync(content, new[] { "" }).ConfigureAwait(false);
+                    var authorization = await _authorizationDataProvider.PostDataAsync(content, new[] { "" }).ConfigureAwait(false);
                     _tokenCache.Add(cacheKey, authorization.AccessToken, authorization.Expires.AddSeconds(-30));
                     return authorization.AccessToken;
                 }

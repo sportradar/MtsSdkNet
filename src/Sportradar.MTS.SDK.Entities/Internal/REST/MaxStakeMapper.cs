@@ -2,23 +2,23 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
-using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
+using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.REST
 {
-    internal class MaxStakeMapper : ISingleTypeMapper<MaxStakeDTO>
+    internal class MaxStakeMapper : ISingleTypeMapper<MaxStakeImpl>
     {
         /// <summary>
-        /// A <see cref="MaxStakeResponse"/> instance containing data used to construct <see cref="MaxStakeDTO"/> instance
+        /// A <see cref="MaxStakeResponseDTO"/> instance containing data used to construct <see cref="MaxStakeImpl"/> instance
         /// </summary>
-        private readonly MaxStakeResponse _data;
+        private readonly MaxStakeResponseDTO _data;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MaxStakeMapper"/> class
         /// </summary>
-        /// <param name="data">A <see cref="MaxStakeResponse"/> instance containing data used to construct <see cref="MaxStakeDTO"/> instance</param>
-        internal MaxStakeMapper(MaxStakeResponse data)
+        /// <param name="data">A <see cref="MaxStakeResponseDTO"/> instance containing data used to construct <see cref="MaxStakeImpl"/> instance</param>
+        internal MaxStakeMapper(MaxStakeResponseDTO data)
         {
             Contract.Requires(data != null);
 
@@ -26,12 +26,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
         }
 
         /// <summary>
-        /// Maps it's data to <see cref="MaxStakeDTO"/> instance
+        /// Maps it's data to <see cref="MaxStakeImpl"/> instance
         /// </summary>
-        /// <returns>The created <see cref="MaxStakeDTO"/> instance</returns>
-        MaxStakeDTO ISingleTypeMapper<MaxStakeDTO>.Map()
+        /// <returns>The created <see cref="MaxStakeImpl"/> instance</returns>
+        MaxStakeImpl ISingleTypeMapper<MaxStakeImpl>.Map()
         {
-            return new MaxStakeDTO(_data);
+            return new MaxStakeImpl(_data);
         }
     }
 }

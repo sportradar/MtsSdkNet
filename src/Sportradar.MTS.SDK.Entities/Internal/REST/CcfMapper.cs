@@ -2,23 +2,23 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApi;
-using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
+using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.REST
 {
-    internal class CcfMapper : ISingleTypeMapper<CcfDTO>
+    internal class CcfMapper : ISingleTypeMapper<CcfImpl>
     {
         /// <summary>
-        /// A <see cref="CcfResponse"/> instance containing data used to construct <see cref="CcfDTO"/> instance
+        /// A <see cref="CcfResponseDTO"/> instance containing data used to construct <see cref="CcfImpl"/> instance
         /// </summary>
-        private readonly CcfResponse _data;
+        private readonly CcfResponseDTO _data;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CcfMapper"/> class
         /// </summary>
-        /// <param name="data">A <see cref="CcfResponse"/> instance containing data used to construct <see cref="CcfDTO"/> instance</param>
-        internal CcfMapper(CcfResponse data)
+        /// <param name="data">A <see cref="CcfResponseDTO"/> instance containing data used to construct <see cref="CcfImpl"/> instance</param>
+        internal CcfMapper(CcfResponseDTO data)
         {
             Contract.Requires(data != null);
 
@@ -26,12 +26,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
         }
 
         /// <summary>
-        /// Maps it's data to <see cref="CcfDTO"/> instance
+        /// Maps it's data to <see cref="CcfImpl"/> instance
         /// </summary>
-        /// <returns>The created <see cref="CcfDTO"/> instance</returns>
-        CcfDTO ISingleTypeMapper<CcfDTO>.Map()
+        /// <returns>The created <see cref="CcfImpl"/> instance</returns>
+        CcfImpl ISingleTypeMapper<CcfImpl>.Map()
         {
-            return new CcfDTO(_data);
+            return new CcfImpl(_data);
         }
     }
 }

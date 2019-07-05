@@ -66,7 +66,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        Task<T> GetDataAsync(HttpContent content, string languageCode);
+        Task<T> PostDataAsync(HttpContent content, string languageCode);
 
         /// <summary>
         /// Asynchronously gets a <see cref="Task{T}"/> instance in language specified by the provided <code>languageCode</code>
@@ -78,7 +78,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        Task<T> GetDataAsync(string authorization, HttpContent content, string languageCode);
+        Task<T> PostDataAsync(string authorization, HttpContent content, string languageCode);
 
         /// <summary>
         /// Asynchronously gets a <see cref="Task{T}"/> instance specified by the provided identifiersA two letter language code of the <see cref="CultureInfo"/>
@@ -89,7 +89,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        Task<T> GetDataAsync(HttpContent content, params string[] identifiers);
+        Task<T> PostDataAsync(HttpContent content, params string[] identifiers);
 
         /// <summary>
         /// Asynchronously gets a <see cref="Task{T}"/> instance specified by the provided identifiersA two letter language code of the <see cref="CultureInfo"/>
@@ -101,6 +101,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="CommunicationException">Failed to execute http get</exception>
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
-        Task<T> GetDataAsync(string authorization, HttpContent content, params string[] identifiers);
+        Task<T> PostDataAsync(string authorization, HttpContent content, params string[] identifiers);
     }
 }
