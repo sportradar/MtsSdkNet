@@ -450,8 +450,6 @@ namespace Sportradar.MTS.SDK.API.Internal
         {
             var configInternal = container.Resolve<ISdkConfigurationInternal>();
 
-            container.RegisterType<ICustomBetSelectionBuilder, CustomBetSelectionBuilder>(new ContainerControlledLifetimeManager());
-
             container.RegisterType<IDeserializer<AvailableSelectionsType>, Deserializer<AvailableSelectionsType>>(new ContainerControlledLifetimeManager());
             container.RegisterType<ISingleTypeMapperFactory<AvailableSelectionsType, AvailableSelectionsDTO>, AvailableSelectionsMapperFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<IDataProvider<AvailableSelectionsDTO>, DataProvider<AvailableSelectionsType, AvailableSelectionsDTO>>(
@@ -477,8 +475,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     new ResolvedParameter<IDataProvider<AvailableSelectionsDTO>>(),
-                    new ResolvedParameter<ICalculateProbabilityProvider>(),
-                    new ResolvedParameter<ICustomBetSelectionBuilder>()));
+                    new ResolvedParameter<ICalculateProbabilityProvider>()));
         }
     }
 }

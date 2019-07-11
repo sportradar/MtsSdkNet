@@ -11,6 +11,7 @@ using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Interfaces.CustomBet;
 using Sportradar.MTS.SDK.Entities.Internal;
+using Sportradar.MTS.SDK.Entities.Internal.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.CustomBetImpl;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.CustomBet;
 
@@ -26,27 +27,22 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         private readonly IDataProvider<AvailableSelectionsDTO> _availableSelectionsProvider;
         private readonly ICalculateProbabilityProvider _calculateProbabilityProvider;
-        private readonly ICustomBetSelectionBuilder _customBetSelectionBuilder;
         private readonly XmlSerializer _serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomBetManager"/> class
         /// </summary>
         /// <param name="availableSelectionsProvider">A <see cref="IDataProvider{AvailableSelectionsDTO}"/> used to make custom bet API requests</param>
-        /// <param name="calculationResponseProvider">A <see cref="ICalculateProbabilityProvider"/> used to make custom bet API requests</param>
-        /// <param name="customBetSelectionBuilder">A <see cref="ICustomBetSelectionBuilder"/> used to build selections</param>
-        public CustomBetManager(IDataProvider<AvailableSelectionsDTO> availableSelectionsProvider, ICalculateProbabilityProvider calculateProbabilityProvider, ICustomBetSelectionBuilder customBetSelectionBuilder)
+        /// <param name="calculateProbabilityProvider">A <see cref="ICalculateProbabilityProvider"/> used to make custom bet API requests</param>
+        public CustomBetManager(IDataProvider<AvailableSelectionsDTO> availableSelectionsProvider, ICalculateProbabilityProvider calculateProbabilityProvider)
         {
             if (availableSelectionsProvider == null)
                 throw new ArgumentNullException(nameof(availableSelectionsProvider));
             if (calculateProbabilityProvider == null)
                 throw new ArgumentNullException(nameof(calculateProbabilityProvider));
-            if (customBetSelectionBuilder == null)
-                throw new ArgumentNullException(nameof(customBetSelectionBuilder));
 
             _availableSelectionsProvider = availableSelectionsProvider;
             _calculateProbabilityProvider = calculateProbabilityProvider;
-            CustomBetSelectionBuilder = customBetSelectionBuilder;
         }
 
         public async Task<IAvailableSelections> GetAvailableSelectionsAsync(string eventId)
@@ -95,6 +91,6 @@ namespace Sportradar.MTS.SDK.API.Internal
             }
         }
 
-        public ICustomBetSelectionBuilder CustomBetSelectionBuilder { get; }
+        public ICustomBetSelectionBuilder CustomBetSelectionBuilder => new CustomBetSelectionBuilder();
     }
 }
