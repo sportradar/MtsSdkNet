@@ -123,6 +123,27 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                             additionalInfo.Add("respondedUtcTimestamp", obj.ToString());
                         }
                     }
+                    if (eventArgs.BasicProperties.Headers.ContainsKey("__uid__"))
+                    {
+                        if(eventArgs.BasicProperties.Headers.TryGetValue("__uid__", out obj))
+                        {
+                            var b = obj as byte[];
+                            if (b != null)
+                            {
+                                var c = Encoding.UTF8.GetString(b);
+                            }
+                        }
+                    }
+                    if (eventArgs.BasicProperties.Headers.ContainsKey("Content-Type"))
+                    {
+                        eventArgs.BasicProperties.Headers.TryGetValue("Content-Type", out obj);
+                        var b = obj as byte[];
+                        if (b != null)
+                        {
+                            var c = Encoding.UTF8.GetString(b);
+                            additionalInfo.Add("Content-Type", c);
+                        }
+                    }
                 }
             }
             if (FeedLog.IsDebugEnabled)
