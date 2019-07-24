@@ -45,8 +45,9 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <summary>
         /// Constructs and returns a new instance of the <see cref="ISelectionBuilder"/> class
         /// </summary>
+        /// <param name="isCustomBet">Indicating if selection is for custom bet or not</param>
         /// <returns>A new instance of the <see cref="ISelectionBuilder"/> class</returns>
-        ISelectionBuilder CreateSelectionBuilder();
+        ISelectionBuilder CreateSelectionBuilder(bool isCustomBet = false);
 
         /// <summary>
         /// Constructs and returns a new instance of the <see cref="ITicketAckBuilder"/> class

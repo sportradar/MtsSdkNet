@@ -110,7 +110,17 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <param name="odds">The odds value to be set</param>
         /// <param name="isBanker">if set to <c>true</c> [is banker]</param>
         /// <returns>Returns a <see cref="ISelectionBuilder"/></returns>
-        ISelectionBuilder Set(long eventId, string id, int odds, bool isBanker);
+        ISelectionBuilder Set(long eventId, string id, int? odds, bool isBanker);
+
+        /// <summary>
+        /// Sets the <see cref="ISelection" /> properties
+        /// </summary>
+        /// <param name="eventId">The event id</param>
+        /// <param name="id">The selection id</param>
+        /// <param name="odds">The odds value to be set</param>
+        /// <param name="isBanker">if set to <c>true</c> [is banker]</param>
+        /// <returns>Returns a <see cref="ISelectionBuilder"/></returns>
+        ISelectionBuilder Set(string eventId, string id, int? odds, bool isBanker);
 
         /// <summary>
         /// Builds the <see cref="ISelection" />

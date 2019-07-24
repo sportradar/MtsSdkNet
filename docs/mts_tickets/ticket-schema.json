@@ -227,7 +227,7 @@
                 "maxLength": 1000
               },
               "odds": {
-                "type": "integer",
+                "type": ["integer", "null"],
                 "description": "Odds multiplied by 10_000 and rounded to int value",
                 "maximum": 1000000000,
                 "minimum": 10000
@@ -257,7 +257,7 @@
             "terminalId": {
               "type": ["string", "null"],
               "description": "Terminal id (optional)",
-              "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
+              "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
               "minLength": 1,
               "maxLength": 36
             },
@@ -277,7 +277,7 @@
             "shopId": {
               "type": ["string", "null"],
               "description": "Shop id (optional)",
-              "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
+              "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
               "minLength": 1,
               "maxLength": 36
             },
@@ -306,14 +306,14 @@
                 "deviceId": {
                   "type": ["string", "null"],
                   "description": "End user's device id",
-                  "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
+                  "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
                   "minLength": 1,
                   "maxLength": 36
                 },
                 "id": {
                   "type": ["string", "null"],
                   "description": "End user's unique id (in client's system)",
-                  "pattern": "^[0-9A-Za-z\\-_]{1,36}$",
+                  "pattern": "^[0-9A-Za-z:\\-_]{1,36}$",
                   "minLength": 1,
                   "maxLength": 36
                 },

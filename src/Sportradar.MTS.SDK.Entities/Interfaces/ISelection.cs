@@ -26,7 +26,8 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
         /// <summary>
         /// Gets the odds multiplied by 10000 and rounded to int value
         /// </summary>
-        int Odds { get; }
+        /// <remarks>It may be null for custom bets</remarks>
+        int? Odds { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is banker

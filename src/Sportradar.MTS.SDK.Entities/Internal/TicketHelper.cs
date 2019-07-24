@@ -16,7 +16,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public const string BetIdPattern = "^[0-9A-Za-z:_-]*";
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public const string USerIdPattern = "^[0-9A-Za-z_-]*";
+        public const string UserIdPattern = "^[0-9A-Za-z_-]*";
 
         public const string MtsTicketVersion = "2.3";
 
@@ -157,7 +157,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             var valid = true;
             if (checkIdPattern)
             {
-                valid = Regex.IsMatch(input, useBetIdPattern ? BetIdPattern : USerIdPattern);
+                valid = Regex.IsMatch(input, useBetIdPattern ? BetIdPattern : UserIdPattern);
             }
             if (valid && minLength >= 0)
             {

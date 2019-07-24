@@ -83,10 +83,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <summary>
         /// Constructs and returns a new instance of the <see cref="ISelectionBuilder" /> class
         /// </summary>
+        /// <param name="isCustomBet">Indicating if selection is for custom bet or not</param>
         /// <returns>A new instance of the <see cref="ISelectionBuilder" /> class</returns>
-        public ISelectionBuilder CreateSelectionBuilder()
+        public ISelectionBuilder CreateSelectionBuilder(bool isCustomBet = false)
         {
-            return new SelectionBuilder(_marketDescriptionProvider, _config);
+            return new SelectionBuilder(_marketDescriptionProvider, _config, isCustomBet);
         }
 
         /// <summary>

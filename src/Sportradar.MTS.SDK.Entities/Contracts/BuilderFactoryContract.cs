@@ -44,7 +44,7 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
             return Contract.Result<ISenderBuilder>();
         }
 
-        public ISelectionBuilder CreateSelectionBuilder()
+        public ISelectionBuilder CreateSelectionBuilder(bool isCustomBet = false)
         {
             Contract.Ensures(Contract.Result<ISelectionBuilder>() != null);
             return Contract.Result<ISelectionBuilder>();

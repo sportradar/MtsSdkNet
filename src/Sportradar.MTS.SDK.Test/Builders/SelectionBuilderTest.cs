@@ -19,6 +19,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
     {
         private IMarketDescriptionProvider _marketDescriptionProvider;
         private ISelectionBuilder _selectionBuilder;
+        private ISelectionBuilder _customSelectionBuilder;
 
         [TestInitialize]
         public void Init()
@@ -26,6 +27,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
             var builderFactory = new BuilderFactoryHelper();
             _marketDescriptionProvider = builderFactory.MarketDescriptionProvider;
             _selectionBuilder = builderFactory.BuilderFactory.CreateSelectionBuilder();
+            _customSelectionBuilder = builderFactory.BuilderFactory.CreateSelectionBuilder(true);
             Assert.IsNotNull(_marketDescriptionProvider);
             Assert.IsNotNull(_selectionBuilder);
         }
@@ -176,6 +178,146 @@ namespace Sportradar.MTS.SDK.Test.Builders
 
             Assert.IsNotNull(selection);
             Assert.IsTrue(selection.Id.Contains("$server=1"), "Selection id = " + selection.Id);
+        }
+
+        [TestMethod]
+        public void NormalSelectionMissingOddsTest()
+        {
+            var exThrown = false;
+            try
+            {
+                _selectionBuilder.SetId("live:2/0/*/1").SetEventId("sr:match:12345").Build();
+            }
+            catch (Exception)
+            {
+                exThrown = true;
+            }
+            Assert.IsTrue(exThrown);
+        }
+
+        [TestMethod]
+        public void NormalSelectionSetNoOddsTest()
+        {
+            var exThrown = false;
+            try
+            {
+                _selectionBuilder.Set("tr:012-3934-2139", "tree:2/0/*/1", null, false).Build();
+            }
+            catch (Exception)
+            {
+                exThrown = true;
+            }
+            Assert.IsTrue(exThrown);
+        }
+
+        [TestMethod]
+        public void CustomSelectionTest()
+        {
+            var selection = _customSelectionBuilder.SetIdUof(1, "sr:sport:3", 28200, "13", string.Empty, null).SetEventId("sr:match:12345").SetOdds(20000).SetBanker(false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("sr:match:12345", selection.EventId);
+            Assert.AreEqual(20000, selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelection2Test()
+        {
+            var selection = _customSelectionBuilder.SetId("live:2/0/*/1").SetEventId("sr:match:12345").SetOdds(20000).SetBanker(false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("live:2/0/*/1", selection.Id);
+            Assert.AreEqual("sr:match:12345", selection.EventId);
+            Assert.AreEqual(20000, selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelectionCustomIdTest()
+        {
+            var selection = _customSelectionBuilder.SetId("tree:2/0/*/1").SetEventId("sr:match:12345").SetOdds(20000).SetBanker(false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("tree:2/0/*/1", selection.Id);
+            Assert.AreEqual("sr:match:12345", selection.EventId);
+            Assert.AreEqual(20000, selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelectionCustomIdSetFalseTest()
+        {
+            var selection = _customSelectionBuilder.Set("sr:match:12345", "tree:2/0/*/1", 20000, false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("sr:match:12345", selection.EventId);
+            Assert.AreEqual("tree:2/0/*/1", selection.Id);
+            Assert.AreEqual(20000, selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelectionCustomIdSetTrueTest()
+        {
+            var selection = _customSelectionBuilder.Set("sr:match:12345", "tree:2/0/*/1", 20000, true).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("sr:match:12345", selection.EventId);
+            Assert.AreEqual("tree:2/0/*/1", selection.Id);
+            Assert.AreEqual(20000, selection.Odds);
+            Assert.AreEqual(true, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelectionCustomEventIdSetFalseTest()
+        {
+            var selection = _customSelectionBuilder.Set("tr:012-3934-2139", "tree:2/0/*/1", 20000, false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("tr:012-3934-2139", selection.EventId);
+            Assert.AreEqual("tree:2/0/*/1", selection.Id);
+            Assert.AreEqual(20000, selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelectionSetNoOddsTest()
+        {
+            var selection = _customSelectionBuilder.Set("tr:012-3934-2139", "tree:2/0/*/1", null, false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("tr:012-3934-2139", selection.EventId);
+            Assert.AreEqual("tree:2/0/*/1", selection.Id);
+            Assert.IsNull(selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
+        }
+
+        [TestMethod]
+        public void CustomSelectionSetZeroOddsTest()
+        {
+            var exThrown = false;
+            try
+            {
+                _customSelectionBuilder.Set("tr:012-3934-2139", "tree:2/0/*/1", 0, false).Build();
+            }
+            catch (Exception)
+            {
+                exThrown = true;
+            }
+            Assert.IsTrue(exThrown);
+        }
+
+        [TestMethod]
+        public void CustomSelectionWithNoOddsTest()
+        {
+            var selection = _customSelectionBuilder.SetId("tree:2/0/*/1").SetEventId("sr:match:12345").SetBanker(false).Build();
+
+            Assert.IsNotNull(selection);
+            Assert.AreEqual("sr:match:12345", selection.EventId);
+            Assert.AreEqual("tree:2/0/*/1", selection.Id);
+            Assert.IsNull(selection.Odds);
+            Assert.AreEqual(false, selection.IsBanker);
         }
     }
 }

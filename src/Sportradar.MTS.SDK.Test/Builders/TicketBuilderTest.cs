@@ -167,7 +167,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
 
             var selId = string.Empty;
             var eventId = "0";
-            long odds = 0;
+            int? odds = 0;
             foreach (var sel in bet.Selections)
             {
                 Assert.IsTrue(!string.IsNullOrEmpty(sel.Id));

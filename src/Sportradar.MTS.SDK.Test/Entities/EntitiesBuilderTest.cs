@@ -77,11 +77,9 @@ namespace Sportradar.MTS.SDK.Test.Entities
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void CreateSelectionWrongOddsOnGetTest()
         {
-            var item = new Selection(SR.S1000, SR.S1000, 10000, SR.B);
+            var item = new Selection(SR.S1000, SR.S1000, 9000, SR.B);
 
             Assert.IsNotNull(item);
-
-            Assert.AreEqual(10000, item.Odds);
         }
 
         [TestMethod]

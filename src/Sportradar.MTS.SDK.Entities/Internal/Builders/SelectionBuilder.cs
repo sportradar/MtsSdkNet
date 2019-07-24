@@ -42,14 +42,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         private string _eventId;
 
         /// <summary>
-        /// The identifier
+        /// The selection identifier
         /// </summary>
-        private string _id;
+        private string _selectionId;
 
         /// <summary>
         /// The odds
         /// </summary>
-        private int _odds;
+        private int? _odds;
 
         /// <summary>
         /// The is banker
@@ -57,9 +57,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         private bool _isBanker;
 
         /// <summary>
+        /// The is custom bet
+        /// </summary>
+        private readonly bool _isCustomBet;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SelectionBuilder"/> class
         /// </summary>
-        public SelectionBuilder(IMarketDescriptionProvider marketDescriptionProvider, ISdkConfiguration config)
+        public SelectionBuilder(IMarketDescriptionProvider marketDescriptionProvider, ISdkConfiguration config, bool isCustomBet)
         {
             Contract.Requires(marketDescriptionProvider != null);
             Contract.Requires(config != null);
@@ -67,6 +72,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             _marketDescriptionProvider = marketDescriptionProvider;
             _isBanker = false;
             _config = config;
+            _isCustomBet = isCustomBet;
         }
 
         #region Obsolete_members
@@ -103,7 +109,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                                                                  TimeSpan.FromHours(4),
                                                                  new CacheItemPolicy {SlidingExpiration = TimeSpan.FromDays(1)});
             var marketDescriptionProvider = new MarketDescriptionProvider(marketDescriptionCache, new[] {new CultureInfo("en")});
-            return new SelectionBuilder(marketDescriptionProvider, configInternal);
+            return new SelectionBuilder(marketDescriptionProvider, configInternal, false);
         }
         #endregion
 
@@ -115,7 +121,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         public ISelectionBuilder SetEventId(long eventId)
         {
             _eventId = eventId.ToString();
-            ValidateData(false, false, true);
+            ValidateData(false, true);
             return this;
         }
 
@@ -127,7 +133,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         public ISelectionBuilder SetEventId(string eventId)
         {
             _eventId = eventId;
-            ValidateData(false, false, true);
+            ValidateData(false, true);
             return this;
         }
 
@@ -139,8 +145,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <value>Should be composed according to specification</value>
         public ISelectionBuilder SetId(string id)
         {
-            _id = id;
-            ValidateData(false, true);
+            _selectionId = id;
+            ValidateData(true);
             return this;
         }
 
@@ -162,12 +168,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             {
                 sov = "*";
             }
-            _id = $"live:{type}/{subType}/{sov}";
+            _selectionId = $"live:{type}/{subType}/{sov}";
             if (!string.IsNullOrEmpty(selectionIds))
             {
-                _id += "/" + selectionIds;
+                _selectionId += "/" + selectionIds;
             }
-            ValidateData(false, true);
+            ValidateData(true);
             return this;
         }
 
@@ -185,12 +191,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             {
                 sov = "*";
             }
-            _id = $"lcoo:{type}/{sportId}/{sov}";
+            _selectionId = $"lcoo:{type}/{sportId}/{sov}";
             if (!string.IsNullOrEmpty(selectionIds))
             {
-                _id += "/" + selectionIds;
+                _selectionId += "/" + selectionIds;
             }
-            ValidateData(false, true);
+            ValidateData(true);
             return this;
         }
 
@@ -249,19 +255,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                 throw new ArgumentException("Product is not valid.");
             }
 
-            _id = $"uof:{product}/{sportId}/{marketId}";
+            _selectionId = $"uof:{product}/{sportId}/{marketId}";
             if (!string.IsNullOrEmpty(selectionId))
             {
-                _id += "/" + selectionId;
+                _selectionId += "/" + selectionId;
             }
             var newSpecifiers = HandleMarketDescription(product, sportId, marketId, specifiers, sportEventStatus);
             if (newSpecifiers != null && newSpecifiers.Any())
             {
                 var specs = newSpecifiers.Aggregate(string.Empty, (s, pair) => s + "&" + pair.Key + "=" + pair.Value);
                 Contract.Assume(specs != null && specs.Length > 1);
-                _id += "?" + specs.Substring(1);
+                _selectionId += "?" + specs.Substring(1);
             }
-            ValidateData(false, true);
+            ValidateData(true);
             return this;
         }
 
@@ -273,7 +279,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         public ISelectionBuilder SetOdds(int odds)
         {
             _odds = odds;
-            ValidateData(false, false, false, true);
+            ValidateData(false, false, !_isCustomBet);
             return this;
         }
 
@@ -285,7 +291,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="odds">The odds value to be set</param>
         /// <param name="isBanker"></param>
         /// <returns>Returns a <see cref="ISelectionBuilder" /></returns>
-        public ISelectionBuilder Set(long eventId, string id, int odds, bool isBanker)
+        public ISelectionBuilder Set(long eventId, string id, int? odds, bool isBanker)
         {
             return Set(eventId.ToString(), id, odds, isBanker);
         }
@@ -298,14 +304,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="odds">The odds value to be set</param>
         /// <param name="isBanker"></param>
         /// <returns>Returns a <see cref="ISelectionBuilder" /></returns>
-        public ISelectionBuilder Set(string eventId, string id, int odds, bool isBanker)
+        public ISelectionBuilder Set(string eventId, string id, int? odds, bool isBanker)
         {
-            Contract.Requires(odds >= 10000 && odds <= 1000000000);
-
             _eventId = eventId;
-            _id = id;
+            _selectionId = id;
             _odds = odds;
-            ValidateData(true);
+            _isBanker = isBanker;
+            ValidateData(true, true, !_isCustomBet);
             return this;
         }
 
@@ -326,29 +331,29 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ISelection Build()
         {
-            ValidateData(true);
-            return new Selection(_eventId, _id, _odds, _isBanker);
+            ValidateData(true, true, !_isCustomBet);
+            return new Selection(_eventId, _selectionId, _odds, _isBanker);
         }
 
-        private void ValidateData(bool all = false, bool id = false, bool eventId = false, bool odds = false)
+        private void ValidateData(bool id = false, bool eventId = false, bool odds = false)
         {
-            if (all || id)
+            if (id)
             {
-                if (string.IsNullOrEmpty(_id) || !TicketHelper.ValidateStringId(_id, false, true, 1, 1000))
+                if (string.IsNullOrEmpty(_selectionId) || !TicketHelper.ValidateStringId(_selectionId, false, true, 1, 1000))
                 {
-                    throw new ArgumentException($"Id {_id} not valid.");
+                    throw new ArgumentException($"Id {_selectionId} not valid.");
                 }
             }
-            if (all || eventId)
+            if (eventId)
             {
                 if (string.IsNullOrEmpty(_eventId) || !TicketHelper.ValidateStringId(_eventId, false, true, 1, 100))
                 {
                     throw new ArgumentException($"EventId {_eventId} not valid.");
                 }
             }
-            if (all || odds)
+            if (odds)
             {
-                if (!(_odds >= 10000 && _odds <= 1000000000))
+                if (_odds == null || !(_odds >= 10000 && _odds <= 1000000000))
                 {
                     throw new ArgumentException($"Odds {_odds} not valid.");
                 }

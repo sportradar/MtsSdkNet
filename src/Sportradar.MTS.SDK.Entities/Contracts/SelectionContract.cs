@@ -30,13 +30,12 @@ namespace Sportradar.MTS.SDK.Entities.Contracts
         }
 
         [Pure]
-        public int Odds
+        public int? Odds
         {
             get
             {
-                Contract.Ensures(Contract.Result<int>() > 10000);
-                Contract.Ensures(Contract.Result<int>() <= 1000000000);
-                return Contract.Result<int>();
+                Contract.Ensures(Contract.Result<int?>() == null || (Contract.Result<int?>() >= 10000 && Contract.Result<int?>() <= 1000000000));
+                return Contract.Result<int?>();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using System.Diagnostics.Contracts;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -27,7 +28,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// Gets the odds multiplied by 10000 and rounded to int value
         /// </summary>
         /// <value>The odds</value>
-        public int Odds { get; }
+        public int? Odds { get; }
         /// <summary>
         /// Gets a value indicating whether this instance is banker
         /// </summary>
@@ -42,13 +43,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="odds">The odds</param>
         /// <param name="isBanker">if set to <c>true</c> [is banker]</param>
         [JsonConstructor]
-        public Selection(string eventId, string id, int odds, bool isBanker = false)
+        public Selection(string eventId, string id, int? odds, bool isBanker = false)
         {
             Contract.Requires(!string.IsNullOrEmpty(eventId));
             Contract.Requires(eventId.Length > 0 && eventId.Length <= 50);
             Contract.Requires(!string.IsNullOrEmpty(id));
             Contract.Requires(id.Length > 0 && id.Length <= 1000);
-            Contract.Requires(odds >= 10000 && odds <= 1000000000);
+            Contract.Requires(odds == null || (odds >= 10000 && odds <= 1000000000));
+
 
             EventId = eventId;
             Id = id;
@@ -66,12 +68,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Contract.Invariant(EventId.Length > 0 && EventId.Length <= 50);
             Contract.Invariant(!string.IsNullOrEmpty(Id));
             Contract.Invariant(Id.Length > 0 && Id.Length <= 1000);
-            Contract.Invariant(Odds >= 10000 && Odds <= 1000000000);
+            Contract.Invariant(Odds == null || (Odds >= 10000 && Odds <= 1000000000));
         }
 
         public override bool Equals(object obj)
         {
-            var sel = (Selection)obj;
+            var sel = (Selection) obj;
             return sel != null && sel.GetHashCode() == GetHashCode();
         }
 
