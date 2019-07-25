@@ -21,6 +21,13 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-07-25 2.3.2.0
+Made Ticket objects serializable
+Added support for TLS 1.2
+Removed use of singleton for CustomBetSelectionBuilder
+Added Content-Type to AdditionalInfo property of response tickets
+Fix: CustomBet can be set without odds
+
 2019-05-30 2.3.1.0
 Support for custom bet
 Added CustomBetManager to IMtsSdk
