@@ -158,6 +158,28 @@ namespace Sportradar.MTS.SDK.API.Contracts
             return Contract.Result<ISdkConfigurationBuilder>();
         }
 
+        /// <summary>
+        /// Sets the ticket response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        public ISdkConfigurationBuilder SetTicketResponseTimeoutLive(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
+        /// <summary>
+        /// Sets the ticket response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        public ISdkConfigurationBuilder SetTicketResponseTimeoutPrematch(int responseTimeout)
+        {
+            Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);
+            return Contract.Result<ISdkConfigurationBuilder>();
+        }
+
         public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
         {
             Contract.Ensures(Contract.Result<ISdkConfigurationBuilder>() != null);

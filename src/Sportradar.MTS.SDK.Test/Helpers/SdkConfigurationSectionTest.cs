@@ -133,9 +133,14 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public string MtsClientApiHost { get; }
 
         /// <summary>
-        /// Gets the ticket response timeout(ms)
+        /// Gets the ticket response timeout(ms) for tickets using "live" selectionId
         /// </summary>
-        public int TicketResponseTimeout { get; }
+        public int TicketResponseTimeoutLive { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms) for tickets using "live" selectionId
+        /// </summary>
+        public int TicketResponseTimeoutPrematch { get; }
 
         /// <summary>
         /// Gets the ticket cancellation response timeout(ms)
@@ -174,7 +179,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             string keycloakPassword,
             string keycloakSecret,
             string mtsClientApiHost,
-            int ticketResponseTimeout,
+            int ticketResponseTimeoutLive,
+            int ticketResponseTimeoutPrematch,
             int ticketCancellationResponseTimeout,
             int ticketCashoutResponseTimeout,
             int ticketNonSrSettleTimeout)
@@ -203,7 +209,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             KeycloakPassword = keycloakPassword;
             KeycloakSecret = keycloakSecret;
             MtsClientApiHost = mtsClientApiHost;
-            TicketResponseTimeout = ticketResponseTimeout;
+            TicketResponseTimeoutLive = ticketResponseTimeoutLive;
+            TicketResponseTimeoutPrematch = ticketResponseTimeoutPrematch;
             TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
             TicketNonSrSettleResponseTimeout = ticketNonSrSettleTimeout;
@@ -236,7 +243,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    keycloakPassword: string.Empty,
                                                    keycloakSecret: string.Empty,
                                                    mtsClientApiHost: string.Empty,
-                                                   ticketResponseTimeout: SdkInfo.TicketResponseTimeoutDefault,
+                                                   ticketResponseTimeoutLive: SdkInfo.TicketResponseTimeoutLiveDefault,
+                                                   ticketResponseTimeoutPrematch: SdkInfo.TicketResponseTimeoutPrematchDefault,
                                                    ticketCancellationResponseTimeout: SdkInfo.TicketCancellationResponseTimeoutDefault,
                                                    ticketCashoutResponseTimeout: SdkInfo.TicketCashoutResponseTimeoutDefault,
                                                    ticketNonSrSettleTimeout: SdkInfo.TicketNonSrResponseTimeoutDefault);

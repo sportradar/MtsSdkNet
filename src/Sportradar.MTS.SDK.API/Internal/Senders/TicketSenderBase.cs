@@ -45,6 +45,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// The MTS channel settings
         /// </summary>
         private readonly IMtsChannelSettings _mtsChannelSettings;
+        /// <summary>
+        /// The rabbit mq channel settings
+        /// </summary>
+        private readonly IRabbitMqChannelSettings _rabbitMqChannelSettings;
 
         /// <summary>
         /// The timer
@@ -54,55 +58,31 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         private bool _isOpened;
 
         /// <summary>
-        /// Gets the get cache timeout in ms
-        /// </summary>
-        /// <value>The get cache timeout in ms</value>
-        public int GetCacheTimeout { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TicketSenderBase"/> class
         /// </summary>
         /// <param name="publisherChannel">The publisher channel</param>
         /// <param name="ticketCache">The ticket cache</param>
         /// <param name="mtsChannelSettings">The MTS channel settings</param>
-        /// <param name="ticketCacheTimeoutInMs">The ticket cache timeout in ms</param>
+        /// <param name="rabbitMqChannelSettings">Rabbit channel settings</param>
         internal TicketSenderBase(IRabbitMqPublisherChannel publisherChannel,
                               ConcurrentDictionary<string, TicketCacheItem> ticketCache,
                               IMtsChannelSettings mtsChannelSettings,
-                              int ticketCacheTimeoutInMs)
+                              IRabbitMqChannelSettings rabbitMqChannelSettings)
         {
             Contract.Requires(publisherChannel != null);
             Contract.Requires(ticketCache != null);
             Contract.Requires(mtsChannelSettings != null);
+            Contract.Requires(rabbitMqChannelSettings != null);
 
             _publisherChannel = publisherChannel;
             _ticketCache = ticketCache;
             _mtsChannelSettings = mtsChannelSettings;
-
+            _rabbitMqChannelSettings = rabbitMqChannelSettings;
             _publisherChannel.MqMessagePublishFailed += PublisherChannelOnMqMessagePublishFailed;
 
-            GetCacheTimeout = ticketCacheTimeoutInMs < 10000 ? 20000 : ticketCacheTimeoutInMs;
-
-            _timer = new SdkTimer(new TimeSpan(0, 0, 0, 0, GetCacheTimeout), new TimeSpan(0, 0, 10));
+            _timer = new SdkTimer(new TimeSpan(0, 0, 0, 0, GetCacheTimeout(null)), new TimeSpan(0, 0, 10));
             _timer.Elapsed += OnTimerElapsed;
-            _timer.FireOnce(new TimeSpan(0, 0, 0, 0, GetCacheTimeout));
-        }
-
-        private void PublisherChannelOnMqMessagePublishFailed(object sender,
-            MessagePublishFailedEventArgs messagePublishFailedEventArgs)
-        {
-            _executionLog.Info($"Message publishing failed with correlationId: {messagePublishFailedEventArgs.CorrelationId}, errorMessage: {messagePublishFailedEventArgs.ErrorMessage}, routingKey: {messagePublishFailedEventArgs.RoutingKey}.");
-
-            var ticketId = string.Empty;
-            var ci = _ticketCache.Values.FirstOrDefault(f => f.CorrelationId == messagePublishFailedEventArgs.CorrelationId);
-            if (!string.IsNullOrEmpty(ci?.TicketId))
-            {
-                ticketId = ci.TicketId;
-            }
-            var json = Encoding.UTF8.GetString(messagePublishFailedEventArgs.RawData.ToArray());
-
-            var arg = new TicketSendFailedEventArgs(ticketId, json, messagePublishFailedEventArgs.ErrorMessage);
-            TicketSendFailed?.Invoke(sender, arg);
+            _timer.FireOnce(new TimeSpan(0, 0, 0, 0, GetCacheTimeout(null)));
         }
 
         /// <summary>
@@ -141,7 +121,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// </summary>
         private void DeleteExpiredCacheItems()
         {
-            var expiredItems = _ticketCache.Where(t => t.Value.Timestamp < DateTime.Now.AddMilliseconds(-GetCacheTimeout));
+            var expiredItems = _ticketCache.Where(t => t.Value.Timestamp < DateTime.Now.AddMilliseconds(-GetCacheTimeout(null)));
             foreach (var ei in expiredItems)
             {
                 TicketCacheItem ci;
@@ -224,6 +204,22 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             return null;
         }
 
+        private void PublisherChannelOnMqMessagePublishFailed(object sender, MessagePublishFailedEventArgs messagePublishFailedEventArgs)
+        {
+            _executionLog.Info($"Message publishing failed with correlationId: {messagePublishFailedEventArgs.CorrelationId}, errorMessage: {messagePublishFailedEventArgs.ErrorMessage}, routingKey: {messagePublishFailedEventArgs.RoutingKey}.");
+
+            var ticketId = string.Empty;
+            var ci = _ticketCache.Values.FirstOrDefault(f => f.CorrelationId == messagePublishFailedEventArgs.CorrelationId);
+            if (!string.IsNullOrEmpty(ci?.TicketId))
+            {
+                ticketId = ci.TicketId;
+            }
+            var json = Encoding.UTF8.GetString(messagePublishFailedEventArgs.RawData.ToArray());
+
+            var arg = new TicketSendFailedEventArgs(ticketId, json, messagePublishFailedEventArgs.ErrorMessage);
+            TicketSendFailed?.Invoke(sender, arg);
+        }
+
         /// <summary>
         /// Gets a value indicating whether the current instance is opened
         /// </summary>
@@ -246,6 +242,28 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         {
             _publisherChannel.Close();
             _isOpened = false;
+        }
+
+        /// <summary>
+        /// Gets the get cache timeout
+        /// </summary>
+        /// <value>The get cache timeout</value>
+        public int GetCacheTimeout(ISdkTicket ticket)
+        {
+            if (ticket == null)
+            {
+                return _rabbitMqChannelSettings.MaxPublishQueueTimeoutInMs;
+            }
+
+            var t = ticket as ITicket;
+            if (t != null)
+            {
+                if (t.Selections.Any(a => a.Id.StartsWith("lcoo")))
+                {
+                    return _rabbitMqChannelSettings.PublishQueueTimeoutInMs2;
+                }
+            }
+            return _rabbitMqChannelSettings.PublishQueueTimeoutInMs1;
         }
     }
 }

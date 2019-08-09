@@ -157,11 +157,25 @@ namespace Sportradar.MTS.SDK.API
         ISdkConfigurationBuilder SetMtsClientApiHost(string mtsClientApiHost);
 
         /// <summary>
-        /// Sets the ticket response timeout(ms)
+        /// Sets the ticket response timeout(ms) (sets both live and prematch timeouts)
         /// </summary>
         /// <param name="responseTimeout">The timeout in ms to be set</param>
         /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
         ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout);
+
+        /// <summary>
+        /// Sets the ticket response timeout(ms) for tickets using "live" selectionId
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetTicketResponseTimeoutLive(int responseTimeout);
+
+        /// <summary>
+        /// Sets the ticket response timeout(ms) for tickets using "prematch" selectionId
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        ISdkConfigurationBuilder SetTicketResponseTimeoutPrematch(int responseTimeout);
 
         /// <summary>
         /// Sets the ticket cancellation response timeout(ms)

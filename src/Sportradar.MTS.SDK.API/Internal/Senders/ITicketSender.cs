@@ -20,12 +20,6 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         event EventHandler<TicketSendFailedEventArgs> TicketSendFailed;
 
         /// <summary>
-        /// Gets the get cache timeout
-        /// </summary>
-        /// <value>The get cache timeout</value>
-        int GetCacheTimeout { get; }
-
-        /// <summary>
         /// Sends the ticket
         /// </summary>
         /// <param name="ticket">The ticket</param>
@@ -37,6 +31,12 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <param name="ticketId">The ticket identifier</param>
         /// <returns>ISdkTicket</returns>
         ISdkTicket GetSentTicket(string ticketId);
+
+        /// <summary>
+        /// Gets the get cache timeout
+        /// </summary>
+        /// <value>The get cache timeout</value>
+        int GetCacheTimeout(ISdkTicket ticket);
     }
 }
  

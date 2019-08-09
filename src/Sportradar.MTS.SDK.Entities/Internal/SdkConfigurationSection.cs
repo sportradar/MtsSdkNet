@@ -43,7 +43,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <remarks>Port should be chosen through the useSsl property. Manually setting port number should be used only when non-default port is required</remarks>
         [ConfigurationProperty("port", IsRequired = false, DefaultValue = 0)]
         public int Port => (int)base["port"];
-
+         
         /// <summary>
         /// Gets the virtual host name
         /// </summary>
@@ -163,8 +163,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <summary>
         /// Gets the ticket response timeout (ms)
         /// </summary>
-        [ConfigurationProperty("ticketResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketResponseTimeoutDefault)]
-        public int TicketResponseTimeout => (int)base["ticketResponseTimeout"];
+        [ConfigurationProperty("ticketResponseTimeout", IsRequired = false, DefaultValue = SdkInfo.TicketResponseTimeoutLiveDefault)]
+        public int TicketResponseTimeoutLive => (int)base["ticketResponseTimeout"];
+
+        /// <summary>
+        /// Gets the ticket response timeout (ms)
+        /// </summary>
+        [ConfigurationProperty("ticketResponseTimeoutPrematch", IsRequired = false, DefaultValue = SdkInfo.TicketResponseTimeoutPrematchDefault)]
+        public int TicketResponseTimeoutPrematch => (int)base["ticketResponseTimeoutPrematch"];
 
         /// <summary>
         /// Gets the ticket cancellation response timeout (ms)
