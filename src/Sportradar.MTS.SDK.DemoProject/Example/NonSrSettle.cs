@@ -1,15 +1,15 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+using System;
+using System.Diagnostics.Contracts;
+using System.Net;
 using log4net;
 using Sportradar.MTS.SDK.API;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.EventArguments;
 using Sportradar.MTS.SDK.Entities.Interfaces;
-using System;
-using System.Diagnostics.Contracts;
-using System.Net;
 
 namespace Sportradar.MTS.SDK.DemoProject.Example
 {
@@ -32,7 +32,6 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         {
             _log = log;
         }
-
 
         public void Run()
         {
@@ -140,10 +139,6 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
             {
                 HandleTicketCashoutResponse((ITicketCashoutResponse)e.Response);
             }
-            //else if (e.Type == TicketResponseType.TicketNonSrSettle)
-            {
-            //    HandleTicketCashoutResponse((ITicketNonSrSettleResponse)e.Response);
-            }
         }
 
         private void OnUnparsableTicketResponseReceived(object sender, UnparsableMessageEventArgs e)
@@ -190,14 +185,5 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
                 ticketCashoutResponse.Acknowledge();
             }
         }
-
-        //private void HandleTicketNonSrSettleResponse(ITicketNonSrSettleResponse ticketNonSrSettleResponse)
-        //{
-        //    _log.Info($"Ticket '{ticketNonSrSettleResponse.TicketId}' response is {ticketNonSrSettleResponse.Status}. Reason={ticketCashoutResponse.Reason?.Message}");
-        //    if (ticketNonSrSettleResponse.Status == CashoutAcceptance.Accepted)
-        //    {
-        //        ticketNonSrSettleResponse.Acknowledge();
-        //    }
-        //}
     }
 }

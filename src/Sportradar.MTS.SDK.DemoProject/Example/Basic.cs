@@ -114,6 +114,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
             mtsSdk.SendTicketFailed += OnSendTicketFailed;
             mtsSdk.TicketResponseReceived += OnTicketResponseReceived;
             mtsSdk.UnparsableTicketResponseReceived += OnUnparsableTicketResponseReceived;
+            mtsSdk.TicketResponseTimedOut += OnTicketResponseTimedOut;
         }
 
         /// <summary>
@@ -128,6 +129,7 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
             mtsSdk.SendTicketFailed -= OnSendTicketFailed;
             mtsSdk.TicketResponseReceived -= OnTicketResponseReceived;
             mtsSdk.UnparsableTicketResponseReceived -= OnUnparsableTicketResponseReceived;
+            mtsSdk.TicketResponseTimedOut -= OnTicketResponseTimedOut;
         }
 
         private void OnTicketResponseReceived(object sender, TicketResponseReceivedEventArgs e)
@@ -152,6 +154,10 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         private void OnSendTicketFailed(object sender, TicketSendFailedEventArgs e)
         {
             _log.Info($"Sending ticket '{e.TicketId}' failed.");
+        }
+        private void OnTicketResponseTimedOut(object sender, TicketMessageEventArgs e)
+        {
+            _log.Info($"Sending ticket '{e.TicketId}' failed due to timeout.");
         }
 
         private void HandleTicketResponse(ITicketResponse ticket)

@@ -36,7 +36,6 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
             _log = log;
         }
 
-
         public void Run()
         {
             _log.Info("Running the MTS SDK cashout example");
