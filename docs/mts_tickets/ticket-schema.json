@@ -271,7 +271,9 @@
                 "mobile",
                 "phone",
                 "sms",
-                "callCentre"
+                "callCentre",
+				"tvApp",
+				"agent"
               ]
             },
             "shopId": {

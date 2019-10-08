@@ -982,9 +982,15 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         [System.Runtime.Serialization.EnumMember(Value = "callCentre")]
         CallCentre = 6,
-    
+
+        [System.Runtime.Serialization.EnumMember(Value = "tvApp")]
+        TvApp = 7,
+
+        [System.Runtime.Serialization.EnumMember(Value = "agent")]
+        Agent = 8,
+
     }
-    
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "8.6.6263.34621")]
     public partial class EndCustomer : System.ComponentModel.INotifyPropertyChanged
     {

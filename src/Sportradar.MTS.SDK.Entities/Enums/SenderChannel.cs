@@ -36,6 +36,16 @@ namespace Sportradar.MTS.SDK.Entities.Enums
         /// <summary>
         /// The call centre
         /// </summary>
-        CallCentre
+        CallCentre,
+
+        /// <summary>
+        /// The TV app
+        /// </summary>
+        TvApp,
+        
+        /// <summary>
+        /// The agent
+        /// </summary>
+        Agent
     }
 }

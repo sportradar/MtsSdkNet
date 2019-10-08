@@ -60,8 +60,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto
                     return SenderChannel.Sms;
                 case Entities.Enums.SenderChannel.Terminal:
                     return SenderChannel.Terminal;
+                case Entities.Enums.SenderChannel.TvApp:
+                    return SenderChannel.TvApp;
+                case Entities.Enums.SenderChannel.Agent:
+                    return SenderChannel.Agent;
+                default:
+                    throw new InvalidEnumArgumentException($"Invalid Entities.Enums.SenderChannel value: {channel}.");
             }
-            throw new InvalidEnumArgumentException($"Invalid Entities.Enums.SenderChannel value: {channel}.");
         }
 
         public static SenderChannel Convert(string channel)
@@ -84,8 +89,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto
                     return SenderChannel.Sms;
                 case "terminal":
                     return SenderChannel.Terminal;
+                case "tvapp":
+                    return SenderChannel.TvApp;
+                case "agent":
+                    return SenderChannel.Agent;
+                default:
+                    throw new InvalidEnumArgumentException($"Invalid channel value: {channel}.");
             }
-            throw new InvalidEnumArgumentException($"Invalid channel value: {channel}.");
         }
 
         public static TicketOddsChange Convert(OddsChangeType type)
