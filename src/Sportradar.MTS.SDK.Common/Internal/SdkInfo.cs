@@ -10,7 +10,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
     /// </summary>
     public static class SdkInfo
     {
-        public const int TicketResponseTimeoutLiveDefault = 15000;
+        public const int TicketResponseTimeoutLiveDefault = 17000;
         public const int TicketResponseTimeoutPrematchDefault = 5000;
         public const int TicketCancellationResponseTimeoutDefault = 600000;
         public const int TicketCashoutResponseTimeoutDefault = 600000;
