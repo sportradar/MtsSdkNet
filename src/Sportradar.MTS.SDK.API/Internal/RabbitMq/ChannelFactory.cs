@@ -89,6 +89,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             connection.ConnectionUnblocked += ConnectionOnConnectionUnblocked;
             _connection = connection;
             _connectionIsShutdown = false;
+            _connectionStatusChange = DateTime.Now;
             ExecutionLog.Debug("Creating connection ... finished.");
         }
 
@@ -195,16 +196,18 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     {
                         RemoveChannels();
                         RemoveConnection();
+                        Thread.Sleep(1000);
+                        CreateConnection();
                     }
                 }
 
-                if (_connectionStatusChange > DateTime.MinValue && (DateTime.Now - _connectionStatusChange).TotalSeconds > 60 && !_connection.IsOpen)
-                {
-                    RemoveChannels();
-                    RemoveConnection();
-                    Thread.Sleep(1000);
-                    CreateConnection();
-                }
+                //if (_connectionStatusChange > DateTime.MinValue && (DateTime.Now - _connectionStatusChange).TotalSeconds > 60 && !_connection.IsOpen)
+                //{
+                //    RemoveChannels();
+                //    RemoveConnection();
+                //    Thread.Sleep(1000);
+                //    CreateConnection();
+                //}
 
                 if (!_connection.IsOpen)
                 {
@@ -256,6 +259,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             ChannelWrapper channelWrapper;
             if (_models.TryGetValue(id, out channelWrapper))
             {
+                //ExecutionLog.Debug($"Removing channel with channelNumber: {channelWrapper.Id} started ...");
                 if (channelWrapper.MarkedForDeletion)
                 {
                     channelWrapper.Channel.Close();
