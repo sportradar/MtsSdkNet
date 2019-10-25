@@ -21,6 +21,14 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-10-25 2.3.3.0
+Added configuration property ticketResponseTimeoutPrematch
+Added SetTicketResponseTimeoutLive and SetTicketResponseTimeoutPrematch to ISdkConfigurationBuilder
+Default timeout for ticket response for live selections increased from 15s to 17s
+Added new distribution channels
+Added TicketResponseTimedOut handler in DemoProject
+Fix: removing empty connection after reconnect
+
 2019-07-25 2.3.2.0
 Made Ticket objects serializable
 Added support for TLS 1.2
