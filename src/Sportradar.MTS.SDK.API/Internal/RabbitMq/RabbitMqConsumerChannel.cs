@@ -237,20 +237,24 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             var sleepTime = 1000;
             while (Interlocked.Read(ref _shouldBeOpened) == 1)
             {
-                try
+                lock (_lock)
                 {
-                    lock (_lock)
+                    try
                     {
+
+                        //ExecutionLog.Debug($"Opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName} started ...");
                         var channelWrapper = _channelFactory.GetChannel(UniqueId);
                         if (channelWrapper == null)
                         {
                             throw new OperationCanceledException("Missing consumer channel wrapper.");
                         }
+
                         if (channelWrapper.MarkedForDeletion)
                         {
                             _channelFactory.RemoveChannel(UniqueId);
                             throw new OperationCanceledException("Consumer channel marked for deletion.");
                         }
+
                         if (channelWrapper.Channel.IsClosed && !channelWrapper.MarkedForDeletion)
                         {
                             channelWrapper.MarkedForDeletion = true;
@@ -258,6 +262,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                             _channelFactory.RemoveChannel(UniqueId);
                             continue;
                         }
+
                         if (channelWrapper.Channel.IsOpen && channelWrapper.Consumer != null)
                         {
                             return;
@@ -271,10 +276,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                             try
                             {
                                 channelWrapper.Channel.ExchangeDeclare(_mtsChannelSettings.ExchangeName,
-                                                                       _mtsChannelSettings.ExchangeType.ToString().ToLower(),
-                                                                       _channelSettings.QueueIsDurable,
-                                                                       false,
-                                                                       null);
+                                    _mtsChannelSettings.ExchangeType.ToString().ToLower(),
+                                    _channelSettings.QueueIsDurable,
+                                    false,
+                                    null);
                             }
                             catch (Exception ie)
                             {
@@ -282,26 +287,28 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                                 ExecutionLog.Warn($"Exchange {_mtsChannelSettings.ExchangeName} creation failed, will try to recreate it.");
                                 channelWrapper.Channel.ExchangeDelete(_mtsChannelSettings.ExchangeName);
                                 channelWrapper.Channel.ExchangeDeclare(_mtsChannelSettings.ExchangeName,
-                                                                       _mtsChannelSettings.ExchangeType.ToString().ToLower(),
-                                                                       _channelSettings.QueueIsDurable,
-                                                                       false,
-                                                                       null);
+                                    _mtsChannelSettings.ExchangeType.ToString().ToLower(),
+                                    _channelSettings.QueueIsDurable,
+                                    false,
+                                    null);
                             }
                         }
 
                         var declareResult = _channelSettings.QueueIsDurable
-                                                ? channelWrapper.Channel.QueueDeclare(_queueName, true, false, false, null)
-                                                : channelWrapper.Channel.QueueDeclare(_queueName, false, false, false, null);
+                            ? channelWrapper.Channel.QueueDeclare(_queueName, true, false, false, null)
+                            : channelWrapper.Channel.QueueDeclare(_queueName, false, false, false, null);
 
                         if (!string.IsNullOrEmpty(_mtsChannelSettings.ExchangeName) && _routingKeys != null)
                         {
                             foreach (var routingKey in _routingKeys)
                             {
                                 ExecutionLog.Info($"Binding queue={declareResult.QueueName} with routingKey={routingKey}");
-                                channelWrapper.Channel.QueueBind(declareResult.QueueName, exchange: _mtsChannelSettings.ExchangeName,
-                                                                 routingKey: routingKey);
+                                channelWrapper.Channel.QueueBind(declareResult.QueueName,
+                                    exchange: _mtsChannelSettings.ExchangeName,
+                                    routingKey: routingKey);
                             }
                         }
+
                         channelWrapper.Channel.BasicQos(0, 10, false);
                         var consumer = new EventingBasicConsumer(channelWrapper.Channel);
                         consumer.Received += OnDataReceived;
@@ -310,31 +317,33 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                         consumer.Shutdown += OnShutdown;
                         consumer.ConsumerCancelled += OnConsumerCancelled;
                         channelWrapper.Channel.BasicConsume(queue: declareResult.QueueName,
-                                                            noAck: !_channelSettings.UserAcknowledgmentEnabled,
-                                                            consumerTag: $"{_mtsChannelSettings.ConsumerTag}",
-                                                            consumer: consumer,
-                                                            noLocal: false,
-                                                            exclusive: _channelSettings.ExclusiveConsumer);
+                            noAck: !_channelSettings.UserAcknowledgmentEnabled,
+                            consumerTag: $"{_mtsChannelSettings.ConsumerTag}",
+                            consumer: consumer,
+                            noLocal: false,
+                            exclusive: _channelSettings.ExclusiveConsumer);
                         channelWrapper.Consumer = consumer;
 
                         Interlocked.CompareExchange(ref _isOpened, 1, 0);
                         //ExecutionLog.Debug($"Opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName} finished.");
                         return;
                     }
-                }
-                catch (Exception e)
-                {
-                    ExecutionLog.Info($"Error opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName}.", e);
-                    if (e is IOException || e is AlreadyClosedException || e is SocketException)
+                    catch (Exception e)
                     {
-                        sleepTime = SdkInfo.Increase(sleepTime, 500, 10000);
+                        ExecutionLog.Info($"Error opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName}.",
+                            e);
+                        if (e is IOException || e is AlreadyClosedException || e is SocketException)
+                        {
+                            sleepTime = SdkInfo.Increase(sleepTime, 500, 10000);
+                        }
+                        else
+                        {
+                            sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInMs1 * 1000);
+                        }
+
+                        ExecutionLog.Info($"Opening the consumer channel will be retried in next {sleepTime} ms.");
+                        Thread.Sleep(sleepTime);
                     }
-                    else
-                    {
-                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInMs1 * 1000);
-                    }
-                    ExecutionLog.Info($"Opening the consumer channel will be retried in next {sleepTime} ms.");
-                    Thread.Sleep(sleepTime);
                 }
             }
         }
