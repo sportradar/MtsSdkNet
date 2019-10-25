@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -127,9 +128,14 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public string MtsClientApiHost { get; }
 
         /// <summary>
-        /// Gets the ticket response timeout(ms)
+        /// Gets the ticket response timeout(ms) for tickets using "live" selectionId
         /// </summary>
-        public int TicketResponseTimeout { get; }
+        public int TicketResponseTimeoutLive { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms) for tickets using "live" selectionId
+        /// </summary>
+        public int TicketResponseTimeoutPrematch { get; }
 
         /// <summary>
         /// Gets the ticket cancellation response timeout(ms)
@@ -165,7 +171,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             string keycloakPassword,
             string keycloakSecret,
             string mtsClientApiHost,
-            int ticketResponseTimeout,
+            int ticketResponseTimeoutLive,
+            int ticketResponseTimeoutPrematch,
             int ticketCancellationResponseTimeout,
             int ticketCashoutResponseTimeout)
         {
@@ -192,7 +199,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             KeycloakPassword = keycloakPassword;
             KeycloakSecret = keycloakSecret;
             MtsClientApiHost = mtsClientApiHost;
-            TicketResponseTimeout = ticketResponseTimeout;
+            TicketResponseTimeoutLive = ticketResponseTimeoutLive;
+            TicketResponseTimeoutPrematch = ticketResponseTimeoutPrematch;
             TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
         }
@@ -223,9 +231,10 @@ namespace Sportradar.MTS.SDK.Test.Helpers
                                                    keycloakPassword: string.Empty,
                                                    keycloakSecret: string.Empty,
                                                    mtsClientApiHost: string.Empty,
-                                                   ticketResponseTimeout: 15000,
-                                                   ticketCancellationResponseTimeout: 600000,
-                                                   ticketCashoutResponseTimeout: 600000);
+                                                   ticketResponseTimeoutLive: SdkInfo.TicketResponseTimeoutLiveDefault,
+                                                   ticketResponseTimeoutPrematch: SdkInfo.TicketResponseTimeoutPrematchDefault,
+                                                   ticketCancellationResponseTimeout: SdkInfo.TicketCancellationResponseTimeoutDefault,
+                                                   ticketCashoutResponseTimeout: SdkInfo.TicketCashoutResponseTimeoutDefault);
         }
     }
 }

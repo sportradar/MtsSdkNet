@@ -128,9 +128,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         string MtsClientApiHost { get; }
 
         /// <summary>
-        /// Gets the ticket response timeout(ms)
+        /// Gets the ticket response timeout(ms) for tickets using "live" selectionId
         /// </summary>
-        int TicketResponseTimeout { get; }
+        int TicketResponseTimeoutLive { get; }
+
+        /// <summary>
+        /// Gets the ticket response timeout(ms) for tickets using "live" selectionId
+        /// </summary>
+        int TicketResponseTimeoutPrematch { get; }
 
         /// <summary>
         /// Gets the ticket cancellation response timeout(ms)

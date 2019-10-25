@@ -58,7 +58,7 @@ namespace Sportradar.MTS.SDK.Test
             Assert.IsNotNull(cf, "Resolved IChannelFactory cannot be a null reference");
             Assert.IsInstanceOfType(cf, typeof(ChannelFactory), "item must be instance of ChannelFactory");
 
-            var rs = _childContainer1.Resolve<IRabbitMqChannelSettings>();
+            var rs = _childContainer1.Resolve<IRabbitMqChannelSettings>("TicketChannelSettings");
             Assert.IsNotNull(rs, "Resolved IRabbitMqChannelSettings cannot be a null reference");
             Assert.IsInstanceOfType(rs, typeof(RabbitMqChannelSettings), "item must be instance of RabbitMqChannelSettings");
         }

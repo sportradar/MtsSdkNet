@@ -331,7 +331,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     }
                     else
                     {
-                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInMs * 1000);
+                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInMs1 * 1000);
                     }
                     ExecutionLog.Info($"Opening the consumer channel will be retried in next {sleepTime} ms.");
                     Thread.Sleep(sleepTime);
@@ -366,27 +366,5 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 channelWrapper.Consumer = null;
             }
         }
-
-        //private void DisposeCurrentChannel()
-        //{
-        //    if (_consumer != null)
-        //    {
-        //        ExecutionLog.Info($"Closing the consumer channel with channelNumber: {_channel.ChannelNumber} and queueName: {_queueName}.");
-        //        _consumer.Received -= OnDataReceived;
-        //        _consumer.Registered -= OnRegistered;
-        //        _consumer.Unregistered -= OnUnregistered;
-        //        _consumer.Shutdown -= OnShutdown;
-        //        _consumer.ConsumerCancelled -= OnConsumerCancelled;
-        //        _consumer = null;
-        //    }
-        //    if (_channel != null)
-        //    {
-        //        if (_channel.IsOpen)
-        //        {
-        //            _channel.Close();
-        //        }
-        //        _channel.Dispose();
-        //    }
-        //}
     }
 }

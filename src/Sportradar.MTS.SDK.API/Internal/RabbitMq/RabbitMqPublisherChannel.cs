@@ -121,12 +121,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             _channelSettings = channelSettings;
 
             _useQueue = false;
-            if (channelSettings.PublishQueueTimeoutInMs > 0 || channelSettings.PublishQueueLimit > 0)
+            if (channelSettings.MaxPublishQueueTimeoutInMs > 0 || channelSettings.PublishQueueLimit > 0)
             {
                 _useQueue = true;
                 _msgQueue = new ConcurrentQueue<PublishQueueItem>();
                 _queueLimit = channelSettings.PublishQueueLimit > 1 ? _channelSettings.PublishQueueLimit : -1;
-                _queueTimeout = channelSettings.PublishQueueTimeoutInMs >= 10000 ? _channelSettings.PublishQueueTimeoutInMs : 15000;
+                _queueTimeout = channelSettings.MaxPublishQueueTimeoutInMs >= 10000 ? _channelSettings.MaxPublishQueueTimeoutInMs : 15000;
                 _queueTimer = new SdkTimer(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 1));
                 _queueTimer.Elapsed += OnTimerElapsed;
                 _queueTimer.FireOnce(new TimeSpan(0, 0, 5));
@@ -402,7 +402,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     }
                     else
                     {
-                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.PublishQueueTimeoutInMs * 1000);
+                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.MaxPublishQueueTimeoutInMs * 1000);
                     }
                     ExecutionLog.Info($"Opening the publisher channel will be retried in next {sleepTime} ms.");
                     Thread.Sleep(sleepTime);

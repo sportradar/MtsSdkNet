@@ -71,32 +71,92 @@ namespace Sportradar.MTS.SDK.Test
                 .Build();
 
             CheckAllSettings(
-                config,
-                "username",
-                "password",
-                "host",
-                1,
-                "/virtualHost",
-                false,
-                2,
-                3,
-                4,
-                "EUR",
-                SenderChannel.Internet,
-                "accessToken",
-                false,
-                false,
-                3600,
-                1000000,
-                false,
-                "keycloakHost",
-                "keycloakUsername",
-                "keycloakPassword",
-                "keycloakSecret",
-                "clientApiHost",
-                10000,
-                10001,
-                10002);
+                             config,
+                             "username",
+                             "password",
+                             "host",
+                             1,
+                             "/virtualHost",
+                             false,
+                             2,
+                             3,
+                             4,
+                             "EUR",
+                             SenderChannel.Internet,
+                             "accessToken",
+                             false,
+                             false,
+                             3600,
+                             1000000,
+                             false,
+                             "keycloakHost",
+                             "keycloakUsername",
+                             "keycloakPassword",
+                             "keycloakSecret",
+                             "clientApiHost",
+                             10000,
+                             10000,
+                             10001,
+                             10002);
+        }
+
+        [TestMethod]
+        public void BuilderSettersLivePrematch()
+        {
+            var config = MtsSdk.CreateConfigurationBuilder()
+                               .SetUsername("username")
+                               .SetPassword("password")
+                               .SetHost("host")
+                               .SetPort(1)
+                               .SetVirtualHost("/virtualHost")
+                               .SetUseSsl(false)
+                               .SetNode(2)
+                               .SetBookmakerId(3)
+                               .SetLimitId(4)
+                               .SetCurrency("EUR")
+                               .SetSenderChannel(SenderChannel.Internet)
+                               .SetAccessToken("accessToken")
+                               .SetProvideAdditionalMarketSpecifiers(false)
+                               .SetExclusiveConsumer(false)
+                               .SetKeycloakHost("keycloakHost")
+                               .SetKeycloakUsername("keycloakUsername")
+                               .SetKeycloakPassword("keycloakPassword")
+                               .SetKeycloakSecret("keycloakSecret")
+                               .SetMtsClientApiHost("clientApiHost")
+                               .SetTicketResponseTimeoutLive(10010)
+                               .SetTicketResponseTimeoutPrematch(10005)
+                               .SetTicketCancellationResponseTimeout(10001)
+                               .SetTicketCashoutResponseTimeout(10002)
+                               .Build();
+
+            CheckAllSettings(
+                             config,
+                             "username",
+                             "password",
+                             "host",
+                             1,
+                             "/virtualHost",
+                             false,
+                             2,
+                             3,
+                             4,
+                             "EUR",
+                             SenderChannel.Internet,
+                             "accessToken",
+                             false,
+                             false,
+                             3600,
+                             1000000,
+                             false,
+                             "keycloakHost",
+                             "keycloakUsername",
+                             "keycloakPassword",
+                             "keycloakSecret",
+                             "clientApiHost",
+                             10010,
+                             10005,
+                             10001,
+                             10002);
         }
 
         [TestMethod]
@@ -131,32 +191,95 @@ namespace Sportradar.MTS.SDK.Test
                 .ToSdkConfiguration();
 
             CheckAllSettings(
-                config,
-                "username",
-                "password",
-                "host",
-                1,
-                "/virtualHost",
-                false,
-                2,
-                3,
-                4,
-                "EUR",
-                SenderChannel.Internet,
-                "accessToken",
-                false,
-                true,
-                36,
-                10,
-                false,
-                "keycloakHost",
-                "keycloakUsername",
-                "keycloakPassword",
-                "keycloakSecret",
-                "clientApiHost",
-                10000,
-                10001,
-                10002);
+                             config,
+                             "username",
+                             "password",
+                             "host",
+                             1,
+                             "/virtualHost",
+                             false,
+                             2,
+                             3,
+                             4,
+                             "EUR",
+                             SenderChannel.Internet,
+                             "accessToken",
+                             false,
+                             true,
+                             36,
+                             10,
+                             false,
+                             "keycloakHost",
+                             "keycloakUsername",
+                             "keycloakPassword",
+                             "keycloakSecret",
+                             "clientApiHost",
+                             10000,
+                             SdkInfo.TicketResponseTimeoutPrematchDefault,
+                             10001,
+                             10002);
+        }
+
+        [TestMethod]
+        public void ConfigSettersPrematch()
+        {
+            var config = @"<mtsSdkSection
+                username=""username""
+                password=""password""
+                host=""host""
+                port=""1""
+                vhost=""/virtualHost""
+                useSsl=""false""
+                node=""2""
+                bookmakerId=""3""
+                limitId=""4""
+                currency=""EUR""
+                channel=""Internet""
+                accessToken=""accessToken""
+                provideAdditionalMarketSpecifiers=""false""
+                statsEnabled=""true""
+                statsTimeout=""36""
+                statsMaxRecord=""10""
+                exclusiveConsumer=""false""
+                keycloakHost=""keycloakHost""
+                keycloakUsername=""keycloakUsername""
+                keycloakPassword=""keycloakPassword""
+                keycloakSecret=""keycloakSecret""
+                mtsClientApiHost=""clientApiHost""
+                ticketResponseTimeout=""10010""
+                ticketResponseTimeoutPrematch=""10005""
+                ticketCancellationResponseTimeout=""10001""
+                ticketCashoutResponseTimeout=""10002""/>"
+                .ToSdkConfiguration();
+
+            CheckAllSettings(
+                             config,
+                             "username",
+                             "password",
+                             "host",
+                             1,
+                             "/virtualHost",
+                             false,
+                             2,
+                             3,
+                             4,
+                             "EUR",
+                             SenderChannel.Internet,
+                             "accessToken",
+                             false,
+                             true,
+                             36,
+                             10,
+                             false,
+                             "keycloakHost",
+                             "keycloakUsername",
+                             "keycloakPassword",
+                             "keycloakSecret",
+                             "clientApiHost",
+                             10010,
+                             10005,
+                             10001,
+                             10002);
         }
 
         #endregion
@@ -624,7 +747,7 @@ namespace Sportradar.MTS.SDK.Test
                 .SetUsername("username")
                 .SetPassword("password")
                 .SetHost("host")
-                .SetTicketResponseTimeout(SdkInfo.TicketResponseTimeoutMin - 1)
+                .SetTicketResponseTimeout(SdkInfo.TicketResponseTimeoutLiveMin - 1)
                 .Build();
         }
 
@@ -632,7 +755,7 @@ namespace Sportradar.MTS.SDK.Test
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void ConfigTicketResponseTimeoutToLow()
         {
-            $@"<mtsSdkSection username=""username"" password=""password"" host=""host"" ticketResponseTimeout=""{SdkInfo.TicketResponseTimeoutMin - 1}"" />"
+            $@"<mtsSdkSection username=""username"" password=""password"" host=""host"" ticketResponseTimeout=""{SdkInfo.TicketResponseTimeoutLiveMin - 1}"" />"
                 .ToSdkConfiguration();
         }
 
@@ -644,7 +767,7 @@ namespace Sportradar.MTS.SDK.Test
                 .SetUsername("username")
                 .SetPassword("password")
                 .SetHost("host")
-                .SetTicketResponseTimeout(SdkInfo.TicketResponseTimeoutMax + 1)
+                .SetTicketResponseTimeout(SdkInfo.TicketResponseTimeoutLiveMax + 1)
                 .Build();
         }
 
@@ -652,7 +775,7 @@ namespace Sportradar.MTS.SDK.Test
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void ConfigTicketResponseTimeoutToHigh()
         {
-            $@"<mtsSdkSection username=""username"" password=""password"" host=""host"" ticketResponseTimeout=""{SdkInfo.TicketResponseTimeoutMax + 1}"" />"
+            $@"<mtsSdkSection username=""username"" password=""password"" host=""host"" ticketResponseTimeout=""{SdkInfo.TicketResponseTimeoutLiveMax + 1}"" />"
                 .ToSdkConfiguration();
         }
 
@@ -828,7 +951,8 @@ namespace Sportradar.MTS.SDK.Test
             string keycloakPassword = null,
             string keycloakSecret = null,
             string mtsClientApiHost = null,
-            int ticketResponseTimeout = SdkInfo.TicketResponseTimeoutDefault,
+            int ticketResponseTimeoutLive = SdkInfo.TicketResponseTimeoutLiveDefault,
+            int ticketResponseTimeoutPrematch = SdkInfo.TicketResponseTimeoutPrematchDefault,
             int ticketCancellationResponseTimeout = SdkInfo.TicketCancellationResponseTimeoutDefault,
             int ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault)
         {
@@ -854,7 +978,8 @@ namespace Sportradar.MTS.SDK.Test
             Assert.AreEqual(keycloakPassword, config.KeycloakPassword);
             Assert.AreEqual(keycloakSecret, config.KeycloakSecret);
             Assert.AreEqual(mtsClientApiHost, config.MtsClientApiHost);
-            Assert.AreEqual(ticketResponseTimeout, config.TicketResponseTimeout);
+            Assert.AreEqual(ticketResponseTimeoutLive, config.TicketResponseTimeoutLive);
+            Assert.AreEqual(ticketResponseTimeoutPrematch, config.TicketResponseTimeoutPrematch);
             Assert.AreEqual(ticketCancellationResponseTimeout, config.TicketCancellationResponseTimeout);
             Assert.AreEqual(ticketCashoutResponseTimeout, config.TicketCashoutResponseTimeout);
         }

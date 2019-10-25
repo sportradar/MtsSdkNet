@@ -13,7 +13,11 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public int UserAcknowledgmentTimeoutInSeconds { get; }
         public bool UsePersistentDeliveryMode { get; }
         public int PublishQueueLimit { get; }
-        public int PublishQueueTimeoutInMs { get; }
+        public int PublishQueueTimeoutInMs1 { get; }
+        public int PublishQueueTimeoutInMs2 { get; }
+        public int MaxPublishQueueTimeoutInMs => PublishQueueTimeoutInMs1 >= PublishQueueTimeoutInMs2
+                                                     ? PublishQueueTimeoutInMs1
+                                                     : PublishQueueTimeoutInMs2;
         public bool ExclusiveConsumer { get; }
 
         public RabbitMqChannelSettings(bool queueDurable = false,
@@ -25,7 +29,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                                        int ackTimeout = 60,
                                        bool usePersistentDeliveryMode = false,
                                        int publishQueueLimit = 0,
-                                       int publishQueueTimeoutInMs = 15000)
+                                       int publishQueueTimeoutInMs1 = 15000,
+                                       int publishQueueTimeoutInMs2 = 15000)
         {
             DeleteQueueOnClose = deleteQueueOnClose;
             QueueIsDurable = queueDurable;
@@ -35,7 +40,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             UserAcknowledgmentTimeoutInSeconds = ackTimeout;
             UsePersistentDeliveryMode = usePersistentDeliveryMode;
             PublishQueueLimit = publishQueueLimit;
-            PublishQueueTimeoutInMs = publishQueueTimeoutInMs;
+            PublishQueueTimeoutInMs1 = publishQueueTimeoutInMs1;
+            PublishQueueTimeoutInMs2 = publishQueueTimeoutInMs2;
             ExclusiveConsumer = exclusiveConsumer;
         }
     }

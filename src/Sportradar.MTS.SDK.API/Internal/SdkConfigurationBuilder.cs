@@ -30,7 +30,8 @@ namespace Sportradar.MTS.SDK.API.Internal
         private string _keycloakPassword;
         private string _keycloakSecret;
         private string _mtsClientApiHost;
-        private int _ticketResponseTimeout;
+        private int _ticketResponseTimeoutLive;
+        private int _ticketResponseTimeoutPrematch;
         private int _ticketCancellationResponseTimeout;
         private int _ticketCashoutResponseTimeout;
 
@@ -39,7 +40,8 @@ namespace Sportradar.MTS.SDK.API.Internal
             _useSsl = true;
             _provideAdditionalMarketSpecifiers = true;
             _exclusiveConsumer = true;
-            _ticketResponseTimeout = SdkInfo.TicketResponseTimeoutDefault;
+            _ticketResponseTimeoutLive = SdkInfo.TicketResponseTimeoutLiveDefault;
+            _ticketResponseTimeoutPrematch = SdkInfo.TicketResponseTimeoutPrematchDefault;
             _ticketCancellationResponseTimeout = SdkInfo.TicketCancellationResponseTimeoutDefault;
             _ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault;
         }
@@ -225,20 +227,67 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public ISdkConfigurationBuilder SetTicketResponseTimeout(int responseTimeout)
         {
-            if (responseTimeout < SdkInfo.TicketResponseTimeoutMin)
-                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketResponseTimeoutMin}ms", nameof(responseTimeout));
-            if (responseTimeout > SdkInfo.TicketResponseTimeoutMax)
-                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketResponseTimeoutMax}ms", nameof(responseTimeout));
-            _ticketResponseTimeout = responseTimeout;
+            if (responseTimeout < SdkInfo.TicketResponseTimeoutPrematchMin)
+            {
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketResponseTimeoutPrematchMin}ms", nameof(responseTimeout));
+            }
+            if (responseTimeout > SdkInfo.TicketResponseTimeoutLiveMax)
+            {
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketResponseTimeoutLiveMax}ms", nameof(responseTimeout));
+            }
+            _ticketResponseTimeoutLive = responseTimeout;
+            _ticketResponseTimeoutPrematch = responseTimeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the ticket response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        public ISdkConfigurationBuilder SetTicketResponseTimeoutLive(int responseTimeout)
+        {
+            if (responseTimeout < SdkInfo.TicketResponseTimeoutLiveMin)
+            {
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketResponseTimeoutLiveMin}ms", nameof(responseTimeout));
+            }
+            if (responseTimeout > SdkInfo.TicketResponseTimeoutLiveMax)
+            {
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketResponseTimeoutLiveMax}ms", nameof(responseTimeout));
+            }
+            _ticketResponseTimeoutLive = responseTimeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the ticket response timeout(ms)
+        /// </summary>
+        /// <param name="responseTimeout">The timeout in ms to be set</param>
+        /// <returns>Returns a <see cref="ISdkConfigurationBuilder"/></returns>
+        public ISdkConfigurationBuilder SetTicketResponseTimeoutPrematch(int responseTimeout)
+        {
+            if (responseTimeout < SdkInfo.TicketResponseTimeoutPrematchMin)
+            {
+                throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketResponseTimeoutPrematchMin}ms", nameof(responseTimeout));
+            }
+            if (responseTimeout > SdkInfo.TicketResponseTimeoutPrematchMax)
+            {
+                throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketResponseTimeoutPrematchMax}ms", nameof(responseTimeout));
+            }
+            _ticketResponseTimeoutPrematch = responseTimeout;
             return this;
         }
 
         public ISdkConfigurationBuilder SetTicketCancellationResponseTimeout(int responseTimeout)
         {
             if (responseTimeout < SdkInfo.TicketCancellationResponseTimeoutMin)
+            {
                 throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms", nameof(responseTimeout));
+            }
             if (responseTimeout > SdkInfo.TicketCancellationResponseTimeoutMax)
+            {
                 throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms", nameof(responseTimeout));
+            }
             _ticketCancellationResponseTimeout = responseTimeout;
             return this;
         }
@@ -246,9 +295,13 @@ namespace Sportradar.MTS.SDK.API.Internal
         public ISdkConfigurationBuilder SetTicketCashoutResponseTimeout(int responseTimeout)
         {
             if (responseTimeout < SdkInfo.TicketCashoutResponseTimeoutMin)
+            {
                 throw new ArgumentException($"responseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms", nameof(responseTimeout));
+            }
             if (responseTimeout > SdkInfo.TicketCashoutResponseTimeoutMax)
+            {
                 throw new ArgumentException($"responseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms", nameof(responseTimeout));
+            }
             _ticketCashoutResponseTimeout = responseTimeout;
             return this;
         }
@@ -286,7 +339,8 @@ namespace Sportradar.MTS.SDK.API.Internal
                                         _keycloakPassword,
                                         _keycloakSecret,
                                         _mtsClientApiHost,
-                                        _ticketResponseTimeout,
+                                        _ticketResponseTimeoutLive,
+                                        _ticketResponseTimeoutPrematch,
                                         _ticketCancellationResponseTimeout,
                                         _ticketCashoutResponseTimeout);
         }
