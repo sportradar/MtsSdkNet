@@ -21,6 +21,9 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-11-05 2.3.3.1
+Fix: set AutomaticRecovery of rabbit connection to false
+
 2019-10-25 2.3.3.0
 Added configuration property ticketResponseTimeoutPrematch
 Added SetTicketResponseTimeoutLive and SetTicketResponseTimeoutPrematch to ISdkConfigurationBuilder

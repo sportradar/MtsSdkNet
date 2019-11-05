@@ -8,13 +8,13 @@
     <MajorVersion Condition="'$(MajorVersion)' == ''">2</MajorVersion>
     <MinorVersion Condition="'$(MinorVersion)' == ''">3</MinorVersion>
     <BuildNumber Condition="'$(BuildNumber)' == ''">3</BuildNumber>
-    <Revision Condition="'$(Revision)' == ''">0</Revision>
+    <Revision Condition="'$(Revision)' == ''">1</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Added configuration property ticketResponseTimeoutPrematch!NL!Added SetTicketResponseTimeoutLive and SetTicketResponseTimeoutPrematch to ISdkConfigurationBuilder!NL!Default timeout for ticket response for live selections increased from 15s to 17s!NL!Added new distribution channels!NL!Added TicketResponseTimedOut handler in DemoProject!NL!Fix: removing empty connection after reconnect</BuildChangeLog> 
+    <BuildChangeLog>Fix: set AutomaticRecovery of rabbit connection to false</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 
