@@ -40,7 +40,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 {"connection_name", "RabbitMQ / Net"}
             };
 
-            AutomaticRecovery = true;
+            AutomaticRecovery = false;
 
             HeartBeat = 45;
         }
