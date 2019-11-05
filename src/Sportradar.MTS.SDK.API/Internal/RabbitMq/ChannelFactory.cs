@@ -135,7 +135,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
             foreach (var model in _models)
             {
-                model.Value.MarkedForDeletion = true;
+                if (model.Value != null)
+                {
+                    model.Value.MarkedForDeletion = true;
+                }
             }
         }
 
@@ -192,22 +195,28 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 }
                 else
                 {
-                    if (_connectionIsShutdown && _connection.IsOpen)
+                    if (_connectionIsShutdown)
                     {
-                        RemoveChannels();
-                        RemoveConnection();
-                        Thread.Sleep(1000);
-                        CreateConnection();
+                        // try to reconnect
+                        try
+                        {
+                            // check if the connection can be made
+                            var connection = _connectionFactory.CreateConnection();
+                            if (connection.IsOpen)
+                            {
+                                connection.Close();
+                                RemoveChannels();
+                                RemoveConnection();
+                                Thread.Sleep(1000);
+                                CreateConnection();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
+                        }
                     }
                 }
-
-                //if (_connectionStatusChange > DateTime.MinValue && (DateTime.Now - _connectionStatusChange).TotalSeconds > 60 && !_connection.IsOpen)
-                //{
-                //    RemoveChannels();
-                //    RemoveConnection();
-                //    Thread.Sleep(1000);
-                //    CreateConnection();
-                //}
 
                 if (!_connection.IsOpen)
                 {
@@ -229,9 +238,11 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 {
                     _models.Remove(id);
                     _models.Add(id, wrapper);
+                    //_connection.AutoClose = true;
                     return wrapper;
                 }
                 _models.Add(id, wrapper);
+                //_connection.AutoClose = true;
                 return wrapper;
             }
         }
@@ -239,17 +250,17 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private void RemoveChannels()
         {
             var i = 100;
-            while (i > 0 && _models.Count(c => c.Value.MarkedForDeletion) > 0)
+            while (i > 0 && _models.Count(c => c.Value != null && c.Value.MarkedForDeletion) > 0)
             {
                 i--;
                 try
                 {
-                    var model = _models.First(f => f.Value.MarkedForDeletion);
+                    var model = _models.First(f => f.Value != null && f.Value.MarkedForDeletion);
                     RemoveChannel(model.Key);
                 }
                 catch (Exception)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                 }
             }
         }
@@ -269,7 +280,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     channelWrapper.ChannelBasicProperties = null;
                     channelWrapper.Consumer = null;
                     channelWrapper.Channel.Dispose();
-                    _models.Remove(id);
+                    _models[id] = null;
                 }
             }
         }

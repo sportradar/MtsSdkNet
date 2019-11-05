@@ -441,9 +441,9 @@ namespace Sportradar.MTS.SDK.API
             var rawData = eventArgs.RawData as byte[] ?? eventArgs.RawData.ToArray();
             var basicMessageData = TicketHelper.ParseUnparsableMsg(rawData);
             ExecutionLog.Info($"Extracted the following data from unparsed message data: [{basicMessageData}], raising OnUnparsableMessageReceived event");
-            var dispatchmentEventArgs = new UnparsableMessageEventArgs(basicMessageData);
+            var dispatchEventArgs = new UnparsableMessageEventArgs(basicMessageData);
             Metric.Context("MtsSdk").Meter("TicketDeserializationFailed", Unit.Items).Mark();
-            UnparsableTicketResponseReceived?.Invoke(this, dispatchmentEventArgs);
+            UnparsableTicketResponseReceived?.Invoke(this, dispatchEventArgs);
         }
 
         private int SendTicketBase(ISdkTicket ticket, bool waitForResponse)
