@@ -135,7 +135,7 @@ Fixed issue when adding bet selections with banker
 Fixed issue with connection to the MTS servers 
 
 2017-03-13 Official release 1.0.0
-Offical release of the MTS SDK (supports MTS tickets v2.0) 
+Official release of the MTS SDK (supports MTS tickets v2.0) 
 
 2017-02-14 Release candidate 0.1.0
 Support MTS ticket version 2.0

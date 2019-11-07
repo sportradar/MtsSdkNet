@@ -42,7 +42,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
             AutomaticRecovery = false;
 
-            HeartBeat = 45;
+            HeartBeat = 20;
         }
     }
 }
