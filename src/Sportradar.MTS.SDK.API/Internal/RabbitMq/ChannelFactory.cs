@@ -45,7 +45,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         private readonly Dictionary<int, ChannelWrapper> _models = new Dictionary<int, ChannelWrapper>();
         private bool _connectionIsShutdown;
-        private DateTime _connectionStatusChange = DateTime.MinValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChannelFactory"/> class
@@ -89,7 +88,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             connection.ConnectionUnblocked += ConnectionOnConnectionUnblocked;
             _connection = connection;
             _connectionIsShutdown = false;
-            _connectionStatusChange = DateTime.Now;
             ExecutionLog.Debug("Creating connection ... finished.");
         }
 
@@ -108,7 +106,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 _connection.ConnectionUnblocked -= ConnectionOnConnectionUnblocked;
                 _connection = null;
                 _connectionIsShutdown = false;
-                _connectionStatusChange = DateTime.MinValue;
                 ExecutionLog.Debug("Removing connection ... finished.");
             }
         }
@@ -131,7 +128,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             ExecutionLog.Info($"Connection invoked ConnectionShutdown. ClientName: {_connection?.ClientProvidedName} and close reason: {reason}.");
 
             _connectionIsShutdown = true;
-            _connectionStatusChange = DateTime.Now;
 
             foreach (var model in _models)
             {

@@ -21,6 +21,9 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2019-11-07 2.3.3.2
+Improved handling of connection to the rabbit server
+
 2019-11-05 2.3.3.1
 Fix: set AutomaticRecovery of rabbit connection to false
 

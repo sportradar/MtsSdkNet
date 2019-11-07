@@ -2,6 +2,9 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2019-11-07 2.3.3.2
+Improved handling of connection to the rabbit server
+
 2019-11-05 2.3.3.1
 Fix: set AutomaticRecovery of rabbit connection to false
 
