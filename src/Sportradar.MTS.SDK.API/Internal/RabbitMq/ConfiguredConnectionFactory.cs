@@ -71,7 +71,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 ClientProperties = _server.ClientProperties as Dictionary<string, object>;
             }
 
-            if (_server.HeartBeat > 10)
+            if (_server.HeartBeat >= 10)
             {
                 RequestedHeartbeat = _server.HeartBeat;
             }
