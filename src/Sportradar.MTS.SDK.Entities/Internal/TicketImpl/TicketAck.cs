@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -88,8 +88,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="message">The message</param>
         public TicketAck(string ticketId, int bookmakerId, TicketAckStatus status, int code, string message)
         {
-            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
-            Contract.Requires(bookmakerId > 0);
+            Guard.Argument(ticketId).Require(TicketHelper.ValidateTicketId(ticketId));
+            Guard.Argument(bookmakerId).Positive();
 
             TicketId = ticketId;
             BookmakerId = bookmakerId;
@@ -110,7 +110,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="message">The message</param>
         public TicketAck(ITicket ticket, TicketAckStatus status, int code, string message)
         {
-            Contract.Requires(ticket != null);
+            Guard.Argument(ticket).NotNull();
 
             TicketId = ticket.TicketId;
             BookmakerId = ticket.Sender.BookmakerId;
@@ -120,18 +120,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(BookmakerId > 0);
-            Contract.Invariant(Timestamp > DateTime.MinValue);
         }
     }
 }

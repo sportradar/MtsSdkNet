@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Net;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -58,7 +58,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="config">The <see cref="ISdkConfiguration"/> providing default builder values</param>
         internal SenderBuilder(ISdkConfiguration config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
 
             _bookmakerId = config.BookmakerId;
             _limitId = config.LimitId;
@@ -235,11 +235,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ISenderBuilder" /></returns>
         public ISenderBuilder SetEndCustomer(IEndCustomer customer)
         {
-            if (customer == null)
-            {
-                throw new ArgumentException("Customer not valid.");
-            }
-            _customer = customer;
+            _customer = customer ?? throw new ArgumentException("Customer not valid.");
             return this;
         }
 

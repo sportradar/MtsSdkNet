@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.Dto;
@@ -56,8 +56,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                          IBetReoffer reoffer,
                          IEnumerable<ISelectionDetail> selectionDetails)
         {
-            Contract.Requires(!string.IsNullOrEmpty(betId) && betId.Length <= 128);
-            Contract.Requires(reason != null);
+            Guard.Argument(betId).NotNull().NotEmpty().Require(betId.Length <= 128);
+            Guard.Argument(reason).NotNull();
 
             BetId = betId;
             Reason = reason;
@@ -72,7 +72,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="betDetail">The bet detail</param>
         public BetDetail(Anonymous2 betDetail)
         {
-            Contract.Requires(betDetail != null);
+            Guard.Argument(betDetail).NotNull();
 
             BetId = betDetail.BetId;
             if (betDetail.Reason != null)
@@ -95,16 +95,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             {
                 Reoffer = new BetReoffer(betDetail.Reoffer.Stake, MtsTicketHelper.Convert(betDetail.Reoffer.Type));
             }
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(!string.IsNullOrEmpty(BetId) && BetId.Length <= 128);
-            Contract.Invariant(Reason != null);
         }
     }
 }

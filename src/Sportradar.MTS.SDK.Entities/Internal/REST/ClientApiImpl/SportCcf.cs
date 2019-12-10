@@ -1,8 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
 
@@ -21,8 +20,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl
 
         internal SportCcf(Anonymous sportCcf)
         {
-            Contract.Requires(sportCcf != null);
-            Contract.Requires(sportCcf.SportId != null);
+            Guard.Argument(sportCcf).NotNull();
+            Guard.Argument(sportCcf.SportId).NotNull();
 
             SportId = sportCcf.SportId;
             PrematchCcf = sportCcf.PrematchCcf;

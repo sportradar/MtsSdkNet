@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -80,28 +80,27 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [JsonConstructor]
         public Bet(IBetBonus bonus, IStake stake, IStake entireStake, string id, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins, bool? customBet, int? calculationOdds)
         {
-            Contract.Requires(stake != null);
-            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidateTicketId(id));
-            Contract.Requires(selectedSystems == null
-                              || (selectedSystems.Any()
-                              && selectedSystems.Count() < 64
-                              && selectedSystems.Count() == selectedSystems.Distinct().Count()
-                              && selectedSystems.All(a => a > 0)));
-            Contract.Requires(selections != null
-                              && selections.Any()
-                              && selections.Count() < 64
-                              && selections.Count() == selections.Distinct().Count());
-            Contract.Requires(string.IsNullOrEmpty(reofferRefId) || reofferRefId.Length <= 50);
-            Contract.Requires(sumOfWins >= 0);
+            Guard.Argument(stake).NotNull();
+            Guard.Argument(id).Require(string.IsNullOrEmpty(id) || TicketHelper.ValidateTicketId(id));
+            var systems = selectedSystems == null ? new List<int>() : selectedSystems.ToList();
+            Guard.Argument(systems).Require(selectedSystems == null
+                              || (systems.Any()
+                              && systems.Count < 64
+                              && systems.Count == systems.Distinct().Count()
+                              && systems.All(a => a > 0)));
+            var listSelections = selections.ToList();
+            Guard.Argument(listSelections).NotNull().NotEmpty().Require(listSelections.Count < 64 && listSelections.Count == listSelections.Distinct().Count());
+            Guard.Argument(string.IsNullOrEmpty(reofferRefId) || reofferRefId.Length <= 50);
+            Guard.Argument(sumOfWins).NotNegative();
             bool customBetBool = customBet ?? false;
-            Contract.Requires((customBetBool && calculationOdds != null && calculationOdds >= 0) || (!customBetBool && calculationOdds == null));
+            Guard.Argument(customBet).Require((customBetBool && calculationOdds != null && calculationOdds >= 0) || (!customBetBool && calculationOdds == null));
 
             Bonus = bonus;
             Stake = stake;
             EntireStake = entireStake;
             Id = id;
-            SelectedSystems = selectedSystems;
-            Selections = selections;
+            SelectedSystems = systems;
+            Selections = listSelections;
             ReofferRefId = reofferRefId;
             SumOfWins = sumOfWins;
             CustomBet = customBet;
@@ -115,27 +114,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                     throw new ArgumentException("Invalid value in SelectedSystems.");
                 }
             }
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(Stake != null);
-            Contract.Invariant(string.IsNullOrEmpty(Id) || TicketHelper.ValidateTicketId(Id));
-            Contract.Invariant(SelectedSystems == null
-                              || (SelectedSystems.Any()
-                                  && SelectedSystems.Count() < 64
-                                  && SelectedSystems.Count() == SelectedSystems.Distinct().Count()
-                                  && SelectedSystems.All(a => a > 0)));
-            Contract.Invariant(Selections != null
-                              && Selections.Any()
-                              && Selections.Count() < 64
-                              && Selections.Count() == Selections.Distinct().Count());
-            Contract.Invariant(string.IsNullOrEmpty(ReofferRefId) || ReofferRefId.Length <= 50);
-            Contract.Invariant(SumOfWins >= 0);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.Cache;
 
@@ -27,21 +27,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="marketDescriptionProvider">The <see cref="IMarketDescriptionProvider"/> used for UoF selections</param>
         public BuilderFactory(ISdkConfigurationInternal config, IMarketDescriptionProvider marketDescriptionProvider)
         {
-            Contract.Requires(config != null);
-            Contract.Requires(marketDescriptionProvider != null);
+            Guard.Argument(config).NotNull();
+            Guard.Argument(marketDescriptionProvider).NotNull();
 
             _config = config;
             _marketDescriptionProvider = marketDescriptionProvider;
-        }
-
-        /// <summary>
-        /// Defines invariant fields as required by the code contracts
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariants()
-        {
-            Contract.Invariant(_config != null);
-            Contract.Invariant(_marketDescriptionProvider != null);
         }
 
         /// <summary>

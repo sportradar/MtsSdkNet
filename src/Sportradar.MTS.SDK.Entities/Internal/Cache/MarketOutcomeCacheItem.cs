@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
 
@@ -18,7 +18,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         internal MarketOutcomeCacheItem(OutcomeDescriptionDTO dto, CultureInfo culture)
         {
-            Contract.Requires(dto != null);
+            Guard.Argument(dto).NotNull();
 
             Id = dto.Id;
             _names = new Dictionary<CultureInfo, string> { { culture, dto.Name } };
@@ -29,10 +29,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         internal string GetName(CultureInfo culture)
         {
-            Contract.Requires(culture != null);
+            Guard.Argument(culture).NotNull();
 
-            string name;
-            if (_names.TryGetValue(culture, out name))
+            if (_names.TryGetValue(culture, out var name))
             {
                 return name;
             }
@@ -41,10 +40,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         internal string GetDescription(CultureInfo culture)
         {
-            Contract.Requires(culture != null);
+            Guard.Argument(culture).NotNull();
 
-            string description;
-            if (_descriptions.TryGetValue(culture, out description))
+            if (_descriptions.TryGetValue(culture, out var description))
             {
                 return description;
             }
@@ -53,8 +51,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         internal void Merge(OutcomeDescriptionDTO dto, CultureInfo culture)
         {
-            Contract.Requires(dto != null);
-            Contract.Requires(culture != null);
+            Guard.Argument(dto).NotNull();
+            Guard.Argument(culture).NotNull();
 
             _names[culture] = dto.Name;
             if (!string.IsNullOrEmpty(dto.Description))

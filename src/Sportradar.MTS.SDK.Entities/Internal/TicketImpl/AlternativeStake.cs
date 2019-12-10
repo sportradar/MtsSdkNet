@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -24,18 +24,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="stake">The stake</param>
         public AlternativeStake(long stake)
         {
-            Contract.Requires(stake > 0 && stake < 1000000000000000000);
+            Guard.Argument(stake).InRange(1, 1000000000000000000 - 1);
 
             Stake = stake;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(Stake > 0 && Stake < 1000000000000000000);
         }
     }
 }

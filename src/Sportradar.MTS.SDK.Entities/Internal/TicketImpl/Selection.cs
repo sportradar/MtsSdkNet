@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
-using System.Diagnostics.Contracts;
+using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -45,30 +45,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [JsonConstructor]
         public Selection(string eventId, string id, int? odds, bool isBanker = false)
         {
-            Contract.Requires(!string.IsNullOrEmpty(eventId));
-            Contract.Requires(eventId.Length > 0 && eventId.Length <= 50);
-            Contract.Requires(!string.IsNullOrEmpty(id));
-            Contract.Requires(id.Length > 0 && id.Length <= 1000);
-            Contract.Requires(odds == null || (odds >= 10000 && odds <= 1000000000));
+            Guard.Argument(eventId).NotNull().NotEmpty();
+            Guard.Argument(eventId.Length).InRange(1, 50);
+            Guard.Argument(id).NotNull().NotEmpty();
+            Guard.Argument(id.Length).InRange(1, 1000);
+            Guard.Argument(odds).Require(odds == null || (odds >= 10000 && odds <= 1000000000));
 
 
             EventId = eventId;
             Id = id;
             Odds = odds;
             IsBanker = isBanker;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(!string.IsNullOrEmpty(EventId));
-            Contract.Invariant(EventId.Length > 0 && EventId.Length <= 50);
-            Contract.Invariant(!string.IsNullOrEmpty(Id));
-            Contract.Invariant(Id.Length > 0 && Id.Length <= 1000);
-            Contract.Invariant(Odds == null || (Odds >= 10000 && Odds <= 1000000000));
         }
 
         public override bool Equals(object obj)

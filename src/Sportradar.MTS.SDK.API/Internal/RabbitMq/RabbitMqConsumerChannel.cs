@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
@@ -90,8 +90,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                                        IMtsChannelSettings mtsChannelSettings,
                                        IRabbitMqChannelSettings channelSettings)
         {
-            Contract.Requires(channelFactory != null);
-            Contract.Requires(mtsChannelSettings != null);
+            Guard.Argument(channelFactory).NotNull();
+            Guard.Argument(mtsChannelSettings).NotNull();
 
             _channelFactory = channelFactory;
             _mtsChannelSettings = mtsChannelSettings;
@@ -104,17 +104,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             UniqueId = _channelFactory.GetUniqueId();
             _healthTimer = new SdkTimer(new TimeSpan(0, 0, _timerInterval), new TimeSpan(0, 0, 1));
             _healthTimer.Elapsed += OnTimerElapsed;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(ExecutionLog != null);
-            Contract.Invariant(_channelFactory != null);
-            Contract.Invariant(_channelSettings != null);
         }
 
         /// <summary>
@@ -208,11 +197,16 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         public void Open(IEnumerable<string> routingKeys)
         {
+            Guard.Argument(routingKeys).NotNull().NotEmpty();
+
             Open(_mtsChannelSettings.ChannelQueueName, routingKeys);
         }
 
         public void Open(string queueName, IEnumerable<string> routingKeys)
         {
+            Guard.Argument(queueName).NotNull().NotEmpty();
+            Guard.Argument(routingKeys).NotNull().NotEmpty();
+
             if (Interlocked.Read(ref _isOpened) == 1)
             {
                 ExecutionLog.Error("Opening an already opened channel is not allowed");

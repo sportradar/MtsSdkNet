@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -27,7 +27,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="builderFactory">The <see cref="ISimpleBuilderFactory"/> used to construct entity builders</param>
         internal TicketReofferBuilder(ISimpleBuilderFactory builderFactory)
         {
-            Contract.Requires(builderFactory != null);
+            Guard.Argument(builderFactory).NotNull();
 
             _builderFactory = builderFactory;
         }

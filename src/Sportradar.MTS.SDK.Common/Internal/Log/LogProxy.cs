@@ -196,14 +196,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
                 string exceptionMsg = "EXCEPTION: ";
                 if (task.Exception != null)
                 {
-                    if (task.Exception.InnerExceptions != null)
-                    {
-                        exceptionMsg += task.Exception.InnerExceptions[0].ToString();
-                    }
-                    else
-                    {
-                        exceptionMsg += task.Exception.ToString();
-                    }
+                    exceptionMsg += task.Exception?.InnerExceptions[0].ToString();
                 }
                 FinishExecution(perm.LogEnabled, perm.MethodCall, perm.MethodInfo, underlyingResultType, exceptionMsg, perm.Logger, perm.Watch, taskId: $"TaskId:{task.Id}, ");
                 return;

@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -130,13 +130,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="lastMatchEndTime">End time of last (non Sportradar) match on ticket.</param>
         public Ticket(string ticketId, ISender sender, IEnumerable<IBet> bets, string reofferId, string altStakeRefId, bool isTestSource, OddsChangeType? oddsChangeType, int? totalCombinations, DateTime? lastMatchEndTime)
         {
-            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
-            Contract.Requires(sender != null);
-            Contract.Requires(bets != null);
-            Contract.Requires(bets.Any() && bets.Count() <= 50);
-            Contract.Requires(string.IsNullOrEmpty(reofferId) || TicketHelper.ValidateTicketId(reofferId));
-            Contract.Requires(string.IsNullOrEmpty(altStakeRefId) || TicketHelper.ValidateTicketId(altStakeRefId));
-            Contract.Requires(!(!string.IsNullOrEmpty(reofferId) && !string.IsNullOrEmpty(altStakeRefId)));
+            Guard.Argument(ticketId).Require(TicketHelper.ValidateTicketId(ticketId));
+            Guard.Argument(sender).NotNull();
+            Guard.Argument(bets).NotNull().NotEmpty().MaxCount(50);
+            Guard.Argument(reofferId).Require(string.IsNullOrEmpty(reofferId) || TicketHelper.ValidateTicketId(reofferId));
+            Guard.Argument(altStakeRefId).Require(string.IsNullOrEmpty(altStakeRefId) || TicketHelper.ValidateTicketId(altStakeRefId));
+            Guard.Argument(reofferId).Require(!(!string.IsNullOrEmpty(reofferId) && !string.IsNullOrEmpty(altStakeRefId)));
+            Guard.Argument(totalCombinations).Require(totalCombinations == null || totalCombinations > 0);
+            Guard.Argument(lastMatchEndTime).Require(lastMatchEndTime == null || lastMatchEndTime > new DateTime(2000, 1, 1));
 
             TicketId = ticketId;
             Sender = sender;
@@ -162,30 +163,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                 {
                     selections.AddRange(bet.Selections);
                 }
+                Guard.Argument(selections).NotNull().NotEmpty().MaxCount(64);
                 Selections = selections.Distinct();
             }
             TotalCombinations = totalCombinations;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(Timestamp > DateTime.MinValue);
-            Contract.Invariant(Sender != null);
-            Contract.Invariant(Bets != null);
-            Contract.Invariant(Bets.Any() && Bets.Count() <= 50);
-            Contract.Invariant(Selections != null);
-            Contract.Invariant(Selections.Any() && Selections.Count() < 64);
-            Contract.Invariant(string.IsNullOrEmpty(ReofferId) || TicketHelper.ValidateTicketId(ReofferId));
-            Contract.Invariant(string.IsNullOrEmpty(AltStakeRefId) || TicketHelper.ValidateTicketId(AltStakeRefId));
-            Contract.Invariant(!(!string.IsNullOrEmpty(ReofferId) && !string.IsNullOrEmpty(AltStakeRefId)));
-            Contract.Invariant(TotalCombinations == null || TotalCombinations > 0);
-            Contract.Invariant(LastMatchEndTime == null || LastMatchEndTime.Value > new DateTime(2000, 1, 1));
         }
     }
 }

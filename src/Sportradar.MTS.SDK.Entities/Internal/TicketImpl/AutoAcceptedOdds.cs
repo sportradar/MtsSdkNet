@@ -1,6 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -31,6 +33,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
         public AutoAcceptedOdds(int index, int requestedOdds, int usedOdds)
         {
+            Guard.Argument(index).InRange(0, 62);
+            Guard.Argument(requestedOdds).InRange(10000, 1000000000);
+            Guard.Argument(usedOdds).InRange(10000, 1000000000);
+
             SelectionIndex = index;
             RequestedOdds = requestedOdds;
             UsedOdds = usedOdds;

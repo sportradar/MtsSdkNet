@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -66,8 +66,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// </summary>
         public SelectionBuilder(IMarketDescriptionProvider marketDescriptionProvider, ISdkConfiguration config, bool isCustomBet)
         {
-            Contract.Requires(marketDescriptionProvider != null);
-            Contract.Requires(config != null);
+            Guard.Argument(marketDescriptionProvider).NotNull();
+            Guard.Argument(config).NotNull();
 
             _marketDescriptionProvider = marketDescriptionProvider;
             _isBanker = false;
@@ -224,7 +224,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                 foreach (var spec in specifiers.Split('|'))
                 {
                     var s = spec.Split('=');
-                    Contract.Assume(s.Length == 2);
                     specs.Add(s[0], s[1]);
                 }
             }
@@ -245,8 +244,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <value>Should be composed according to specification</value>
         public ISelectionBuilder SetIdUof(int product, string sportId, int marketId, string selectionId, IReadOnlyDictionary<string, string> specifiers, IReadOnlyDictionary<string, object> sportEventStatus)
         {
-            URN sportUrn;
-            if (!URN.TryParse(sportId, out sportUrn))
+            if (!URN.TryParse(sportId, out _))
             {
                 throw new ArgumentException("SportId is not valid.");
             }
@@ -264,7 +262,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             if (newSpecifiers != null && newSpecifiers.Any())
             {
                 var specs = newSpecifiers.Aggregate(string.Empty, (s, pair) => s + "&" + pair.Key + "=" + pair.Value);
-                Contract.Assume(specs != null && specs.Length > 1);
                 _selectionId += "?" + specs.Substring(1);
             }
             ValidateData(true);
@@ -366,7 +363,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                                                                             IReadOnlyDictionary<string, string> specifiers,
                                                                             IReadOnlyDictionary<string, object> sportEventStatus)
         {
-            Contract.Requires(marketId > 0);
+            Guard.Argument(marketId).Positive();
 
             if (!_config.ProvideAdditionalMarketSpecifiers)
             {

@@ -1,9 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using Sportradar.MTS.SDK.API.Contracts;
+
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.API
@@ -11,7 +10,7 @@ namespace Sportradar.MTS.SDK.API
     /// <summary>
     /// Defines a contract used to send requests to MTS Client REST API
     /// </summary>
-    [ContractClass(typeof(MtsClientApiContract))]
+
     public interface IMtsClientApi
     {
         /// <summary>

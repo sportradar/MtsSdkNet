@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
@@ -13,7 +11,6 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
     /// <summary>
     /// Contract defining Ticket that can be send to the MTS
     /// </summary>
-    [ContractClass(typeof(TicketContract))]
     public interface ITicket : ISdkTicket
     {
         /// <summary>

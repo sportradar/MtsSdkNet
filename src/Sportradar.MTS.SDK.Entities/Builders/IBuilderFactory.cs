@@ -1,15 +1,13 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Builders
 {
     /// <summary>
     /// Defines a contract used to construct builder instances used when constructing tickets and it's associated entities
     /// </summary>
-    [ContractClass(typeof(BuilderFactoryContract))]
+
     public interface IBuilderFactory : ISimpleBuilderFactory
     {
         /// <summary>

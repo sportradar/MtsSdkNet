@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -23,7 +23,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         public RabbitServer(ISdkConfigurationInternal config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
 
             Username = config.Username;
             Password = config.Password;

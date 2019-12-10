@@ -24,7 +24,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
         internal CalculationMapper(CalculationResponseType data)
         {
             if (data == null)
+            {
                 throw new ArgumentNullException(nameof(data));
+            }
 
             _data = data;
         }

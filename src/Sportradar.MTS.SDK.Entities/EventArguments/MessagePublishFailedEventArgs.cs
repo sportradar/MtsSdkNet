@@ -3,8 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
+using Dawn;
 
 namespace Sportradar.MTS.SDK.Entities.EventArguments
 {
@@ -43,8 +42,7 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         /// <param name="message">The description of the error</param>
         public MessagePublishFailedEventArgs(IEnumerable<byte> rawData, string correlationId, string routingKey, string message)
         {
-            Contract.Requires(rawData != null);
-            Contract.Requires(rawData.Any());
+            Guard.Argument(rawData).NotNull().NotEmpty();
 
             RawData = rawData;
             CorrelationId = correlationId;

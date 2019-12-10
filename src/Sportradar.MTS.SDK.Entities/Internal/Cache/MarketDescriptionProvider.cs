@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,12 +25,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         public MarketDescriptionProvider(IMarketDescriptionCache marketDescriptionCache, IEnumerable<CultureInfo> cultures)
         {
-            Contract.Requires(marketDescriptionCache != null);
-            Contract.Requires(cultures != null);
-            Contract.Requires(cultures.Any());
+            Guard.Argument(marketDescriptionCache).NotNull();
+            var cultureInfos = cultures.ToList();
+            Guard.Argument(cultureInfos).NotNull().NotEmpty();
 
             MarketDescriptionCache = marketDescriptionCache;
-            _cultures = cultures;
+            _cultures = cultureInfos;
         }
 
         /// <summary>

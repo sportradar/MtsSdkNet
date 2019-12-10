@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using System.Text;
 using log4net;
@@ -23,9 +23,12 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
     public abstract class TicketSenderBase : ITicketSender
     {
         /// <summary>
-        /// The log
+        /// The execution log
         /// </summary>
         private readonly ILog _executionLog = SdkLoggerFactory.GetLogger(typeof(TicketSenderBase));
+        /// <summary>
+        /// The feed log
+        /// </summary>
         private readonly ILog _feedLog = SdkLoggerFactory.GetLoggerForFeedTraffic(typeof(TicketSenderBase));
 
         /// <summary>
@@ -54,7 +57,9 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// The timer
         /// </summary>
         private readonly ITimer _timer;
-
+        /// <summary>
+        /// Indication if it is opened or not
+        /// </summary>
         private bool _isOpened;
 
         /// <summary>
@@ -69,10 +74,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
                               IMtsChannelSettings mtsChannelSettings,
                               IRabbitMqChannelSettings rabbitMqChannelSettings)
         {
-            Contract.Requires(publisherChannel != null);
-            Contract.Requires(ticketCache != null);
-            Contract.Requires(mtsChannelSettings != null);
-            Contract.Requires(rabbitMqChannelSettings != null);
+            Guard.Argument(publisherChannel).NotNull();
+            Guard.Argument(ticketCache).NotNull();
+            Guard.Argument(mtsChannelSettings).NotNull();
+            Guard.Argument(rabbitMqChannelSettings).NotNull();
 
             _publisherChannel = publisherChannel;
             _ticketCache = ticketCache;
@@ -83,19 +88,6 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
             _timer = new SdkTimer(new TimeSpan(0, 0, 0, 0, GetCacheTimeout(null)), new TimeSpan(0, 0, 10));
             _timer.Elapsed += OnTimerElapsed;
             _timer.FireOnce(new TimeSpan(0, 0, 0, 0, GetCacheTimeout(null)));
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_publisherChannel != null);
-            Contract.Invariant(_ticketCache != null);
-            Contract.Invariant(_mtsChannelSettings != null);
-            Contract.Invariant(_feedLog != null);
-            Contract.Invariant(_executionLog != null);
         }
 
         /// <summary>

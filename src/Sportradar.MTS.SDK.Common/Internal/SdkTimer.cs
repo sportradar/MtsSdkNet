@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Timer = System.Threading.Timer;
 
 namespace Sportradar.MTS.SDK.Common.Internal
@@ -44,25 +44,14 @@ namespace Sportradar.MTS.SDK.Common.Internal
         /// <param name="period">A <see cref="TimeSpan"/> specifying a period between subsequent raises of the <see cref="Elapsed"/> event</param>
         public SdkTimer(TimeSpan dueTime, TimeSpan period)
         {
-//            Contract.Requires(dueTime >= TimeSpan.Zero);
-//            Contract.Requires(period > TimeSpan.Zero);
-            Contract.Ensures(_timer != null);
+            Guard.Argument(dueTime >= TimeSpan.Zero).True();
+            Guard.Argument(period > TimeSpan.Zero).True();
+
             // Create the timer which is stopped - pass -1 for dueTime and period
 
             _dueTime = dueTime;
             _period = period;
             _timer = new Timer(OnTick, null, -1, -1);
-        }
-
-        /// <summary>
-        /// Defined field invariants needed by code contracts
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_timer != null);
-            Contract.Invariant(_dueTime >= TimeSpan.Zero);
-            Contract.Invariant(_period > TimeSpan.Zero);
         }
 
         /// <summary>
@@ -134,6 +123,8 @@ namespace Sportradar.MTS.SDK.Common.Internal
         /// <param name="dueTime">The due time</param>
         public void FireOnce(TimeSpan dueTime)
         {
+            Guard.Argument(dueTime >= TimeSpan.Zero).True();
+
             _timer.Change(dueTime, TimeSpan.FromMilliseconds(-1));
         }
 

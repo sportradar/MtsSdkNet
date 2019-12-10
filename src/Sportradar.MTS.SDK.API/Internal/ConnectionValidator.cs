@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -29,18 +29,9 @@ namespace Sportradar.MTS.SDK.API.Internal
         /// <param name="config">A <see cref="ISdkConfiguration"/> instance representing odds configuration</param>
         public ConnectionValidator(ISdkConfigurationInternal config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
 
             _config = config;
-        }
-
-        /// <summary>
-        /// Lists the object invariants as required by code-contracts
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_config != null);
         }
 
         /// <summary>

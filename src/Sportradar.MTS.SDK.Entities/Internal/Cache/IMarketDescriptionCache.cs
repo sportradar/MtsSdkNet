@@ -2,18 +2,16 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Threading.Tasks;
 using Sportradar.MTS.SDK.Common.Exceptions;
-using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 {
     /// <summary>
     /// Defines a contract implemented by classes used to cache market descriptions
     /// </summary>
-    [ContractClass(typeof(MarketDescriptionCacheContract))]
+
     public interface IMarketDescriptionCache
     {
         /// <summary>

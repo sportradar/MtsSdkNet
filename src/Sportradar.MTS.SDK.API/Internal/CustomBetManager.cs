@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using log4net;
 using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Log;
@@ -27,7 +26,6 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         private readonly IDataProvider<AvailableSelectionsDTO> _availableSelectionsProvider;
         private readonly ICalculateProbabilityProvider _calculateProbabilityProvider;
-        private readonly XmlSerializer _serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomBetManager"/> class
@@ -37,9 +35,14 @@ namespace Sportradar.MTS.SDK.API.Internal
         public CustomBetManager(IDataProvider<AvailableSelectionsDTO> availableSelectionsProvider, ICalculateProbabilityProvider calculateProbabilityProvider)
         {
             if (availableSelectionsProvider == null)
+            {
                 throw new ArgumentNullException(nameof(availableSelectionsProvider));
+            }
+
             if (calculateProbabilityProvider == null)
+            {
                 throw new ArgumentNullException(nameof(calculateProbabilityProvider));
+            }
 
             _availableSelectionsProvider = availableSelectionsProvider;
             _calculateProbabilityProvider = calculateProbabilityProvider;
@@ -48,7 +51,9 @@ namespace Sportradar.MTS.SDK.API.Internal
         public async Task<IAvailableSelections> GetAvailableSelectionsAsync(string eventId)
         {
             if (eventId == null)
+            {
                 throw new ArgumentNullException(nameof(eventId));
+            }
 
             try
             {
@@ -71,7 +76,9 @@ namespace Sportradar.MTS.SDK.API.Internal
         public async Task<ICalculation> CalculateProbabilityAsync(IEnumerable<ISelection> selections)
         {
             if (selections == null)
+            {
                 throw new ArgumentNullException(nameof(selections));
+            }
 
             try
             {

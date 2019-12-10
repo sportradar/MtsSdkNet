@@ -2,15 +2,11 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
-
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
     /// <summary>
     /// Defines a contract for a customer confidence factor values for sport and prematch/live (if set for customer)
     /// </summary>
-    [ContractClass(typeof(SportCcfContract))]
     public interface ISportCcf
     {
         /// <summary>

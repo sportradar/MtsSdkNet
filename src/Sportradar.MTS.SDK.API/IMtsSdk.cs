@@ -2,8 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.API.Contracts;
+
 using Sportradar.MTS.SDK.Common;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.EventArguments;
@@ -14,7 +13,7 @@ namespace Sportradar.MTS.SDK.API
     /// <summary>
     /// Represents a root object of the MTS SDK (to create, send tickets and to handle responses)
     /// </summary>
-    [ContractClass(typeof(MtsSdkContract))]
+
     public interface IMtsSdk : IOpenable, IDisposable
     {
         /// <summary>

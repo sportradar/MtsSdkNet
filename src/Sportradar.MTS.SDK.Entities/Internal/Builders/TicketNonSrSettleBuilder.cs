@@ -4,7 +4,7 @@
 using Sportradar.MTS.SDK.Entities.Builders;
 using System;
 using Sportradar.MTS.SDK.Entities.Interfaces;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Builders
@@ -36,7 +36,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="config">The <see cref="ISdkConfiguration"/> providing configuration for the associated sdk instance</param>
         internal TicketNonSrSettleBuilder(ISdkConfiguration config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
 
             _bookmakerId = config.BookmakerId;
         }

@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using System.Net.Security;
 using System.Security.Authentication;
@@ -36,7 +36,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="server">A <see cref="IRabbitServer"/> instance containing server information</param>
         public ConfiguredConnectionFactory(IRabbitServer server)
         {
-            Contract.Requires(server != null);
+            Guard.Argument(server).NotNull();
+
             _server = server;
         }
 
@@ -45,7 +46,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// </summary>
         private void Configure()
         {
-            Contract.Assume(_server != null);
             HostName = _server.HostAddress;
             Port = _server.Port;
             UserName = _server.Username;
@@ -53,7 +53,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             VirtualHost = _server.VirtualHost;
             AutomaticRecoveryEnabled = _server.AutomaticRecovery;
 
-            Contract.Assume(Ssl != null);
             Ssl.Enabled = _server.UseSsl;
             Ssl.Version = SslProtocols.Tls12 | SslProtocols.Tls11 | SslProtocols.Tls;
             if (_server.UseSsl && ShouldUseCertificateValidation(HostName))
@@ -67,7 +66,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
             if (_server.ClientProperties != null && _server.ClientProperties.Any())
             {
-                Contract.Assume(ClientProperties != null);
                 ClientProperties = _server.ClientProperties as Dictionary<string, object>;
             }
 

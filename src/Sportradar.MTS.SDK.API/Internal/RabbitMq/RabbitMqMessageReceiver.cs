@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using System.Text;
 using log4net;
@@ -59,19 +59,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="expectedResponseType">The type of the message receiver is expecting</param>
         public RabbitMqMessageReceiver(IRabbitMqConsumerChannel channel, TicketResponseType expectedResponseType)
         {
-            Contract.Requires(channel != null);
+            Guard.Argument(channel).NotNull();
 
             _consumerChannel = channel;
             _expectedTicketResponseType = expectedResponseType;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_consumerChannel != null);
         }
 
         /// <summary>
@@ -130,7 +121,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                             var b = obj as byte[];
                             if (b != null)
                             {
-                                var c = Encoding.UTF8.GetString(b);
+                                var unused = Encoding.UTF8.GetString(b);
                             }
                         }
                     }
@@ -176,7 +167,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="additionalInfo">The additional information</param>
         private void RaiseMessageReceived(string body, string routingKey, string correlationId, IDictionary<string, string> additionalInfo)
         {
-            Contract.Requires(!string.IsNullOrEmpty(body));
+            Guard.Argument(body).NotNull().NotEmpty();
 
             MqMessageReceived?.Invoke(this, new MessageReceivedEventArgs(body, routingKey, correlationId, _expectedTicketResponseType, additionalInfo));
         }
@@ -225,7 +216,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// </summary>
         public void RegisterHealthCheck()
         {
-            HealthChecks.RegisterHealthCheck("RabbitMqMessageReceiver", new Func<HealthCheckResult>(StartHealthCheck));
+            HealthChecks.RegisterHealthCheck("RabbitMqMessageReceiver", StartHealthCheck);
         }
 
         /// <summary>
@@ -268,8 +259,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             {
                 return string.Empty;
             }
-            var bytes = value as byte[];
-            if (bytes != null)
+
+            if (value is byte[] bytes)
             {
                 return Encoding.UTF8.GetString(bytes);
             }

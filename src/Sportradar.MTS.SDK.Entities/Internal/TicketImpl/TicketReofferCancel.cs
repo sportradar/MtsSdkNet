@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -65,26 +65,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="bookmakerId">The bookmaker identifier</param>
         public TicketReofferCancel(string ticketId, int bookmakerId)
         {
-            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
-            Contract.Requires(bookmakerId > 0);
+            Guard.Argument(ticketId).Require(TicketHelper.ValidateTicketId(ticketId));
+            Guard.Argument(bookmakerId).Positive();
 
             TicketId = ticketId;
             BookmakerId = bookmakerId;
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
-            Contract.Invariant(BookmakerId > 0);
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(Timestamp > DateTime.MinValue);
         }
     }
 }

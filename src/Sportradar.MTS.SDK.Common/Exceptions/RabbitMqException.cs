@@ -8,7 +8,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
     /// <summary>
     /// An exception thrown by the SDK when there is a problem with communication with rabbit mq
     /// </summary>
-    /// <seealso cref="Sportradar.MTS.SDK.Common.Exceptions.FeedSdkException" />
+    /// <seealso cref="FeedSdkException" />
     [Serializable]
     public class RabbitMqException : FeedSdkException
     {

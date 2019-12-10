@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
@@ -30,8 +30,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
 
         internal MarketDescriptionDTO(desc_market description)
         {
-            Contract.Requires(description != null);
-            Contract.Requires(!string.IsNullOrEmpty(description.name));
+            Guard.Argument(description).NotNull();
+            Guard.Argument(description.name).NotNull().NotEmpty();
 
             Id = description.id;
             Name = description.name;

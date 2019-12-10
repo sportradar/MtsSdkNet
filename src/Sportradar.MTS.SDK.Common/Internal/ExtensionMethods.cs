@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.IO;
 using System.Text;
 
@@ -19,8 +19,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
         /// <returns>A <see cref="string"/> representation of the <see cref="Stream"/> content</returns>
         public static string GetData(this Stream stream)
         {
-            Contract.Requires(stream != null);
-            Contract.Ensures(Contract.Result<string>() != null);
+            Guard.Argument(stream).NotNull();
 
             using (var memoryStream = new MemoryStream())
             {

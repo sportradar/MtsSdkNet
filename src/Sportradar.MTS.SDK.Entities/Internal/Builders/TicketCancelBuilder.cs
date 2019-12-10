@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -49,7 +49,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="config">A <see cref="ISdkConfiguration"/> providing configuration for the associated sdk instance</param>
         internal TicketCancelBuilder(ISdkConfiguration config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
+
             _bookmakerId = config.BookmakerId;
             _percent = null;
             _betCancels = null;

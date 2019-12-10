@@ -2,9 +2,8 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Sportradar.MTS.SDK.Common.Exceptions;
@@ -58,30 +57,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="mapperFactory">A <see cref="ISingleTypeMapperFactory{T, T1}" /> used to construct instances of <see cref="ISingleTypeMapper{T}" /></param>
         public DataProvider(string uriFormat, IDataFetcher fetcher, IDataPoster poster, IDeserializer<TIn> deserializer, ISingleTypeMapperFactory<TIn, TOut> mapperFactory)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(uriFormat));
-            Contract.Requires(fetcher != null);
-            Contract.Requires(poster != null);
-            Contract.Requires(deserializer != null);
-            Contract.Requires(mapperFactory != null);
+            Guard.Argument(uriFormat).NotNull().NotEmpty();
+            Guard.Argument(fetcher).NotNull();
+            Guard.Argument(poster).NotNull();
+            Guard.Argument(deserializer).NotNull();
+            Guard.Argument(mapperFactory).NotNull();
 
             _uriFormat = uriFormat;
             _fetcher = fetcher;
             _poster = poster;
             _deserializer = deserializer;
             _mapperFactory = mapperFactory;
-        }
-
-        /// <summary>
-        /// Defines object invariants used by the code contracts
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(!string.IsNullOrWhiteSpace(_uriFormat));
-            Contract.Invariant(_fetcher != null);
-            Contract.Invariant(_poster != null);
-            Contract.Invariant(_deserializer != null);
-            Contract.Invariant(_mapperFactory != null);
         }
 
         /// <summary>
@@ -92,7 +78,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>A <see cref="Task{T}"/> representing the ongoing operation</returns>
         protected async Task<TOut> GetDataAsyncInternal(string authorization, Uri uri)
         {
-            Contract.Requires(uri != null);
+            Guard.Argument(uri).NotNull();
 
             var stream = await _fetcher.GetDataAsync(authorization, uri).ConfigureAwait(false);
             var deserializedObject = _deserializer.Deserialize(stream);
@@ -108,12 +94,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>A <see cref="Task{TOut}"/> representing the ongoing operation</returns>
         protected async Task<TOut> PostDataAsyncInternal(string authorization, HttpContent content, Uri uri)
         {
-            Contract.Requires(uri != null);
+            Guard.Argument(uri).NotNull();
 
             var responseMessage = await _poster.PostDataAsync(authorization, uri, content).ConfigureAwait(false);
             if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new CommunicationException($"Response StatusCode={responseMessage.StatusCode} does not indicate success.", uri.ToString(), responseMessage.StatusCode, null);
+                throw new CommunicationException($"Response StatusCode={responseMessage.StatusCode} does not indicate success.", uri?.ToString(), responseMessage.StatusCode, null);
             }
             var stream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
             var deserializedObject = _deserializer.Deserialize(stream);
@@ -127,9 +113,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>an <see cref="Uri"/> instance used to retrieve resource with specified <code>identifiers</code></returns>
         protected virtual Uri GetRequestUri(params object[] identifiers)
         {
-            Contract.Requires(identifiers != null && identifiers.Any());
-            Contract.Ensures(Contract.Result<Uri>() != null);
+            Guard.Argument(identifiers).NotNull().NotEmpty();
 
+            // ReSharper disable once AssignNullToNotNullAttribute
             return new Uri(string.Format(_uriFormat, identifiers));
         }
 
@@ -143,7 +129,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         public async Task<TOut> GetDataAsync(string languageCode)
         {
-            return await GetDataAsync((string) null, languageCode).ConfigureAwait(false);
+            return await GetDataAsync(null, languageCode).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -171,7 +157,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         public async Task<TOut> GetDataAsync(params string[] identifiers)
         {
-            return await GetDataAsync((string) null, identifiers).ConfigureAwait(false);
+            return await GetDataAsync(null, identifiers).ConfigureAwait(false);
         }
 
         /// <summary>

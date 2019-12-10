@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
@@ -89,10 +89,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
                                       TimeSpan fetchInterval,
                                       CacheItemPolicy cacheItemPolicy)
         {
-            Contract.Requires(cache != null);
-            Contract.Requires(dataProvider != null);
-            Contract.Requires(prefetchLanguages != null && prefetchLanguages.Any());
-            Contract.Requires(fetchInterval != null);
+            Guard.Argument(cache).NotNull();
+            Guard.Argument(dataProvider).NotNull();
+            Guard.Argument(prefetchLanguages).NotNull().NotEmpty();
+            Guard.Argument(fetchInterval).Require(fetchInterval != null);
 
             _fetchInterval = fetchInterval;
             _cacheItemPolicy = cacheItemPolicy;
@@ -105,17 +105,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             var isProvided = _tokenProvided ? string.Empty : " not";
 
             ExecutionLog.Debug($"AccessToken for API is{isProvided} provided. It is required only when creating selections for UF markets via method ISelectionBuilder.SetIdUof(). There is no need for it when legacy feeds are used.");
-        }
-
-        /// <summary>
-        /// Defines object invariants as required by code contracts
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(Cache != null);
-            Contract.Invariant(_dataProvider != null);
-            Contract.Invariant(_prefetchLanguages != null && _prefetchLanguages.Any());
         }
 
         /// <summary>
@@ -138,7 +127,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <returns>A <see cref="IEnumerable{CultureInfo}"/> containing missing translations or a null reference if none of the translations are missing</returns>
         private IEnumerable<CultureInfo> GetMissingTranslations(MarketDescriptionCacheItem item, IEnumerable<CultureInfo> requiredTranslations)
         {
-            Contract.Requires(requiredTranslations != null && requiredTranslations.Any());
+            Guard.Argument(requiredTranslations).NotNull().NotEmpty();
 
             if (item == null)
             {
@@ -161,8 +150,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="descriptions">A <see cref="IEnumerable{MarketDescriptionDTO}"/> containing market descriptions in specified language</param>
         private void Merge(CultureInfo culture, IEnumerable<MarketDescriptionDTO> descriptions)
         {
-            Contract.Requires(culture != null);
-            Contract.Requires(descriptions != null && descriptions.Any());
+            Guard.Argument(culture).NotNull();
+            Guard.Argument(descriptions).NotNull().NotEmpty();
 
             var descriptionList = descriptions as List<MarketDescriptionDTO> ?? descriptions.ToList();
 
@@ -205,7 +194,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
         private async Task<MarketDescriptionCacheItem> GetMarketInternalAsync(int id, IEnumerable<CultureInfo> cultures)
         {
-            Contract.Requires(cultures != null && cultures.Any());
+            Guard.Argument(cultures != null && cultures.Any());
 
             if (!_tokenProvided)
             {
@@ -235,7 +224,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
         private async Task FetchMarketDescriptionsAsync(IEnumerable<CultureInfo> cultures)
         {
-            Contract.Requires(cultures != null && cultures.Any());
+            Guard.Argument(cultures).NotNull().NotEmpty();
 
             if (!_tokenProvided)
             {
@@ -331,12 +320,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
         public async Task<MarketDescriptionCacheItem> GetMarketDescriptorAsync(int marketId, string variant, IEnumerable<CultureInfo> cultures)
         {
+            var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
+            Guard.Argument(marketId).Positive();
+            Guard.Argument(cultureList).NotNull().NotEmpty();
+
             if (!_tokenProvided)
             {
                 throw new CommunicationException("Missing AccessToken.", string.Empty, null);
             }
-
-            var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
 
             MarketDescriptionCacheItem cacheItem;
             try

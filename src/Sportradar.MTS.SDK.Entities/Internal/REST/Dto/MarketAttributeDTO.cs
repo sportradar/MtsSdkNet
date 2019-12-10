@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
 {
@@ -28,7 +28,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
         /// <param name="record">A <see cref="attributesAttribute"/> representing attribute object obtained by parsing the xml</param>
         public MarketAttributeDTO(attributesAttribute record)
         {
-            Contract.Requires(record != null);
+            Guard.Argument(record).NotNull();
 
             Name = record.name;
             Description = record.description;

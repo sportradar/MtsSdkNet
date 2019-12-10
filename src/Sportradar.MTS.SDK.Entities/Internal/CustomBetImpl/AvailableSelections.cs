@@ -21,7 +21,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.CustomBetImpl
         public AvailableSelections(AvailableSelectionsDTO availableSelections)
         {
             if (availableSelections == null)
+            {
                 throw new ArgumentNullException(nameof(availableSelections));
+            }
 
             Event = availableSelections.Event;
             Markets = availableSelections.Markets.Select(m => new Market(m)).ToList().AsReadOnly();

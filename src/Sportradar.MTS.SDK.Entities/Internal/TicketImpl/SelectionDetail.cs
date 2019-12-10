@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
@@ -14,22 +14,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
         public SelectionDetail(int selectionIndex, IResponseReason reason, IRejectionInfo rejectionInfo)
         {
-            Contract.Requires(selectionIndex >= 0 && selectionIndex <= 62);
-            Contract.Requires(reason != null);
+            Guard.Argument(selectionIndex).InRange(0, 62);
+            Guard.Argument(reason).NotNull();
 
             SelectionIndex = selectionIndex;
             Reason = reason;
             RejectionInfo = rejectionInfo;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(SelectionIndex >= 0 && SelectionIndex <= 62);
-            Contract.Invariant(Reason != null);
         }
     }
 }

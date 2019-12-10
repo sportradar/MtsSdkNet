@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 
@@ -213,9 +213,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             int ticketCashoutResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault,
             int ticketNonSrSettleResponseTimeout = SdkInfo.TicketCashoutResponseTimeoutDefault)
         {
-            Contract.Requires(!string.IsNullOrEmpty(username));
-            Contract.Requires(!string.IsNullOrEmpty(password));
-            Contract.Requires(!string.IsNullOrEmpty(host));
+            Guard.Argument(username).NotNull().NotEmpty();
+            Guard.Argument(password).NotNull().NotEmpty();
+            Guard.Argument(host).NotNull().NotEmpty();
 
             if (ticketResponseTimeoutLive < SdkInfo.TicketResponseTimeoutLiveMin)
             {
@@ -301,9 +301,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             if (MtsClientApiHost != null)
             {
                 if (KeycloakHost == null)
+                {
                     throw new ArgumentException("KeycloakHost must be set.");
+                }
+
                 if (KeycloakSecret == null)
+                {
                     throw new ArgumentException("KeycloakSecret must be set.");
+                }
             }
 
             TicketResponseTimeoutLive = ticketResponseTimeoutLive;
@@ -311,6 +316,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             TicketCancellationResponseTimeout = ticketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = ticketCashoutResponseTimeout;
             TicketNonSrSettleResponseTimeout = ticketNonSrSettleResponseTimeout;
+
+            ObjectInvariant();
         }
 
         /// <summary>
@@ -319,7 +326,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="section">A <see cref="SdkConfigurationSection"/> instance containing config values</param>
         public SdkConfiguration(ISdkConfigurationSection section)
         {
-            Contract.Requires(section != null);
+            Guard.Argument(section).NotNull();
 
             Username = section.Username;
             Password = section.Password;
@@ -363,9 +370,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             if (MtsClientApiHost != null)
             {
                 if (KeycloakHost == null)
+                {
                     throw new ArgumentException("KeycloakHost must be set.");
+                }
                 if (KeycloakSecret == null)
+                {
                     throw new ArgumentException("KeycloakSecret must be set.");
+                }
             }
 
             TicketResponseTimeoutLive = section.TicketResponseTimeoutLive;
@@ -373,34 +384,35 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             TicketCancellationResponseTimeout = section.TicketCancellationResponseTimeout;
             TicketCashoutResponseTimeout = section.TicketCashoutResponseTimeout;
             TicketNonSrSettleResponseTimeout = section.TicketNonSrSettleResponseTimeout;
+
+            ObjectInvariant();
         }
 
         /// <summary>
         /// Defined field invariants needed by code contracts
         /// </summary>
-        [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(!string.IsNullOrEmpty(Username));
-            Contract.Invariant(!string.IsNullOrEmpty(Password));
-            Contract.Invariant(!string.IsNullOrEmpty(Host));
-            Contract.Invariant(!string.IsNullOrEmpty(VirtualHost));
-            Contract.Invariant(Port > 0);
-            Contract.Invariant(NodeId > 0);
-            Contract.Invariant(BookmakerId >= 0);
-            Contract.Invariant(LimitId >= 0);
-            Contract.Invariant(Currency == null || (Currency.Length >= 3 && Currency.Length <= 4));
-            Contract.Invariant(!Host.Contains(":"), "Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
-            Contract.Invariant(TicketResponseTimeoutLive >= SdkInfo.TicketResponseTimeoutLiveMin, $"TicketResponseTimeoutLive must be more than {SdkInfo.TicketResponseTimeoutLiveMin}ms");
-            Contract.Invariant(TicketResponseTimeoutLive <= SdkInfo.TicketResponseTimeoutLiveMax, $"TicketResponseTimeoutLive must be less than {SdkInfo.TicketResponseTimeoutLiveMax}ms");
-            Contract.Invariant(TicketResponseTimeoutPrematch >= SdkInfo.TicketResponseTimeoutPrematchMin, $"TicketResponseTimeoutPrematch must be more than {SdkInfo.TicketResponseTimeoutPrematchMin}ms");
-            Contract.Invariant(TicketResponseTimeoutPrematch <= SdkInfo.TicketResponseTimeoutPrematchMax, $"TicketResponseTimeoutPrematch must be less than {SdkInfo.TicketResponseTimeoutPrematchMax}ms");
-            Contract.Invariant(TicketCancellationResponseTimeout >= SdkInfo.TicketCancellationResponseTimeoutMin, $"TicketCancellationResponseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms");
-            Contract.Invariant(TicketCancellationResponseTimeout <= SdkInfo.TicketCancellationResponseTimeoutMax, $"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
-            Contract.Invariant(TicketCashoutResponseTimeout >= SdkInfo.TicketCashoutResponseTimeoutMin, $"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
-            Contract.Invariant(TicketCashoutResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
-            Contract.Invariant(TicketNonSrSettleResponseTimeout >= SdkInfo.TicketNonSrResponseTimeoutMin, $"TicketNonSrSettleResponseTimeout must be more than {SdkInfo.TicketNonSrResponseTimeoutMin}ms");
-            Contract.Invariant(TicketNonSrSettleResponseTimeout <= SdkInfo.TicketNonSrResponseTimeoutMax, $"TicketNonSrSettleResponseTimeout must be less than {SdkInfo.TicketNonSrResponseTimeoutMax}ms");
+            Guard.Argument(Username).NotNull().NotEmpty();
+            Guard.Argument(Password).NotNull().NotEmpty();
+            Guard.Argument(Host).NotNull().NotEmpty();
+            Guard.Argument(VirtualHost).NotNull().NotEmpty();
+            Guard.Argument(Port).Positive();
+            Guard.Argument(NodeId).Positive();
+            Guard.Argument(BookmakerId).NotNegative();
+            Guard.Argument(LimitId).NotNegative();
+            Guard.Argument(Currency).Require(Currency == null || (Currency.Length >= 3 && Currency.Length <= 4));
+            Guard.Argument(Host).Require(!Host.Contains(":"), s => "Host can not contain port number. Only domain name or ip address. E.g. mtsgate-ci.betradar.com");
+            Guard.Argument(TicketResponseTimeoutLive).Require(TicketResponseTimeoutLive >= SdkInfo.TicketResponseTimeoutLiveMin, s => $"TicketResponseTimeoutLive must be more than {SdkInfo.TicketResponseTimeoutLiveMin}ms");
+            Guard.Argument(TicketResponseTimeoutLive).Require(TicketResponseTimeoutLive <= SdkInfo.TicketResponseTimeoutLiveMax, s => $"TicketResponseTimeoutLive must be less than {SdkInfo.TicketResponseTimeoutLiveMax}ms");
+            Guard.Argument(TicketResponseTimeoutPrematch).Require(TicketResponseTimeoutPrematch >= SdkInfo.TicketResponseTimeoutPrematchMin, s => $"TicketResponseTimeoutPrematch must be more than {SdkInfo.TicketResponseTimeoutPrematchMin}ms");
+            Guard.Argument(TicketResponseTimeoutPrematch).Require(TicketResponseTimeoutPrematch <= SdkInfo.TicketResponseTimeoutPrematchMax, s => $"TicketResponseTimeoutPrematch must be less than {SdkInfo.TicketResponseTimeoutPrematchMax}ms");
+            Guard.Argument(TicketCancellationResponseTimeout).Require(TicketCancellationResponseTimeout >= SdkInfo.TicketCancellationResponseTimeoutMin, s => $"TicketCancellationResponseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms");
+            Guard.Argument(TicketCancellationResponseTimeout).Require(TicketCancellationResponseTimeout <= SdkInfo.TicketCancellationResponseTimeoutMax, s => $"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
+            Guard.Argument(TicketCashoutResponseTimeout).Require(TicketCashoutResponseTimeout >= SdkInfo.TicketCashoutResponseTimeoutMin, s => $"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
+            Guard.Argument(TicketCashoutResponseTimeout).Require(TicketCashoutResponseTimeout <= SdkInfo.TicketCashoutResponseTimeoutMax, s => $"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
+            Guard.Argument(TicketNonSrSettleResponseTimeout).Require(TicketNonSrSettleResponseTimeout >= SdkInfo.TicketNonSrResponseTimeoutMin, s => $"TicketNonSrSettleResponseTimeout must be more than {SdkInfo.TicketNonSrResponseTimeoutMin}ms");
+            Guard.Argument(TicketNonSrSettleResponseTimeout).Require(TicketNonSrSettleResponseTimeout <= SdkInfo.TicketNonSrResponseTimeoutMax, s => $"TicketNonSrSettleResponseTimeout must be less than {SdkInfo.TicketNonSrResponseTimeoutMax}ms");
         }
     }
 }

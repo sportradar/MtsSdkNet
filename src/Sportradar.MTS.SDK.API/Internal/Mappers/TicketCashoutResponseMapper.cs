@@ -32,13 +32,13 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         }
 
         /// <summary>
-        /// Maps the specified source.
+        /// Maps the specified source
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id of the response</param>
         /// <param name="additionalInfo">The additional information</param>
         /// <param name="orgJson">The original json string received from the mts</param>
-        /// <returns>ITicketCashoutResponse</returns>
+        /// <returns>A <see cref="ITicketCashoutResponse"/></returns>
         public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
             return new TicketCashoutResponse(_ticketSender,

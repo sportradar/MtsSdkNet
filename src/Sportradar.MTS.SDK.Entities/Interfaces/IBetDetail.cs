@@ -2,15 +2,12 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
     /// <summary>
     /// Defines a contract for bet-level response details
     /// </summary>
-    [ContractClass(typeof(BetDetailContract))]
     public interface IBetDetail
     {
         /// <summary>

@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Internal.Enums;
 
@@ -33,10 +33,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
 
         internal MarketMappingDTO(mappingsMapping mapping)
         {
-            Contract.Requires(mapping != null);
-            Contract.Requires(mapping.product_id > 0);
-            Contract.Requires(!string.IsNullOrEmpty(mapping.sport_id));
-            Contract.Requires(!string.IsNullOrEmpty(mapping.market_id));
+            Guard.Argument(mapping).NotNull();
+            Guard.Argument(mapping.product_id).Positive();
+            Guard.Argument(mapping.sport_id).NotNull().NotEmpty();
+            Guard.Argument(mapping.market_id).NotNull().NotEmpty();
 
             ProductId = mapping.product_id;
             SportId = mapping.sport_id == "all" ? null : URN.Parse(mapping.sport_id);

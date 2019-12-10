@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
@@ -31,7 +31,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="config">The <see cref="ISdkConfiguration"/> providing configuration for associated sdk instance</param>
         internal TicketReofferCancelBuilder(ISdkConfiguration config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
 
             _bookmakerId = config.BookmakerId;
         }

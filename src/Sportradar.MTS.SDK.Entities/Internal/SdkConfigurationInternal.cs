@@ -3,7 +3,7 @@
  */
 
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Internal.Rest;
 
@@ -47,7 +47,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public SdkConfigurationInternal(ISdkConfiguration config, IDataFetcher dataFetcher)
             : base(config.Username, config.Password, config.Host, config.VirtualHost, config.UseSsl, config.NodeId, config.BookmakerId, config.LimitId, config.Currency, config.Channel, config.AccessToken, config.UfEnvironment, config.ProvideAdditionalMarketSpecifiers, config.Port, config.ExclusiveConsumer)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
             ApiHost = null;
 
             switch (config.UfEnvironment)
@@ -61,7 +61,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             }
 
             if (dataFetcher == null)
+            {
                 ApiHost = SdkInfo.ApiHostIntegration;
+            }
             else
             {
                 try

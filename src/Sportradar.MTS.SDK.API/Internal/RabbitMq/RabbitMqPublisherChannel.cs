@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -110,9 +110,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="channelSettings">The channel settings</param>
         public RabbitMqPublisherChannel(IChannelFactory channelFactory, IMtsChannelSettings mtsChannelSettings, IRabbitMqChannelSettings channelSettings)
         {
-            Contract.Requires(channelFactory != null);
-            Contract.Requires(mtsChannelSettings != null);
-            Contract.Requires(channelSettings != null);
+            Guard.Argument(channelFactory).NotNull();
+            Guard.Argument(mtsChannelSettings).NotNull();
+            Guard.Argument(channelSettings).NotNull();
 
             _channelFactory = channelFactory;
 
@@ -134,17 +134,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             _shouldBeOpened = 0;
 
             UniqueId = _channelFactory.GetUniqueId();
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(ExecutionLog != null);
-            Contract.Invariant(_channelFactory != null);
-            Contract.Invariant(_channelSettings != null);
         }
 
         /// <summary>
@@ -195,8 +184,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 catch (Exception exception)
                 {
                     FeedLog.Error($"Error during publishing queue item. CorrelationId={pqi?.CorrelationId}, RoutingKey={pqi?.RoutingKey}, Added={pqi?.Timestamp}.", exception);
-                    Contract.Assume(pqi != null);
-                    RaiseMessagePublishFailedEvent(pqi.Message, pqi.CorrelationId, pqi.RoutingKey, "Error during publishing queue item: " + exception);
+                    if (pqi != null)
+                    {
+                        RaiseMessagePublishFailedEvent(pqi.Message, pqi.CorrelationId, pqi.RoutingKey, "Error during publishing queue item: " + exception);
+                    }
                 }
             }
 
@@ -230,6 +221,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <exception cref="System.InvalidOperationException">The instance is closed</exception>
         public IMqPublishResult Publish(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
         {
+            Guard.Argument(msg).NotNull();
+            Guard.Argument(routingKey).NotNull().NotEmpty();
+
             if (_shouldBeOpened == 0)
             {
                 throw new InvalidOperationException("The instance is closed");
@@ -251,6 +245,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <returns>A <see cref="IMqPublishResult" /></returns>
         public async Task<IMqPublishResult> PublishAsync(byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
         {
+            Guard.Argument(msg).NotNull();
+            Guard.Argument(routingKey).NotNull().NotEmpty();
+
             return await Task.Run(() => Publish(msg, routingKey, correlationId, replyRoutingKey)).ConfigureAwait(false);
         }
 
@@ -438,12 +435,13 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <exception cref="System.InvalidOperationException">The instance is already closed</exception>
         public void Close()
         {
-            //Contract.Assume(_channel != null);
             if (Interlocked.CompareExchange(ref _isOpened, 0, 1) != 1)
             {
                 // Do not show error if the channel is scheduled to be open
                 if (Interlocked.Read(ref _shouldBeOpened) != 1)
+                {
                     ExecutionLog.Error($"Cannot close the publisher channel on channelNumber: {UniqueId}, because this channel is already closed.");
+                }
                 //throw new InvalidOperationException("The instance is already closed");
             }
             Interlocked.CompareExchange(ref _shouldBeOpened, 0, 1);

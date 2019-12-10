@@ -3,7 +3,6 @@
  */
 using System;
 using System.Configuration;
-using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 
@@ -227,8 +226,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="ConfigurationErrorsException">The section in the configuration file is not valid</exception>
         public static ISdkConfigurationSection GetSection()
         {
-            Contract.Ensures(Contract.Result<ISdkConfigurationSection>() != null);
-
             var section = (SdkConfigurationSection)ConfigurationManager.GetSection(SectionName);
             if (section == null)
             {

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
@@ -24,7 +24,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 
         public Sender(ISender sender)
         {
-            Contract.Requires(sender != null);
+            Guard.Argument(sender).NotNull();
 
             if (sender.EndCustomer != null)
             {

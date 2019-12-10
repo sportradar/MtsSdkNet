@@ -40,16 +40,28 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="poster">A <see cref="IDataPoster" /> used to fetch the data</param>
         /// <param name="deserializer">A <see cref="IDeserializer{CalculationResponseType}" /> used to deserialize the fetch data</param>
         /// <param name="mapperFactory">A <see cref="ISingleTypeMapperFactory{CalculationResponseType, CalculationDTO}" /> used to construct instances of <see cref="ISingleTypeMapper{CalculationDTO}" /></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public CalculateProbabilityProvider(string uriFormat, IDataPoster poster, IDeserializer<CalculationResponseType> deserializer, ISingleTypeMapperFactory<CalculationResponseType, CalculationDTO> mapperFactory)
         {
             if (string.IsNullOrWhiteSpace(uriFormat))
+            {
                 throw new ArgumentOutOfRangeException(nameof(uriFormat));
+            }
+
             if (poster == null)
+            {
                 throw new ArgumentNullException(nameof(poster));
+            }
+
             if (deserializer == null)
+            {
                 throw new ArgumentNullException(nameof(deserializer));
+            }
+
             if (mapperFactory == null)
+            {
                 throw new ArgumentNullException(nameof(mapperFactory));
+            }
 
             _uriFormat = uriFormat;
             _poster = poster;

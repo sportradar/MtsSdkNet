@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Internal.REST;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
@@ -22,7 +22,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="data">A <see cref="market_descriptions"/> instance containing data used to construct <see cref="IEnumerable{MarketDescriptionDTO}"/> instance</param>
         internal MarketDescriptionsMapper(market_descriptions data)
         {
-            Contract.Requires(data != null);
+            Guard.Argument(data).NotNull();
 
             _data = data;
         }

@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Net.Http;
 using System.Runtime.Caching;
 using System.Text;
@@ -35,17 +35,17 @@ namespace Sportradar.MTS.SDK.API.Internal
         private static readonly ILog InteractionLog = SdkLoggerFactory.GetLoggerForClientInteraction(typeof(MtsClientApi));
 
         /// <summary>
-        /// The <see cref="IDataProvider{MaxStakeImpl}>"/> for getting max stake
+        /// The <see cref="IDataProvider{MaxStakeImpl}"/> for getting max stake
         /// </summary>
         private readonly IDataProvider<MaxStakeImpl> _maxStakeDataProvider;
 
         /// <summary>
-        /// The <see cref="IDataProvider{CcfImpl}>"/> for getting ccf
+        /// The <see cref="IDataProvider{CcfImpl}"/> for getting ccf
         /// </summary>
         private readonly IDataProvider<CcfImpl> _ccfDataProvider;
 
         /// <summary>
-        /// The <see cref="IDataProvider{KeycloakAuthorization}>"/> for getting authorization token
+        /// The <see cref="IDataProvider{KeycloakAuthorization}"/> for getting authorization token
         /// </summary>
         private readonly IDataProvider<KeycloakAuthorization> _authorizationDataProvider;
 
@@ -76,9 +76,9 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public MtsClientApi(IDataProvider<MaxStakeImpl> maxStakeDataProvider, IDataProvider<CcfImpl> ccfDataProvider, IDataProvider<KeycloakAuthorization> authorizationDataProvider, string username, string password, string secret)
         {
-            Contract.Requires(maxStakeDataProvider != null);
-            Contract.Requires(ccfDataProvider != null);
-            Contract.Requires(authorizationDataProvider != null);
+            Guard.Argument(maxStakeDataProvider).NotNull();
+            Guard.Argument(ccfDataProvider).NotNull();
+            Guard.Argument(authorizationDataProvider).NotNull();
 
             _maxStakeDataProvider = maxStakeDataProvider;
             _ccfDataProvider = ccfDataProvider;
@@ -88,28 +88,19 @@ namespace Sportradar.MTS.SDK.API.Internal
             _secret = secret;
         }
 
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(InteractionLog != null);
-            Contract.Invariant(ExecutionLog != null);
-            Contract.Invariant(_maxStakeDataProvider != null);
-            Contract.Invariant(_ccfDataProvider != null);
-            Contract.Invariant(_authorizationDataProvider != null);
-            Contract.Invariant(_tokenCache != null);
-            Contract.Invariant(_tokenSemaphore != null);
-        }
-
         public async Task<long> GetMaxStakeAsync(ITicket ticket)
         {
+            Guard.Argument(ticket).NotNull();
+
             return await GetMaxStakeAsync(ticket, _username, _password).ConfigureAwait(false);
         }
 
         public async Task<long> GetMaxStakeAsync(ITicket ticket, string username, string password)
         {
+            Guard.Argument(ticket).NotNull();
+            Guard.Argument(username).NotNull().NotEmpty();
+            Guard.Argument(password).NotNull().NotEmpty();
+
             Metric.Context("MtsClientApi").Meter("GetMaxStakeAsync", Unit.Items).Mark();
             InteractionLog.Info($"Called GetMaxStakeAsync with ticketId={ticket.TicketId}.");
 
@@ -134,11 +125,17 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public async Task<ICcf> GetCcfAsync(string sourceId)
         {
+            Guard.Argument(sourceId).NotNull();
+
             return await GetCcfAsync(sourceId, _username, _password).ConfigureAwait(false);
         }
 
         public async Task<ICcf> GetCcfAsync(string sourceId, string username, string password)
         {
+            Guard.Argument(sourceId).NotNull();
+            Guard.Argument(username).NotNull().NotEmpty();
+            Guard.Argument(password).NotNull().NotEmpty();
+
             Metric.Context("MtsClientApi").Meter("GetCcfAsync", Unit.Items).Mark();
             InteractionLog.Info($"Called GetCcfAsync with sourceId={sourceId}.");
 

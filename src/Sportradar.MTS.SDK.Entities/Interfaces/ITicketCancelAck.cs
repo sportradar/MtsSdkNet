@@ -1,8 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
@@ -10,7 +8,6 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
     /// <summary>
     /// Object that is send to MTS to acknowledge ticket cancellation
     /// </summary>
-    [ContractClass(typeof(TicketCancelAckContract))]
     public interface ITicketCancelAck : ISdkTicket
     {
         /// <summary>

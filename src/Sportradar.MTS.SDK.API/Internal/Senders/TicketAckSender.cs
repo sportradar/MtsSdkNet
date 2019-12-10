@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Concurrent;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.API.Internal.Mappers;
 using Sportradar.MTS.SDK.API.Internal.RabbitMq;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -22,25 +22,15 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
                               IRabbitMqChannelSettings rabbitMqChannelSettings)
             : base(publisherChannel, ticketCache, mtsChannelSettings, rabbitMqChannelSettings)
         {
-            Contract.Requires(ticketMapper != null);
+            Guard.Argument(ticketMapper).NotNull();
 
             _ticketMapper = ticketMapper;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_ticketMapper != null);
         }
 
         protected override string GetMappedDtoJsonMsg(ISdkTicket sdkTicket)
         {
             var ticket = sdkTicket as ITicketAck;
             var dto = _ticketMapper.Map(ticket);
-            Contract.Assume(dto != null);
             return dto.ToJson();
         }
     }

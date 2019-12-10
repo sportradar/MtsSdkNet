@@ -3,8 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
+using Dawn;
 using System.Threading;
 using Microsoft.Practices.ObjectBuilder2;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -19,27 +18,15 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
 
         public TicketSenderFactory(IReadOnlyDictionary<SdkTicketType, ITicketSender> senders)
         {
-            Contract.Requires(senders != null);
+            Guard.Argument(senders).NotNull();
 
             _ticketSenders = senders;
         }
 
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_ticketSenders != null);
-            Contract.Invariant(_ticketSenders.Any());
-        }
-
         public ITicketSender GetTicketSender(SdkTicketType ticketType)
         {
-            ITicketSender sender;
-            if (_ticketSenders.TryGetValue(ticketType, out sender))
+            if (_ticketSenders.TryGetValue(ticketType, out var sender))
             {
-                Contract.Assume(sender != null);
                 return sender;
             }
             return null;

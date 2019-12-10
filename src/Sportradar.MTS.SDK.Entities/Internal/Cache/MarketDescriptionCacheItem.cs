@@ -4,12 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
 using System.Linq;
 using log4net;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 {
@@ -47,9 +48,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             CultureInfo culture)
         {
 
-            Contract.Requires(culture != null);
-            Contract.Requires(names != null);
-            Contract.Requires(descriptions != null);
+            Guard.Argument(culture).NotNull();
+            Guard.Argument(names).NotNull();
+            Guard.Argument(descriptions).NotNull();
 
             Id = id;
             _names = names;
@@ -71,8 +72,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="InvalidOperationException">The cache item could not be build from the provided DTO</exception>
         public static MarketDescriptionCacheItem Build(MarketDescriptionDTO dto, CultureInfo culture)
         {
-            Contract.Requires(dto != null);
-            Contract.Requires(culture != null);
+            Guard.Argument(dto).NotNull();
+            Guard.Argument(culture).NotNull();
 
             var names = new Dictionary<CultureInfo, string> { { culture, dto.Name } };
             var descriptions = string.IsNullOrEmpty(dto.Description)
@@ -100,18 +101,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         internal string GetName(CultureInfo culture)
         {
-            Contract.Requires(culture != null);
+            Guard.Argument(culture).NotNull();
 
-            string name;
-            return _names.TryGetValue(culture, out name) ? name : null;
+            return _names.TryGetValue(culture, out var name) ? name : null;
         }
 
         internal string GetDescription(CultureInfo culture)
         {
-            Contract.Requires(culture != null);
+            Guard.Argument(culture).NotNull();
 
-            string description;
-            if (_descriptions.TryGetValue(culture, out description))
+            if (_descriptions.TryGetValue(culture, out var description))
             {
                 return description;
             }
@@ -125,8 +124,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         public void Merge(MarketDescriptionDTO dto, CultureInfo culture)
         {
-            Contract.Requires(dto != null);
-            Contract.Requires(culture != null);
+            Guard.Argument(dto).NotNull();
+            Guard.Argument(culture).NotNull();
 
             _names[culture] = dto.Name;
             if (!string.IsNullOrEmpty(dto.Description))

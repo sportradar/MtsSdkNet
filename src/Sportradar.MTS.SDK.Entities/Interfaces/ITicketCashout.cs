@@ -3,15 +3,12 @@
  */
 
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
     /// <summary>
     /// Contract defining Ticket that can be send to the MTS
     /// </summary>
-    [ContractClass(typeof(TicketCashoutContract))]
     public interface ITicketCashout : ISdkTicket
     {
         /// <summary>

@@ -3,9 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using RabbitMQ.Client.Events;
-using Sportradar.MTS.SDK.API.Contracts;
 using Sportradar.MTS.SDK.Common;
 
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
@@ -13,7 +11,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     /// <summary>
     /// Represents a contract implemented by classes used to connect to rabbit mq broker
     /// </summary>
-    [ContractClass(typeof(RabbitMqConsumerChannelContract))]
+
     public interface IRabbitMqConsumerChannel : IOpenable
     {
         /// <summary>

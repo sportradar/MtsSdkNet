@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -44,11 +44,11 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         /// <param name="connectionFailureTimeout">indicates the timeout after which comes out of "blocking mode" (in seconds)</param>
         public HttpDataFetcher(HttpClient client, string accessToken, int connectionFailureLimit = 5, int connectionFailureTimeout = 15)
         {
-            Contract.Requires(client != null);
-            Contract.Requires(client.DefaultRequestHeaders != null);
-            //Contract.Requires(!string.IsNullOrWhiteSpace(accessToken));
-            Contract.Requires(connectionFailureLimit >= 1);
-            Contract.Requires(connectionFailureTimeout >= 1);
+            Guard.Argument(client).NotNull();
+            Guard.Argument(client.DefaultRequestHeaders).NotNull();
+            //Guard.Argument(!string.IsNullOrWhiteSpace(accessToken));
+            Guard.Argument(connectionFailureLimit).Positive();
+            Guard.Argument(connectionFailureTimeout).Positive();
 
             _client = client;
             if (!string.IsNullOrEmpty(accessToken) && !_client.DefaultRequestHeaders.Contains("x-access-token"))

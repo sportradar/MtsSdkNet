@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -111,6 +111,9 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
                               IEnumerable<IAutoAcceptedOdds> autoAcceptedOdds = null,
                               string orgJson = null)
         {
+            Guard.Argument(ticketId).Require(TicketHelper.ValidateTicketId(ticketId));
+            Guard.Argument(version).NotNull().NotEmpty();
+
             TicketId = ticketId;
             Status = status;
             Reason = reason;
@@ -130,20 +133,6 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             _originalJson = orgJson;
 
             _ticketSender = ticketSender;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(Timestamp > DateTime.MinValue);
-            Contract.Invariant(!string.IsNullOrEmpty(Signature));
-            Contract.Invariant(ExchangeRate > 0);
-            Contract.Invariant(Reason != null);
         }
 
         /// <summary>

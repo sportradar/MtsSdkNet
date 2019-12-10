@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -23,7 +23,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         public string Currency { get; }
 
-
         /// <summary>
         /// Gets the terminal id
         /// </summary>
@@ -39,12 +38,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         public string ShopId { get; }
 
-
         /// <summary>
         /// Gets the identification of the end user (customer)
         /// </summary>
         public IEndCustomer EndCustomer { get; }
-
 
         /// <summary>
         /// Gets the client's limit id (provided by Sportradar to the client)
@@ -64,13 +61,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [JsonConstructor]
         public Sender(int bookmakerId, string currency, string terminalId, SenderChannel channel, string shopId, IEndCustomer endCustomer, int limitId)
         {
-            Contract.Requires(bookmakerId > 0);
-            Contract.Requires(!string.IsNullOrEmpty(currency));
-            Contract.Requires(currency.Length == 3 || currency.Length == 4);
-            Contract.Requires(string.IsNullOrEmpty(terminalId) || TicketHelper.ValidateUserId(terminalId));
-            Contract.Requires(string.IsNullOrEmpty(shopId) || TicketHelper.ValidateUserId(shopId));
-            Contract.Requires(limitId > 0);
-
+            Guard.Argument(bookmakerId).Positive();
+            Guard.Argument(currency).NotNull().NotEmpty();
+            Guard.Argument(currency.Length).InRange(3, 4);
+            Guard.Argument(terminalId).Require(string.IsNullOrEmpty(terminalId) || TicketHelper.ValidateUserId(terminalId));
+            Guard.Argument(shopId).Require(string.IsNullOrEmpty(shopId) || TicketHelper.ValidateUserId(shopId));
+            Guard.Argument(limitId).Positive();
 
             BookmakerId = bookmakerId;
             Currency = currency.Length == 3 ? currency.ToUpper() : currency;
@@ -81,19 +77,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             LimitId = limitId;
 
             ValidateSenderData();
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(BookmakerId > 0);
-            Contract.Invariant(!string.IsNullOrEmpty(Currency) && Currency.Length >= 3 && Currency.Length <= 4);
-            Contract.Invariant(string.IsNullOrEmpty(TerminalId) || TicketHelper.ValidateUserId(TerminalId));
-            Contract.Invariant(string.IsNullOrEmpty(ShopId) || TicketHelper.ValidateUserId(ShopId));
-            Contract.Invariant(LimitId > 0);
         }
 
         private void ValidateSenderData()

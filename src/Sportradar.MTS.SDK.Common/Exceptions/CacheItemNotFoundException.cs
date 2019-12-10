@@ -11,7 +11,6 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
     /// An exception thrown by the SDK cache components when the requested key was not found in the cache
     /// </summary>
     /// <seealso cref="FeedSdkException" />
-    /// <seealso cref="FeedSdkException" />
     [Serializable]
     public class CacheItemNotFoundException : FeedSdkException
     {

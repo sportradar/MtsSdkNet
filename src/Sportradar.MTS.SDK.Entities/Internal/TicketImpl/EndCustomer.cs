@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Net;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -26,10 +26,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [JsonConstructor]
         public EndCustomer(string ip, string languageId, string deviceId, string id, long confidence)
         {
-            Contract.Requires(string.IsNullOrEmpty(languageId) || languageId.Length == 2);
-            Contract.Requires(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidateUserId(deviceId));
-            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidateUserId(id));
-            Contract.Requires(confidence >= 0);
+            Guard.Argument(languageId).Require(string.IsNullOrEmpty(languageId) || languageId.Length == 2 || languageId.Length == 3);
+            Guard.Argument(deviceId).Require(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidateUserId(deviceId));
+            Guard.Argument(id).Require(string.IsNullOrEmpty(id) || TicketHelper.ValidateUserId(id));
+            Guard.Argument(confidence).NotNegative();
 
             if (!string.IsNullOrEmpty(ip))
             {
@@ -44,28 +44,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
 
         public EndCustomer(IPAddress ip, string languageId, string deviceId, string id, long confidence)
         {
-            Contract.Requires(string.IsNullOrEmpty(languageId) || languageId.Length == 2);
-            Contract.Requires(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidateUserId(deviceId));
-            Contract.Requires(string.IsNullOrEmpty(id) || TicketHelper.ValidateUserId(id));
-            Contract.Requires(confidence >= 0);
+            Guard.Argument(languageId).Require(string.IsNullOrEmpty(languageId) || languageId.Length == 2);
+            Guard.Argument(deviceId).Require(string.IsNullOrEmpty(deviceId) || TicketHelper.ValidateUserId(deviceId));
+            Guard.Argument(id).Require(string.IsNullOrEmpty(id) || TicketHelper.ValidateUserId(id));
+            Guard.Argument(confidence).NotNegative();
 
             Ip = ip?.ToString();
             LanguageId = languageId;
             DeviceId = deviceId;
             Id = id;
             Confidence = confidence;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(string.IsNullOrEmpty(LanguageId) || LanguageId.Length == 2);
-            Contract.Invariant(string.IsNullOrEmpty(DeviceId) || TicketHelper.ValidateUserId(DeviceId));
-            Contract.Invariant(string.IsNullOrEmpty(Id) || TicketHelper.ValidateUserId(Id));
-            Contract.Invariant(Confidence >= 0);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

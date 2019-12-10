@@ -1,8 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.API.Contracts;
 using Sportradar.MTS.SDK.Entities;
 using Sportradar.MTS.SDK.Entities.Enums;
 
@@ -11,7 +9,6 @@ namespace Sportradar.MTS.SDK.API
     /// <summary>
     /// Defines a contract for classes implementing builder for <see cref="ISdkConfiguration"/>
     /// </summary>
-    [ContractClass(typeof(SdkConfigurationBuilderContract))]
     public interface ISdkConfigurationBuilder
     {
         /// <summary>

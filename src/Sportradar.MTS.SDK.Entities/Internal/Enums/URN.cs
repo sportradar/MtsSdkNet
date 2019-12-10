@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -72,6 +72,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Enums
         /// Gets a <see cref="ResourceTypeGroup"/> enum member describing the group of the resource
         /// </summary>
         /// <seealso cref="ResourceTypeGroup"/>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public ResourceTypeGroup TypeGroup { get; }
 
         /// <summary>
@@ -87,9 +88,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Enums
         /// <param name="id">The numerical identifier of the resource associated with the URN</param>
         public URN(string prefix, string type, long id)
         {
-            Contract.Requires(!string.IsNullOrEmpty(prefix));
-            Contract.Requires(!string.IsNullOrEmpty(type));
-            Contract.Requires(id > 0);
+            Guard.Argument(prefix).NotNull().NotEmpty();
+            Guard.Argument(type).NotNull().NotEmpty();
+            Guard.Argument(id).Positive();
 
             var tuple = Types.FirstOrDefault(t => t.Item1 == type);
             if (tuple == null)
@@ -111,8 +112,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Enums
         /// <exception cref="System.FormatException">The format of the provided representation is not correct</exception>
         public static URN Parse(string urnString)
         {
-            Contract.Requires(!string.IsNullOrEmpty(urnString));
-            Contract.Ensures(Contract.Result<URN>() != null);
+            Guard.Argument(urnString).NotNull().NotEmpty();
 
             var match = Regex.Match(urnString, RegexPattern);
             if (!match.Success)
@@ -140,7 +140,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Enums
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise</returns>
         public static bool TryParse(string urnString, out URN urn)
         {
-            Contract.Requires(!string.IsNullOrEmpty(urnString));
+            Guard.Argument(urnString).NotNull().NotEmpty();
 
             var success = false;
 

@@ -21,11 +21,19 @@ namespace Sportradar.MTS.SDK.Entities.Internal.CustomBetImpl
         internal Selection(string eventId, int marketId, string specifiers, string outcomeId)
         {
             if (eventId == null)
+            {
                 throw new ArgumentNullException(nameof(eventId));
+            }
+
             if (specifiers == null)
+            {
                 throw new ArgumentNullException(nameof(specifiers));
+            }
+
             if (outcomeId == null)
+            {
                 throw new ArgumentNullException(nameof(outcomeId));
+            }
 
             EventId = eventId;
             MarketId = marketId;

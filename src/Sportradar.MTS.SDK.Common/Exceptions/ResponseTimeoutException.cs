@@ -8,7 +8,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
     /// <summary>
     /// An exception thrown by the SDK when the timeout for receiving response expired
     /// </summary>
-    /// <seealso cref="Sportradar.MTS.SDK.Common.Exceptions.FeedSdkException" />
+    /// <seealso cref="FeedSdkException" />
     [Serializable]
     public class ResponseTimeoutException : FeedSdkException
     {

@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,9 +11,8 @@ namespace Sportradar.MTS.SDK.Test.Helpers
     {
         public static Stream OpenFile(string dirPath, string fileName)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(dirPath));
-            Contract.Requires(!string.IsNullOrWhiteSpace(fileName));
-            Contract.Ensures(Contract.Result<Stream>() != null);
+            Guard.Argument(!string.IsNullOrWhiteSpace(dirPath));
+            Guard.Argument(!string.IsNullOrWhiteSpace(fileName));
 
             var filePath = dirPath.TrimEnd('/') + "/" + fileName.TrimStart('/');
             return OpenFile(filePath);
@@ -21,23 +20,23 @@ namespace Sportradar.MTS.SDK.Test.Helpers
 
         public static Stream OpenFile(string filePath)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(filePath));
+            Guard.Argument(!string.IsNullOrWhiteSpace(filePath));
+
             filePath = FindFileInDir(filePath);
             return File.OpenRead(filePath);
         }
 
         public static Task<Stream> OpenFileAsync(string filePath)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(filePath));
+            Guard.Argument(!string.IsNullOrWhiteSpace(filePath));
             filePath = FindFileInDir(filePath);
             return Task.Factory.StartNew(() => OpenFile(filePath));
         }
 
         public static string ReadFile(string dirPath, string fileName)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(dirPath));
-            Contract.Requires(!string.IsNullOrWhiteSpace(fileName));
-            Contract.Ensures(Contract.Result<string>() != null);
+            Guard.Argument(!string.IsNullOrWhiteSpace(dirPath));
+            Guard.Argument(!string.IsNullOrWhiteSpace(fileName));
 
             var stream = OpenFile(dirPath, fileName);
             var reader = new StreamReader(stream);

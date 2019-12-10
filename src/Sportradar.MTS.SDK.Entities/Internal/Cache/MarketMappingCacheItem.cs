@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Sportradar.MTS.SDK.Entities.Internal.Enums;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
@@ -25,7 +25,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         protected MarketMappingCacheItem(MarketMappingDTO dto)
         {
-            Contract.Requires(dto != null);
+            Guard.Argument(dto).NotNull();
 
             ProductId = dto.ProductId;
             SportId = dto.SportId;
@@ -46,7 +46,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <returns>The constructed <see cref="MarketMappingCacheItem"/></returns>
         public static MarketMappingCacheItem Build(MarketMappingDTO dto)
         {
-            Contract.Requires(dto != null);
+            Guard.Argument(dto).NotNull();
 
             return new MarketMappingCacheItem(dto);
         }

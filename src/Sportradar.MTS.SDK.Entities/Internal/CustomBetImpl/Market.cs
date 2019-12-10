@@ -21,7 +21,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.CustomBetImpl
         internal Market(MarketDTO market)
         {
             if (market == null)
+            {
                 throw new ArgumentNullException(nameof(market));
+            }
 
             Id = market.Id;
             Specifiers = market.Specifiers;

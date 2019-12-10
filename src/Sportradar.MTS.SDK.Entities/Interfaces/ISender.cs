@@ -2,8 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
@@ -11,7 +9,6 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
     /// <summary>
     /// Defines a contract for a identification and settings of the ticket sender
     /// </summary>
-    [ContractClass(typeof(SenderContract))]
     public interface ISender
     {
         /// <summary>

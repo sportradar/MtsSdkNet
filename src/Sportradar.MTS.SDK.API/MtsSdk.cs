@@ -5,7 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Configuration;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
@@ -115,12 +115,24 @@ namespace Sportradar.MTS.SDK.API
         public IBuilderFactory BuilderFactory { get; }
 
         /// <summary>
+        /// Gets the <see cref="IMtsClientApi"/> instance used to send requests to MTS REST API
+        /// </summary>
+        /// <value>The client api</value>
+        public IMtsClientApi ClientApi { get; }
+
+        /// <summary>
+        /// Gets a <see cref="ICustomBetManager" /> instance used to perform various custom bet operations
+        /// </summary>
+        /// <value>The custom bet manager</value>
+        public ICustomBetManager CustomBetManager { get; }
+
+        /// <summary>
         /// Constructs a new instance of the <see cref="MtsSdk"/> class
         /// </summary>
         /// <param name="config">A <see cref="ISdkConfiguration"/> instance representing feed configuration</param>
         public MtsSdk(ISdkConfiguration config)
         {
-            Contract.Requires(config != null);
+            Guard.Argument(config).NotNull();
 
             LogInit();
 
@@ -176,27 +188,6 @@ namespace Sportradar.MTS.SDK.API
         }
 
         /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_config != null);
-            Contract.Invariant(_ticketPublisherFactory != null);
-            Contract.Invariant(InteractionLog != null);
-            Contract.Invariant(ExecutionLog != null);
-            Contract.Invariant(_unityContainer != null);
-            Contract.Invariant(_connectionValidator != null);
-            Contract.Invariant(_entitiesMapper != null);
-            Contract.Invariant(_rabbitMqMessageReceiverForTickets != null);
-            Contract.Invariant(_rabbitMqMessageReceiverForTicketCancels != null);
-            Contract.Invariant(_rabbitMqMessageReceiverForTicketCashouts != null);
-            Contract.Invariant(_rabbitMqMessageReceiverForTicketNonSrSettle != null);
-            Contract.Invariant(_autoResetEventsForBlockingRequests != null);
-            Contract.Invariant(_responsesFromBlockingRequests != null);
-        }
-
-        /// <summary>
         /// Disposes the current instance and resources associated with it
         /// </summary>
         void IDisposable.Dispose()
@@ -213,7 +204,6 @@ namespace Sportradar.MTS.SDK.API
         /// <exception cref="ConfigurationErrorsException">The section read from the configuration file is not valid</exception>
         public static ISdkConfiguration GetConfiguration()
         {
-            Contract.Ensures(Contract.Result<ISdkConfiguration>() != null);
             var section = SdkConfigurationSection.GetSection();
             return new SdkConfiguration(section);
         }
@@ -287,8 +277,7 @@ namespace Sportradar.MTS.SDK.API
 
             foreach (var item in _autoResetEventsForBlockingRequests)
             {
-                AutoResetEvent arEvent;
-                _autoResetEventsForBlockingRequests.TryRemove(item.Key, out arEvent);
+                _autoResetEventsForBlockingRequests.TryRemove(item.Key, out var arEvent);
                 ExecutionLog.Debug($"Disposing AutoResetEvent for TicketId: {item.Key}.");
                 arEvent.Dispose();
             }
@@ -523,8 +512,7 @@ namespace Sportradar.MTS.SDK.API
 
         private void ReleaseAutoResetEventFromDictionary(string ticketId)
         {
-            AutoResetEvent autoResetEvent;
-            if (_autoResetEventsForBlockingRequests.TryRemove(ticketId, out autoResetEvent))
+            if (_autoResetEventsForBlockingRequests.TryRemove(ticketId, out var autoResetEvent))
             {
                 autoResetEvent.Set();
                 autoResetEvent.Dispose();
@@ -537,6 +525,8 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="ticket">The <see cref="ISdkTicket"/> to be send</param>
         public void SendTicket(ISdkTicket ticket)
         {
+            Guard.Argument(ticket).NotNull();
+
             Metric.Context("MtsSdk").Meter("SendTicket", Unit.Items).Mark();
             InteractionLog.Info($"Called SendTicket with ticketId={ticket.TicketId}.");
             SendTicketBase(ticket, false);
@@ -549,6 +539,8 @@ namespace Sportradar.MTS.SDK.API
         /// <returns>Returns a <see cref="ITicketResponse" /></returns>
         public ITicketResponse SendTicketBlocking(ITicket ticket)
         {
+            Guard.Argument(ticket).NotNull();
+
             Metric.Context("MtsSdk").Meter("SendTicketBlocking", Unit.Items).Mark();
             InteractionLog.Info($"Called SendTicketBlocking with ticketId={ticket.TicketId}.");
             return (ITicketResponse) SendTicketBlockingBase(ticket);
@@ -561,6 +553,8 @@ namespace Sportradar.MTS.SDK.API
         /// <returns>Returns a <see cref="ITicketCancelResponse" /></returns>
         public ITicketCancelResponse SendTicketCancelBlocking(ITicketCancel ticket)
         {
+            Guard.Argument(ticket).NotNull();
+
             Metric.Context("MtsSdk").Meter("SendTicketCancelBlocking", Unit.Items).Mark();
             InteractionLog.Info($"Called SendTicketCancelBlocking with ticketId={ticket.TicketId}.");
             return (ITicketCancelResponse) SendTicketBlockingBase(ticket);
@@ -573,16 +567,12 @@ namespace Sportradar.MTS.SDK.API
         /// <returns>Returns a <see cref="ITicketCashoutResponse" /></returns>
         public ITicketCashoutResponse SendTicketCashoutBlocking(ITicketCashout ticket)
         {
+            Guard.Argument(ticket).NotNull();
+
             Metric.Context("MtsSdk").Meter("SendTicketCashoutBlocking", Unit.Items).Mark();
             InteractionLog.Info($"Called SendTicketCashoutBlocking with ticketId={ticket.TicketId}.");
             return (ITicketCashoutResponse)SendTicketBlockingBase(ticket);
         }
-
-        /// <summary>
-        /// Gets the <see cref="IMtsClientApi"/> instance used to send requests to MTS REST API
-        /// </summary>
-        /// <value>The client api</value>
-        public IMtsClientApi ClientApi { get; }
 
         /// <summary>
         /// Sends the cashout ticket to the MTS server and wait for the response message on the feed
@@ -591,16 +581,12 @@ namespace Sportradar.MTS.SDK.API
         /// <returns>Returns a <see cref="ITicketNonSrSettleResponse" /></returns>
         public ITicketNonSrSettleResponse SendTicketNonSrSettleBlocking(ITicketNonSrSettle ticket)
         {
+            Guard.Argument(ticket).NotNull();
+
             Metric.Context("MtsSdk").Meter("SendTicketNonSrSettleBlocking", Unit.Items).Mark();
             InteractionLog.Info($"Called SendTicketNonSrSettleBlocking with ticketId={ticket.TicketId}.");
             return (ITicketNonSrSettleResponse)SendTicketBlockingBase(ticket);
         }
-
-        /// <summary>
-        /// Gets a <see cref="ICustomBetManager" /> instance used to perform various custom bet operations
-        /// </summary>
-        /// <value>The custom bet manager</value>
-        public ICustomBetManager CustomBetManager { get; }
 
         private static void LogInit()
         {

@@ -3,8 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
+using Dawn;
 
 namespace Sportradar.MTS.SDK.Entities.EventArguments
 {
@@ -25,8 +24,7 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         ///                         not be retrieved</param>
         public MessageDeserializationFailedEventArgs(IEnumerable<byte> rawData)
         {
-            Contract.Requires(rawData != null);
-            Contract.Requires(rawData.Any());
+            Guard.Argument(rawData).NotNull().NotEmpty();
 
             RawData = rawData;
         }

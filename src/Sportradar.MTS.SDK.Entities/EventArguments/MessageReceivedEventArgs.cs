@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.EventArguments
@@ -50,7 +50,7 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         /// <param name="additionalInfo">Additional information</param>
         public MessageReceivedEventArgs(string body, string routingKey, string correlationId, TicketResponseType expectedTicketResponseType, IDictionary<string, string> additionalInfo)
         {
-            Contract.Requires(!string.IsNullOrEmpty(body));
+            Guard.Argument(body).NotNull().NotEmpty();
 
             JsonBody = body;
             RoutingKey = routingKey;

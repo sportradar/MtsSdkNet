@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
@@ -22,12 +22,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 
         public EndCustomer(IEndCustomer customer)
         {
-            Contract.Requires(customer != null);
+            Guard.Argument(customer).NotNull();
 
             Id = string.IsNullOrEmpty(customer.Id) ? null : customer.Id;
             Confidence = customer.Confidence > 0 ? customer.Confidence : (long?)null;
             DeviceId = string.IsNullOrEmpty(customer.DeviceId) ? null : customer.DeviceId;
-            Ip = customer.Ip?.ToString();
+            Ip = customer.Ip;
             LanguageId = string.IsNullOrEmpty(customer.LanguageId) ? null : customer.LanguageId;
         }
     }

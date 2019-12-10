@@ -89,8 +89,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
         public override string ToString()
         {
             var sb = new StringBuilder(base.ToString());
-            sb.Append(" RootElementName=").Append(RootElementName)
-                .Append(" Xml=").Append(Xml);
+            sb.Append(" RootElementName=").Append(RootElementName).Append(" Xml=").Append(Xml);
 
             return sb.ToString();
         }

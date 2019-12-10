@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Dawn;
 using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Internal;
 
@@ -24,6 +25,8 @@ namespace Sportradar.MTS.SDK.API.Internal
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         public T Deserialize(Stream stream)
         {
+            Guard.Argument(stream).NotNull();
+
             return Deserialize<T>(stream);
         }
 
@@ -36,6 +39,8 @@ namespace Sportradar.MTS.SDK.API.Internal
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         public T1 Deserialize<T1>(Stream stream) where T1 : T
         {
+            Guard.Argument(stream).NotNull();
+
             var obj = Activator.CreateInstance<T1>();
             var serializer = new DataContractJsonSerializer(obj.GetType());
             obj = (T1)serializer.ReadObject(stream);
@@ -47,11 +52,13 @@ namespace Sportradar.MTS.SDK.API.Internal
         /// Deserialize the specified json string
         /// </summary>
         /// <typeparam name="T1">The type to be converted to</typeparam>
-        /// <param name="json">The json containing data to be deserialized</param>
+        /// <param name="input">The json containing data to be deserialized</param>
         /// <returns>T1</returns>
-        public T1 Deserialize<T1>(string json) where T1 : T
+        public T1 Deserialize<T1>(string input) where T1 : T
         {
-            var ms = new MemoryStream(Encoding.Unicode.GetBytes(json));
+            Guard.Argument(input).NotNull().NotEmpty();
+
+            var ms = new MemoryStream(Encoding.Unicode.GetBytes(input));
             return Deserialize<T1>(ms);
         }
     }

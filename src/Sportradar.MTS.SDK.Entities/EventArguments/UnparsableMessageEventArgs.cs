@@ -13,6 +13,7 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         /// <summary>
         /// Gets the <see cref="string"/> representation of the JSON body associated with the unparsable message
         /// </summary>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Body { get; }
 
         /// <summary>

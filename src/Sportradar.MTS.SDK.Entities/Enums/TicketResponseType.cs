@@ -24,7 +24,7 @@ namespace Sportradar.MTS.SDK.Entities.Enums
         TicketCashout = 3,
 
         /// <summary>
-        /// The ticket non-sportaradar settle
+        /// The ticket non-sportradar settle
         /// </summary>
         TicketNonSrSettle = 4
     }

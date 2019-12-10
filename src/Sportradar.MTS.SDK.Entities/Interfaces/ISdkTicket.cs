@@ -3,15 +3,12 @@
  */
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
 {
     /// <summary>
     /// Defines a contract for classes representing base sdk ticket
     /// </summary>
-    [ContractClass(typeof(SdkTicketContract))]
     public interface ISdkTicket
     {
         /// <summary>

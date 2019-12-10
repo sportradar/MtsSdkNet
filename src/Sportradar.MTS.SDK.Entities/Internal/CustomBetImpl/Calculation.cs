@@ -19,7 +19,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.CustomBetImpl
         public Calculation(CalculationDTO calculation)
         {
             if (calculation == null)
+            {
                 throw new ArgumentNullException(nameof(calculation));
+            }
 
             Odds = calculation.Odds;
             Probability = calculation.Probability;

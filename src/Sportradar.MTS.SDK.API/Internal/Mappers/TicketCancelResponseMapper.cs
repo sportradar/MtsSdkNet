@@ -36,6 +36,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Mappers
         /// </summary>
         /// <param name="source">The source</param>
         /// <param name="correlationId">The correlation id of the response</param>
+        /// <param name="additionalInfo">The additional info regarding this cancel response</param>
         /// <param name="orgJson">The original json string received from the mts</param>
         /// <returns>ITicketCancelResponse</returns>
         public ITicketCancelResponse Map(TicketCancelResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)

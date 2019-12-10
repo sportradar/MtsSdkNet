@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using System.Threading;
 using log4net;
@@ -52,7 +52,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="connectionFactory">The connection factory</param>
         public ChannelFactory(IConnectionFactory connectionFactory)
         {
-            Contract.Requires(connectionFactory != null);
+            Guard.Argument(connectionFactory).NotNull();
 
             _connectionFactory = connectionFactory;
         }

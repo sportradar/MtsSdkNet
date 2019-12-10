@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
@@ -20,11 +20,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns></returns>
         public static IEnumerable<IEnumerable<string>> GenerateKeys(IEnumerable<MessageInterest> interests)
         {
-            Contract.Requires(interests != null);
-            Contract.Requires(interests.Any());
+            Guard.Argument(interests).NotNull().NotEmpty();
 
             var sessionKeys = new List<List<string>>();
-            var messageInterests = interests as IList<MessageInterest> ?? interests.ToList();
+            var messageInterests = interests.ToList();
 
             // only 1 interest allowed
             var interest = messageInterests.First();

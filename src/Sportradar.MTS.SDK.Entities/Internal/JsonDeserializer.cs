@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System.IO;
+using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Common.Internal;
 
@@ -20,6 +21,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>The <code>data</code> deserialized to <typeparamref name="T" /> instance</returns>
         public T Deserialize(Stream stream)
         {
+            Guard.Argument(stream).NotNull();
+
             return Deserialize<T>(stream);
         }
 
@@ -31,8 +34,12 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>The <code>data</code> deserialized to <typeparamref name="T1" /> instance</returns>
         public T1 Deserialize<T1>(Stream stream) where T1 : T
         {
+            Guard.Argument(stream).NotNull();
+
             using (var reader = new StreamReader(stream))
+            {
                 return Deserialize<T1>(reader.ReadToEnd());
+            }
         }
 
         /// <summary>
@@ -43,6 +50,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>The <code>data</code> deserialized to <typeparamref name="T1" /> instance</returns>
         public T1 Deserialize<T1>(string input) where T1 : T
         {
+            Guard.Argument(input).NotNull().NotEmpty();
+
             return JsonConvert.DeserializeObject<T1>(input);
         }
     }

@@ -155,11 +155,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <returns>Returns a <see cref="ITicketBuilder" /></returns>
         public ITicketBuilder SetSender(ISender sender)
         {
-            if (sender == null)
-            {
-                throw new ArgumentException("Sender not valid");
-            }
-            _sender = sender;
+            _sender = sender ?? throw new ArgumentException("Sender not valid");
             return this;
         }
 

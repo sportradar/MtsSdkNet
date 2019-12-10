@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
 {
@@ -18,7 +18,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.Dto
 
         internal OutcomeMappingDTO(mappingsMappingMapping_outcome outcome)
         {
-            Contract.Requires(outcome != null);
+            Guard.Argument(outcome).NotNull();
 
             OutcomeId = outcome.outcome_id;
             ProductOutcomeId = outcome.product_outcome_id;

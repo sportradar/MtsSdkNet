@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.Dto;
@@ -30,7 +30,7 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         /// <param name="response">a <see cref="ISdkTicket"/> representing the received response</param>
         public TicketResponseReceivedEventArgs(ISdkTicket response)
         {
-            Contract.Requires(response != null);
+            Guard.Argument(response).NotNull();
 
             Response = response;
             Type = MtsTicketHelper.Convert(response);

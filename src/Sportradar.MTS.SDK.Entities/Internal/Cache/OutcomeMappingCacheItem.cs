@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Cache
@@ -16,7 +16,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
 
         public OutcomeMappingCacheItem(OutcomeMappingDTO dto)
         {
-            Contract.Requires(dto != null);
+            Guard.Argument(dto).NotNull();
 
             OutcomeId = dto.OutcomeId;
             ProductOutcomeId = dto.ProductOutcomeId;

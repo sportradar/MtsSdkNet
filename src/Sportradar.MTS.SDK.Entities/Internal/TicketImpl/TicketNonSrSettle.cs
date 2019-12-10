@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -72,9 +72,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="stake">The non-sportradar settle stake</param>
         public TicketNonSrSettle(string ticketId, int bookmakerId, long stake)
         {
-            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
-            Contract.Requires(bookmakerId > 0);
-            Contract.Requires(stake >= 0);
+            Guard.Argument(ticketId).Require(TicketHelper.ValidateTicketId(ticketId));
+            Guard.Argument(bookmakerId).Positive();
+            Guard.Argument(stake).NotNegative();
 
             TicketId = ticketId;
             BookmakerId = bookmakerId;
@@ -82,19 +82,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(Timestamp > DateTime.MinValue);
-            Contract.Invariant(BookmakerId > 0);
-            Contract.Invariant(NonSrSettleStake >= 0);
         }
     }
 }

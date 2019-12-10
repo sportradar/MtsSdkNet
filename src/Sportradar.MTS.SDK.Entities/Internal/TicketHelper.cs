@@ -2,7 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Text;
 using System.Text.RegularExpressions;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -29,47 +29,48 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             {
                 return SdkTicketType.Ticket;
             }
-            else if (ticket is ITicketCancel)
+            if (ticket is ITicketCancel)
             {
                 return SdkTicketType.TicketCancel;
             }
-            else if (ticket is ITicketAck)
+            if (ticket is ITicketAck)
             {
                 return SdkTicketType.TicketAck;
             }
-            else if (ticket is ITicketCancelAck)
+            if (ticket is ITicketCancelAck)
             {
                 return SdkTicketType.TicketCancelAck;
             }
-            else if (ticket is ITicketResponse)
+            if (ticket is ITicketResponse)
             {
                 return SdkTicketType.TicketResponse;
             }
-            else if (ticket is ITicketCancelResponse)
+            if (ticket is ITicketCancelResponse)
             {
                 return SdkTicketType.TicketCancelResponse;
             }
-            else if (ticket is ITicketReofferCancel)
+            if (ticket is ITicketReofferCancel)
             {
                 return SdkTicketType.TicketReofferCancel;
             }
-            else if (ticket is ITicketCashout)
+            if (ticket is ITicketCashout)
             {
                 return SdkTicketType.TicketCashout;
             }
-            else if (ticket is ITicketCashoutResponse)
+            if (ticket is ITicketCashoutResponse)
             {
                 return SdkTicketType.TicketCashoutResponse;
             }
-            else if (ticket is ITicketNonSrSettleResponse)
+            if (ticket is ITicketNonSrSettleResponse)
             {
                 return SdkTicketType.TicketNonSrSettleResponse;
             }
-            else if (ticket is ITicketNonSrSettle)
+            if (ticket is ITicketNonSrSettle)
             {
                 return SdkTicketType.TicketNonSrSettle;
             }
-                throw new ArgumentOutOfRangeException();
+
+            throw new ArgumentOutOfRangeException();
         }
 
         public static SdkTicketType GetTicketAckTypeFromTicket(ISdkTicket ticket)
@@ -152,7 +153,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         public static bool ValidateStringId(string input, bool checkIdPattern, bool useBetIdPattern = true, int minLength = -1, int maxLength = -1)
         {
-            Contract.Requires(!string.IsNullOrEmpty(input));
+            Guard.Argument(input).NotNull().NotEmpty();
 
             var valid = true;
             if (checkIdPattern)
@@ -172,14 +173,14 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         public static bool ValidateTicketId(string input)
         {
-            Contract.Requires(!string.IsNullOrEmpty(input));
+            Guard.Argument(input).NotNull().NotEmpty();
 
             return ValidateStringId(input, true, true, 1, 128);
         }
 
         public static bool ValidateUserId(string input, int maxLength = 36)
         {
-            Contract.Requires(!string.IsNullOrEmpty(input));
+            Guard.Argument(input).NotNull().NotEmpty();
 
             return ValidateStringId(input, true, false, 1, maxLength);
         }

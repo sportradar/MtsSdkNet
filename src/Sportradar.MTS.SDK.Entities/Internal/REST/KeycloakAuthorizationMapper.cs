@@ -1,7 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
+using Dawn;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
 using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 
@@ -20,7 +20,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
         /// <param name="data">A <see cref="AccessTokenDTO"/> instance containing data used to construct <see cref="KeycloakAuthorization"/> instance</param>
         internal KeycloakAuthorizationMapper(AccessTokenDTO data)
         {
-            Contract.Requires(data != null);
+            Guard.Argument(data).NotNull();
 
             _data = data;
         }

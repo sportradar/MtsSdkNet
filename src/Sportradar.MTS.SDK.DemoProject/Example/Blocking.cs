@@ -2,7 +2,6 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Diagnostics.Contracts;
 using System.Net;
 using log4net;
 using Sportradar.MTS.SDK.API;
@@ -121,7 +120,10 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         /// <param name="mtsSdk">A <see cref="IMtsSdk"/> instance </param>
         private void AttachToFeedEvents(IMtsSdk mtsSdk)
         {
-            Contract.Requires(mtsSdk != null);
+            if (mtsSdk == null)
+            {
+                throw new ArgumentNullException(nameof(mtsSdk));
+            }
 
             mtsSdk.SendTicketFailed += OnSendTicketFailed;
             mtsSdk.TicketResponseReceived += OnTicketResponseReceived;
@@ -134,7 +136,10 @@ namespace Sportradar.MTS.SDK.DemoProject.Example
         /// <param name="mtsSdk">A <see cref="IMtsSdk"/> instance</param>
         private void DetachFromFeedEvents(IMtsSdk mtsSdk)
         {
-            Contract.Requires(mtsSdk != null);
+            if (mtsSdk == null)
+            {
+                throw new ArgumentNullException(nameof(mtsSdk));
+            }
 
             mtsSdk.SendTicketFailed -= OnSendTicketFailed;
             mtsSdk.TicketResponseReceived -= OnTicketResponseReceived;

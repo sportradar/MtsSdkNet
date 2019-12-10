@@ -1,7 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
@@ -32,12 +31,15 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
 
         public override bool Equals(object obj)
         {
-            var sel = (Anonymous2)obj;
-            Contract.Assume(sel != null);
-            if (string.Equals(sel.Id, Id) && sel.EventId == EventId && sel.Odds == Odds)
+            var sel = obj as Anonymous2;
+            if (sel != null)
             {
-                return true;
+                if (string.Equals(sel.Id, Id) && sel.EventId == EventId && sel.Odds == Odds)
+                {
+                    return true;
+                }
             }
+
             return false;
         }
 

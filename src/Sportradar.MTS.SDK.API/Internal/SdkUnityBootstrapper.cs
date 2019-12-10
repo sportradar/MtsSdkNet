@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
@@ -48,8 +48,8 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public static void RegisterTypes(this IUnityContainer container, ISdkConfiguration userConfig)
         {
-            Contract.Requires(container != null);
-            Contract.Requires(userConfig != null);
+            Guard.Argument(container).NotNull();
+            Guard.Argument(userConfig).NotNull();
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
@@ -140,8 +140,6 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         private static void RegisterRabbitMqTypes(IUnityContainer container, ISdkConfiguration config, string environment)
         {
-            Contract.Assume(container.Resolve<IChannelFactory>() != null);
-
             container.RegisterType<IRabbitMqChannelSettings, RabbitMqChannelSettings>(new ContainerControlledLifetimeManager());
             container.RegisterInstance<IRabbitMqChannelSettings>("TicketChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs1: config.TicketResponseTimeoutLive, publishQueueTimeoutInMs2: config.TicketResponseTimeoutPrematch));
             container.RegisterInstance<IRabbitMqChannelSettings>("TicketCancelChannelSettings", new RabbitMqChannelSettings(true, config.ExclusiveConsumer, publishQueueTimeoutInMs1: config.TicketCancellationResponseTimeout, publishQueueTimeoutInMs2: config.TicketCancellationResponseTimeout));

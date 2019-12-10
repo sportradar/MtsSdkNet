@@ -122,6 +122,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dawn.Guard, Version=1.10.0.0, Culture=neutral, PublicKeyToken=234740ae15f786ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dawn.Guard.1.10.0\lib\netstandard1.0\Dawn.Guard.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -138,11 +141,20 @@
       <HintPath>..\..\docs\xml_serializers\Sportradar.MTS.SDK.Entities.XmlSerializers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -153,14 +165,6 @@
   <ItemGroup>
     <Compile Include="Builders\ICustomBetSelectionBuilder.cs" />
     <Compile Include="Builders\ITicketNonSrSettleBuilder.cs" />
-    <Compile Include="Contracts\AutoAcceptedOddsContract.cs" />
-    <Compile Include="Contracts\BetCancelContract.cs" />
-    <Compile Include="Contracts\BetCashoutContract.cs" />
-    <Compile Include="Contracts\CcfContract.cs" />
-    <Compile Include="Contracts\SportCcfContract.cs" />
-    <Compile Include="Contracts\TicketNonSrSettleResponseContract.cs" />
-    <Compile Include="Contracts\TicketNonSrSettleContract.cs" />
-    <Compile Include="Contracts\SdkConfigurationContract.cs" />
     <Compile Include="Enums\NonSrSettleAcceptance.cs" />
     <Compile Include="Enums\UfEnvironment.cs" />
     <Compile Include="EventArguments\SdkMessageEventArgs.cs" />
@@ -194,13 +198,6 @@
     <Compile Include="Internal\Builders\TicketNonSrSettleBuilder.cs" />
     <Compile Include="Internal\Builders\TicketReofferCancelBuilder.cs" />
     <Compile Include="Internal\Builders\TicketReofferBuilder.cs" />
-    <Compile Include="Contracts\BuilderFactoryContract.cs" />
-    <Compile Include="Contracts\MarketDescriptionCacheContract.cs" />
-    <Compile Include="Contracts\SdkConfigurationInternalContract.cs" />
-    <Compile Include="Contracts\SimpleBuilderFactoryContract.cs" />
-    <Compile Include="Contracts\TicketCashoutContract.cs" />
-    <Compile Include="Contracts\TicketReofferCancelContract.cs" />
-    <Compile Include="Contracts\TicketCashoutResponseContract.cs" />
     <Compile Include="Enums\TicketResponseType.cs" />
     <Compile Include="Enums\Product.cs" />
     <Compile Include="Internal\CustomBetImpl\AvailableSelections.cs" />
@@ -231,8 +228,6 @@
     <Compile Include="Builders\ITicketCancelBuilder.cs" />
     <Compile Include="Internal\Builders\SelectionBuilder.cs" />
     <Compile Include="Internal\Builders\SenderBuilder.cs" />
-    <Compile Include="Contracts\BetReofferContract.cs" />
-    <Compile Include="Contracts\SdkTicketContract.cs" />
     <Compile Include="Enums\CashoutAcceptance.cs" />
     <Compile Include="Enums\TicketCancellationReason.cs" />
     <Compile Include="Enums\BetReofferType.cs" />
@@ -354,22 +349,6 @@
     <Compile Include="Internal\TicketImpl\TicketReofferCancel.cs" />
     <Compile Include="Internal\TicketImpl\TicketCancel.cs" />
     <Compile Include="Internal\TicketImpl\TicketCancelAck.cs" />
-    <Compile Include="Contracts\BetDetailContract.cs" />
-    <Compile Include="Contracts\BetBonusContract.cs" />
-    <Compile Include="Contracts\SelectionDetailContract.cs" />
-    <Compile Include="Contracts\AlternativeStakeContract.cs" />
-    <Compile Include="Contracts\TicketCancelAckContract.cs" />
-    <Compile Include="Contracts\TicketAckContract.cs" />
-    <Compile Include="Contracts\TicketCancelContract.cs" />
-    <Compile Include="Contracts\TicketCancelResponseContract.cs" />
-    <Compile Include="Contracts\TicketResponseContract.cs" />
-    <Compile Include="Contracts\TicketContract.cs" />
-    <Compile Include="Contracts\SenderContract.cs" />
-    <Compile Include="Contracts\SelectionRefContract.cs" />
-    <Compile Include="Contracts\BetContract.cs" />
-    <Compile Include="Contracts\SelectionContract.cs" />
-    <Compile Include="Contracts\EndCustomerContract.cs" />
-    <Compile Include="Contracts\StakeContract.cs" />
     <Compile Include="Internal\TicketImpl\EndCustomer.cs" />
     <Compile Include="Enums\BetBonusMode.cs" />
     <Compile Include="Internal\SdkTicketType.cs" />

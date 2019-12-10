@@ -3,7 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using Dawn;
 using System.Linq;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -88,9 +88,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="betCashouts">The list of <see cref="IBetCashout"/></param>
         public TicketCashout(string ticketId, int bookmakerId, long? stake, int? percent, IReadOnlyCollection<IBetCashout> betCashouts)
         {
-            Contract.Requires(TicketHelper.ValidateTicketId(ticketId));
-            Contract.Requires(bookmakerId > 0);
-            Contract.Requires(stake > 0 || percent > 0 || (betCashouts != null && betCashouts.Any()));
+            Guard.Argument(ticketId).Require(TicketHelper.ValidateTicketId(ticketId));
+            Guard.Argument(bookmakerId).Positive();
+            Guard.Argument(stake).Require(stake > 0 || percent > 0 || (betCashouts != null && betCashouts.Any()));
 
             if (percent != null && stake == null)
             {
@@ -110,19 +110,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Timestamp = DateTime.UtcNow;
             Version = TicketHelper.MtsTicketVersion;
             CorrelationId = TicketHelper.GenerateTicketCorrelationId();
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(TicketHelper.ValidateTicketId(TicketId));
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(Timestamp > DateTime.MinValue);
-            Contract.Invariant(BookmakerId > 0);
-            Contract.Invariant(CashoutStake > 0 || CashoutPercent > 0 || (BetCashouts != null && BetCashouts.Any()));
         }
     }
 }

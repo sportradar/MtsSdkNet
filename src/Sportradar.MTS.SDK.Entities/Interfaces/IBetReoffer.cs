@@ -1,8 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-using System.Diagnostics.Contracts;
-using Sportradar.MTS.SDK.Entities.Contracts;
 using Sportradar.MTS.SDK.Entities.Enums;
 
 namespace Sportradar.MTS.SDK.Entities.Interfaces
@@ -10,7 +8,6 @@ namespace Sportradar.MTS.SDK.Entities.Interfaces
     /// <summary>
     /// Defines a contract for bet reoffer details, mutually exclusive with <see cref="IAlternativeStake"/>
     /// </summary>
-    [ContractClass(typeof(BetReofferContract))]
     public interface IBetReoffer
     {
         /// <summary>

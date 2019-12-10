@@ -3,7 +3,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
@@ -44,20 +43,17 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <value>The correlation identifier</value>
         /// <remarks>Only used to relate ticket with its response</remarks>
         public string CorrelationId { get; }
-
         /// <summary>
         /// Gets the response signature/hash (previous BetAcceptanceId)
         /// </summary>
         /// <value>The signature</value>
         public string Signature { get; }
-
         /// <summary>
         /// Gets the additional information about the response
         /// </summary>
         /// <value>The additional information</value>
         /// <remarks>Contains timestamps describing mts processing (receivedUtcTimestamp, validatedUtcTimestamp, respondedUtcTimestamp)</remarks>
         public IDictionary<string, string> AdditionalInfo { get; }
-
         /// <summary>
         /// Gets the timestamp of ticket placement (UTC)
         /// </summary>
@@ -104,18 +100,6 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             _originalJson = orgJson;
 
             _ticketCashoutSender = ticketCashoutSender;
-        }
-
-        /// <summary>
-        /// Defines invariant members of the class
-        /// </summary>
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(!string.IsNullOrEmpty(Version));
-            Contract.Invariant(Timestamp > DateTime.MinValue);
-            Contract.Invariant(!string.IsNullOrEmpty(Signature));
-            Contract.Invariant(Reason != null);
         }
 
         /// <summary>
