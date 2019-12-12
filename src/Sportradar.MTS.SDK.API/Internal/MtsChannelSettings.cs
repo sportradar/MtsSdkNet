@@ -9,6 +9,7 @@ using System.Linq;
 using Metrics.Utils;
 using Sportradar.MTS.SDK.API.Internal.RabbitMq;
 using Sportradar.MTS.SDK.Common.Internal;
+using Sportradar.MTS.SDK.Entities.Internal;
 
 namespace Sportradar.MTS.SDK.API.Internal
 {
@@ -43,7 +44,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             HeaderProperties = headerProperties;
             ReplyToRoutingKey = replyToRoutingKey;
             var systemStartTime = DateTime.Now.AddMilliseconds(-Environment.TickCount);
-            ConsumerTag = $"tag_{environment}|NET|{SdkInfo.GetVersion()}|{DateTime.Now:yyyyMMddHHmm}|{systemStartTime.ToUnixTime()}|{Process.GetCurrentProcess().Id}";
+            ConsumerTag = $"tag_{environment}|NET|{SdkInfo.GetVersion()}|{DateTime.Now:yyyyMMddHHmm}|{TicketHelper.DateTimeToUnixTime(systemStartTime)}|{Process.GetCurrentProcess().Id}";
         }
 
         internal MtsChannelSettings(string queueName, string exchangeName, ExchangeType exchangeType, IEnumerable<string> routingKeys, IReadOnlyDictionary<string, object> headerProperties, string environment)
@@ -59,7 +60,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             }
             HeaderProperties = headerProperties;
             var systemStartTime = DateTime.Now.AddMilliseconds(-Environment.TickCount);
-            ConsumerTag = $"tag_{environment}|NET|{SdkInfo.GetVersion()}|{DateTime.Now:yyyyMMddHHmm}|{systemStartTime.ToUnixTime()}|{Process.GetCurrentProcess().Id}";
+            ConsumerTag = $"tag_{environment}|NET|{SdkInfo.GetVersion()}|{DateTime.Now:yyyyMMddHHmm}|{TicketHelper.DateTimeToUnixTime(systemStartTime)}|{Process.GetCurrentProcess().Id}";
         }
 
         public static IMtsChannelSettings GetTicketChannelSettings(string rootExchangeName, string username, int nodeId, string environment)

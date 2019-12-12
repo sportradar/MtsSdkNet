@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using Dawn;
 using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
 using Sportradar.MTS.SDK.Entities.Internal;
 
 namespace Sportradar.MTS.SDK.API.Internal.Senders
@@ -41,7 +40,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
                 throw new InvalidOperationException("The factory is already opened");
             }
 
-            _ticketSenders.ForEach(f => f.Value.Open());
+            foreach (var f in _ticketSenders)
+            {
+                f.Value.Open();
+            }
         }
 
         public void Close()
@@ -51,7 +53,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
                 throw new InvalidOperationException("The factory is already closed");
             }
 
-            _ticketSenders.ForEach(f => f.Value.Close());
+            foreach (var f in _ticketSenders)
+            {
+                f.Value.Close();
+            }
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using RabbitMQ.Client;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq

@@ -194,7 +194,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
         private async Task<MarketDescriptionCacheItem> GetMarketInternalAsync(int id, IEnumerable<CultureInfo> cultures)
         {
-            Guard.Argument(cultures != null && cultures.Any());
+            var cultureList = cultures?.ToList();
+            Guard.Argument(cultureList).NotNull().NotEmpty();
 
             if (!_tokenProvided)
             {
@@ -204,7 +205,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             if (DateTime.Now - TimeOfLastFetch > _fetchInterval)
             {
                 _fetchedLanguages.Clear();
-                var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
                 await FetchMarketDescriptionsAsync(cultureList).ConfigureAwait(false);
             }
 
@@ -224,14 +224,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
         private async Task FetchMarketDescriptionsAsync(IEnumerable<CultureInfo> cultures)
         {
-            Guard.Argument(cultures).NotNull().NotEmpty();
+            var cultureList = cultures?.ToList();
+            Guard.Argument(cultureList).NotNull().NotEmpty();
 
             if (!_tokenProvided)
             {
                 throw new CommunicationException("Missing AccessToken.", string.Empty, null);
             }
-
-            var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
 
             try
             {
