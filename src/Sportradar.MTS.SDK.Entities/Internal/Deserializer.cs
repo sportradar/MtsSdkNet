@@ -90,7 +90,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         public T Deserialize(Stream stream)
         {
-            Guard.Argument(stream).NotNull();
+            Guard.Argument(stream, nameof(stream)).NotNull();
 
             return Deserialize<T>(stream);
         }
@@ -104,7 +104,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <exception cref="DeserializationException">The deserialization failed</exception>
         public T1 Deserialize<T1>(Stream stream) where T1 : T
         {
-            Guard.Argument(stream).NotNull();
+            Guard.Argument(stream, nameof(stream)).NotNull();
 
             using (var reader = new NamespaceIgnorantXmlTextReader(stream))
             {
@@ -144,7 +144,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
         public T1 Deserialize<T1>(string input) where T1 : T
         {
-            Guard.Argument(input).NotNull().NotEmpty();
+            Guard.Argument(input, nameof(input)).NotNull().NotEmpty();
 
             throw new NotImplementedException();
         }
@@ -179,7 +179,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
             public SerializerWithInfo(XmlSerializer serializer, bool ignoreNamespace)
             {
-                Guard.Argument(serializer).NotNull();
+                Guard.Argument(serializer, nameof(serializer)).NotNull();
 
                 Serializer = serializer;
                 IgnoreNamespace = ignoreNamespace;

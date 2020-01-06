@@ -46,7 +46,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public SdkConfigurationInternal(ISdkConfiguration config, IDataFetcher dataFetcher)
             : base(config.Username, config.Password, config.Host, config.VirtualHost, config.UseSsl, config.NodeId, config.BookmakerId, config.LimitId, config.Currency, config.Channel, config.AccessToken, config.UfEnvironment, config.ProvideAdditionalMarketSpecifiers, config.Port, config.ExclusiveConsumer)
         {
-            Guard.Argument(config).NotNull();
+            Guard.Argument(config, nameof(config)).NotNull();
+
             ApiHost = null;
 
             switch (config.UfEnvironment)
@@ -57,6 +58,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal
                 case Entities.Enums.UfEnvironment.Production:
                     ApiHost = SdkInfo.ApiHostProduction;
                     return;
+                case null:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             if (dataFetcher == null)

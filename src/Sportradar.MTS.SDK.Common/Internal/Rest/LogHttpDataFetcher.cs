@@ -36,9 +36,9 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         public LogHttpDataFetcher(HttpClient client, string accessToken, ISequenceGenerator sequenceGenerator, int connectionFailureLimit = 5, int connectionFailureTimeout = 15)
             : base(client, accessToken, connectionFailureLimit, connectionFailureTimeout)
         {
-            Guard.Argument(sequenceGenerator).NotNull();
-            Guard.Argument(connectionFailureLimit).Positive();
-            Guard.Argument(connectionFailureTimeout).Positive();
+            Guard.Argument(sequenceGenerator, nameof(sequenceGenerator)).NotNull();
+            Guard.Argument(connectionFailureLimit, nameof(connectionFailureLimit)).Positive();
+            Guard.Argument(connectionFailureTimeout, nameof(connectionFailureTimeout)).Positive();
 
             _sequenceGenerator = sequenceGenerator;
         }

@@ -20,11 +20,10 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageDeserializationFailedEventArgs"/> class
         /// </summary>
-        /// <param name="rawData">the name of the message which could not be deserialized, or a null reference if message name could
-        ///                         not be retrieved</param>
+        /// <param name="rawData">the name of the message which could not be deserialized, or a null reference if message name could not be retrieved</param>
         public MessageDeserializationFailedEventArgs(IEnumerable<byte> rawData)
         {
-            Guard.Argument(rawData).NotNull().NotEmpty();
+            Guard.Argument(rawData, nameof(rawData)).NotNull().NotEmpty();
 
             RawData = rawData;
         }
