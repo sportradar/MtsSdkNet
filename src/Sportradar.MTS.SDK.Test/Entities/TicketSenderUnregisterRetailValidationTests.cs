@@ -1,12 +1,14 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
+using Sportradar.MTS.SDK.Test.Helpers;
 
-namespace Sportradar.MTS.SDK.Entities.Test
+namespace Sportradar.MTS.SDK.Test.Entities
 {
     [TestClass]
     public class TicketSenderUnregisterRetailValidationTests

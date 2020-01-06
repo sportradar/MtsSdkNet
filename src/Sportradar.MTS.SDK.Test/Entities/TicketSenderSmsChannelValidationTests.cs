@@ -1,24 +1,27 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
+using Sportradar.MTS.SDK.Test.Helpers;
 
-namespace Sportradar.MTS.SDK.Entities.Test
+namespace Sportradar.MTS.SDK.Test.Entities
 {
     [TestClass]
-    public class TicketSenderUnregisteredTerminalValidationTests
+    public class TicketSenderSmsChannelValidationTests
     {
         [TestMethod]
         public void limit_is_required()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Terminal)
-                .SetTerminalId("terminal")
+                .SetSenderChannel(SenderChannel.Sms)
                 .SetBookmakerId(1)
-                .SetCurrency("eur");
+                .SetCurrency("eur")
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
 
             try
             {
@@ -32,18 +35,16 @@ namespace Sportradar.MTS.SDK.Entities.Test
         }
 
         [TestMethod]
-        public void shop_id_is_allowed()
+        public void end_customer_device_id_is_allowed()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Terminal)
+                .SetSenderChannel(SenderChannel.Sms)
                 .SetLimitId(1)
-                .SetTerminalId("terminal")
-                .SetShopId("shop")
                 .SetBookmakerId(1)
-                .SetCurrency("eur");
+                .SetCurrency("eur")
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetDeviceId("device").SetLanguageId("en").Build());
 
             var sender = builder.Build();
-            Assert.IsNotNull(builder);
             Assert.IsNotNull(sender);
         }
 
@@ -51,11 +52,11 @@ namespace Sportradar.MTS.SDK.Entities.Test
         public void valid_sender_is_validated()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Terminal)
+                .SetSenderChannel(SenderChannel.Sms)
                 .SetLimitId(1)
-                .SetTerminalId("terminal")
                 .SetBookmakerId(1)
-                .SetCurrency("eur");
+                .SetCurrency("eur")
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
 
             var sender = builder.Build();
             Assert.IsNotNull(sender);

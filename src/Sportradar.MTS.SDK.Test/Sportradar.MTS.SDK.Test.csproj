@@ -100,6 +100,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Builders\TicketCashoutBuilderTest.cs" />
+    <Compile Include="Entities\TicketSenderCallCenterChannelValidationTests.cs" />
+    <Compile Include="Entities\TicketSenderInternetChannelValidationTests.cs" />
+    <Compile Include="Entities\TicketSenderMobileChannelValidationTests.cs" />
+    <Compile Include="Entities\TicketSenderRegisteredRetailValidationTests.cs" />
+    <Compile Include="Entities\TicketSenderRegisteredTerminalChannelValidation.cs" />
+    <Compile Include="Entities\TicketSenderSmsChannelValidationTests.cs" />
+    <Compile Include="Entities\TicketSenderUnregisteredTerminalValidationTests.cs" />
+    <Compile Include="Entities\TicketSenderUnregisterRetailValidationTests.cs" />
     <Compile Include="Helpers\BuilderFactoryHelper.cs" />
     <Compile Include="Builders\ReofferTest.cs" />
     <Compile Include="Builders\SelectionBuilderTest.cs" />
@@ -114,6 +122,7 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\SdkConfigurationSectionHelper.cs" />
     <Compile Include="Helpers\SdkConfigurationSectionTest.cs" />
+    <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Mapping\EnumMappingTest.cs" />
     <Compile Include="Mapping\TicketSerializerTest.cs" />
     <Compile Include="Mapping\TicketJsonTest.cs" />

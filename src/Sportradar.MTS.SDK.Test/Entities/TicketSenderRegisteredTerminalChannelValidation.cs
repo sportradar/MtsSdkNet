@@ -1,26 +1,28 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
+using Sportradar.MTS.SDK.Test.Helpers;
 
-namespace Sportradar.MTS.SDK.Entities.Test
+namespace Sportradar.MTS.SDK.Test.Entities
 {
     [TestClass]
-    public class TicketSenderRegisteredRetailValidationTests
+    public class TicketSenderRegisteredTerminalChannelValidation
     {
         [TestMethod]
         public void limit_is_required()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Retail)
-                .SetShopId("shop")
+                .SetSenderChannel(SenderChannel.Terminal)
+                .SetTerminalId("terminal")
                 .SetBookmakerId(1)
                 .SetCurrency("eur")
-                .SetEndCustomer(EndCustomerBuilder.Create().SetId("id").SetLanguageId("en").Build());
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
 
             try
             {
@@ -34,15 +36,31 @@ namespace Sportradar.MTS.SDK.Entities.Test
         }
 
         [TestMethod]
-        public void end_customer_id_is_not_required_for_retail()
+        public void end_customer_id_is_not_required_for_terminal()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Retail)
+                .SetSenderChannel(SenderChannel.Terminal)
                 .SetLimitId(1)
                 .SetBookmakerId(1)
-                .SetShopId("a")
                 .SetCurrency("eur")
+                .SetTerminalId("terminal")
                 .SetEndCustomer(EndCustomerBuilder.Create().SetLanguageId("en").Build());
+
+            var sender = builder.Build();
+            Assert.IsNotNull(sender);
+        }
+
+        [TestMethod]
+        public void shop_id_is_allowed()
+        {
+            var builder = SenderBuilder.Create()
+                .SetSenderChannel(SenderChannel.Terminal)
+                .SetLimitId(1)
+                .SetBookmakerId(1)
+                .SetCurrency("eur")
+                .SetTerminalId("terminal")
+                .SetShopId("shop")
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
 
             var sender = builder.Build();
             Assert.IsNotNull(sender);
@@ -52,12 +70,12 @@ namespace Sportradar.MTS.SDK.Entities.Test
         public void end_customer_device_id_is_allowed()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Retail)
+                .SetSenderChannel(SenderChannel.Terminal)
                 .SetLimitId(1)
                 .SetBookmakerId(1)
-                .SetShopId("a")
                 .SetCurrency("eur")
-                .SetEndCustomer(EndCustomerBuilder.Create().SetId("id").SetDeviceId("device").SetLanguageId("en").Build());
+                .SetTerminalId("terminal")
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetDeviceId("device").SetLanguageId("en").Build());
 
             var sender = builder.Build();
             Assert.IsNotNull(sender);
@@ -67,12 +85,12 @@ namespace Sportradar.MTS.SDK.Entities.Test
         public void valid_sender_is_validated()
         {
             var builder = SenderBuilder.Create()
-                .SetSenderChannel(SenderChannel.Retail)
+                .SetSenderChannel(SenderChannel.Terminal)
                 .SetLimitId(1)
                 .SetBookmakerId(1)
-                .SetShopId("a")
                 .SetCurrency("eur")
-                .SetEndCustomer(EndCustomerBuilder.Create().SetId("id").SetLanguageId("en").Build());
+                .SetTerminalId("terminal")
+                .SetEndCustomer(EndCustomerBuilder.Create().SetId("client").SetLanguageId("en").Build());
 
             var sender = builder.Build();
             Assert.IsNotNull(sender);

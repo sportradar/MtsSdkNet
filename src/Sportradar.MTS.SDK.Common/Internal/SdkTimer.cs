@@ -18,7 +18,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
         private readonly Timer _timer;
 
         /// <summary>
-        /// Value specifying the time between tha start of the timer and the first firing of the <see cref="Elapsed"/> event
+        /// Value specifying the time between the start of the timer and the first firing of the <see cref="Elapsed"/> event
         /// </summary>
         private TimeSpan _dueTime;
 
