@@ -288,9 +288,11 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                             }
                         }
 
+                        var arguments = new Dictionary<string, object> { { "x-queue-master-locator", "min-masters" } };
+
                         var declareResult = _channelSettings.QueueIsDurable
-                            ? channelWrapper.Channel.QueueDeclare(_queueName, true, false, false, null)
-                            : channelWrapper.Channel.QueueDeclare(_queueName, false, false, false, null);
+                            ? channelWrapper.Channel.QueueDeclare(_queueName, true, false, false, arguments)
+                            : channelWrapper.Channel.QueueDeclare(_queueName, false, false, false, arguments);
 
                         if (!string.IsNullOrEmpty(_mtsChannelSettings.ExchangeName) && _routingKeys != null)
                         {
