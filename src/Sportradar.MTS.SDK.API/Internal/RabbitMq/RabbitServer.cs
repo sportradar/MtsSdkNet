@@ -37,7 +37,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 {"SrMtsSdkType", ".net"},
                 {"SrMtsSdkVersion", SdkInfo.GetVersion()},
                 {"SrMtsSdkInit", $"{DateTime.Now:yyyyMMddHHmm}"},
-                {"connection_name", "RabbitMQ / Net"}
+                {"connection_name", "RabbitMQ / Net"},
+                { "SrMtsSdkBId", config.BookmakerId }
             };
 
             AutomaticRecovery = false;
