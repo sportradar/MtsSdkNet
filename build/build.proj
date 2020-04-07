@@ -7,14 +7,14 @@
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">2</MajorVersion>
     <MinorVersion Condition="'$(MinorVersion)' == ''">3</MinorVersion>
-    <BuildNumber Condition="'$(BuildNumber)' == ''">3</BuildNumber>
-    <Revision Condition="'$(Revision)' == ''">2</Revision>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">4</BuildNumber>
+    <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Improved handling of connection to the rabbit server</BuildChangeLog> 
+    <BuildChangeLog>Added support for TLS 1.2!NL!Added configuration property ticketResponseTimeoutPrematch!NL!Added TicketResponseTimedOut handler in DemoProject!NL!Added SetTicketResponseTimeoutLive and SetTicketResponseTimeoutPrematch to ISdkConfigurationBuilder!NL!Allow 0 cashout stake when building TicketCashout!NL!Added bookmakerId to the client_properties!NL!Added argument to rabbit queue declare: queue-master-locator!NL!Changed connection heartbeat from 45s to 20s!NL!Default timeout for ticket response for live selections increased from 15s to 17s!NL!Examples updated to use UOF markets!NL!Replaced CodeContracts with Dawn.Guard!NL!Fix: set AutomaticRecovery of rabbit connection to false!NL!Fix: removing empty connection after reconnect</BuildChangeLog> 
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 

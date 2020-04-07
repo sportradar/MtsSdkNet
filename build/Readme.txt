@@ -2,6 +2,21 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2020-04-07 2.3.4.0
+Added support for TLS 1.2
+Added configuration property ticketResponseTimeoutPrematch
+Added TicketResponseTimedOut handler in DemoProject
+Added SetTicketResponseTimeoutLive and SetTicketResponseTimeoutPrematch to ISdkConfigurationBuilder
+Allow 0 cashout stake when building TicketCashout
+Added bookmakerId to the client_properties
+Added argument to rabbit queue declare: queue-master-locator
+Changed connection heartbeat from 45s to 20s
+Default timeout for ticket response for live selections increased from 15s to 17s
+Examples updated to use UOF markets
+Replaced CodeContracts with Dawn.Guard
+Fix: set AutomaticRecovery of rabbit connection to false
+Fix: removing empty connection after reconnect
+
 2019-11-07 2.3.3.2
 Improved handling of connection to the rabbit server
 
