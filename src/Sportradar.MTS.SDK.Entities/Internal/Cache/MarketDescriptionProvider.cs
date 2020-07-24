@@ -1,6 +1,8 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System;
 using System.Collections.Generic;
 using Dawn;
 using System.Globalization;
@@ -27,7 +29,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         {
             Guard.Argument(marketDescriptionCache, nameof(marketDescriptionCache)).NotNull();
             var cultureInfos = cultures.ToList();
-            Guard.Argument(cultureInfos, nameof(cultureInfos)).NotNull().NotEmpty();
+            Guard.Argument(cultureInfos, nameof(cultureInfos)).NotNull();//.NotEmpty();
+            if (!cultureInfos.Any())
+                throw new ArgumentOutOfRangeException(nameof(cultureInfos));
 
             MarketDescriptionCache = marketDescriptionCache;
             _cultures = cultureInfos;

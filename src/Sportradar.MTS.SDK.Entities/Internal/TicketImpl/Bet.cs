@@ -89,7 +89,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                                                                  && systems.Count == systems.Distinct().Count()
                                                                  && systems.All(a => a > 0)));
             var listSelections = selections.ToList();
-            Guard.Argument(listSelections, nameof(listSelections)).NotNull().NotEmpty().Require(listSelections.Count < 64 && listSelections.Count == listSelections.Distinct().Count());
+            Guard.Argument(listSelections, nameof(listSelections)).NotNull();//.NotEmpty().Require(listSelections.Count < 64 && listSelections.Count == listSelections.Distinct().Count());
+            if (!listSelections.Any())
+                throw new ArgumentOutOfRangeException(nameof(listSelections));
+            Guard.Argument(listSelections, nameof(listSelections)).Require(listSelections.Count < 64 && listSelections.Count == listSelections.Distinct().Count());
+
             Guard.Argument(reofferRefId, nameof(reofferRefId)).Require(string.IsNullOrEmpty(reofferRefId) || reofferRefId.Length <= 50);
             Guard.Argument(sumOfWins, nameof(sumOfWins)).NotNegative();
             bool customBetBool = customBet ?? false;

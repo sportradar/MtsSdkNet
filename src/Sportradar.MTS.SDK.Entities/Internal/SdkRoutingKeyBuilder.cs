@@ -20,7 +20,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns></returns>
         public static IEnumerable<IEnumerable<string>> GenerateKeys(IEnumerable<MessageInterest> interests)
         {
-            Guard.Argument(interests, nameof(interests)).NotNull().NotEmpty();
+            Guard.Argument(interests, nameof(interests)).NotNull();//.NotEmpty();
+            if (!interests.Any())
+                throw new ArgumentOutOfRangeException(nameof(interests));
 
             var sessionKeys = new List<List<string>>();
             var messageInterests = interests.ToList();

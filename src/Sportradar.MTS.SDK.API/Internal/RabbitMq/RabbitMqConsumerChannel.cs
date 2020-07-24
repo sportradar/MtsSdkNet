@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Dawn;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using log4net;
@@ -197,7 +198,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         public void Open(IEnumerable<string> routingKeys)
         {
-            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull().NotEmpty();
+            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();//.NotEmpty();
+            if (!routingKeys.Any())
+                throw new ArgumentOutOfRangeException(nameof(routingKeys));
 
             Open(_mtsChannelSettings.ChannelQueueName, routingKeys);
         }
@@ -205,7 +208,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public void Open(string queueName, IEnumerable<string> routingKeys)
         {
             Guard.Argument(queueName, nameof(queueName)).NotNull().NotEmpty();
-            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull().NotEmpty();
+            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();//.NotEmpty();
+            if (!routingKeys.Any())
+                throw new ArgumentOutOfRangeException(nameof(routingKeys));
 
             if (Interlocked.Read(ref _isOpened) == 1)
             {

@@ -3,6 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dawn;
 
 namespace Sportradar.MTS.SDK.Entities.EventArguments
@@ -23,7 +24,9 @@ namespace Sportradar.MTS.SDK.Entities.EventArguments
         /// <param name="rawData">the name of the message which could not be deserialized, or a null reference if message name could not be retrieved</param>
         public MessageDeserializationFailedEventArgs(IEnumerable<byte> rawData)
         {
-            Guard.Argument(rawData, nameof(rawData)).NotNull().NotEmpty();
+            Guard.Argument(rawData, nameof(rawData)).NotNull();//.NotEmpty();
+            if (!rawData.Any())
+                throw new ArgumentOutOfRangeException(nameof(rawData));
 
             RawData = rawData;
         }
