@@ -21,6 +21,11 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
+2020-09-18 2.3.5.0
+Added # to the User ID pattern
+Fix: removed problematic Guard checks
+Fix: checking for invalid products
+
 2020-04-07 2.3.4.0
 Added support for TLS 1.2
 Added configuration property ticketResponseTimeoutPrematch
