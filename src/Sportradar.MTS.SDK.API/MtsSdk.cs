@@ -226,7 +226,7 @@ namespace Sportradar.MTS.SDK.API
                                                             bool useSsl = true,
                                                             string accessToken = null)
         {
-            return new SdkConfiguration(username, password, host, vhost, useSsl, 1, 0, 0, null, null, accessToken);
+            return new SdkConfiguration(username, password, host, vhost, useSsl, null, 1, 0, 0, null, null, accessToken);
         }
 
         /// <summary>
