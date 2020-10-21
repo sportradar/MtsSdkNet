@@ -127,6 +127,12 @@ namespace Sportradar.MTS.SDK.API
         public ICustomBetManager CustomBetManager { get; }
 
         /// <summary>
+        /// Gets the connection status.
+        /// </summary>
+        /// <value>The connection status.</value>
+        public IConnectionStatus ConnectionStatus { get; }
+
+        /// <summary>
         /// Constructs a new instance of the <see cref="MtsSdk"/> class
         /// </summary>
         /// <param name="config">A <see cref="ISdkConfiguration"/> instance representing feed configuration</param>
@@ -157,6 +163,7 @@ namespace Sportradar.MTS.SDK.API
 
             ClientApi = _unityContainer.Resolve<IMtsClientApi>();
             CustomBetManager = _unityContainer.Resolve<ICustomBetManager>();
+            ConnectionStatus = _unityContainer.Resolve<IConnectionStatus>();
 
             _autoResetEventsForBlockingRequests = new ConcurrentDictionary<string, AutoResetEvent>();
             _responsesFromBlockingRequests = new ConcurrentDictionary<string, ISdkTicket>();
@@ -394,6 +401,7 @@ namespace Sportradar.MTS.SDK.API
             try
             {
                 ticket = _entitiesMapper.GetTicketResponseFromJson(eventArgs.JsonBody, eventArgs.RoutingKey, eventArgs.ResponseType, eventArgs.CorrelationId, eventArgs.AdditionalInfo);
+                ((ConnectionStatus)ConnectionStatus).TicketReceived(ticket.TicketId);
             }
             catch (Exception e)
             {
@@ -449,6 +457,12 @@ namespace Sportradar.MTS.SDK.API
 
         private int SendTicketBase(ISdkTicket ticket, bool waitForResponse)
         {
+            if (!ConnectionStatus.IsConnected)
+            {
+                var msg = $"Sending {ticket.GetType().Name} with ticketId: {ticket.TicketId} failed. Reason: disconnected from server.";
+                ExecutionLog.Warn(msg);
+                throw new InvalidOperationException(msg);
+            }
             ExecutionLog.Info($"Sending {ticket.GetType().Name} with ticketId: {ticket.TicketId}.");
             var ticketType = TicketHelper.GetTicketTypeFromTicket(ticket);
             var ticketSender = _ticketPublisherFactory.GetTicketSender(ticketType);

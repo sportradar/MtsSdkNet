@@ -44,17 +44,25 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private bool _disposed;
 
         private readonly Dictionary<int, ChannelWrapper> _models = new Dictionary<int, ChannelWrapper>();
-        private bool _connectionIsShutdown;
+
+        /// <summary>
+        /// Gets the connection status.
+        /// </summary>
+        /// <value>The connection status.</value>
+        private readonly ConnectionStatus _connectionStatus;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChannelFactory"/> class
         /// </summary>
         /// <param name="connectionFactory">The connection factory</param>
-        public ChannelFactory(IConnectionFactory connectionFactory)
+        /// <param name="connectionStatus">The connection status</param>
+        public ChannelFactory(IConnectionFactory connectionFactory, IConnectionStatus connectionStatus)
         {
             Guard.Argument(connectionFactory, nameof(connectionFactory)).NotNull();
+            Guard.Argument(connectionStatus, nameof(connectionStatus)).NotNull();
 
             _connectionFactory = connectionFactory;
+            _connectionStatus = (ConnectionStatus)connectionStatus;
         }
 
         /// <summary>
@@ -87,7 +95,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             connection.ConnectionShutdown += ConnectionOnConnectionShutdown;
             connection.ConnectionUnblocked += ConnectionOnConnectionUnblocked;
             _connection = connection;
-            _connectionIsShutdown = false;
+            _connectionStatus.Connect("Connection established.");
             ExecutionLog.Debug("Creating connection ... finished.");
         }
 
@@ -105,7 +113,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 _connection.ConnectionShutdown -= ConnectionOnConnectionShutdown;
                 _connection.ConnectionUnblocked -= ConnectionOnConnectionUnblocked;
                 _connection = null;
-                _connectionIsShutdown = false;
+                if (!_disposed)
+                {
+                    _connectionStatus.Disconnect("Attempting reconnection");
+                }
                 ExecutionLog.Debug("Removing connection ... finished.");
             }
         }
@@ -127,7 +138,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             var reason = _connection?.CloseReason?.Cause ?? $"{_connection?.CloseReason?.ReplyCode}-{_connection?.CloseReason?.ReplyText}";
             ExecutionLog.Info($"Connection invoked ConnectionShutdown. ClientName: {_connection?.ClientProvidedName} and close reason: {reason}.");
 
-            _connectionIsShutdown = true;
+            _connectionStatus.Disconnect("Close reason: " + reason);
 
             foreach (var model in _models)
             {
@@ -191,7 +202,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 }
                 else
                 {
-                    if (_connectionIsShutdown)
+                    if (!_connectionStatus.IsConnected)
                     {
                         // try to reconnect
                         try

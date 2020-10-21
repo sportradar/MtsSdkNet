@@ -167,6 +167,7 @@
     <Compile Include="Builders\ITicketNonSrSettleBuilder.cs" />
     <Compile Include="Enums\NonSrSettleAcceptance.cs" />
     <Compile Include="Enums\UfEnvironment.cs" />
+    <Compile Include="EventArguments\ConnectionChangeEventArgs.cs" />
     <Compile Include="EventArguments\SdkMessageEventArgs.cs" />
     <Compile Include="Interfaces\CustomBet\IAvailableSelections.cs" />
     <Compile Include="Interfaces\CustomBet\ICalculation.cs" />

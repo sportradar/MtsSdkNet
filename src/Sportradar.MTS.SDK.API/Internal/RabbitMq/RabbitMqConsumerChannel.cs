@@ -240,7 +240,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 {
                     try
                     {
-
                         //ExecutionLog.Debug($"Opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName} started ...");
                         var channelWrapper = _channelFactory.GetChannel(UniqueId);
                         if (channelWrapper == null)

@@ -182,8 +182,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConnectionStatus.cs" />
     <Compile Include="ICustomBetManager.cs" />
     <Compile Include="IMtsClientApi.cs" />
+    <Compile Include="Internal\ConnectionStatus.cs" />
     <Compile Include="Internal\CustomBetManager.cs" />
     <Compile Include="Internal\Mappers\TicketNonSrSettleMapper.cs" />
     <Compile Include="Internal\Mappers\TicketNonSrSettleResponseMapper.cs" />
