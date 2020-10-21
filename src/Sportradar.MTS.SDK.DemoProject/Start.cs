@@ -4,7 +4,6 @@
 using System;
 using System.IO;
 using log4net;
-using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.DemoProject.Example;
 
 namespace Sportradar.MTS.SDK.DemoProject

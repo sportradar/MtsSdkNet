@@ -16,7 +16,6 @@ using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Internal.Rest;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Builders;
-using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.Cache;
 using Sportradar.MTS.SDK.Entities.Internal.Enums;

@@ -4,10 +4,6 @@
 using System;
 using System.Net;
 using log4net;
-using Sportradar.MTS.SDK.API;
-using Sportradar.MTS.SDK.Entities.Builders;
-using Sportradar.MTS.SDK.Entities.Enums;
-using Sportradar.MTS.SDK.Entities.EventArguments;
 
 namespace Sportradar.MTS.SDK.DemoProject.Example
 {
