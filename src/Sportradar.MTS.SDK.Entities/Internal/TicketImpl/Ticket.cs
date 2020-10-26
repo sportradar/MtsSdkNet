@@ -134,7 +134,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             Guard.Argument(sender, nameof(sender)).NotNull();
             Guard.Argument(bets, nameof(bets)).NotNull();//.NotEmpty().MaxCount(50);
             if (!bets.Any())
+            {
                 throw new ArgumentOutOfRangeException(nameof(bets));
+            }
             Guard.Argument(bets, nameof(bets)).Require(bets.Count() <= 50);
             Guard.Argument(reofferId, nameof(reofferId)).Require(string.IsNullOrEmpty(reofferId) || TicketHelper.ValidateTicketId(reofferId));
             Guard.Argument(altStakeRefId, nameof(altStakeRefId)).Require(string.IsNullOrEmpty(altStakeRefId) || TicketHelper.ValidateTicketId(altStakeRefId));
@@ -168,8 +170,10 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                 }
                 Guard.Argument(selections, nameof(selections)).NotNull();//.NotEmpty().MaxCount(64);
                 if (!selections.Any())
+                {
                     throw new ArgumentOutOfRangeException(nameof(selections));
-                Guard.Argument(selections, nameof(selections)).Require(selections.Count <= 64);
+                }
+                //Guard.Argument(selections, nameof(selections)).Require(selections.Count <= 64);
 
                 Selections = selections.Distinct();
             }
