@@ -7,14 +7,14 @@
     <NugetKey></NugetKey>
     <MajorVersion Condition="'$(MajorVersion)' == ''">2</MajorVersion>
     <MinorVersion Condition="'$(MinorVersion)' == ''">3</MinorVersion>
-    <BuildNumber Condition="'$(BuildNumber)' == ''">5</BuildNumber>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">6</BuildNumber>
     <Revision Condition="'$(Revision)' == ''">0</Revision>
     <BuildPlanName Condition="'$(BuildPlanName)' == ''">LocalBuild</BuildPlanName>
     <BuildKey Condition="'$(BuildKey)' == ''">NOKEY</BuildKey>
     <Timestamp>$([System.DateTime]::Now.ToString("yyyy-MM-dd\THH:mm:ss"))</Timestamp>
 
     <!-- you get new line with inserting !NL! -->
-    <BuildChangeLog>Added # to the User ID pattern!NL!Fix: removed problematic Guard checks!NL!Fix: checking for invalid products</BuildChangeLog>
+    <BuildChangeLog>Added sslServerName to the configuration!NL!IMtsSdk extended with ConnectionStatus; provides also event ConnectionChange!NL!Removed ticket selection count limit</BuildChangeLog>
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
   </PropertyGroup>
 

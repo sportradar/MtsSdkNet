@@ -2,8 +2,14 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Linq;
 using log4net;
+using Sportradar.MTS.SDK.API;
 using Sportradar.MTS.SDK.DemoProject.Tickets;
+using Sportradar.MTS.SDK.Entities.Builders;
+using Sportradar.MTS.SDK.Entities.Enums;
+using Sportradar.MTS.SDK.Entities.EventArguments;
+using Sportradar.MTS.SDK.Entities.Interfaces;
 
 namespace Sportradar.MTS.SDK.DemoProject.Example
 {

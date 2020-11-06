@@ -71,7 +71,7 @@ namespace Sportradar.MTS.SDK.Common.Exceptions
             : base(info, context)
         {
             Url = info.GetString("sdkUrl");
-            ResponseCode = (HttpStatusCode) info.GetValue("sdkResponseCode", typeof(HttpStatusCode));
+            ResponseCode = (HttpStatusCode)info.GetValue("sdkResponseCode", typeof(HttpStatusCode));
         }
 
 

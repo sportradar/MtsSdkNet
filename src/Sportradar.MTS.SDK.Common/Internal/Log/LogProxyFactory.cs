@@ -14,16 +14,16 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
     {
         public static T Create<T>(object[] args, LoggerType loggerType = LoggerType.Execution, bool canOverrideLoggerType = true)
         {
-            var tmp = (T) Activator.CreateInstance(typeof(T), args);
+            var tmp = (T)Activator.CreateInstance(typeof(T), args);
             var logProxy = new LogProxy<T>(tmp, loggerType, canOverrideLoggerType);
-            return (T) logProxy.GetTransparentProxy();
+            return (T)logProxy.GetTransparentProxy();
         }
 
         public static T Create<T>(object[] args, Predicate<MethodInfo> filter, LoggerType loggerType = LoggerType.Execution, bool canOverrideLoggerType = true)
         {
-            var tmp = (T) Activator.CreateInstance(typeof(T), args);
-            var logProxy = new LogProxy<T>(tmp, loggerType, canOverrideLoggerType) {Filter = filter};
-            return (T) logProxy.GetTransparentProxy();
+            var tmp = (T)Activator.CreateInstance(typeof(T), args);
+            var logProxy = new LogProxy<T>(tmp, loggerType, canOverrideLoggerType) { Filter = filter };
+            return (T)logProxy.GetTransparentProxy();
         }
 
         public static T Create<T>(LoggerType loggerType, bool canOverrideLoggerType, params object[] args)

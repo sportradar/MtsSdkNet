@@ -70,12 +70,12 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
                 {
                     repositoryName = SdkLoggerFactory.SdkLogRepositoryName;
                 }
-                hierarchy = (Hierarchy) LogManager.GetRepository(repositoryName);
+                hierarchy = (Hierarchy)LogManager.GetRepository(repositoryName);
             }
             catch (Exception)
             {
                 //make empty logger
-                hierarchy = (Hierarchy) LogManager.GetRepository();
+                hierarchy = (Hierarchy)LogManager.GetRepository();
                 var emptyLogger = hierarchy.LoggerFactory.CreateLogger(hierarchy, className);
                 emptyLogger.Hierarchy = hierarchy;
                 emptyLogger.RemoveAllAppenders();
@@ -110,7 +110,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         /// <param name="classType">A type to be used when creating new SdkLogger</param>
         /// <param name="repositoryName">Repository containing the logger</param>
         public SdkLogger(LoggerType loggerType, Type classType, string repositoryName = null)
-            :this(loggerType, classType.FullName, repositoryName)
+            : this(loggerType, classType.FullName, repositoryName)
         {
 
         }

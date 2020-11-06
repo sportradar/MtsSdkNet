@@ -53,7 +53,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
         /// <returns>The multiplied value, up to max value</returns>
         public static int Multiply(int value, double factor = 2, int maxValue = 64000)
         {
-            value = (int) (value * factor);
+            value = (int)(value * factor);
             if (value >= maxValue)
             {
                 value = maxValue;

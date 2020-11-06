@@ -119,7 +119,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
                         logEnabled = true;
                         if (_canOverrideLoggerType)
                         {
-                            logger = SdkLoggerFactory.GetLogger(methodCall.MethodBase.ReflectedType, SdkLoggerFactory.SdkLogRepositoryName, ((LogAttribute) t).LoggerType);
+                            logger = SdkLoggerFactory.GetLogger(methodCall.MethodBase.ReflectedType, SdkLoggerFactory.SdkLogRepositoryName, ((LogAttribute)t).LoggerType);
                         }
                         break;
                     }
@@ -140,7 +140,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
                     logger.Debug($"{methodCall.MethodName} arguments:");
                     for (int i = 0; i < methodCall.InArgCount; i++)
                     {
-                        logger.Debug($"\t{((Type[]) methodCall.MethodSignature)[i].Name}={methodCall.InArgs[i]}");
+                        logger.Debug($"\t{((Type[])methodCall.MethodSignature)[i].Name}={methodCall.InArgs[i]}");
                     }
                 }
 

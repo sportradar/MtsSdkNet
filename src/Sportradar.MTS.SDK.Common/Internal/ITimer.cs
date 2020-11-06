@@ -8,7 +8,8 @@ namespace Sportradar.MTS.SDK.Common.Internal
     /// <summary>
     /// Defines a contract implemented by classes used to execute period tasks
     /// </summary>
-    public interface ITimer : IDisposable {
+    public interface ITimer : IDisposable
+    {
         /// <summary>
         /// Raised when the timer elapses
         /// </summary>

@@ -2,9 +2,9 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using Dawn;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Dawn;
 using log4net;
 using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Internal.Log;

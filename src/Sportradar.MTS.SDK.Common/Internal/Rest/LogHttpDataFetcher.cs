@@ -3,10 +3,10 @@
  */
 using System;
 using System.Diagnostics;
-using Dawn;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Dawn;
 using log4net;
 using Metrics;
 using Sportradar.MTS.SDK.Common.Exceptions;

@@ -2,12 +2,12 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using Dawn;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Dawn;
 using Sportradar.MTS.SDK.Common.Exceptions;
 
 namespace Sportradar.MTS.SDK.Common.Internal.Rest

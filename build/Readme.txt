@@ -2,6 +2,11 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2020-11-06 2.3.6.0
+Added sslServerName to the configuration
+IMtsSdk extended with ConnectionStatus; provides also event ConnectionChange
+Removed ticket selection count limit (mts will check it)
+
 2020-09-18 2.3.5.0
 Added # to the User ID pattern
 Fix: removed problematic Guard checks
