@@ -29,5 +29,6 @@ XsdSchemaFetcher/SchemaFetcher/packages/*
 build/Help/*
 export
 
+**/Documentation/*
 **/packages/*
 **/custom/*

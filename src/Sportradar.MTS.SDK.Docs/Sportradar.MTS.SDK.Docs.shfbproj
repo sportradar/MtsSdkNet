@@ -13,9 +13,9 @@
     <RootNamespace>Sportradar.MTS.SDK.Docs</RootNamespace>
     <Name>Sportradar.MTS.SDK.Docs</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.7.2</FrameworkVersion>
-    <OutputPath>.\Help\</OutputPath>
-    <HtmlHelpName>Sportradar.MTS.SDK.Docs</HtmlHelpName>
+    <FrameworkVersion>.NET Framework 4.5.1</FrameworkVersion>
+    <OutputPath>Documentation\</OutputPath>
+    <HtmlHelpName>MTS SDK Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <TransformComponentArguments>
       <Argument Key="logoFile" Value="Help.png" xmlns="" />
@@ -26,6 +26,72 @@
       <Argument Key="logoAlignment" Value="left" xmlns="" />
       <Argument Key="maxVersionParts" Value="" xmlns="" />
     </TransformComponentArguments>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK\Sportradar.MTS.SDK.csproj" />
+      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK.API\Sportradar.MTS.SDK.API.csproj" />
+      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj" />
+      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK.Entities\Sportradar.MTS.SDK.Entities.csproj" />
+    </DocumentationSources>
+    <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
+    <SyntaxFilters>C#</SyntaxFilters>
+    <PresentationStyle>VS2013</PresentationStyle>
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <IndentHtml>False</IndentHtml>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+    <HelpTitle>MTS SDK Documentation</HelpTitle>
+    <HelpFileVersion>2.3.6.0</HelpFileVersion>
+    <NamingMethod>MemberName</NamingMethod>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <MaximumGroupParts>2</MaximumGroupParts>
+    <Preliminary>False</Preliminary>
+    <CopyrightHref>http://sdk.sportradar.com</CopyrightHref>
+    <CopyrightText>Copyright &amp;#169%3b 2017-2021, Sportradar AG</CopyrightText>
+    <FeedbackEMailAddress>sdk%40sportradar.com</FeedbackEMailAddress>
+    <FeedbackEMailLinkText>SDK Team</FeedbackEMailLinkText>
+    <SdkLinkTarget>Top</SdkLinkTarget>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="Sportradar.MTS.SDK.API.Internal" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.API.Internal.Mappers" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.API.Internal.RabbitMq" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.API.Internal.Senders" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.API.Internal.TicketImpl" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Common" isDocumented="True" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Common.Internal" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Common.Internal.Log" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Common.Internal.Metrics" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Common.Internal.Metrics.Reports" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Common.Internal.Rest" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Builders" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Cache" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.CustomBetImpl" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.CustomBet" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketAck" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancel" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelAck" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelResponse" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashout" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettle" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketReofferCancel" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.Enums" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.REST" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.REST.Dto" isDocumented="False" xmlns="" />
+<NamespaceSummaryItem name="Sportradar.MTS.SDK.Entities.Internal.TicketImpl" isDocumented="False" xmlns="" /></NamespaceSummaries>
+    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, EditorBrowsableNever, NonBrowsable</VisibleItems>
+    <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter, AutoDocumentDispose</MissingTags>
+    <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
