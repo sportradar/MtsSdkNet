@@ -132,7 +132,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         {
             Guard.Argument(ticketId, nameof(ticketId)).Require(TicketHelper.ValidateTicketId(ticketId));
             Guard.Argument(sender, nameof(sender)).NotNull();
-            Guard.Argument(bets, nameof(bets)).NotNull();//.NotEmpty().MaxCount(50);
+            Guard.Argument(bets, nameof(bets)).NotNull();
             if (!bets.Any())
             {
                 throw new ArgumentOutOfRangeException(nameof(bets));
@@ -168,12 +168,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
                 {
                     selections.AddRange(bet.Selections);
                 }
-                Guard.Argument(selections, nameof(selections)).NotNull();//.NotEmpty().MaxCount(64);
+                Guard.Argument(selections, nameof(selections)).NotNull();
                 if (!selections.Any())
                 {
-                    throw new ArgumentOutOfRangeException(nameof(selections));
+                    throw new ArgumentOutOfRangeException(nameof(bets), "At least one bet is missing selections.");
                 }
-                //Guard.Argument(selections, nameof(selections)).Require(selections.Count <= 64);
 
                 Selections = selections.Distinct();
             }

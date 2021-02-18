@@ -61,7 +61,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// Initializes a new instance of the <see cref="TicketCashoutBuilder"/> class
         /// </summary>
         /// <param name="bookmakerId">The bookmaker identifier</param>
-        [Obsolete]
+        [Obsolete("Method Create(...) is obsolete. Please use the appropriate method on IBuilderFactory interface which can be obtained through MtsSdk instance")]
         internal TicketCashoutBuilder(int bookmakerId = 0)
         {
             _bookmakerId = bookmakerId;
@@ -70,13 +70,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <summary>
         /// The <see cref="SdkConfigurationSection"/> loaded from app.config
         /// </summary>
-        [Obsolete]
+        [Obsolete("Method Create(...) is obsolete. Please use the appropriate method on IBuilderFactory interface which can be obtained through MtsSdk instance")]
         private static ISdkConfigurationSection _section;
 
         /// <summary>
         /// Value indicating whether an attempt to load the <see cref="SdkConfigurationSection"/> was already made
         /// </summary>
-        [Obsolete]
+        [Obsolete("Method Create(...) is obsolete. Please use the appropriate method on IBuilderFactory interface which can be obtained through MtsSdk instance")]
         private static bool _sectionLoaded;
 
         /// <summary>

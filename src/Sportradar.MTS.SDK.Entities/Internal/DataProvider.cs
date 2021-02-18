@@ -114,7 +114,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <returns>an <see cref="Uri"/> instance used to retrieve resource with specified <code>identifiers</code></returns>
         protected virtual Uri GetRequestUri(params object[] identifiers)
         {
-            Guard.Argument(identifiers, nameof(identifiers)).NotNull();//.NotEmpty();
+            Guard.Argument(identifiers, nameof(identifiers)).NotNull();
             if (!identifiers.Any())
                 throw new ArgumentOutOfRangeException(nameof(identifiers));
 

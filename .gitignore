@@ -15,6 +15,7 @@ obj/
 
 .vs/
 .sonarqube/
+.sonarlint/
 
 *.GhostDoc.xml
 *.GhostDoc.user.dic

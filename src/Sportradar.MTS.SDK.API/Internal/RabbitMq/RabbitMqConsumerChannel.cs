@@ -198,7 +198,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         public void Open(IEnumerable<string> routingKeys)
         {
-            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();//.NotEmpty();
+            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();
             if (!routingKeys.Any())
                 throw new ArgumentOutOfRangeException(nameof(routingKeys));
 
@@ -208,7 +208,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         public void Open(string queueName, IEnumerable<string> routingKeys)
         {
             Guard.Argument(queueName, nameof(queueName)).NotNull().NotEmpty();
-            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();//.NotEmpty();
+            Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();
             if (!routingKeys.Any())
                 throw new ArgumentOutOfRangeException(nameof(routingKeys));
 

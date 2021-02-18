@@ -91,7 +91,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         {
             Guard.Argument(cache, nameof(cache)).NotNull();
             Guard.Argument(dataProvider, nameof(dataProvider)).NotNull();
-            Guard.Argument(prefetchLanguages, nameof(prefetchLanguages)).NotNull();//.NotEmpty();
+            Guard.Argument(prefetchLanguages, nameof(prefetchLanguages)).NotNull();
             if (!prefetchLanguages.Any())
                 throw new ArgumentOutOfRangeException(nameof(prefetchLanguages));
             Guard.Argument(fetchInterval, nameof(fetchInterval)).Require(fetchInterval != null);
@@ -129,7 +129,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <returns>A <see cref="IEnumerable{CultureInfo}"/> containing missing translations or a null reference if none of the translations are missing</returns>
         private IEnumerable<CultureInfo> GetMissingTranslations(MarketDescriptionCacheItem item, IEnumerable<CultureInfo> requiredTranslations)
         {
-            Guard.Argument(requiredTranslations, nameof(requiredTranslations)).NotNull();//.NotEmpty();
+            Guard.Argument(requiredTranslations, nameof(requiredTranslations)).NotNull();
             if (!requiredTranslations.Any())
                 throw new ArgumentOutOfRangeException(nameof(requiredTranslations));
 
@@ -155,7 +155,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         private void Merge(CultureInfo culture, IEnumerable<MarketDescriptionDTO> descriptions)
         {
             Guard.Argument(culture, nameof(culture)).NotNull();
-            Guard.Argument(descriptions, nameof(descriptions)).NotNull();//.NotEmpty();
+            Guard.Argument(descriptions, nameof(descriptions)).NotNull();
             if (!descriptions.Any())
                 throw new ArgumentOutOfRangeException(nameof(descriptions));
 
@@ -201,7 +201,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         private async Task<MarketDescriptionCacheItem> GetMarketInternalAsync(int id, IEnumerable<CultureInfo> cultures)
         {
             var cultureList = cultures?.ToList();
-            Guard.Argument(cultureList, nameof(cultureList)).NotNull();//.NotEmpty();
+            Guard.Argument(cultureList, nameof(cultureList)).NotNull();
             if (!cultureList.Any())
                 throw new ArgumentOutOfRangeException(nameof(cultureList));
 
@@ -233,7 +233,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         private async Task FetchMarketDescriptionsAsync(IEnumerable<CultureInfo> cultures)
         {
             var cultureList = cultures?.ToList();
-            Guard.Argument(cultureList, nameof(cultureList)).NotNull();//.NotEmpty();
+            Guard.Argument(cultureList, nameof(cultureList)).NotNull();
             if (!cultureList.Any())
                 throw new ArgumentOutOfRangeException(nameof(cultureList));
 
@@ -331,7 +331,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         {
             var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();
             Guard.Argument(marketId, nameof(marketId)).Positive();
-            Guard.Argument(cultureList, nameof(cultureList)).NotNull();//.NotEmpty();
+            Guard.Argument(cultureList, nameof(cultureList)).NotNull();
             if (!cultureList.Any())
                 throw new ArgumentOutOfRangeException(nameof(cultureList));
 
