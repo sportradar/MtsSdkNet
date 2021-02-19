@@ -14,7 +14,7 @@
     <Name>Sportradar.MTS.SDK.Docs</Name>
     <!-- SHFB properties -->
     <FrameworkVersion>.NET Framework 4.5.1</FrameworkVersion>
-    <OutputPath>Documentation\</OutputPath>
+    <OutputPath>Help\</OutputPath>
     <HtmlHelpName>MTS SDK Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <TransformComponentArguments>

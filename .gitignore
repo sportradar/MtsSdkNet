@@ -25,10 +25,12 @@ build/doc/*
 sandcastle/Help/*
 DemoProject/packages/*
 XsdSchemaFetcher/SchemaFetcher/packages/*
+coverage.opencover.xml
 
 build/Help/*
 export
 
 **/Documentation/*
+**/Help/*
 **/packages/*
 **/custom/*
