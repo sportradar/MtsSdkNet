@@ -81,7 +81,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         /// <param name="allSelections">All selections</param>
         /// <param name="hasBanker">There is a banker in any of the selection</param>
         /// <returns>IEnumerable&lt;ISelectionRef&gt;</returns>
-        private static IEnumerable<ISelectionRef> GetBetSelectionRefs(IBet bet, IReadOnlyList<Anonymous2> allSelections, bool hasBanker)
+        private static ICollection<ISelectionRef> GetBetSelectionRefs(IBet bet, IReadOnlyList<Anonymous2> allSelections, bool hasBanker)
         {
             if (bet.Selections.Count() != allSelections.Count || bet.Selections.Any(s => s.IsBanker) || hasBanker)
             {

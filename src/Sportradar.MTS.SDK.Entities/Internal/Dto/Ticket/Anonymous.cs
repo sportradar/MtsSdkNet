@@ -43,7 +43,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
             _entireStake = null;
         }
 
-        public Anonymous(IBet bet, IEnumerable<ISelectionRef> selectionRefs)
+        public Anonymous(IBet bet, ICollection<ISelectionRef> selectionRefs)
         {
             _id = string.IsNullOrEmpty(bet.Id) ? null : bet.Id;
             _sumOfWins = bet.SumOfWins > 0 ? bet.SumOfWins : (long?)null;
