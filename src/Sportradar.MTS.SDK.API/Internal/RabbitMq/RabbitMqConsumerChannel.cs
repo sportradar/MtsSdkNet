@@ -139,9 +139,8 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             var correlationId = basicDeliverEventArgs?.BasicProperties?.CorrelationId ?? string.Empty;
             FeedLog.Info($"Received message from MTS with correlationId: {correlationId}.");
             ChannelMessageReceived?.Invoke(this, basicDeliverEventArgs);
-
-            // TODO: ??? should this be in any way depended on user action (only acknowledged that message was received)
-            if (_channelSettings.UserAcknowledgmentEnabled)
+            
+            if (!_channelSettings.UserAcknowledgmentEnabled)
             {
                 var i = 0;
                 while (i < 10)
@@ -200,7 +199,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         {
             Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();
             if (!routingKeys.Any())
+            {
                 throw new ArgumentOutOfRangeException(nameof(routingKeys));
+            }
 
             Open(_mtsChannelSettings.ChannelQueueName, routingKeys);
         }
@@ -210,7 +211,9 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             Guard.Argument(queueName, nameof(queueName)).NotNull().NotEmpty();
             Guard.Argument(routingKeys, nameof(routingKeys)).NotNull();
             if (!routingKeys.Any())
+            {
                 throw new ArgumentOutOfRangeException(nameof(routingKeys));
+            }
 
             if (Interlocked.Read(ref _isOpened) == 1)
             {
@@ -224,8 +227,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
             }
 
             _routingKeys = routingKeys;
-
-            //Interlocked.CompareExchange(ref _isOpened, 1, 0);
+            
             Interlocked.CompareExchange(ref _shouldBeOpened, 1, 0);
             CreateAndOpenConsumerChannel();
             _healthTimer.FireOnce(new TimeSpan(0, 0, _timerInterval));
@@ -240,7 +242,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 {
                     try
                     {
-                        //ExecutionLog.Debug($"Opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName} started ...");
                         var channelWrapper = _channelFactory.GetChannel(UniqueId);
                         if (channelWrapper == null)
                         {
@@ -317,7 +318,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                         consumer.Shutdown += OnShutdown;
                         consumer.ConsumerCancelled += OnConsumerCancelled;
                         channelWrapper.Channel.BasicConsume(queue: declareResult.QueueName,
-                            noAck: !_channelSettings.UserAcknowledgmentEnabled,
+                            noAck: _channelSettings.UserAcknowledgmentEnabled,
                             consumerTag: $"{_mtsChannelSettings.ConsumerTag}",
                             consumer: consumer,
                             noLocal: false,
@@ -325,7 +326,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                         channelWrapper.Consumer = consumer;
 
                         Interlocked.CompareExchange(ref _isOpened, 1, 0);
-                        //ExecutionLog.Debug($"Opening the consumer channel with channelNumber: {UniqueId} and queueName: {_queueName} finished.");
                         return;
                     }
                     catch (Exception e)

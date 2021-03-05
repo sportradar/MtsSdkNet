@@ -327,7 +327,6 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                 }
                 if (!string.IsNullOrEmpty(correlationId))
                 {
-                    //_channelBasicProperties.Headers["correlationId"] = correlationId;
                     channelBasicProperties.CorrelationId = correlationId;
                 }
                 if (!string.IsNullOrEmpty(replyRoutingKey))
