@@ -130,8 +130,51 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dawn.Guard, Version=1.10.0.0, Culture=neutral, PublicKeyToken=234740ae15f786ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dawn.Guard.1.10.0\lib\netstandard1.0\Dawn.Guard.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Metrics, Version=0.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Metrics.NET.0.5.3\lib\net45\Metrics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.4.1.3\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sportradar.MTS.SDK.XmlSerializers">
+      <HintPath>..\..\docs\xml_serializers\Sportradar.MTS.SDK.XmlSerializers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -140,45 +183,359 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\IConnectionStatus.cs" />
+    <Compile Include="API\ICustomBetManager.cs" />
+    <Compile Include="API\IMtsClientApi.cs" />
+    <Compile Include="API\IMtsSdk.cs" />
+    <Compile Include="API\Internal\ConnectionStatus.cs" />
+    <Compile Include="API\Internal\ConnectionValidationResult.cs" />
+    <Compile Include="API\Internal\ConnectionValidator.cs" />
+    <Compile Include="API\Internal\CustomBetManager.cs" />
+    <Compile Include="API\Internal\EntitiesMapper.cs" />
+    <Compile Include="API\Internal\IMtsChannelSettings.cs" />
+    <Compile Include="API\Internal\JsonDeserializer.cs" />
+    <Compile Include="API\Internal\Mappers\ITicketMapper.cs" />
+    <Compile Include="API\Internal\Mappers\ITicketResponseMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketAckMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketCancelAckMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketCancelMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketCancelResponseMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketCashoutMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketCashoutResponseMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketNonSrSettleMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketNonSrSettleResponseMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketReofferCancelMapper.cs" />
+    <Compile Include="API\Internal\Mappers\TicketResponseMapper.cs" />
+    <Compile Include="API\Internal\MtsChannelSettings.cs" />
+    <Compile Include="API\Internal\MtsClientApi.cs" />
+    <Compile Include="API\Internal\RabbitMq\ChannelFactory.cs" />
+    <Compile Include="API\Internal\RabbitMq\ChannelWrapper.cs" />
+    <Compile Include="API\Internal\RabbitMq\ConfiguredConnectionFactory.cs" />
+    <Compile Include="API\Internal\RabbitMq\ExchangeType.cs" />
+    <Compile Include="API\Internal\RabbitMq\IChannelFactory.cs" />
+    <Compile Include="API\Internal\RabbitMq\IMqPublishResult.cs" />
+    <Compile Include="API\Internal\RabbitMq\IRabbitMqChannelSettings.cs" />
+    <Compile Include="API\Internal\RabbitMq\IRabbitMqConsumerChannel.cs" />
+    <Compile Include="API\Internal\RabbitMq\IRabbitMqMessageReceiver.cs" />
+    <Compile Include="API\Internal\RabbitMq\IRabbitMqPublisherChannel.cs" />
+    <Compile Include="API\Internal\RabbitMq\IRabbitServer.cs" />
+    <Compile Include="API\Internal\RabbitMq\MqPublishResult.cs" />
+    <Compile Include="API\Internal\RabbitMq\PublishQueueItem.cs" />
+    <Compile Include="API\Internal\RabbitMq\RabbitMqChannelSettings.cs" />
+    <Compile Include="API\Internal\RabbitMq\RabbitMqConsumerChannel.cs" />
+    <Compile Include="API\Internal\RabbitMq\RabbitMqMessageReceiver.cs" />
+    <Compile Include="API\Internal\RabbitMq\RabbitMqPublisherChannel.cs" />
+    <Compile Include="API\Internal\RabbitMq\RabbitServer.cs" />
+    <Compile Include="API\Internal\SdkConfigurationBuilder.cs" />
+    <Compile Include="API\Internal\SdkUnityBootstrapper.cs" />
+    <Compile Include="API\Internal\Senders\ITicketSender.cs" />
+    <Compile Include="API\Internal\Senders\ITicketSenderFactory.cs" />
+    <Compile Include="API\Internal\Senders\TicketAckSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketCancelAckSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketCancelSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketCashoutSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketNonSrSettleSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketReofferCancelSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketSender.cs" />
+    <Compile Include="API\Internal\Senders\TicketSenderBase.cs" />
+    <Compile Include="API\Internal\Senders\TicketSenderFactory.cs" />
+    <Compile Include="API\Internal\TicketImpl\TicketCancelResponse.cs" />
+    <Compile Include="API\Internal\TicketImpl\TicketCashoutResponse.cs" />
+    <Compile Include="API\Internal\TicketImpl\TicketNonSrSettleResponse.cs" />
+    <Compile Include="API\Internal\TicketImpl\TicketResponse.cs" />
+    <Compile Include="API\ISdkConfigurationBuilder.cs" />
+    <Compile Include="API\MtsSdk.cs" />
+    <Compile Include="Common\Exceptions\CacheItemNotFoundException.cs" />
+    <Compile Include="Common\Exceptions\CommunicationException.cs" />
+    <Compile Include="Common\Exceptions\DeserializationException.cs" />
+    <Compile Include="Common\Exceptions\FeedSdkException.cs" />
+    <Compile Include="Common\Exceptions\MappingException.cs" />
+    <Compile Include="Common\Exceptions\RabbitMqException.cs" />
+    <Compile Include="Common\Exceptions\ResponseTimeoutException.cs" />
+    <Compile Include="Common\IAcknowledgeable.cs" />
+    <Compile Include="Common\Internal\EnumHelper.cs" />
+    <Compile Include="Common\Internal\ExtensionMethods.cs" />
+    <Compile Include="Common\Internal\IDeserializer.cs" />
+    <Compile Include="Common\Internal\IncrementalSequenceGenerator.cs" />
+    <Compile Include="Common\Internal\ISequenceGenerator.cs" />
+    <Compile Include="Common\Internal\ITimer.cs" />
+    <Compile Include="Common\Internal\Log\LogAttribute.cs" />
+    <Compile Include="Common\Internal\Log\LogProxy.cs" />
+    <Compile Include="Common\Internal\Log\LogProxyFactory.cs" />
+    <Compile Include="Common\Internal\Log\SdkLogger.cs" />
+    <Compile Include="Common\Internal\Metrics\FormatHelper.cs" />
+    <Compile Include="Common\Internal\Metrics\IHealthStatusProvider.cs" />
+    <Compile Include="Common\Internal\Metrics\MetricsReporter.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\BaseReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\CounterReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\EnvironmentReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\GaugeReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\HealthStatusReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\HistogramReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\MeterReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\MetricDataReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\TimerReport.cs" />
+    <Compile Include="Common\Internal\Rest\HttpDataFetcher.cs" />
+    <Compile Include="Common\Internal\Rest\HttpDataResftful.cs" />
+    <Compile Include="Common\Internal\Rest\IDataFetcher.cs" />
+    <Compile Include="Common\Internal\Rest\IDataPoster.cs" />
+    <Compile Include="Common\Internal\Rest\IDataRestful.cs" />
+    <Compile Include="Common\Internal\Rest\LogHttpDataFetcher.cs" />
+    <Compile Include="Common\Internal\SafeInvoker.cs" />
+    <Compile Include="Common\Internal\SdkInfo.cs" />
+    <Compile Include="Common\Internal\SdkTimer.cs" />
+    <Compile Include="Common\Internal\SerializerHelper.cs" />
+    <Compile Include="Common\IOpenable.cs" />
+    <Compile Include="Common\Log\LoggerType.cs" />
+    <Compile Include="Common\Log\SdkLoggerFactory.cs" />
+    <Compile Include="Entities\Builders\EndCustomerBuilder.cs" />
+    <Compile Include="Entities\Builders\IBetBuilder.cs" />
+    <Compile Include="Entities\Builders\IBuilderFactory.cs" />
+    <Compile Include="Entities\Builders\ICustomBetSelectionBuilder.cs" />
+    <Compile Include="Entities\Builders\IEndCustomerBuilder.cs" />
+    <Compile Include="Entities\Builders\ISdkTicketBuilder.cs" />
+    <Compile Include="Entities\Builders\ISelectionBuilder.cs" />
+    <Compile Include="Entities\Builders\ISenderBuilder.cs" />
+    <Compile Include="Entities\Builders\ISimpleBuilderFactory.cs" />
+    <Compile Include="Entities\Builders\ITicketAckBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketAltStakeBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketCancelAckBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketCancelBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketCashoutBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketNonSrSettleBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketReofferBuilder.cs" />
+    <Compile Include="Entities\Builders\ITicketReofferCancelBuilder.cs" />
+    <Compile Include="Entities\Enums\BetBonusMode.cs" />
+    <Compile Include="Entities\Enums\BetBonusType.cs" />
+    <Compile Include="Entities\Enums\BetReofferType.cs" />
+    <Compile Include="Entities\Enums\CashoutAcceptance.cs" />
+    <Compile Include="Entities\Enums\NonSrSettleAcceptance.cs" />
+    <Compile Include="Entities\Enums\OddsChangeType.cs" />
+    <Compile Include="Entities\Enums\SenderChannel.cs" />
+    <Compile Include="Entities\Enums\StakeType.cs" />
+    <Compile Include="Entities\Enums\TicketAcceptance.cs" />
+    <Compile Include="Entities\Enums\TicketAckStatus.cs" />
+    <Compile Include="Entities\Enums\TicketCancelAcceptance.cs" />
+    <Compile Include="Entities\Enums\TicketCancelAckStatus.cs" />
+    <Compile Include="Entities\Enums\TicketCancellationReason.cs" />
+    <Compile Include="Entities\Enums\TicketResponseType.cs" />
+    <Compile Include="Entities\Enums\UfEnvironment.cs" />
+    <Compile Include="Entities\EventArguments\ConnectionChangeEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\MessageDeserializationFailedEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\MessagePublishFailedEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\MessageReceivedEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\SdkMessageEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\TicketResponseReceivedEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\TicketSendFailedEventArgs.cs" />
+    <Compile Include="Entities\EventArguments\UnparsableMessageEventArgs.cs" />
+    <Compile Include="Entities\Interfaces\CustomBet\IAvailableSelections.cs" />
+    <Compile Include="Entities\Interfaces\CustomBet\ICalculation.cs" />
+    <Compile Include="Entities\Interfaces\CustomBet\IMarket.cs" />
+    <Compile Include="Entities\Interfaces\CustomBet\ISelection.cs" />
+    <Compile Include="Entities\Interfaces\IAlternativeStake.cs" />
+    <Compile Include="Entities\Interfaces\IAutoAcceptedOdds.cs" />
+    <Compile Include="Entities\Interfaces\IBet.cs" />
+    <Compile Include="Entities\Interfaces\IBetBonus.cs" />
+    <Compile Include="Entities\Interfaces\IBetCancel.cs" />
+    <Compile Include="Entities\Interfaces\IBetCashout.cs" />
+    <Compile Include="Entities\Interfaces\IBetDetail.cs" />
+    <Compile Include="Entities\Interfaces\IBetReoffer.cs" />
+    <Compile Include="Entities\Interfaces\ICcf.cs" />
+    <Compile Include="Entities\Interfaces\IEndCustomer.cs" />
+    <Compile Include="Entities\Interfaces\IRejectionInfo.cs" />
+    <Compile Include="Entities\Interfaces\IResponseReason.cs" />
+    <Compile Include="Entities\Interfaces\ISdkTicket.cs" />
+    <Compile Include="Entities\Interfaces\ISelection.cs" />
+    <Compile Include="Entities\Interfaces\ISelectionDetail.cs" />
+    <Compile Include="Entities\Interfaces\ISelectionRef.cs" />
+    <Compile Include="Entities\Interfaces\ISender.cs" />
+    <Compile Include="Entities\Interfaces\ISportCcf.cs" />
+    <Compile Include="Entities\Interfaces\IStake.cs" />
+    <Compile Include="Entities\Interfaces\ITicket.cs" />
+    <Compile Include="Entities\Interfaces\ITicketAck.cs" />
+    <Compile Include="Entities\Interfaces\ITicketCancel.cs" />
+    <Compile Include="Entities\Interfaces\ITicketCancelAck.cs" />
+    <Compile Include="Entities\Interfaces\ITicketCancelResponse.cs" />
+    <Compile Include="Entities\Interfaces\ITicketCashout.cs" />
+    <Compile Include="Entities\Interfaces\ITicketCashoutResponse.cs" />
+    <Compile Include="Entities\Interfaces\ITicketNonSrSettle.cs" />
+    <Compile Include="Entities\Interfaces\ITicketNonSrSettleResponse.cs" />
+    <Compile Include="Entities\Interfaces\ITicketReofferCancel.cs" />
+    <Compile Include="Entities\Interfaces\ITicketResponse.cs" />
+    <Compile Include="Entities\Internal\Builders\BetBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\BuilderFactory.cs" />
+    <Compile Include="Entities\Internal\Builders\CustomBetSelectionBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\SelectionBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\SenderBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\SimpleBuilderFactory.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketAckBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketAltStakeBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketCancelAckBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketCancelBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketCashoutBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketNonSrSettleBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketReofferBuilder.cs" />
+    <Compile Include="Entities\Internal\Builders\TicketReofferCancelBuilder.cs" />
+    <Compile Include="Entities\Internal\Cache\IMarketDescriptionCache.cs" />
+    <Compile Include="Entities\Internal\Cache\IMarketDescriptionProvider.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketDescriptionCache.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketDescriptionCacheItem.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketDescriptionProvider.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketDescriptionsMapper.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketDescriptionsMapperFactory.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketMappingCacheItem.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketOutcomeCacheItem.cs" />
+    <Compile Include="Entities\Internal\Cache\MarketSpecifierCacheItem.cs" />
+    <Compile Include="Entities\Internal\Cache\OutcomeMappingCacheItem.cs" />
+    <Compile Include="Entities\Internal\CalculateProbabilityProvider.cs" />
+    <Compile Include="Entities\Internal\CustomBetImpl\AvailableSelections.cs" />
+    <Compile Include="Entities\Internal\CustomBetImpl\Calculation.cs" />
+    <Compile Include="Entities\Internal\CustomBetImpl\Market.cs" />
+    <Compile Include="Entities\Internal\CustomBetImpl\Selection.cs" />
+    <Compile Include="Entities\Internal\DataProvider.cs" />
+    <Compile Include="Entities\Internal\Deserializer.cs" />
+    <Compile Include="Entities\Internal\Dto\ClientApi\AccessTokenDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\ClientApi\CcfResponseDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\ClientApi\MaxStakeResponseDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\CustomBet\AvailableSelectionsDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\CustomBet\CalculationDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\CustomBet\MarketDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\MtsTicketHelper.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketAck\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketAck\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketAck\TicketAckDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancelAck\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancelAck\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancelAck\TicketCancelAckDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancelResponse\Reason.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancelResponse\Result.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancelResponse\TicketCancelResponseDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancel\Anonymous.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancel\Cancel.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancel\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancel\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCancel\TicketCancelDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCashoutResponse\TicketCashoutResponseDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCashout\Anonymous.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCashout\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCashout\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketCashout\TicketCashoutDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketNonSrSettleResponse\TicketNonSrSettleResponseDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketNonSrSettle\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketNonSrSettle\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketNonSrSettle\TicketNonSrSettleDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketReofferCancel\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketReofferCancel\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketReofferCancel\TicketReofferCancelDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\TicketResponse\TicketResponseDTO.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Anonymous.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Anonymous2.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Anonymous3.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Bonus.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\DTO.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\EndCustomer.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\EntireStake.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Sender.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Stake.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\Ticket.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\TicketDTO.cs" />
+    <Compile Include="Entities\Internal\EntitiesMapper.cs" />
+    <Compile Include="Entities\Internal\Enums\ResourceTypeGroup.cs" />
+    <Compile Include="Entities\Internal\Enums\URN.cs" />
+    <Compile Include="Entities\Internal\ICalculateProbabilityProvider.cs" />
+    <Compile Include="Entities\Internal\IDataProvider.cs" />
+    <Compile Include="Entities\Internal\IRoutingKeyParser.cs" />
+    <Compile Include="Entities\Internal\ISdkConfigurationInternal.cs" />
+    <Compile Include="Entities\Internal\ISdkConfigurationSection.cs" />
+    <Compile Include="Entities\Internal\JsonDeserializer.cs" />
+    <Compile Include="Entities\Internal\MessageInterest.cs" />
+    <Compile Include="Entities\Internal\OverrideXmlNamespace.cs" />
+    <Compile Include="Entities\Internal\REST\AvailableSelectionsMapper.cs" />
+    <Compile Include="Entities\Internal\REST\AvailableSelectionsMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\CalculationMapper.cs" />
+    <Compile Include="Entities\Internal\REST\CalculationMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\CcfMapper.cs" />
+    <Compile Include="Entities\Internal\REST\CcfMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\ClientApiImpl\CcfImpl.cs" />
+    <Compile Include="Entities\Internal\REST\ClientApiImpl\KeycloakAuthorization.cs" />
+    <Compile Include="Entities\Internal\REST\ClientApiImpl\MaxStakeImpl.cs" />
+    <Compile Include="Entities\Internal\REST\ClientApiImpl\SportCcf.cs" />
+    <Compile Include="Entities\Internal\REST\Dto\MarketAttributeDTO.cs" />
+    <Compile Include="Entities\Internal\REST\Dto\MarketDescriptionDTO.cs" />
+    <Compile Include="Entities\Internal\REST\Dto\MarketMappingDTO.cs" />
+    <Compile Include="Entities\Internal\REST\Dto\MarketSpecifierDTO.cs" />
+    <Compile Include="Entities\Internal\REST\Dto\OutcomeDescriptionDTO.cs" />
+    <Compile Include="Entities\Internal\REST\Dto\OutcomeMappingDTO.cs" />
+    <Compile Include="Entities\Internal\REST\ISIngleTypeMapper.cs" />
+    <Compile Include="Entities\Internal\REST\ISingleTypeMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\KeycloakAuthorizationMapper.cs" />
+    <Compile Include="Entities\Internal\REST\KeycloakAuthorizationMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\MaxStakeMapper.cs" />
+    <Compile Include="Entities\Internal\REST\MaxStakeMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\RestMessage.cs" />
+    <Compile Include="Entities\Internal\REST\RestMessages.cs" />
+    <Compile Include="Entities\Internal\SdkConfiguration.cs" />
+    <Compile Include="Entities\Internal\SdkConfigurationInternal.cs" />
+    <Compile Include="Entities\Internal\SdkConfigurationSection.cs" />
+    <Compile Include="Entities\Internal\SdkRoutingKeyBuilder.cs" />
+    <Compile Include="Entities\Internal\SdkTicketType.cs" />
+    <Compile Include="Entities\Internal\TicketCacheItem.cs" />
+    <Compile Include="Entities\Internal\TicketHelper.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\AlternativeStake.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\AutoAcceptedOdds.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\Bet.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\BetBonus.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\BetCancel.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\BetCashout.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\BetDetail.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\BetReoffer.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\EndCustomer.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\RejectionInfo.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\ResponseReason.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\Selection.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\SelectionDetail.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\SelectionRef.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\Sender.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\Stake.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\Ticket.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\TicketAck.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\TicketCancel.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\TicketCancelAck.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\TicketCashout.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\TicketNonSrSettle.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\TicketReofferCancel.cs" />
+    <Compile Include="Entities\ISdkConfiguration.cs" />
+    <Compile Include="Entities\Utils\JsonUtils.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sportradar.MTS.SDK.API\Sportradar.MTS.SDK.API.csproj">
-      <Project>{48e2ca13-2d05-4e54-b9d8-7a16b7c1dd88}</Project>
-      <Name>Sportradar.MTS.SDK.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj">
-      <Project>{00491a72-3f9b-4883-81b2-9ea5dd4516ff}</Project>
-      <Name>Sportradar.MTS.SDK.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sportradar.MTS.SDK.Entities\Sportradar.MTS.SDK.Entities.csproj">
-      <Project>{1613c031-5891-42d6-a892-939c2132bd48}</Project>
-      <Name>Sportradar.MTS.SDK.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Help\QuickStart.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="obj\Debug\Sportradar.MTS.SDK.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\Sportradar.MTS.SDK.dll" />
     <Content Include="obj\Debug\Sportradar.MTS.SDK.pdb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Entities\SdkTicketsDiagram.cd" />
+    <None Include="Entities\TicketDiagram.cd" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\Sportradar.MTS.SDK.csproj.CoreCompileInputs.cache" />
     <None Include="obj\Debug\Sportradar.MTS.SDK.csprojAssemblyReference.cache" />
     <None Include="obj\Debug\Sportradar.MTS.SDK.csprojResolveAssemblyReference.cache" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sgen.exe" /f /a:Sportradar.MTS.SDK.dll /t:Sportradar.MTS.SDK.Entities.Internal.REST.market_descriptions /t:Sportradar.MTS.SDK.Entities.Internal.REST.AvailableSelectionsType /t:Sportradar.MTS.SDK.Entities.Internal.REST.CalculationResponseType /t:Sportradar.MTS.SDK.Entities.Internal.REST.SelectionsType /o:..\..\..\..\docs\xml_serializers</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

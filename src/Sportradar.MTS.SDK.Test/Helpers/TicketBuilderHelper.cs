@@ -12,13 +12,13 @@ using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal.Builders;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelResponse;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse;
 using AlternativeStake = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.AlternativeStake;
 using Reason = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Reason;
 using Result = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Result;
 using SR = Sportradar.MTS.SDK.Test.Helpers.StaticRandom;
 using Status = Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse.Status;
-using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 
 namespace Sportradar.MTS.SDK.Test.Helpers
 {

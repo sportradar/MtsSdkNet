@@ -1,6 +1,7 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -66,7 +67,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
         public string Currency { get; }
 
         /// <summary>
-        /// Gets the default sender channel (see <see cref="SenderChannel"/> for possible values)
+        /// Gets the default sender channel (see <see cref="Sportradar.MTS.SDK.Entities.Enums.SenderChannel"/> for possible values)
         /// </summary>
         public SenderChannel? Channel { get; }
 

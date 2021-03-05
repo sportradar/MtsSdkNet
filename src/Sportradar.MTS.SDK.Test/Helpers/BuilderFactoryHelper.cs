@@ -13,7 +13,7 @@ using Sportradar.MTS.SDK.Entities.Internal.Cache;
 
 namespace Sportradar.MTS.SDK.Test.Helpers
 {
-    public class BuilderFactoryHelper
+    internal class BuilderFactoryHelper
     {
         public static readonly IEnumerable<Tuple<string, string>> UriReplacements = new List<Tuple<string, string>>
         {

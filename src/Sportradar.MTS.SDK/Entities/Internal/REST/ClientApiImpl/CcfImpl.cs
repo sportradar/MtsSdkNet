@@ -1,0 +1,31 @@
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+
+using System.Collections.Generic;
+using System.Linq;
+using Dawn;
+using Sportradar.MTS.SDK.Entities.Interfaces;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.ClientApi;
+
+namespace Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl
+{
+    /// <summary>
+    /// A data-transfer-object for customer confidence factor
+    /// </summary>
+    internal class CcfImpl : ICcf
+    {
+        public long Ccf { get; }
+
+        public IEnumerable<ISportCcf> SportCcfDetails { get; }
+
+        internal CcfImpl(Entities.Internal.Dto.ClientApi.CcfResponseDTO ccfResponseDto)
+        {
+            Guard.Argument(ccfResponseDto, nameof(ccfResponseDto)).NotNull();
+
+            Ccf = ccfResponseDto.Ccf;
+            var sportCcfDetails = ccfResponseDto.SportCcfDetails ?? new List<Anonymous>();
+            SportCcfDetails = sportCcfDetails.Select(d => new SportCcf(d)).ToList();
+        }
+    }
+}

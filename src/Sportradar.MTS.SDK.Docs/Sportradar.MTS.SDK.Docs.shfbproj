@@ -28,9 +28,6 @@
     </TransformComponentArguments>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Sportradar.MTS.SDK\Sportradar.MTS.SDK.csproj" />
-      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK.API\Sportradar.MTS.SDK.API.csproj" />
-      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj" />
-      <DocumentationSource sourceFile="..\Sportradar.MTS.SDK.Entities\Sportradar.MTS.SDK.Entities.csproj" />
     </DocumentationSources>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <SyntaxFilters>C#</SyntaxFilters>

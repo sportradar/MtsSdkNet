@@ -12,11 +12,11 @@ using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelAck;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCancelResponse;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashout;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketCashoutResponse;
+using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketReofferCancel;
 using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketResponse;
 using Anonymous = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.Anonymous;
 using Anonymous2 = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.Anonymous2;
-using Sportradar.MTS.SDK.Entities.Internal.Dto.TicketNonSrSettleResponse;
 
 namespace Sportradar.MTS.SDK.Test.Helpers
 {

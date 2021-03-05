@@ -140,20 +140,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sportradar.MTS.SDK.API\Sportradar.MTS.SDK.API.csproj">
-      <Project>{48e2ca13-2d05-4e54-b9d8-7a16b7c1dd88}</Project>
-      <Name>Sportradar.MTS.SDK.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sportradar.MTS.SDK.Common\Sportradar.MTS.SDK.Common.csproj">
-      <Project>{00491a72-3f9b-4883-81b2-9ea5dd4516ff}</Project>
-      <Name>Sportradar.MTS.SDK.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sportradar.MTS.SDK.Entities\Sportradar.MTS.SDK.Entities.csproj">
-      <Project>{1613c031-5891-42d6-a892-939c2132bd48}</Project>
-      <Name>Sportradar.MTS.SDK.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="JSON\ticket-cancel-ack.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -195,7 +181,12 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Sportradar.MTS.SDK\Sportradar.MTS.SDK.csproj">
+      <Project>{243246fd-c022-461b-a1e4-4f16ab170863}</Project>
+      <Name>Sportradar.MTS.SDK</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
