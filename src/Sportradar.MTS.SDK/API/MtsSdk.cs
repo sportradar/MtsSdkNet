@@ -64,7 +64,7 @@ namespace Sportradar.MTS.SDK.API
         private CacheItemPolicy _cacheItemPolicyForTicketsForNonBlockingRequestsCache;
 
         /// <summary>
-        /// A <see cref="Microsoft.Practices.Unity.IUnityContainer"/> used to resolve
+        /// A <see cref="IUnityContainer"/> used to resolve
         /// </summary>
         private readonly IUnityContainer _unityContainer;
 
@@ -311,8 +311,8 @@ namespace Sportradar.MTS.SDK.API
         /// <summary>
         /// Opens the current feed
         /// </summary>
-        /// <exception cref="System.ObjectDisposedException">The feed is already disposed</exception>
-        /// <exception cref="System.InvalidOperationException">The feed is already opened</exception>
+        /// <exception cref="ObjectDisposedException">The feed is already disposed</exception>
+        /// <exception cref="InvalidOperationException">The feed is already opened</exception>
         /// <exception cref="CommunicationException"> Connection to the message broker failed, Probable Reason={Invalid or expired token}</exception>
         public void Open()
         {

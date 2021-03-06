@@ -17,7 +17,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
     internal sealed class MarketDescriptionProvider : IMarketDescriptionProvider
     {
         /// <summary>
-        /// A <see cref="log4net.ILog"/> instance for execution logging
+        /// A <see cref="ILog"/> instance for execution logging
         /// </summary>
         private static readonly ILog ExecutionLog = SdkLoggerFactory.GetLogger(typeof(MarketDescriptionProvider));
 
@@ -45,7 +45,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="marketId">The market identifier</param>
         /// <param name="variant">A <see cref="string" /> specifying market selectionId or a null reference if market is invariant</param>
         /// <returns>A <see cref="Task{T}" /> representing the async retrieval operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
+        /// <exception cref="CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
         public async Task<MarketDescriptionCacheItem> GetMarketDescriptorAsync(int marketId, string variant)
         {
             if (MarketDescriptionCache == null)

@@ -16,7 +16,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl
 
         public DateTimeOffset Expires { get; }
 
-        internal KeycloakAuthorization(Entities.Internal.Dto.ClientApi.AccessTokenDTO authorization)
+        internal KeycloakAuthorization(Internal.Dto.ClientApi.AccessTokenDTO authorization)
         {
             Guard.Argument(authorization, nameof(authorization)).NotNull();
             Guard.Argument(authorization.Access_token, nameof(Internal.Dto.ClientApi.AccessTokenDTO.Access_token)).NotNull();

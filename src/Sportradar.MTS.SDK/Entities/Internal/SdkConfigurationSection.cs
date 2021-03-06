@@ -230,7 +230,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         /// <returns>The <see cref="SdkConfigurationSection"/> instance loaded from config file</returns>
         /// <exception cref="InvalidOperationException">The configuration could not be loaded or the configuration does not contain the requested section</exception>
-        /// <exception cref="System.Configuration.ConfigurationErrorsException">The section in the configuration file is not valid</exception>
+        /// <exception cref="ConfigurationErrorsException">The section in the configuration file is not valid</exception>
         public static ISdkConfigurationSection GetSection()
         {
             var section = (SdkConfigurationSection)ConfigurationManager.GetSection(SectionName);

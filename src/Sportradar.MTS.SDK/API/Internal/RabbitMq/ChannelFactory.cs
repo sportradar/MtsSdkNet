@@ -16,16 +16,16 @@ using Sportradar.MTS.SDK.Common.Log;
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 {
     /// <summary>
-    /// Represents a factory used to construct <see cref="RabbitMQ.Client.IModel"/> instances representing channels to the broker
+    /// Represents a factory used to construct <see cref="IModel"/> instances representing channels to the broker
     /// </summary>
     /// <seealso cref="IChannelFactory" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     internal class ChannelFactory : IChannelFactory, IDisposable
     {
         private static readonly ILog ExecutionLog = SdkLoggerFactory.GetLogger(typeof(ChannelFactory));
 
         /// <summary>
-        /// The <see cref="RabbitMQ.Client.IConnectionFactory"/> used to construct connections to the broker
+        /// The <see cref="IConnectionFactory"/> used to construct connections to the broker
         /// </summary>
         private readonly IConnectionFactory _connectionFactory;
 
@@ -35,7 +35,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private readonly object _lock = new object();
 
         /// <summary>
-        /// The <see cref="RabbitMQ.Client.IConnection"/> representing connection to the broker
+        /// The <see cref="IConnection"/> representing connection to the broker
         /// </summary>
         private IConnection _connection;
 

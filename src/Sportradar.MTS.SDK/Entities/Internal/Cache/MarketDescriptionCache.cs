@@ -33,17 +33,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         internal DateTime TimeOfLastFetch;
 
         /// <summary>
-        /// A <see cref="log4net.ILog"/> instance for execution logging
+        /// A <see cref="ILog"/> instance for execution logging
         /// </summary>
         private static readonly ILog CacheLog = SdkLoggerFactory.GetLoggerForCache(typeof(MarketDescriptionCache));
 
         /// <summary>
-        /// A <see cref="log4net.ILog"/> instance for execution logging
+        /// A <see cref="ILog"/> instance for execution logging
         /// </summary>
         private static readonly ILog ExecutionLog = SdkLoggerFactory.GetLoggerForExecution(typeof(MarketDescriptionCache));
 
         /// <summary>
-        /// A <see cref="System.Runtime.Caching.ObjectCache"/> used to store market descriptors
+        /// A <see cref="ObjectCache"/> used to store market descriptors
         /// </summary>
         internal readonly ObjectCache Cache;
 
@@ -77,7 +77,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <summary>
         /// Initializes a new instance of the <see cref="MarketDescriptionCache"/> class
         /// </summary>
-        /// <param name="cache">A <see cref="System.Runtime.Caching.ObjectCache"/> used to store market descriptors</param>
+        /// <param name="cache">A <see cref="ObjectCache"/> used to store market descriptors</param>
         /// <param name="dataProvider">A <see cref="IDataProvider{T}"/> used to fetch market descriptors</param>
         /// <param name="prefetchLanguages">A <see cref="IReadOnlyCollection{CultureInfo}"/> specifying the languages for which the data should be pre-fetched</param>
         /// <param name="accessToken">The <see cref="ISdkConfigurationSection.AccessToken"/> used to access UF REST API</param>
@@ -198,8 +198,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="id">The id of the <see cref="MarketDescriptionCacheItem"/> instance to get</param>
         /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}"/> specifying the languages which the returned item must contain</param>
         /// <returns>A <see cref="Task"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">An error occurred while accessing the remote party</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">An error occurred while deserializing fetched data</exception>
+        /// <exception cref="CommunicationException">An error occurred while accessing the remote party</exception>
+        /// <exception cref="DeserializationException">An error occurred while deserializing fetched data</exception>
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
         private async Task<MarketDescriptionCacheItem> GetMarketInternalAsync(int id, IEnumerable<CultureInfo> cultures)
         {
@@ -230,8 +230,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// </summary>
         /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}"/> specifying the languages which the returned item must contain</param>
         /// <returns>A <see cref="Task"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">An error occurred while accessing the remote party</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">An error occurred while deserializing fetched data</exception>
+        /// <exception cref="CommunicationException">An error occurred while accessing the remote party</exception>
+        /// <exception cref="DeserializationException">An error occurred while deserializing fetched data</exception>
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
         private async Task FetchMarketDescriptionsAsync(IEnumerable<CultureInfo> cultures)
         {
@@ -376,11 +376,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         }
 
         /// <summary>
-        /// Starts the health check and returns <see cref="Metrics.HealthCheckResult"/>
+        /// Starts the health check and returns <see cref="HealthCheckResult"/>
         /// </summary>
         public HealthCheckResult StartHealthCheck()
         {
-            return Enumerable.Any<KeyValuePair<string, object>>(Cache) ? HealthCheckResult.Healthy($"Cache has {Enumerable.Count<KeyValuePair<string, object>>(Cache)} items.") : HealthCheckResult.Unhealthy("Cache is empty.");
+            return Enumerable.Any(Cache) ? HealthCheckResult.Healthy($"Cache has {Enumerable.Count(Cache)} items.") : HealthCheckResult.Unhealthy("Cache is empty.");
         }
     }
 }

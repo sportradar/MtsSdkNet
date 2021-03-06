@@ -210,7 +210,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// </summary>
         /// <param name="selection">A <see cref="ISelection" /> to be added to this bet</param>
         /// <returns>Returns a <see cref="IBetBuilder" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public IBetBuilder AddSelection(ISelection selection)
         {
             var selections = _selections ?? new List<ISelection>();

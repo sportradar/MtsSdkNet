@@ -1,0 +1,1 @@
+To use the functionalities of the MTS SDK, you need a Sportradar MTS account and you need to accept Terms and Conditions at http://sdk.sportradar.com/mts/net/eula.

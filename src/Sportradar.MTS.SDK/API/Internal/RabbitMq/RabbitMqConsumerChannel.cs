@@ -41,7 +41,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private static readonly ILog FeedLog = SdkLoggerFactory.GetLoggerForFeedTraffic(typeof(RabbitMqConsumerChannel));
 
         /// <summary>
-        /// A <see cref="IChannelFactory"/> used to construct the <see cref="RabbitMQ.Client.IModel"/> representing Rabbit MQ channel
+        /// A <see cref="IChannelFactory"/> used to construct the <see cref="IModel"/> representing Rabbit MQ channel
         /// </summary>
         private readonly IChannelFactory _channelFactory;
 
@@ -85,7 +85,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// Initializes a new instance of the <see cref="RabbitMqConsumerChannel"/> class
         /// </summary>
-        /// <param name="channelFactory">A <see cref="IChannelFactory"/> used to construct the <see cref="RabbitMQ.Client.IModel"/> representing Rabbit MQ channel</param>
+        /// <param name="channelFactory">A <see cref="IChannelFactory"/> used to construct the <see cref="IModel"/> representing Rabbit MQ channel</param>
         /// <param name="mtsChannelSettings"></param>
         /// <param name="channelSettings"></param>
         public RabbitMqConsumerChannel(IChannelFactory channelFactory,
@@ -131,10 +131,10 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         }
 
         /// <summary>
-        /// Handles the <see cref="RabbitMQ.Client.Events.EventingBasicConsumer.Received"/> event
+        /// Handles the <see cref="EventingBasicConsumer.Received"/> event
         /// </summary>
         /// <param name="sender">The <see cref="object"/> representation of the instance raising the event</param>
-        /// <param name="basicDeliverEventArgs">The <see cref="RabbitMQ.Client.Events.BasicDeliverEventArgs"/> instance containing the event data</param>
+        /// <param name="basicDeliverEventArgs">The <see cref="BasicDeliverEventArgs"/> instance containing the event data</param>
         private void OnDataReceived(object sender, BasicDeliverEventArgs basicDeliverEventArgs)
         {
             var correlationId = basicDeliverEventArgs?.BasicProperties?.CorrelationId ?? string.Empty;
@@ -352,7 +352,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// Closes the current channel
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">The instance is already closed</exception>
+        /// <exception cref="InvalidOperationException">The instance is already closed</exception>
         public void Close()
         {
             if (Interlocked.CompareExchange(ref _isOpened, 0, 1) != 1)

@@ -37,7 +37,7 @@ namespace Sportradar.MTS.SDK.Common.Log
         /// </summary>
         /// <param name="type">A type to be used for creating new ILog</param>
         /// <param name="repositoryName">Repository containing the logger</param>
-        /// <returns>Returns default <see cref="log4net.ILog"/> with specified settings</returns>
+        /// <returns>Returns default <see cref="ILog"/> with specified settings</returns>
         public static ILog GetLoggerForRestTraffic(Type type, string repositoryName = SdkLogRepositoryName)
         {
             return GetLogger(type, repositoryName, LoggerType.RestTraffic);
@@ -59,7 +59,7 @@ namespace Sportradar.MTS.SDK.Common.Log
         /// </summary>
         /// <param name="type">A type to be used for creating new ILog</param>
         /// <param name="repositoryName">Repository containing the logger</param>
-        /// <returns>Returns default <see cref="log4net.ILog"/> with specified settings</returns>
+        /// <returns>Returns default <see cref="ILog"/> with specified settings</returns>
         public static ILog GetLoggerForCache(Type type, string repositoryName = SdkLogRepositoryName)
         {
             return GetLogger(type, repositoryName, LoggerType.Cache);

@@ -13,7 +13,7 @@ using Sportradar.MTS.SDK.Common.Internal;
 namespace Sportradar.MTS.SDK.API.Internal
 {
     /// <summary>
-    /// A <see cref="IDeserializer{T}" /> implementation which uses <see cref="System.Runtime.Serialization.Json.DataContractJsonSerializer" /> property to deserialize JSON strings
+    /// A <see cref="IDeserializer{T}" /> implementation which uses <see cref="DataContractJsonSerializer" /> property to deserialize JSON strings
     /// </summary>
     /// <typeparam name="T">Specifies the type that can be deserialized</typeparam>
     internal class JsonDeserializer<T> : IDeserializer<T> where T : class

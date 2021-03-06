@@ -210,7 +210,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="specifiers">The UF array of specifiers represented as string separated with '|'</param>
         /// <param name="sportEventStatus">The UF sport event status properties</param>
         /// <returns>Returns a <see cref="ISelectionBuilder" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         /// <value>Should be composed according to specification</value>
         /// <example>
         /// SetIdUof(1, "sr:sport:1", 101, "10", "total=3.0|playerid=sr:player:10201");
@@ -240,7 +240,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="specifiers">The array of specifiers</param>
         /// <param name="sportEventStatus">The UF sport event status properties</param>
         /// <returns>Returns a <see cref="ISelectionBuilder" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         /// <value>Should be composed according to specification</value>
         public ISelectionBuilder SetIdUof(int product, string sportId, int marketId, string selectionId, IReadOnlyDictionary<string, string> specifiers, IReadOnlyDictionary<string, object> sportEventStatus)
         {

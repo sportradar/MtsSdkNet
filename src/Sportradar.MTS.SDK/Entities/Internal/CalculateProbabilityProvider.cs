@@ -12,7 +12,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using Microsoft.Xml.Serialization.GeneratedAssembly;
 using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Internal.Rest;
@@ -38,8 +37,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// Initializes a new instance of the <see cref="CalculateProbabilityProvider" /> class.
         /// </summary>
         /// <param name="uriFormat">The url format specifying the url of the resources fetched by the fetcher</param>
-        /// <param name="poster">A <see cref="Sportradar.MTS.SDK.Common.Internal.Rest.IDataPoster" /> used to fetch the data</param>
-        /// <param name="deserializer">A <see cref="Sportradar.MTS.SDK.Common.Internal.IDeserializer{T}" /> used to deserialize the fetch data</param>
+        /// <param name="poster">A <see cref="IDataPoster" /> used to fetch the data</param>
+        /// <param name="deserializer">A <see cref="IDeserializer{T}" /> used to deserialize the fetch data</param>
         /// <param name="mapperFactory">A <see cref="ISingleTypeMapperFactory{CalculationResponseType, CalculationDTO}" /> used to construct instances of <see cref="ISingleTypeMapper{CalculationDTO}" /></param>
         /// <exception cref="ArgumentNullException"></exception>
         public CalculateProbabilityProvider(string uriFormat, IDataPoster poster, IDeserializer<CalculationResponseType> deserializer, ISingleTypeMapperFactory<CalculationResponseType, CalculationDTO> mapperFactory)
@@ -68,7 +67,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             _poster = poster;
             _deserializer = deserializer;
             _mapperFactory = mapperFactory;
-            _serializer = new XmlSerializerContract().GetSerializer(typeof(SelectionsType));
+            _serializer = new XmlSerializer(typeof(SelectionsType));
         }
 
         /// <summary>

@@ -20,9 +20,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         /// <param name="languageCode">A two letter language code of the <see cref="CultureInfo"/></param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> GetDataAsync(string languageCode);
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="authorization">The value of authorization header</param>
         /// <param name="languageCode">A two letter language code of the <see cref="CultureInfo"/></param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> GetDataAsync(string authorization, string languageCode);
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         /// <param name="identifiers">A list of identifiers uniquely specifying the instance to fetch</param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> GetDataAsync(params string[] identifiers);
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="authorization">The value of authorization header</param>
         /// <param name="identifiers">A list of identifiers uniquely specifying the instance to fetch</param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> GetDataAsync(string authorization, params string[] identifiers);
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="content">A <see cref="HttpContent"/> to be posted to the specific <see cref="Uri"/></param>
         /// <param name="languageCode">A two letter language code of the <see cref="CultureInfo"/></param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> PostDataAsync(HttpContent content, string languageCode);
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="authorization">The value of authorization header</param>
         /// <param name="languageCode">A two letter language code of the <see cref="CultureInfo"/></param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> PostDataAsync(string authorization, HttpContent content, string languageCode);
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="content">A <see cref="HttpContent"/> to be posted to the specific <see cref="Uri"/></param>
         /// <param name="identifiers">A list of identifiers uniquely specifying the instance to fetch</param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> PostDataAsync(HttpContent content, params string[] identifiers);
 
         /// <summary>
@@ -98,9 +98,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="authorization">The value of authorization header</param>
         /// <param name="identifiers">A list of identifiers uniquely specifying the instance to fetch</param>
         /// <returns>A <see cref="Task{T}"/> representing the async operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CommunicationException">Failed to execute http get</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.DeserializationException">The deserialization failed</exception>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
+        /// <exception cref="Common.Exceptions.CommunicationException">Failed to execute http get</exception>
+        /// <exception cref="Common.Exceptions.DeserializationException">The deserialization failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The deserialized entity could not be mapped to entity used by the SDK</exception>
         Task<T> PostDataAsync(string authorization, HttpContent content, params string[] identifiers);
     }
 }

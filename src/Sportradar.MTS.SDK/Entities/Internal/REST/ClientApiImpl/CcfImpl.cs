@@ -19,7 +19,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl
 
         public IEnumerable<ISportCcf> SportCcfDetails { get; }
 
-        internal CcfImpl(Entities.Internal.Dto.ClientApi.CcfResponseDTO ccfResponseDto)
+        internal CcfImpl(CcfResponseDTO ccfResponseDto)
         {
             Guard.Argument(ccfResponseDto, nameof(ccfResponseDto)).NotNull();
 

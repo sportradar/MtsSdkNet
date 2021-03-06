@@ -10,7 +10,7 @@ using Sportradar.MTS.SDK.Common.Internal;
 namespace Sportradar.MTS.SDK.Entities.Internal
 {
     /// <summary>
-    /// A <see cref="Sportradar.MTS.SDK.Common.Internal.IDeserializer{T}" /> implementation for json responses
+    /// A <see cref="IDeserializer{T}" /> implementation for json responses
     /// </summary>
     /// <typeparam name="T">Specifies the type that can be deserialized</typeparam>
     internal class JsonDeserializer<T> : IDeserializer<T> where T : class

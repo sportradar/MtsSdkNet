@@ -1,17 +1,15 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Dawn;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
-using Dawn;
-using Microsoft.Xml.Serialization.GeneratedAssembly;
 using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.REST;
@@ -30,9 +28,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// of the specified types can be deserialized by the deserializer
         /// </summary>
         // ReSharper disable StaticFieldInGenericType
-        private static readonly Type[] BaseTypes = {
-            typeof(XmlRestMessage)
-        };
+        private static readonly Type[] BaseTypes = { typeof(XmlRestMessage) };
         // ReSharper restore StaticFieldInGenericType
 
         /// <summary>
@@ -48,7 +44,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         static Deserializer()
         {
             var serializers = new Dictionary<string, SerializerWithInfo>();
-            var serializerContract = new XmlSerializerContract();
 
             foreach (var baseType in BaseTypes)
             {
@@ -74,9 +69,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
 
                     var ignoreNamespace = ignoreNamespaceAttribute?.IgnoreNamespace ?? false;
 
-                    serializers.Add(
-                        rootElementName,
-                        new SerializerWithInfo(serializerContract.GetSerializer(feedMessagesType), ignoreNamespace));
+                    serializers.Add(rootElementName, new SerializerWithInfo(new XmlSerializer(feedMessagesType), ignoreNamespace));
                 }
             }
 

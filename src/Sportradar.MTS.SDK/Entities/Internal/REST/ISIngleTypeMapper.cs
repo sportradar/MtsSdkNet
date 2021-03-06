@@ -14,7 +14,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.REST
         /// Maps it's data to instance of <typeparamref name="T"/>
         /// </summary>
         /// <returns>The created <typeparamref name="T"/> instance</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.MappingException">The mapping of the entity failed</exception>
+        /// <exception cref="Common.Exceptions.MappingException">The mapping of the entity failed</exception>
         T Map();
     }
 }

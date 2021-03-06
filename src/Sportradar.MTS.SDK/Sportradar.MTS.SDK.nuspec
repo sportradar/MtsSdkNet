@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>2.3.6.0</version>
+    <title>Sportradar MTS SDK</title>
+    <authors>Sportradar AG</authors>
+    <license type="file">LICENSE.txt</license>
+    <projectUrl>http://sdk.sportradar.com/mts/net</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>The SDK simplifying the integration with Sportradar's MTS services</description>
+    <releaseNotes>Version 2.3.6.0</releaseNotes>
+    <copyright>Copyright © Sportradar AG 2017-2021</copyright>
+    <tags>SportRadar MTS SDK Ticket</tags>
+    <repository type="git" url="https://github.com/sportradar/MtsSdkNet.git" branch="master" />
+  </metadata>
+  <files>
+    <file src="..\..\LICENSE.txt" target="" />
+    <file src="..\..\Readme.txt" target="" />
+    <file src="bin\$configuration$\$id$.pdb" target="lib\net451" />
+  </files>
+</package>

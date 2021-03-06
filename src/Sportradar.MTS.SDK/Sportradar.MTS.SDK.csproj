@@ -157,9 +157,6 @@
     <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.4.1.3\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sportradar.MTS.SDK.XmlSerializers">
-      <HintPath>..\..\docs\xml_serializers\Sportradar.MTS.SDK.XmlSerializers.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -527,6 +524,7 @@
     <None Include="obj\Debug\Sportradar.MTS.SDK.csprojAssemblyReference.cache" />
     <None Include="obj\Debug\Sportradar.MTS.SDK.csprojResolveAssemblyReference.cache" />
     <None Include="packages.config" />
+    <None Include="Sportradar.MTS.SDK.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
@@ -534,7 +532,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sgen.exe" /f /a:Sportradar.MTS.SDK.dll /t:Sportradar.MTS.SDK.Entities.Internal.REST.market_descriptions /t:Sportradar.MTS.SDK.Entities.Internal.REST.AvailableSelectionsType /t:Sportradar.MTS.SDK.Entities.Internal.REST.CalculationResponseType /t:Sportradar.MTS.SDK.Entities.Internal.REST.SelectionsType /o:..\..\..\..\docs\xml_serializers</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

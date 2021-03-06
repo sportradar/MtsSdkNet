@@ -14,7 +14,7 @@ using Sportradar.MTS.SDK.Common.Log;
 namespace Sportradar.MTS.SDK.Common.Internal.Metrics
 {
     /// <summary>
-    /// Implementation of <see cref="MetricsReport" /> using <see cref="log4net.ILog" /> for printing collected data
+    /// Implementation of <see cref="MetricsReport" /> using <see cref="ILog" /> for printing collected data
     /// </summary>
     /// <seealso cref="MetricsReport" />
     internal class MetricsReporter : MetricsReport

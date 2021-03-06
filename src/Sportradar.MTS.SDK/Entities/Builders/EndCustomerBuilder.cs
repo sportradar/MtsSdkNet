@@ -13,7 +13,7 @@ namespace Sportradar.MTS.SDK.Entities.Builders
     /// <summary>
     /// Implementation of the <see cref="IEndCustomerBuilder"/>
     /// </summary>
-    /// <seealso cref="Sportradar.MTS.SDK.Entities.Builders.IEndCustomerBuilder" />
+    /// <seealso cref="IEndCustomerBuilder" />
     public class EndCustomerBuilder : IEndCustomerBuilder
     {
         /// <summary>

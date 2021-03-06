@@ -48,7 +48,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         private static readonly ILog FeedLog = SdkLoggerFactory.GetLoggerForFeedTraffic(typeof(RabbitMqPublisherChannel));
 
         /// <summary>
-        /// A <see cref="IChannelFactory" /> used to construct the <see cref="RabbitMQ.Client.IModel" /> representing Rabbit MQ channel
+        /// A <see cref="IChannelFactory" /> used to construct the <see cref="IModel" /> representing Rabbit MQ channel
         /// </summary>
         private readonly IChannelFactory _channelFactory;
 
@@ -112,7 +112,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// Initializes a new instance of the <see cref="RabbitMqConsumerChannel" /> class
         /// </summary>
-        /// <param name="channelFactory">A <see cref="IChannelFactory" /> used to construct the <see cref="RabbitMQ.Client.IModel" /> representing Rabbit MQ channel</param>
+        /// <param name="channelFactory">A <see cref="IChannelFactory" /> used to construct the <see cref="IModel" /> representing Rabbit MQ channel</param>
         /// <param name="mtsChannelSettings">The mts channel settings</param>
         /// <param name="channelSettings">The channel settings</param>
         /// <param name="connectionStatus">The connection status</param>
@@ -234,7 +234,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="correlationId">The correlation identifier</param>
         /// <param name="replyRoutingKey">The reply routing key</param>
         /// <returns>A <see cref="IMqPublishResult" /></returns>
-        /// <exception cref="System.InvalidOperationException">The instance is closed</exception>
+        /// <exception cref="InvalidOperationException">The instance is closed</exception>
         public IMqPublishResult Publish(string ticketId, byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
         {
             Guard.Argument(msg, nameof(msg)).NotNull();
@@ -310,7 +310,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <param name="correlationId">The correlation identifier</param>
         /// <param name="replyRoutingKey">The reply routing key</param>
         /// <returns>IMqPublishResult</returns>
-        /// <exception cref="System.InvalidOperationException">The instance is closed</exception>
+        /// <exception cref="InvalidOperationException">The instance is closed</exception>
         private IMqPublishResult PublishMsg(string ticketId, byte[] msg, string routingKey, string correlationId, string replyRoutingKey)
         {
             try
@@ -439,7 +439,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// Opens the current channel and binds the created queue to provided routing keys
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">The instance is already opened</exception>
+        /// <exception cref="InvalidOperationException">The instance is already opened</exception>
         public void Open()
         {
             if (Interlocked.Read(ref _isOpened) != 0)
@@ -455,7 +455,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <summary>
         /// Closes the current channel
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">The instance is already closed</exception>
+        /// <exception cref="InvalidOperationException">The instance is already closed</exception>
         public void Close()
         {
             if (Interlocked.CompareExchange(ref _isOpened, 0, 1) != 1)

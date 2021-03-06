@@ -110,7 +110,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Enums
         /// </summary>
         /// <param name="urnString">The string representation of the URN</param>
         /// <returns>A <see cref="URN"/> constructed by parsing the provided string representation</returns>
-        /// <exception cref="System.FormatException">The format of the provided representation is not correct</exception>
+        /// <exception cref="FormatException">The format of the provided representation is not correct</exception>
         public static URN Parse(string urnString)
         {
             Guard.Argument(urnString, nameof(urnString)).NotNull().NotEmpty();

@@ -58,7 +58,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="ticketResponse">The ticket response from which the stake info will be used</param>
         /// <param name="newTicketId">The new alternative stake ticket id</param>
         /// <returns>Returns the <see cref="ITicketAltStakeBuilder" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         /// <remarks>Only tickets with exactly 1 bet are supported</remarks>
         public ITicketAltStakeBuilder Set(ITicket ticket, ITicketResponse ticketResponse, string newTicketId = null)
         {
@@ -75,7 +75,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="newStake">The new stake value which will be used to set bet stake</param>
         /// <param name="newTicketId">The new alternative stake ticket id</param>
         /// <returns>Returns the <see cref="ITicketAltStakeBuilder" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         /// <remarks>Only tickets with exactly 1 bet are supported</remarks>
         public ITicketAltStakeBuilder Set(ITicket ticket, long newStake, string newTicketId = null)
         {

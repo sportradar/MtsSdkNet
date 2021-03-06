@@ -20,7 +20,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="variant">A <see cref="string" /> specifying market variant or a null reference if market is invariant</param>
         /// <param name="cultures">A <see cref="IEnumerable{CultureInfo}" /> specifying required translations</param>
         /// <returns>A <see cref="Task{T}" /> representing the async retrieval operation</returns>
-        /// <exception cref="Sportradar.MTS.SDK.Common.Exceptions.CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
+        /// <exception cref="Common.Exceptions.CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
         Task<MarketDescriptionCacheItem> GetMarketDescriptorAsync(int marketId, string variant, IEnumerable<CultureInfo> cultures);
     }
 }

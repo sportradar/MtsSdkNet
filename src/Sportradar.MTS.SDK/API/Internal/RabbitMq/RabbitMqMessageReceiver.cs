@@ -70,7 +70,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// Handles the message received event
         /// </summary>
         /// <param name="sender">The <see cref="object" /> representation of the event sender</param>
-        /// <param name="eventArgs">A <see cref="RabbitMQ.Client.Events.BasicDeliverEventArgs" /> containing event information</param>
+        /// <param name="eventArgs">A <see cref="BasicDeliverEventArgs" /> containing event information</param>
         private void Consumer_OnMessageReceived(object sender, BasicDeliverEventArgs eventArgs)
         {
             if (eventArgs?.Body == null || !eventArgs.Body.Any())
@@ -216,7 +216,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         }
 
         /// <summary>
-        /// Starts the health check and returns <see cref="Metrics.HealthCheckResult" />
+        /// Starts the health check and returns <see cref="HealthCheckResult" />
         /// </summary>
         /// <returns>HealthCheckResult</returns>
         public HealthCheckResult StartHealthCheck()

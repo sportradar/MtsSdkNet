@@ -13,7 +13,7 @@ using RabbitMQ.Client;
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 {
     /// <summary>
-    /// A <see cref="RabbitMQ.Client.IConnectionFactory"/> implementations which properly configures it self before first <see cref="RabbitMQ.Client.IConnection"/> is created
+    /// A <see cref="IConnectionFactory"/> implementations which properly configures it self before first <see cref="IConnection"/> is created
     /// </summary>
     internal class ConfiguredConnectionFactory : ConnectionFactory
     {
