@@ -1,7 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-
 using Metrics;
 
 namespace Sportradar.MTS.SDK.Common.Internal.Metrics

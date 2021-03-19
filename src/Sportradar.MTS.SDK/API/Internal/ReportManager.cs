@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -7,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Dawn;
 using log4net;
-using log4net.Core;
 using Metrics;
 using Sportradar.MTS.SDK.API.Internal.MtsAuth;
 using Sportradar.MTS.SDK.Common.Internal.Rest;

@@ -1,7 +1,6 @@
 /*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-
 using Dawn;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 

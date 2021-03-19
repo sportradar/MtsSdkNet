@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*
+ * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
+ */
+using System;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Sportradar.MTS.SDK.API;
 
 namespace Sportradar.MTS.SDK.Common.Exceptions

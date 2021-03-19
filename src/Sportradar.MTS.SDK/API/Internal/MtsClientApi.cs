@@ -2,11 +2,8 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Runtime.Caching;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Dawn;
 using log4net;
