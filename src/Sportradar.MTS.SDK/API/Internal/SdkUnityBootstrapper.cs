@@ -15,6 +15,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using RabbitMQ.Client;
 using Sportradar.MTS.SDK.API.Internal.Mappers;
+using Sportradar.MTS.SDK.API.Internal.MtsAuth;
 using Sportradar.MTS.SDK.API.Internal.RabbitMq;
 using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.Common.Internal;
@@ -63,7 +64,11 @@ namespace Sportradar.MTS.SDK.API.Internal
 
             RegisterSdkStatisticsWriter(container, userConfig);
 
+            RegisterMtsAuthService(container, userConfig);
+
             RegisterClientApi(container, userConfig);
+
+            RegisterReportManager(container, userConfig);
 
             RegisterCustomBet(container);
         }
@@ -112,11 +117,11 @@ namespace Sportradar.MTS.SDK.API.Internal
             var configInternal = new SdkConfigurationInternal(config, logFetcher);
             container.RegisterInstance(configInternal);
 
-            if (configInternal.Host.Contains("tradinggate"))
+            if (configInternal.Host.Contains("mtsgate-t1"))
             {
                 _environment = "PROD";
             }
-            else if (configInternal.Host.Contains("integration"))
+            else if (configInternal.Host.Contains("mtsgate-ci"))
             {
                 _environment = "CI";
             }
@@ -382,6 +387,43 @@ namespace Sportradar.MTS.SDK.API.Internal
                     new ResolvedParameter<IMarketDescriptionProvider>()));
         }
 
+        private static void RegisterMtsAuthService(IUnityContainer container, ISdkConfiguration userConfig)
+        {
+            container.RegisterType<HttpDataFetcher, HttpDataFetcher>("MtsAuthService",
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<HttpClient>(),
+                    string.Empty,
+                    RestConnectionFailureLimit,
+                    RestConnectionFailureTimeoutInSec));
+
+            var logDataFetcher = container.Resolve<HttpDataFetcher>("MtsAuthService");
+            var logDataPoster = container.Resolve<HttpDataFetcher>("MtsAuthService");
+            container.RegisterInstance<IDataFetcher>("MtsAuthService", logDataFetcher, new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IDataPoster>("MtsAuthService", logDataPoster, new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IDeserializer<AccessTokenDTO>, Entities.Internal.JsonDeserializer<AccessTokenDTO>>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISingleTypeMapperFactory<AccessTokenDTO, KeycloakAuthorization>, KeycloakAuthorizationMapperFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDataProvider<KeycloakAuthorization>,
+                DataProvider<AccessTokenDTO, KeycloakAuthorization>>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    userConfig.KeycloakHost + "/auth/realms/mts/protocol/openid-connect/token",
+                    new ResolvedParameter<IDataFetcher>("MtsAuthService"),
+                    new ResolvedParameter<IDataPoster>("MtsAuthService"),
+                    new ResolvedParameter<IDeserializer<AccessTokenDTO>>(),
+                    new ResolvedParameter<ISingleTypeMapperFactory<AccessTokenDTO, KeycloakAuthorization>>()));
+            
+            container.RegisterType<IMtsAuthService, MtsAuthService>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<IDataProvider<KeycloakAuthorization>>(),
+                    new InjectionParameter<string>(userConfig.KeycloakUsername),
+                    new InjectionParameter<string>(userConfig.KeycloakPassword),
+                    new InjectionParameter<string>(userConfig.KeycloakSecret)
+                ));
+        }
+
         private static void RegisterClientApi(IUnityContainer container, ISdkConfiguration userConfig)
         {
             container.RegisterType<HttpDataFetcher, HttpDataFetcher>("MtsClientApi",
@@ -404,18 +446,6 @@ namespace Sportradar.MTS.SDK.API.Internal
             var logFetcher = container.Resolve<LogHttpDataFetcher>("MtsClientApi");
             container.RegisterInstance<IDataFetcher>("MtsClientApi", logFetcher, new ContainerControlledLifetimeManager());
             container.RegisterInstance<IDataPoster>("MtsClientApi", logFetcher, new ContainerControlledLifetimeManager());
-
-            container.RegisterType<IDeserializer<AccessTokenDTO>, Entities.Internal.JsonDeserializer<AccessTokenDTO>>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ISingleTypeMapperFactory<AccessTokenDTO, KeycloakAuthorization>, KeycloakAuthorizationMapperFactory>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IDataProvider<KeycloakAuthorization>,
-                DataProvider<AccessTokenDTO, KeycloakAuthorization>>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    userConfig.KeycloakHost + "/auth/realms/mts/protocol/openid-connect/token",
-                    new ResolvedParameter<IDataFetcher>("MtsClientApi"),
-                    new ResolvedParameter<IDataPoster>("MtsClientApi"),
-                    new ResolvedParameter<IDeserializer<AccessTokenDTO>>(),
-                    new ResolvedParameter<ISingleTypeMapperFactory<AccessTokenDTO, KeycloakAuthorization>>()));
 
             container.RegisterType<IDeserializer<MaxStakeResponseDTO>, Entities.Internal.JsonDeserializer<MaxStakeResponseDTO>>(new ContainerControlledLifetimeManager());
             container.RegisterType<ISingleTypeMapperFactory<MaxStakeResponseDTO, MaxStakeImpl>, MaxStakeMapperFactory>(new ContainerControlledLifetimeManager());
@@ -444,12 +474,41 @@ namespace Sportradar.MTS.SDK.API.Internal
             container.RegisterType<IMtsClientApi, MtsClientApi>(
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
-                    new ResolvedParameter<IDataProvider<MaxStakeImpl>>(),
-                    new ResolvedParameter<IDataProvider<CcfImpl>>(),
-                    new ResolvedParameter<IDataProvider<KeycloakAuthorization>>(),
-                    new InjectionParameter<string>(userConfig.KeycloakUsername),
-                    new InjectionParameter<string>(userConfig.KeycloakPassword),
-                    new InjectionParameter<string>(userConfig.KeycloakSecret)
+                                        new ResolvedParameter<IDataProvider<MaxStakeImpl>>(),
+                                                        new ResolvedParameter<IDataProvider<CcfImpl>>(),
+                                                        new ResolvedParameter<IMtsAuthService>()
+                ));
+        }
+
+        private static void RegisterReportManager(IUnityContainer container, ISdkConfiguration userConfig)
+        {
+            container.RegisterType<HttpDataFetcher, HttpDataFetcher>("ReportManager",
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<HttpClient>(),
+                    string.Empty,
+                    RestConnectionFailureLimit,
+                    RestConnectionFailureTimeoutInSec));
+
+            container.RegisterType<LogHttpDataFetcher, LogHttpDataFetcher>("ReportManager",
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<HttpClient>(),
+                    string.Empty,
+                    new ResolvedParameter<ISequenceGenerator>(),
+                    RestConnectionFailureLimit,
+                    RestConnectionFailureTimeoutInSec));
+
+            var logFetcher = container.Resolve<LogHttpDataFetcher>("ReportManager"); 
+            container.RegisterInstance<IDataFetcher>("ReportManager", logFetcher, new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IReportManager, ReportManager>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<IDataFetcher>("ReportManager"),
+                    userConfig.MtsClientApiHost + "/ReportingCcf/external/api/report/export/history/ccf/changes/client/api",
+                    new ResolvedParameter<IMtsAuthService>(),
+                    userConfig
                 ));
         }
 

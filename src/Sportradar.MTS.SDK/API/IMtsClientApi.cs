@@ -1,7 +1,6 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
-
 using System.Threading.Tasks;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 
@@ -10,7 +9,6 @@ namespace Sportradar.MTS.SDK.API
     /// <summary>
     /// Defines a contract used to send requests to MTS Client REST API
     /// </summary>
-
     public interface IMtsClientApi
     {
         /// <summary>

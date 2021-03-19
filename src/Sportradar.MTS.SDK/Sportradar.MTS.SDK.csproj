@@ -178,6 +178,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TinyCsvParser, Version=2.6.0.0, Culture=neutral, PublicKeyToken=d7df35b038077099, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\LocalProjects\MtsNet\MtsNetLocal\packages\TinyCsvParser.2.6.0\lib\net45\TinyCsvParser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\IConnectionStatus.cs" />
@@ -204,6 +207,8 @@
     <Compile Include="API\Internal\Mappers\TicketNonSrSettleResponseMapper.cs" />
     <Compile Include="API\Internal\Mappers\TicketReofferCancelMapper.cs" />
     <Compile Include="API\Internal\Mappers\TicketResponseMapper.cs" />
+    <Compile Include="API\Internal\MtsAuth\IMtsAuthService.cs" />
+    <Compile Include="API\Internal\MtsAuth\MtsAuthService.cs" />
     <Compile Include="API\Internal\MtsChannelSettings.cs" />
     <Compile Include="API\Internal\MtsClientApi.cs" />
     <Compile Include="API\Internal\RabbitMq\ChannelFactory.cs" />
@@ -224,6 +229,7 @@
     <Compile Include="API\Internal\RabbitMq\RabbitMqMessageReceiver.cs" />
     <Compile Include="API\Internal\RabbitMq\RabbitMqPublisherChannel.cs" />
     <Compile Include="API\Internal\RabbitMq\RabbitServer.cs" />
+    <Compile Include="API\Internal\ReportManager.cs" />
     <Compile Include="API\Internal\SdkConfigurationBuilder.cs" />
     <Compile Include="API\Internal\SdkUnityBootstrapper.cs" />
     <Compile Include="API\Internal\Senders\ITicketSender.cs" />
@@ -241,6 +247,7 @@
     <Compile Include="API\Internal\TicketImpl\TicketCashoutResponse.cs" />
     <Compile Include="API\Internal\TicketImpl\TicketNonSrSettleResponse.cs" />
     <Compile Include="API\Internal\TicketImpl\TicketResponse.cs" />
+    <Compile Include="API\IReportManager.cs" />
     <Compile Include="API\ISdkConfigurationBuilder.cs" />
     <Compile Include="API\MtsSdk.cs" />
     <Compile Include="Common\Exceptions\CacheItemNotFoundException.cs" />
@@ -248,6 +255,7 @@
     <Compile Include="Common\Exceptions\DeserializationException.cs" />
     <Compile Include="Common\Exceptions\FeedSdkException.cs" />
     <Compile Include="Common\Exceptions\MappingException.cs" />
+    <Compile Include="Common\Exceptions\MtsReportException.cs" />
     <Compile Include="Common\Exceptions\RabbitMqException.cs" />
     <Compile Include="Common\Exceptions\ResponseTimeoutException.cs" />
     <Compile Include="Common\IAcknowledgeable.cs" />
@@ -311,6 +319,7 @@
     <Compile Include="Entities\Enums\NonSrSettleAcceptance.cs" />
     <Compile Include="Entities\Enums\OddsChangeType.cs" />
     <Compile Include="Entities\Enums\SenderChannel.cs" />
+    <Compile Include="Entities\Enums\SourceType.cs" />
     <Compile Include="Entities\Enums\StakeType.cs" />
     <Compile Include="Entities\Enums\TicketAcceptance.cs" />
     <Compile Include="Entities\Enums\TicketAckStatus.cs" />
@@ -340,6 +349,7 @@
     <Compile Include="Entities\Interfaces\IBetDetail.cs" />
     <Compile Include="Entities\Interfaces\IBetReoffer.cs" />
     <Compile Include="Entities\Interfaces\ICcf.cs" />
+    <Compile Include="Entities\Interfaces\ICcfChange.cs" />
     <Compile Include="Entities\Interfaces\IEndCustomer.cs" />
     <Compile Include="Entities\Interfaces\IRejectionInfo.cs" />
     <Compile Include="Entities\Interfaces\IResponseReason.cs" />
@@ -472,6 +482,7 @@
     <Compile Include="Entities\Internal\REST\KeycloakAuthorizationMapperFactory.cs" />
     <Compile Include="Entities\Internal\REST\MaxStakeMapper.cs" />
     <Compile Include="Entities\Internal\REST\MaxStakeMapperFactory.cs" />
+    <Compile Include="Entities\Internal\REST\ReportApiImpl\CcfChange.cs" />
     <Compile Include="Entities\Internal\REST\RestMessage.cs" />
     <Compile Include="Entities\Internal\REST\RestMessages.cs" />
     <Compile Include="Entities\Internal\SdkConfiguration.cs" />

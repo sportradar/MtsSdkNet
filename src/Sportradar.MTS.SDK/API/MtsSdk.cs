@@ -128,6 +128,12 @@ namespace Sportradar.MTS.SDK.API
         public ICustomBetManager CustomBetManager { get; }
 
         /// <summary>
+        /// Gets a <see cref="IReportManager" /> instance used to get various reports
+        /// </summary>
+        /// <value>The report manager</value>
+        public IReportManager ReportManager { get; }
+
+        /// <summary>
         /// Gets the connection status.
         /// </summary>
         /// <value>The connection status.</value>
@@ -165,6 +171,7 @@ namespace Sportradar.MTS.SDK.API
             ClientApi = _unityContainer.Resolve<IMtsClientApi>();
             CustomBetManager = _unityContainer.Resolve<ICustomBetManager>();
             ConnectionStatus = _unityContainer.Resolve<IConnectionStatus>();
+            ReportManager = _unityContainer.Resolve<IReportManager>();
 
             _autoResetEventsForBlockingRequests = new ConcurrentDictionary<string, AutoResetEvent>();
             _responsesFromBlockingRequests = new ConcurrentDictionary<string, ISdkTicket>();

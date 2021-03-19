@@ -86,7 +86,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         }
 
         /// <summary>
-        /// DateTime in UNIX time milliseconds
+        /// DateTime in UNIX time milliseconds (epoch time)
         /// </summary>
         public static long DateTimeToUnixTime(DateTime date)
         {
@@ -96,7 +96,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         }
 
         /// <summary>
-        /// Convert Unix time to DateTime
+        /// Convert Unix time to DateTime (from epoch time)
         /// </summary>
         /// <param name="unixTime">The Unix time</param>
         /// <returns>DateTime.</returns>
