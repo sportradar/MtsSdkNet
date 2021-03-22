@@ -21,17 +21,22 @@ The package contains:
  - Resources containing the log4net configuration needed by the MTS SDK
 
 CHANGE LOG:
-2020-11-06 2.3.6.0
+2021-03-22 2.3.7
+Added IMtskSdk.ReportManager for getting HistoryCcfChanges
+Fix: removed double acking error
+Fix: Removed ambiguity with setting enableUserAqs (internal)
+
+2020-11-06 2.3.6
 Added sslServerName to the configuration
 IMtsSdk extended with ConnectionStatus; provides also event ConnectionChange
 Removed ticket selection count limit (mts will check it)
 
-2020-09-18 2.3.5.0
+2020-09-18 2.3.5
 Added # to the User ID pattern
 Fix: removed problematic Guard checks
 Fix: checking for invalid products
 
-2020-04-07 2.3.4.0
+2020-04-07 2.3.4
 Added support for TLS 1.2
 Added configuration property ticketResponseTimeoutPrematch
 Added TicketResponseTimedOut handler in DemoProject
@@ -52,7 +57,7 @@ Improved handling of connection to the rabbit server
 2019-11-05 2.3.3.1
 Fix: set AutomaticRecovery of rabbit connection to false
 
-2019-10-25 2.3.3.0
+2019-10-25 2.3.3
 Added configuration property ticketResponseTimeoutPrematch
 Added SetTicketResponseTimeoutLive and SetTicketResponseTimeoutPrematch to ISdkConfigurationBuilder
 Default timeout for ticket response for live selections increased from 15s to 17s
@@ -60,19 +65,19 @@ Added new distribution channels
 Added TicketResponseTimedOut handler in DemoProject
 Fix: removing empty connection after reconnect
 
-2019-07-25 2.3.2.0
+2019-07-25 2.3.2
 Made Ticket objects serializable
 Added support for TLS 1.2
 Removed use of singleton for CustomBetSelectionBuilder
 Added Content-Type to AdditionalInfo property of response tickets
 Fix: CustomBet can be set without odds
 
-2019-05-30 2.3.1.0
+2019-05-30 2.3.1
 Support for custom bet
 Added CustomBetManager to IMtsSdk
 Exposed custom bet fields on ITicket
 
-2019-05-10 2.3.0.0
+2019-05-10 2.3.0
 Support for ticket version 2.3
 Support for non-Sportradar ticket settlement
 Added LastMatchEndTime to ITicket and ITicketBuilder

@@ -5,8 +5,8 @@
     <title>Sportradar MTS SDK</title>
     <authors>Sportradar AG</authors>
     <description>The SDK simplifying the integration with Sportradar's MTS services</description>
-    <version>2.3.6.1</version>
-    <releaseNotes>Version 2.3.6.1</releaseNotes>
+    <version>2.3.7.0</version>
+    <releaseNotes>Version 2.3.7.0</releaseNotes>
     <copyright>Copyright © Sportradar AG 2017-2021</copyright>
     <repository type="git" url="https://github.com/sportradar/MtsSdkNet.git" branch="master" />
     <projectUrl>http://sdk.sportradar.com/mts/net</projectUrl>
@@ -17,7 +17,7 @@
       <!--<files include="**/*.*" exclude="**/*.*"  buildAction="None" copyToOutput="false" />-->
 
     <dependencies>
-      <group targetFramework="net451">
+      <group>
         <dependency id="Dawn.Guard" version="1.10.0" />
         <dependency id="log4net" version="2.0.8" />
         <dependency id="Metrics.NET" version="0.5.3" />
@@ -48,6 +48,7 @@
         <dependency id="System.Xml.ReaderWriter" version="4.3.0" />
         <dependency id="System.Xml.XDocument" version="4.3.0" />
         <dependency id="Unity" version="4.0.1" />
+        <dependency id="TinyCsvParser" version="2.6.0" />
       </group>
     </dependencies>
   </metadata>
