@@ -78,6 +78,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         }
 
         /// <inheritdoc />
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4457:Parameter validation in \"async\"/\"await\" methods should be wrapped", Justification = "Actually done")]
         public async Task GetHistoryCcfChangeCsvExportAsync(Stream outputStream, 
                                                             DateTime startDate, 
                                                             DateTime endDate, 
@@ -101,13 +102,13 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         /// <inheritdoc />
         public async Task<List<ICcfChange>> GetHistoryCcfChangeCsvExportAsync(DateTime startDate, 
-                                                                            DateTime endDate, 
-                                                                            int? bookmakerId = null,
-                                                                            List<int> subBookmakerIds = null, 
-                                                                            string sourceId = null, 
-                                                                            SourceType sourceType = SourceType.Customer, 
-                                                                            string username = null, 
-                                                                            string password = null)
+                                                                              DateTime endDate, 
+                                                                              int? bookmakerId = null,
+                                                                              List<int> subBookmakerIds = null, 
+                                                                              string sourceId = null, 
+                                                                              SourceType sourceType = SourceType.Customer, 
+                                                                              string username = null, 
+                                                                              string password = null)
         {
             CheckArguments(startDate, endDate, bookmakerId, username, password);
 
@@ -140,6 +141,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             return ccfChanges;
         }
 
+        // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Local
         private void CheckArguments(DateTime startDate,
                                     DateTime endDate,
                                     int? bookmakerId = null,
@@ -180,7 +182,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         private async Task<Stream> GetHistoryCcfChangeAsync(DateTime startDate, 
                                                             DateTime endDate, 
                                                             int? bookmakerId = null,
-                                                            List<int> subBookmakerIds = null, 
+                                                            IReadOnlyCollection<int> subBookmakerIds = null, 
                                                             string sourceId = null, 
                                                             SourceType sourceType = SourceType.Customer, 
                                                             string username = null, 
@@ -210,7 +212,7 @@ namespace Sportradar.MTS.SDK.API.Internal
         private Uri GenerateFullUri(DateTime startDate, 
                                     DateTime endDate, 
                                     int? bookmakerId = null,
-                                    List<int> subBookmakerIds = null, 
+                                    IReadOnlyCollection<int> subBookmakerIds = null, 
                                     string sourceId = null, 
                                     SourceType sourceType = SourceType.Customer)
         {
@@ -235,7 +237,7 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         internal class CsvCcfChangeMapping : CsvMapping<CcfChange>
         {
-            public CsvCcfChangeMapping() : base()
+            public CsvCcfChangeMapping()
             {
                 MapProperty(0, x => x.Timestamp, new DateTimeTimestampTypeConverter());
                 MapProperty(1, x => x.BookmakerId);

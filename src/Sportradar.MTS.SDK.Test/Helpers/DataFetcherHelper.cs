@@ -30,7 +30,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             _uriReplacements = uriReplacements?.ToList();
         }
 
-        private string GetPathWithReplacements(string path)
+        public string GetPathWithReplacements(string path)
         {
             return _uriReplacements == null || !_uriReplacements.Any()
                 ? path
@@ -49,7 +49,30 @@ namespace Sportradar.MTS.SDK.Test.Helpers
 
         public virtual async Task<HttpResponseMessage> PostDataAsync(Uri uri, HttpContent content = null)
         {
-            return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Accepted)).ConfigureAwait(false);
+            if (_uriReplacements == null || !_uriReplacements.Any())
+            {
+                return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Accepted)).ConfigureAwait(false);
+            }
+
+            var path = GetPathWithReplacements(uri.PathAndQuery);
+            if(string.IsNullOrEmpty(path))
+            {
+                return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.BadGateway)).ConfigureAwait(false);
+            }
+
+            HttpResponseMessage httpResponseMessage;
+            if (File.Exists(path))
+            {
+                using (StreamReader stream = File.OpenText(path))
+                {
+                    var cont = stream.ReadToEnd();
+                    httpResponseMessage = new HttpResponseMessage(HttpStatusCode.Accepted) {Content = new StringContent(cont)};
+                    return await Task.Factory.StartNew(() => httpResponseMessage).ConfigureAwait(false);
+                }
+            }
+
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.Accepted) {Content = content};
+            return await Task.Factory.StartNew(() => responseMessage).ConfigureAwait(false);
         }
 
         public async Task<HttpResponseMessage> PostDataAsync(string authorization, Uri uri, HttpContent content = null)

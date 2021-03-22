@@ -12,6 +12,7 @@ using log4net;
 using Metrics;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Log;
+using Sportradar.MTS.SDK.Entities;
 using Sportradar.MTS.SDK.Entities.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.REST.ClientApiImpl;
 
@@ -60,16 +61,15 @@ namespace Sportradar.MTS.SDK.API.Internal.MtsAuth
         private readonly SemaphoreSlim _tokenSemaphore = new SemaphoreSlim(1, 1);
 
         public MtsAuthService(IDataProvider<KeycloakAuthorization> authorizationDataProvider, 
-                              string keycloackUsername, 
-                              string keycloackPassword, 
-                              string keycloackSecret)
+                              ISdkConfiguration config)
         {
             Guard.Argument(authorizationDataProvider, nameof(authorizationDataProvider)).NotNull();
+            Guard.Argument(config, nameof(config)).NotNull();
             
             _authorizationDataProvider = authorizationDataProvider;
-            _keycloackUsername = keycloackUsername;
-            _keycloackPassword = keycloackPassword;
-            _keycloackSecret = keycloackSecret;
+            _keycloackUsername = config.KeycloakUsername;
+            _keycloackPassword = config.KeycloakPassword;
+            _keycloackSecret = config.KeycloakSecret;
 
             if (string.IsNullOrEmpty(_keycloackSecret))
             {
@@ -78,6 +78,7 @@ namespace Sportradar.MTS.SDK.API.Internal.MtsAuth
         }
 
         /// <inheritdoc />
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4457:Parameter validation in \"async\"/\"await\" methods should be wrapped", Justification = "Actually done")]
         public async Task<string> GetTokenAsync(string keycloackUsername = null, string keycloackPassword = null)
         {
             if(string.IsNullOrEmpty(keycloackUsername) && !string.IsNullOrEmpty(_keycloackUsername))

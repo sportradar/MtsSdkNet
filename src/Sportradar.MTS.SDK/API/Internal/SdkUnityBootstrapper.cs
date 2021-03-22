@@ -418,9 +418,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     new ResolvedParameter<IDataProvider<KeycloakAuthorization>>(),
-                    new InjectionParameter<string>(userConfig.KeycloakUsername),
-                    new InjectionParameter<string>(userConfig.KeycloakPassword),
-                    new InjectionParameter<string>(userConfig.KeycloakSecret)
+                    userConfig
                 ));
         }
 
