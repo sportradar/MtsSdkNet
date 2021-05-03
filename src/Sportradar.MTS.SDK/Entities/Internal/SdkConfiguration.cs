@@ -96,7 +96,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         public string AccessToken { get; }
 
         /// <summary>
-        /// Gets the uf environment for the UF feed (only necessary if UF selections will be build)
+        /// Gets the UF environment for the UF feed (only necessary if UF selections will be build)
         /// </summary>
         /// <value>The UF environment</value>
         public UfEnvironment? UfEnvironment { get; }
@@ -163,6 +163,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         public int TicketNonSrSettleResponseTimeout { get; }
 
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SdkConfiguration"/> class
         /// </summary>
@@ -178,7 +179,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="currency">The currency of the placed tickets or a null reference</param>
         /// <param name="channel">The <see cref="SenderChannel"/> specifying the origin of the tickets or a null reference</param>
         /// <param name="accessToken">The access token for the UF feed (only necessary if UF selections will be build)</param>
-        /// <param name="ufEnvironment">The uf environment for the UF feed (only necessary if UF selections will be build)</param>
+        /// <param name="ufEnvironment">The UF environment for the UF feed (only necessary if UF selections will be build)</param>
         /// <param name="provideAdditionalMarketSpecifiers">The value indicating if the additional market specifiers should be provided</param>
         /// <param name="port">The port number used to connect to the AMQP broker</param>
         /// <param name="exclusiveConsumer">Should the consumer channel be exclusive</param>
@@ -192,6 +193,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// <param name="ticketCancellationResponseTimeout">The ticket cancellation response timeout(ms)</param>
         /// <param name="ticketCashoutResponseTimeout">The ticket cashout response timeout(ms)</param>
         /// <param name="ticketNonSrSettleResponseTimeout">The ticket cashout response timeout(ms)</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3776:Cognitive Complexity of methods should not be too high", Justification = "Approved")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Approved")]
         public SdkConfiguration(
             string username,
             string password,
@@ -224,55 +227,16 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Guard.Argument(password, nameof(password)).NotNull().NotEmpty();
             Guard.Argument(host, nameof(host)).NotNull().NotEmpty();
 
-            if (ticketResponseTimeoutLive < SdkInfo.TicketResponseTimeoutLiveMin)
-            {
-                throw new ArgumentException($"TicketResponseTimeoutLive must be more than {SdkInfo.TicketResponseTimeoutLiveMin}ms");
-            }
-            if (ticketResponseTimeoutLive > SdkInfo.TicketResponseTimeoutLiveMax)
-            {
-                throw new ArgumentException($"TicketResponseTimeoutLive must be less than {SdkInfo.TicketResponseTimeoutLiveMax}ms");
-            }
-            if (ticketResponseTimeoutPrematch < SdkInfo.TicketResponseTimeoutPrematchMin)
-            {
-                throw new ArgumentException($"TicketResponseTimeoutPrematch must be more than {SdkInfo.TicketResponseTimeoutPrematchMin}ms");
-            }
-            if (ticketResponseTimeoutPrematch > SdkInfo.TicketResponseTimeoutPrematchMax)
-            {
-                throw new ArgumentException($"TicketResponseTimeoutPrematch must be less than {SdkInfo.TicketResponseTimeoutPrematchMax}ms");
-            }
-            if (ticketCancellationResponseTimeout < SdkInfo.TicketCancellationResponseTimeoutMin)
-            {
-                throw new ArgumentException($"TicketCancellationResponseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms");
-            }
-            if (ticketCancellationResponseTimeout > SdkInfo.TicketCancellationResponseTimeoutMax)
-            {
-                throw new ArgumentException($"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
-            }
-            if (ticketCashoutResponseTimeout < SdkInfo.TicketCashoutResponseTimeoutMin)
-            {
-                throw new ArgumentException($"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
-            }
-            if (ticketCashoutResponseTimeout > SdkInfo.TicketCashoutResponseTimeoutMax)
-            {
-                throw new ArgumentException($"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
-            }
-            if (ticketNonSrSettleResponseTimeout < SdkInfo.TicketNonSrResponseTimeoutMin)
-            {
-                throw new ArgumentException($"TicketNonSrResponseTimeout must be more than {SdkInfo.TicketNonSrResponseTimeoutMin}ms");
-            }
-            if (ticketNonSrSettleResponseTimeout > SdkInfo.TicketNonSrResponseTimeoutMax)
-            {
-                throw new ArgumentException($"TicketNonSrResponseTimeout must be less than {SdkInfo.TicketNonSrResponseTimeoutMax}ms");
-            }
+            CheckParameters(ticketResponseTimeoutLive, ticketResponseTimeoutPrematch, ticketCancellationResponseTimeout, ticketCashoutResponseTimeout, ticketNonSrSettleResponseTimeout);
 
             Username = username;
             Password = password;
             Host = host;
-            VirtualHost = string.IsNullOrEmpty(vhost)
-                ? "/" + Username
-                : vhost.StartsWith("/")
-                    ? vhost
-                    : "/" + vhost;
+            VirtualHost = string.IsNullOrEmpty(vhost) ? "/" + Username : vhost;
+            if (!VirtualHost.StartsWith("/"))
+            {
+                VirtualHost = "/" + VirtualHost;
+            }
             UseSsl = useSsl;
             SslServerName = sslServerName;
             NodeId = nodeId > 0 ? nodeId : 1;
@@ -339,11 +303,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             Username = section.Username;
             Password = section.Password;
             Host = section.Host;
-            VirtualHost = string.IsNullOrEmpty(section.VirtualHost)
-                ? "/" + Username
-                : section.VirtualHost.StartsWith("/")
-                    ? section.VirtualHost
-                    : "/" + section.VirtualHost;
+            VirtualHost = string.IsNullOrEmpty(section.VirtualHost) ? "/" + Username : section.VirtualHost;
+            if (!VirtualHost.StartsWith("/"))
+            {
+                VirtualHost = "/" + VirtualHost;
+            }
             UseSsl = section.UseSsl;
             SslServerName = section.SslServerName;
             NodeId = section.NodeId;
@@ -395,6 +359,54 @@ namespace Sportradar.MTS.SDK.Entities.Internal
             TicketNonSrSettleResponseTimeout = section.TicketNonSrSettleResponseTimeout;
 
             ObjectInvariant();
+        }
+
+        private void CheckParameters(int ticketResponseTimeoutLive,
+                                     int ticketResponseTimeoutPrematch,
+                                     int ticketCancellationResponseTimeout,
+                                     int ticketCashoutResponseTimeout,
+                                     int ticketNonSrSettleResponseTimeout)
+        {
+            if (ticketResponseTimeoutLive < SdkInfo.TicketResponseTimeoutLiveMin)
+            {
+                throw new ArgumentException($"TicketResponseTimeoutLive must be more than {SdkInfo.TicketResponseTimeoutLiveMin}ms");
+            }
+            if (ticketResponseTimeoutLive > SdkInfo.TicketResponseTimeoutLiveMax)
+            {
+                throw new ArgumentException($"TicketResponseTimeoutLive must be less than {SdkInfo.TicketResponseTimeoutLiveMax}ms");
+            }
+            if (ticketResponseTimeoutPrematch < SdkInfo.TicketResponseTimeoutPrematchMin)
+            {
+                throw new ArgumentException($"TicketResponseTimeoutPrematch must be more than {SdkInfo.TicketResponseTimeoutPrematchMin}ms");
+            }
+            if (ticketResponseTimeoutPrematch > SdkInfo.TicketResponseTimeoutPrematchMax)
+            {
+                throw new ArgumentException($"TicketResponseTimeoutPrematch must be less than {SdkInfo.TicketResponseTimeoutPrematchMax}ms");
+            }
+            if (ticketCancellationResponseTimeout < SdkInfo.TicketCancellationResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketCancellationResponseTimeout must be more than {SdkInfo.TicketCancellationResponseTimeoutMin}ms");
+            }
+            if (ticketCancellationResponseTimeout > SdkInfo.TicketCancellationResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketCancellationResponseTimeout must be less than {SdkInfo.TicketCancellationResponseTimeoutMax}ms");
+            }
+            if (ticketCashoutResponseTimeout < SdkInfo.TicketCashoutResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketCashoutResponseTimeout must be more than {SdkInfo.TicketCashoutResponseTimeoutMin}ms");
+            }
+            if (ticketCashoutResponseTimeout > SdkInfo.TicketCashoutResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketCashoutResponseTimeout must be less than {SdkInfo.TicketCashoutResponseTimeoutMax}ms");
+            }
+            if (ticketNonSrSettleResponseTimeout < SdkInfo.TicketNonSrResponseTimeoutMin)
+            {
+                throw new ArgumentException($"TicketNonSrResponseTimeout must be more than {SdkInfo.TicketNonSrResponseTimeoutMin}ms");
+            }
+            if (ticketNonSrSettleResponseTimeout > SdkInfo.TicketNonSrResponseTimeoutMax)
+            {
+                throw new ArgumentException($"TicketNonSrResponseTimeout must be less than {SdkInfo.TicketNonSrResponseTimeoutMax}ms");
+            }
         }
 
         /// <summary>

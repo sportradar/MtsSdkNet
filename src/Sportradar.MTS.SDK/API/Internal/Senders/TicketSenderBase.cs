@@ -132,7 +132,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// </summary>
         /// <param name="sdkTicket">The SDK ticket</param>
         /// <returns>System.Byte[]</returns>
-        protected byte[] GetByteMsg(ISdkTicket sdkTicket)
+        private byte[] GetByteMsg(ISdkTicket sdkTicket)
         {
             var json = GetMappedDtoJsonMsg(sdkTicket);
             if (_feedLog.IsDebugEnabled)
@@ -158,25 +158,25 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <summary>
         /// Sends the ticket
         /// </summary>
-        /// <param name="sdkTicket">The <see cref="ISdkTicket"/> to be send</param>
-        public void SendTicket(ISdkTicket sdkTicket)
+        /// <param name="ticket">The <see cref="ISdkTicket"/> to be send</param>
+        public void SendTicket(ISdkTicket ticket)
         {
-            var msg = GetByteMsg(sdkTicket);
-            if (string.IsNullOrEmpty(sdkTicket.CorrelationId))
+            var msg = GetByteMsg(ticket);
+            if (string.IsNullOrEmpty(ticket.CorrelationId))
             {
-                _feedLog.Warn($"Ticket: {sdkTicket.TicketId} is missing CorrelationId.");
+                _feedLog.Warn($"Ticket: {ticket.TicketId} is missing CorrelationId.");
             }
 
-            var ticketCI = new TicketCacheItem(TicketHelper.GetTicketTypeFromTicket(sdkTicket), sdkTicket.TicketId, sdkTicket.CorrelationId, _mtsChannelSettings.ReplyToRoutingKey, null, sdkTicket);
+            var ticketCI = new TicketCacheItem(TicketHelper.GetTicketTypeFromTicket(ticket), ticket.TicketId, ticket.CorrelationId, _mtsChannelSettings.ReplyToRoutingKey, null, ticket);
 
             // we clear cache, since already sent ticket with the same ticketId are obsolete (example: sending ticket, ticketAck, ticketCancel, ticketCancelAck)
-            if (_ticketCache.TryRemove(sdkTicket.TicketId, out _))
+            if (_ticketCache.TryRemove(ticket.TicketId, out _))
             {
-                _executionLog.Debug($"Removed already sent ticket from cache {sdkTicket.TicketId}");
+                _executionLog.Debug($"Removed already sent ticket from cache {ticket.TicketId}");
             }
 
-            _ticketCache.TryAdd(sdkTicket.TicketId, ticketCI);
-            _publisherChannel.Publish(sdkTicket.TicketId, msg: msg, routingKey: _mtsChannelSettings.PublishRoutingKey, correlationId: sdkTicket.CorrelationId, replyRoutingKey: _mtsChannelSettings.ReplyToRoutingKey);
+            _ticketCache.TryAdd(ticket.TicketId, ticketCI);
+            _publisherChannel.Publish(ticket.TicketId, msg: msg, routingKey: _mtsChannelSettings.PublishRoutingKey, correlationId: ticket.CorrelationId, replyRoutingKey: _mtsChannelSettings.ReplyToRoutingKey);
         }
 
         /// <summary>
@@ -244,13 +244,9 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
                 return _rabbitMqChannelSettings.MaxPublishQueueTimeoutInMs;
             }
 
-            var t = ticket as ITicket;
-            if (t != null)
+            if (ticket is ITicket t && t.Selections.Any(a => a.Id.StartsWith("lcoo")))
             {
-                if (t.Selections.Any(a => a.Id.StartsWith("lcoo")))
-                {
-                    return _rabbitMqChannelSettings.PublishQueueTimeoutInMs2;
-                }
+                return _rabbitMqChannelSettings.PublishQueueTimeoutInMs2;
             }
             return _rabbitMqChannelSettings.PublishQueueTimeoutInMs1;
         }

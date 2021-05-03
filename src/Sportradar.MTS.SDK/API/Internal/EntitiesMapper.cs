@@ -59,7 +59,7 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public ITicketCashoutResponse Map(TicketCashoutResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
-            return new TicketCashoutResponse(null,
+            return new TicketCashoutResponse(
                 source.Result.TicketId,
                 MtsTicketHelper.Convert(source.Result.Status),
                 new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),
@@ -72,7 +72,7 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public ITicketNonSrSettleResponse Map(TicketNonSrSettleResponseDTO source, string correlationId, IDictionary<string, string> additionalInfo, string orgJson)
         {
-            return new TicketNonSrSettleResponse(null,
+            return new TicketNonSrSettleResponse(
                 source.Result.TicketId,
                 MtsTicketHelper.Convert(source.Result.Status),
                 new ResponseReason(source.Result.Reason.Code, source.Result.Reason.Message),

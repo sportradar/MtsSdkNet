@@ -67,6 +67,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         }
 
         [JsonConstructor]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
         private TicketCancel(DateTime timestamp, string ticketId, int bookmakerId, TicketCancellationReason code, int? cancelPercent, IEnumerable<IBetCancel> betCancels, string version, string correlationId)
         {
             Timestamp = timestamp;

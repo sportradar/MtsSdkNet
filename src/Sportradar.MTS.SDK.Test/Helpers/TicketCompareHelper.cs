@@ -63,7 +63,7 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             Assert.AreEqual(ticket.TotalCombinations, dto.Ticket.TotalCombinations);
         }
 
-        public static void Compare(IBet bet, Anonymous dto)
+        private static void Compare(IBet bet, Anonymous dto)
         {
             Assert.IsTrue(bet != null);
             Assert.IsTrue(dto != null);
@@ -93,21 +93,13 @@ namespace Sportradar.MTS.SDK.Test.Helpers
             }
 
             Assert.AreEqual(bet.SelectedSystems.Count(), dto.SelectedSystems.Count());
-            for (int i = 0; i < bet.SelectedSystems.Count(); i++)
+            for (var i = 0; i < bet.SelectedSystems.Count(); i++)
             {
                 Assert.AreEqual(bet.SelectedSystems.ToList()[i], dto.SelectedSystems.ToList()[i]);
             }
-            //if (bet.SelectionRefs != null && bet.SelectionRefs.Any())
-            //{
-            //    for (int i = 0; i < bet.SelectionRefs.Count(); i++)
-            //    {
-            //        Assert.AreEqual(bet.SelectionRefs.ToList()[i].SelectionIndex, dto.SelectionRefs.ToList()[i].SelectionIndex);
-            //        Assert.AreEqual(bet.SelectionRefs.ToList()[i].Banker, dto.SelectionRefs.ToList()[i].Banker);
-            //    }
-            //}
         }
 
-        public static void Compare(ISelection sel, Anonymous2 dto)
+        private static void Compare(ISelection sel, Anonymous2 dto)
         {
             Assert.IsTrue(sel != null);
             Assert.IsTrue(dto != null);

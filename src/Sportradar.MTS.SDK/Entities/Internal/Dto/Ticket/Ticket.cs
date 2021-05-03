@@ -37,6 +37,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         /// <param name="altStakeRefId">The alternative stake reference id</param>
         /// <param name="totalCombinations">Expected total number of generated combinations on this ticket (optional, default null). If present is used to validate against actual number of generated combinations</param>
         /// <param name="lastMatchEndTime">Time of last non-sportradar selection on ticket</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
         public Ticket(string ticketId, Sender sender, IEnumerable<Anonymous> bets, IEnumerable<Anonymous2> selections, TicketOddsChange oddsChange, bool isTestSource, DateTime timestamp, string version, string reofferRefId, string altStakeRefId, int? totalCombinations, DateTime? lastMatchEndTime)
         {
             TicketId = ticketId;

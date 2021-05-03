@@ -3,7 +3,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
@@ -13,6 +12,7 @@ using Dawn;
 using log4net;
 using Metrics;
 using Sportradar.MTS.SDK.Common.Exceptions;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Internal.Metrics;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Internal.REST.Dto;
@@ -52,11 +52,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         private readonly IDataProvider<IEnumerable<MarketDescriptionDTO>> _dataProvider;
 
         /// <summary>
-        /// A <see cref="IReadOnlyCollection{CultureInfo}"/> specifying the languages for which the data should be pre-fetched
-        /// </summary>
-        private readonly IReadOnlyCollection<CultureInfo> _prefetchLanguages;
-
-        /// <summary>
         /// A <see cref="ISet{CultureInfo}"/> used to store languages for which the data was already fetched (at least once)
         /// </summary>
         private readonly ISet<CultureInfo> _fetchedLanguages = new HashSet<CultureInfo>();
@@ -78,32 +73,24 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// </summary>
         /// <param name="cache">A <see cref="ObjectCache"/> used to store market descriptors</param>
         /// <param name="dataProvider">A <see cref="IDataProvider{T}"/> used to fetch market descriptors</param>
-        /// <param name="prefetchLanguages">A <see cref="IReadOnlyCollection{CultureInfo}"/> specifying the languages for which the data should be pre-fetched</param>
         /// <param name="accessToken">The <see cref="ISdkConfigurationSection.AccessToken"/> used to access UF REST API</param>
         /// <param name="fetchInterval">The fetch interval</param>
         /// <param name="cacheItemPolicy">The cache item policy</param>
         public MarketDescriptionCache(ObjectCache cache,
                                       IDataProvider<IEnumerable<MarketDescriptionDTO>> dataProvider,
-                                      IEnumerable<CultureInfo> prefetchLanguages,
                                       string accessToken,
                                       TimeSpan fetchInterval,
                                       CacheItemPolicy cacheItemPolicy)
         {
             Guard.Argument(cache, nameof(cache)).NotNull();
             Guard.Argument(dataProvider, nameof(dataProvider)).NotNull();
-            Guard.Argument(prefetchLanguages, nameof(prefetchLanguages)).NotNull();
-            if (!prefetchLanguages.Any())
-            {
-                throw new ArgumentOutOfRangeException(nameof(prefetchLanguages));
-            }
-            Guard.Argument(fetchInterval, nameof(fetchInterval)).Require(fetchInterval != null);
+            Guard.Argument(fetchInterval, nameof(fetchInterval)).Require(fetchInterval.TotalSeconds > 0);
 
             _fetchInterval = fetchInterval;
             _cacheItemPolicy = cacheItemPolicy;
             TimeOfLastFetch = DateTime.MinValue;
             Cache = cache;
             _dataProvider = dataProvider;
-            _prefetchLanguages = new ReadOnlyCollection<CultureInfo>(prefetchLanguages.ToList());
 
             _tokenProvided = !string.IsNullOrEmpty(accessToken);
             var isProvided = _tokenProvided ? string.Empty : " not";
@@ -131,18 +118,20 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <returns>A <see cref="IEnumerable{CultureInfo}"/> containing missing translations or a null reference if none of the translations are missing</returns>
         private IEnumerable<CultureInfo> GetMissingTranslations(MarketDescriptionCacheItem item, IEnumerable<CultureInfo> requiredTranslations)
         {
-            Guard.Argument(requiredTranslations, nameof(requiredTranslations)).NotNull();
-            if (!requiredTranslations.Any())
-                throw new ArgumentOutOfRangeException(nameof(requiredTranslations));
+            var requiredTranslationsList = requiredTranslations?.ToList();
+            Guard.Argument(requiredTranslationsList, nameof(requiredTranslations)).NotNull();
+            if (requiredTranslationsList.IsNullOrEmpty())
+            {
+                throw new ArgumentException(nameof(requiredTranslations));
+            }
 
             if (item == null)
             {
-                //return requiredTranslations;
                 //we get only those which was not yet fetched
-                return requiredTranslations.Where(c => !_fetchedLanguages.Contains(c));
+                return requiredTranslationsList.Where(c => !_fetchedLanguages.Contains(c));
             }
 
-            var missingCultures = requiredTranslations.Where(c => !item.HasTranslationsFor(c)).ToList();
+            var missingCultures = requiredTranslationsList.Where(c => !item.HasTranslationsFor(c)).ToList();
 
             return missingCultures.Any()
                 ? missingCultures
@@ -159,7 +148,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             Guard.Argument(culture, nameof(culture)).NotNull();
             Guard.Argument(descriptions, nameof(descriptions)).NotNull();
             if (!descriptions.Any())
+            {
                 throw new ArgumentOutOfRangeException(nameof(descriptions));
+            }
 
             var descriptionList = descriptions as List<MarketDescriptionDTO> ?? descriptions.ToList();
 
@@ -205,7 +196,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             var cultureList = cultures?.ToList();
             Guard.Argument(cultureList, nameof(cultureList)).NotNull();
             if (!cultureList.Any())
-                throw new ArgumentOutOfRangeException(nameof(cultureList));
+            {
+                throw new ArgumentOutOfRangeException(nameof(cultures));
+            }
 
             if (!_tokenProvided)
             {
@@ -237,7 +230,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             var cultureList = cultures?.ToList();
             Guard.Argument(cultureList, nameof(cultureList)).NotNull();
             if (!cultureList.Any())
-                throw new ArgumentOutOfRangeException(nameof(cultureList));
+            {
+                throw new ArgumentOutOfRangeException(nameof(cultures));
+            }
 
             if (!_tokenProvided)
             {
@@ -265,8 +260,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             }
             catch (Exception ex)
             {
-                var disposedException = ex as ObjectDisposedException;
-                if (disposedException != null)
+                if (ex is ObjectDisposedException disposedException)
                 {
                     CacheLog.Warn($"An error occurred while fetching market descriptions because the object graph is being disposed. Object causing the exception: {disposedException.ObjectName}.");
                 }
@@ -336,7 +330,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             Guard.Argument(cultureList, nameof(cultureList)).NotNull();
             if (!cultureList.Any())
             {
-                throw new ArgumentOutOfRangeException(nameof(cultureList));
+                throw new ArgumentOutOfRangeException(nameof(cultures));
             }
 
             if (!_tokenProvided)

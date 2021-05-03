@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using Dawn;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities;
 using Sportradar.MTS.SDK.Entities.Internal;
 
@@ -45,7 +46,6 @@ namespace Sportradar.MTS.SDK.API.Internal
                 try
                 {
                     var host = _config.Host.Replace(_config.UseSsl ? "http://" : "https://", string.Empty);
-                    //var port = _config.UseSsl ? 80 : 443;
                     client.Connect(host, _config.Port);
                 }
                 catch (SocketException ex)
@@ -73,7 +73,7 @@ namespace Sportradar.MTS.SDK.API.Internal
             try
             {
                 var client = new HttpClient();
-                var stream = client.GetStreamAsync(new Uri("http://ipecho.net/plain")).Result;
+                var stream = client.GetStreamAsync(new Uri(SdkInfo.PublicIpDomain)).Result;
                 using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
                     data = reader.ReadToEnd();
@@ -84,9 +84,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                 return null;
             }
 
-
-            IPAddress address;
-            return IPAddress.TryParse(data, out address)
+            return IPAddress.TryParse(data, out var address)
                 ? address
                 : null;
         }

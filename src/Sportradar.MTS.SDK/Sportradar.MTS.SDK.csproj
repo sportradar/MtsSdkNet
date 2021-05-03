@@ -21,6 +21,7 @@
     <UpdatePackageVersion>False</UpdatePackageVersion>
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+    <CodeAnalysisRuleSet>..\.sonarlint\mts_sdk_netcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +77,7 @@
     <DocumentationFile>bin\Debug\Sportradar.MTS.SDK.XML</DocumentationFile>
     <NoWarn>1591</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\.sonarlint\mts_sdk_netcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -128,6 +130,7 @@
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\.sonarlint\mts_sdk_netcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dawn.Guard, Version=1.10.0.0, Culture=neutral, PublicKeyToken=234740ae15f786ce, processorArchitecture=MSIL">
@@ -255,6 +258,7 @@
     <Compile Include="Common\Exceptions\DeserializationException.cs" />
     <Compile Include="Common\Exceptions\FeedSdkException.cs" />
     <Compile Include="Common\Exceptions\MappingException.cs" />
+    <Compile Include="Common\Exceptions\MtsApiException.cs" />
     <Compile Include="Common\Exceptions\MtsReportException.cs" />
     <Compile Include="Common\Exceptions\RabbitMqException.cs" />
     <Compile Include="Common\Exceptions\ResponseTimeoutException.cs" />
@@ -373,6 +377,7 @@
     <Compile Include="Entities\Interfaces\ITicketResponse.cs" />
     <Compile Include="Entities\Internal\Builders\BetBuilder.cs" />
     <Compile Include="Entities\Internal\Builders\BuilderFactory.cs" />
+    <Compile Include="Entities\Internal\Builders\BuilderHelper.cs" />
     <Compile Include="Entities\Internal\Builders\CustomBetSelectionBuilder.cs" />
     <Compile Include="Entities\Internal\Builders\SelectionBuilder.cs" />
     <Compile Include="Entities\Internal\Builders\SenderBuilder.cs" />
@@ -404,6 +409,7 @@
     <Compile Include="Entities\Internal\CustomBetImpl\Selection.cs" />
     <Compile Include="Entities\Internal\DataProvider.cs" />
     <Compile Include="Entities\Internal\Deserializer.cs" />
+    <Compile Include="Entities\Internal\DeserializerBase.cs" />
     <Compile Include="Entities\Internal\Dto\ClientApi\AccessTokenDTO.cs" />
     <Compile Include="Entities\Internal\Dto\ClientApi\CcfResponseDTO.cs" />
     <Compile Include="Entities\Internal\Dto\ClientApi\MaxStakeResponseDTO.cs" />
@@ -523,11 +529,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\mts_sdk_net\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
     <Content Include="obj\Debug\Sportradar.MTS.SDK.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\Sportradar.MTS.SDK.dll" />
     <Content Include="obj\Debug\Sportradar.MTS.SDK.pdb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.sonarlint\mts_sdk_netcsharp.ruleset">
+      <Link>mts_sdk_netcsharp.ruleset</Link>
+    </None>
     <None Include="Entities\SdkTicketsDiagram.cd" />
     <None Include="Entities\TicketDiagram.cd" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />

@@ -13,7 +13,7 @@ using Sportradar.MTS.SDK.Entities.Internal.TicketImpl;
 
 namespace Sportradar.MTS.SDK.Entities.Internal
 {
-    internal class EntitiesMapper
+    internal static class EntitiesMapper
     {
         public static TicketDTO Map(ITicket source)
         {

@@ -103,7 +103,6 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
 
             var marketDescriptionCache = new MarketDescriptionCache(new MemoryCache("InvariantMarketDescriptionCache"),
                                                                  dataProvider,
-                                                                 new [] {new CultureInfo("en")},
                                                                  configInternal.AccessToken,
                                                                  TimeSpan.FromHours(4),
                                                                  new CacheItemPolicy {SlidingExpiration = TimeSpan.FromDays(1)});
@@ -155,9 +154,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="type">The type</param>
         /// <param name="subType">Type of the sub</param>
         /// <param name="sov">The sov</param>
-        /// <param name="selectionIds">The selection ids</param>
+        /// <param name="selectionId">The selection ids</param>
         /// <returns>ISelectionBuilder</returns>
-        public ISelectionBuilder SetIdLo(int type, int subType, string sov, string selectionIds)
+        public ISelectionBuilder SetIdLo(int type, int subType, string sov, string selectionId)
         {
             if (subType < 0)
             {
@@ -168,9 +167,9 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                 sov = "*";
             }
             _selectionId = $"live:{type}/{subType}/{sov}";
-            if (!string.IsNullOrEmpty(selectionIds))
+            if (!string.IsNullOrEmpty(selectionId))
             {
-                _selectionId += "/" + selectionIds;
+                _selectionId += "/" + selectionId;
             }
             ValidateData(true);
             return this;
@@ -182,18 +181,18 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <param name="type">The type</param>
         /// <param name="sportId">The sport identifier</param>
         /// <param name="sov">The sov</param>
-        /// <param name="selectionIds">The selection ids</param>
+        /// <param name="selectionId">The selection ids</param>
         /// <returns>ISelectionBuilder</returns>
-        public ISelectionBuilder SetIdLcoo(int type, int sportId, string sov, string selectionIds)
+        public ISelectionBuilder SetIdLcoo(int type, int sportId, string sov, string selectionId)
         {
             if (string.IsNullOrEmpty(sov))
             {
                 sov = "*";
             }
             _selectionId = $"lcoo:{type}/{sportId}/{sov}";
-            if (!string.IsNullOrEmpty(selectionIds))
+            if (!string.IsNullOrEmpty(selectionId))
             {
-                _selectionId += "/" + selectionIds;
+                _selectionId += "/" + selectionId;
             }
             ValidateData(true);
             return this;
@@ -333,26 +332,17 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
 
         private void ValidateData(bool id = false, bool eventId = false, bool odds = false)
         {
-            if (id)
+            if (id && (string.IsNullOrEmpty(_selectionId) || !TicketHelper.ValidateStringId(_selectionId, false, true, 1, 1000)))
             {
-                if (string.IsNullOrEmpty(_selectionId) || !TicketHelper.ValidateStringId(_selectionId, false, true, 1, 1000))
-                {
-                    throw new ArgumentException($"Id {_selectionId} not valid.");
-                }
+                throw new ArgumentException($"Id {_selectionId} not valid.");
             }
-            if (eventId)
+            if (eventId && (string.IsNullOrEmpty(_eventId) || !TicketHelper.ValidateStringId(_eventId, false, true, 1, 100)))
             {
-                if (string.IsNullOrEmpty(_eventId) || !TicketHelper.ValidateStringId(_eventId, false, true, 1, 100))
-                {
-                    throw new ArgumentException($"EventId {_eventId} not valid.");
-                }
+                throw new ArgumentException($"EventId {_eventId} not valid.");
             }
-            if (odds)
+            if (odds && (_odds == null || !(_odds >= 10000 && _odds <= 1000000000)))
             {
-                if (_odds == null || !(_odds >= 10000 && _odds <= 1000000000))
-                {
-                    throw new ArgumentException($"Odds {_odds} not valid.");
-                }
+                throw new ArgumentException($"Odds {_odds} not valid.");
             }
         }
 
@@ -376,27 +366,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             }
             catch (Exception ex)
             {
-                var baseEx = ex.GetBaseException();
-                if (baseEx.InnerException != null)
-                {
-                    baseEx = baseEx.InnerException;
-                    if (baseEx.InnerException != null)
-                    {
-                        baseEx = baseEx.InnerException;
-                    }
-                }
-                if (baseEx is CacheItemNotFoundException)
-                {
-                    ExecutionLog.Warn($"No market description found for marketId={marketId}, sportId={sportId}, productId={productId}. Ex: {baseEx.Message}");
-                }
-                else if (baseEx is CommunicationException)
-                {
-                    ExecutionLog.Warn($"Exception during fetching market descriptions. Ex: {baseEx.Message}");
-                }
-                else
-                {
-                    ExecutionLog.Warn("Exception during fetching market descriptions.", baseEx);
-                }
+               HandleProviderException(ex, productId, sportId, marketId);
             }
 
             if (marketDescription == null)
@@ -408,21 +378,62 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
             //handle market 215
             if (marketId == 215)
             {
-                var newSpecifiers = specifiers == null
-                    ? new Dictionary<string, string>()
-                    : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-                if (sportEventStatus == null)
-                {
-                    throw new ArgumentException("SportEventStatus is missing.");
-                }
-
-                newSpecifiers.Add("$server", sportEventStatus["CurrentServer"].ToString());
-
-                return new ReadOnlyDictionary<string, string>(newSpecifiers);
+                return HandleMarket215(specifiers, sportEventStatus);
             }
 
             //handle $score sov_template
+            return HandleScoreSovTemplate(marketDescription, productId, sportId, specifiers, sportEventStatus);
+        }
+
+        private void HandleProviderException(Exception ex, int productId, string sportId, int marketId)
+        {
+            var baseEx = ex.GetBaseException();
+            if (baseEx.InnerException != null)
+            {
+                baseEx = baseEx.InnerException;
+                if (baseEx.InnerException != null)
+                {
+                    baseEx = baseEx.InnerException;
+                }
+            }
+            if (baseEx is CacheItemNotFoundException)
+            {
+                ExecutionLog.Warn($"No market description found for marketId={marketId}, sportId={sportId}, productId={productId}. Ex: {baseEx.Message}");
+            }
+            else if (baseEx is CommunicationException)
+            {
+                ExecutionLog.Warn($"Exception during fetching market descriptions. Ex: {baseEx.Message}");
+            }
+            else
+            {
+                ExecutionLog.Warn("Exception during fetching market descriptions.", baseEx);
+            }
+        }
+
+        private IReadOnlyDictionary<string, string> HandleMarket215(IReadOnlyDictionary<string, string> specifiers, IReadOnlyDictionary<string, object> sportEventStatus)
+        {
+            var newSpecifiers = specifiers == null
+                ? new Dictionary<string, string>()
+                : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            if (sportEventStatus == null)
+            {
+                throw new ArgumentException("SportEventStatus is missing.");
+            }
+
+            if (!sportEventStatus.ContainsKey("CurrentServer"))
+            {
+                throw new ArgumentException("SportEventStatus is missing CurrentServer.");
+            }
+
+            newSpecifiers.Add("$server", sportEventStatus["CurrentServer"].ToString());
+
+            return new ReadOnlyDictionary<string, string>(newSpecifiers);
+        }
+
+        private IReadOnlyDictionary<string, string> HandleScoreSovTemplate(MarketDescriptionCacheItem marketDescription, int productId, string sportId, IReadOnlyDictionary<string, string> specifiers,
+            IReadOnlyDictionary<string, object> sportEventStatus)
+        {
             if (marketDescription.Mappings == null)
             {
                 ExecutionLog.Info($"Market description {marketDescription.Id} has no mapping.");
@@ -435,32 +446,34 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
                 return specifiers;
             }
 
-            if (!string.IsNullOrEmpty(marketMapping.SovTemplate) && marketMapping.SovTemplate.Contains("{$score}"))
+            if (string.IsNullOrEmpty(marketMapping.SovTemplate) || !marketMapping.SovTemplate.Contains("{$score}"))
             {
-                if (sportEventStatus == null)
-                {
-                    throw new ArgumentException("SportEventStatus is missing.");
-                }
-                if (!sportEventStatus.ContainsKey("HomeScore"))
-                {
-                    throw new ArgumentException("SportEventStatus is missing HomeScore property.");
-                }
-                if (!sportEventStatus.ContainsKey("AwayScore"))
-                {
-                    throw new ArgumentException("SportEventStatus is missing AwayScore property.");
-                }
-
-                var newSpecifiers = specifiers == null
-                        ? new Dictionary<string, string>()
-                        : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-                Debug.Assert(newSpecifiers != null, "newSpecifiers != null");
-                newSpecifiers.Add("$score", $"{sportEventStatus["HomeScore"]}:{sportEventStatus["AwayScore"]}");
-
-                return new ReadOnlyDictionary<string, string>(newSpecifiers);
+                return specifiers;
             }
 
-            return specifiers;
+            if (sportEventStatus == null)
+            {
+                throw new ArgumentException("SportEventStatus is missing.");
+            }
+
+            if (!sportEventStatus.ContainsKey("HomeScore"))
+            {
+                throw new ArgumentException("SportEventStatus is missing HomeScore property.");
+            }
+
+            if (!sportEventStatus.ContainsKey("AwayScore"))
+            {
+                throw new ArgumentException("SportEventStatus is missing AwayScore property.");
+            }
+
+            var newSpecifiers = specifiers == null
+                ? new Dictionary<string, string>()
+                : specifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            Debug.Assert(newSpecifiers != null, "newSpecifiers != null");
+            newSpecifiers.Add("$score", $"{sportEventStatus["HomeScore"]}:{sportEventStatus["AwayScore"]}");
+
+            return new ReadOnlyDictionary<string, string>(newSpecifiers);
         }
     }
 }

@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using Sportradar.MTS.SDK.API.Internal.RabbitMq;
+using log4net;
+using RabbitMQ.Client;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Internal;
+using ExchangeType = Sportradar.MTS.SDK.API.Internal.RabbitMq.ExchangeType;
 
 namespace Sportradar.MTS.SDK.API.Internal
 {
@@ -85,9 +87,9 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           environment: environment);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Approved for consistency")]
         public static IMtsChannelSettings GetTicketAckChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Confirm-node{nodeId}" } };
             return new MtsChannelSettings(queueName: null,
                                           exchangeName: $"{rootExchangeName}-Ack",
                                           exchangeType: ExchangeType.Topic,
@@ -97,6 +99,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           environment: environment);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Approved for consistency")]
         public static IMtsChannelSettings GetTicketCancelChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             var headers = new Dictionary<string, object> { { "replyRoutingKey", $"node{nodeId}.cancel.confirm" } };
@@ -120,9 +123,9 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           environment: environment);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Approved for consistency")]
         public static IMtsChannelSettings GetTicketCancelAckChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Reply-node{nodeId}" } };
             return new MtsChannelSettings(queueName: null,
                                           exchangeName: $"{rootExchangeName}-Ack",
                                           exchangeType: ExchangeType.Topic,
@@ -132,14 +135,15 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           environment: environment);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Approved for consistency")]
         public static IMtsChannelSettings GetTicketReofferChannelSettings(string rootExchangeName, string username, int nodeId)
         {
             throw new InvalidProgramException("TicketReoffer must be send as normal ticket.");
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Approved for consistency")]
         public static IMtsChannelSettings GetTicketReofferCancelChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
-            //var headers = new Dictionary<string, object> { { "routing-key", $"{username}-Reply-node{nodeId}" } };
             return new MtsChannelSettings(queueName: null,
                                           exchangeName: $"{rootExchangeName}-Control",
                                           exchangeType: ExchangeType.Topic,
@@ -172,6 +176,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           environment: environment);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Approved for consistency")]
         public static IMtsChannelSettings GetTicketNonSrSettleChannelSettings(string rootExchangeName, string username, int nodeId, string environment)
         {
             var headers = new Dictionary<string, object> { { "replyRoutingKey", $"node{nodeId}.ticket.nonsrsettle" } };
@@ -193,6 +198,25 @@ namespace Sportradar.MTS.SDK.API.Internal
                                           headerProperties: null,
                                           replyToRoutingKey: null,
                                           environment: environment);
+        }
+
+        public static void TryDeclareExchange(IModel channel, IMtsChannelSettings channelSettings, bool isQueueDurable, ILog logger)
+        {
+            try
+            {
+                channel.ExchangeDeclare(channelSettings.ExchangeName,
+                    channelSettings.ExchangeType.ToString().ToLower(),
+                    isQueueDurable,
+                    false,
+                    null);
+            }
+            catch (Exception ie)
+            {
+                logger.Error(ie.Message, ie);
+                logger.Warn($"Exchange {channelSettings.ExchangeName} creation failed, will try to recreate it.");
+                channel.ExchangeDelete(channelSettings.ExchangeName);
+                channel.ExchangeDeclare(channelSettings.ExchangeName, channelSettings.ExchangeType.ToString().ToLower(), isQueueDurable, false, null);
+            }
         }
     }
 }

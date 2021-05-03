@@ -118,6 +118,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
             tb.SetCancelPercent(1)
               .SetCancelPercent(1000000)
               .SetCancelPercent(10101);
+            Assert.IsNotNull(tb);
         }
 
         [TestMethod]
@@ -133,6 +134,7 @@ namespace Sportradar.MTS.SDK.Test.Builders
         {
             var tb = TicketCancelBuilder.Create();
             tb.SetCancelPercent(0);
+            Assert.IsNotNull(tb);
         }
 
         [TestMethod]

@@ -150,7 +150,7 @@ namespace Sportradar.MTS.SDK.Common.Log
             {
                 return false;
             }
-            var loggers = hierarchy.GetCurrentLoggers().ToList(); //LogManager.GetCurrentLoggers().ToList();
+            var loggers = hierarchy.GetCurrentLoggers().ToList();
             var enums = Enum.GetNames(typeof(LoggerType));
 
             foreach (var e in enums)

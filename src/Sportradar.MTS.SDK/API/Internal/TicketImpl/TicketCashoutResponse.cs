@@ -3,7 +3,6 @@
  */
 using System;
 using System.Collections.Generic;
-using Sportradar.MTS.SDK.API.Internal.Senders;
 using Sportradar.MTS.SDK.Entities.Enums;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -17,11 +16,6 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
     [Serializable]
     internal class TicketCashoutResponse : ITicketCashoutResponse
     {
-        /// <summary>
-        /// The ticket Cashout sender
-        /// </summary>
-        // ReSharper disable once NotAccessedField.Local
-        private readonly ITicketSender _ticketCashoutSender;
         /// <summary>
         /// Gets the ticket id
         /// </summary>
@@ -70,7 +64,6 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketCashoutResponse"/> class
         /// </summary>
-        /// <param name="ticketCashoutSender">The ticket cashout sender</param>
         /// <param name="ticketId">The ticket identifier</param>
         /// <param name="status">The status</param>
         /// <param name="reason">The reason</param>
@@ -79,8 +72,8 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
         /// <param name="version">The version</param>
         /// <param name="additionalInfo">The additional information</param>
         /// <param name="orgJson">The original json string received from the mts</param>
-        public TicketCashoutResponse(ITicketSender ticketCashoutSender,
-                                     string ticketId,
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Approved")]
+        public TicketCashoutResponse(string ticketId,
                                      CashoutAcceptance status,
                                      IResponseReason reason,
                                      string correlationId,
@@ -98,8 +91,6 @@ namespace Sportradar.MTS.SDK.API.Internal.TicketImpl
             CorrelationId = correlationId;
             AdditionalInfo = additionalInfo;
             _originalJson = orgJson;
-
-            _ticketCashoutSender = ticketCashoutSender;
         }
 
         /// <summary>

@@ -1,6 +1,9 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Diagnostics.CodeAnalysis;
+
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 {
     internal class RabbitMqChannelSettings : IRabbitMqChannelSettings
@@ -20,6 +23,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                                                      : PublishQueueTimeoutInMs2;
         public bool ExclusiveConsumer { get; }
 
+        [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
         public RabbitMqChannelSettings(bool queueDurable = false,
                                        bool exclusiveConsumer = true,
                                        bool enableUserAqs = false,

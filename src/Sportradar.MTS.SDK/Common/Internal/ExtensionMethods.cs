@@ -1,7 +1,10 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Dawn;
 
@@ -26,6 +29,11 @@ namespace Sportradar.MTS.SDK.Common.Internal
                 stream.CopyTo(memoryStream);
                 return Encoding.UTF8.GetString(memoryStream.ToArray());
             }
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> input)
+        {
+            return input == null || !input.Any();
         }
     }
 }

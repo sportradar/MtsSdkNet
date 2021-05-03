@@ -37,7 +37,6 @@ namespace Sportradar.MTS.SDK.Common.Internal.Rest
         {
             Guard.Argument(client, nameof(client)).NotNull();
             Guard.Argument(client.DefaultRequestHeaders, nameof(client.DefaultRequestHeaders)).NotNull();
-            //Guard.Argument(!string.IsNullOrWhiteSpace(accessToken));
             Guard.Argument(connectionFailureLimit, nameof(connectionFailureLimit)).Positive();
             Guard.Argument(connectionFailureTimeout, nameof(connectionFailureTimeout)).Positive();
 

@@ -9,6 +9,7 @@ using Dawn;
 using log4net;
 using Metrics;
 using Sportradar.MTS.SDK.API.Internal.MtsAuth;
+using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Interfaces;
 using Sportradar.MTS.SDK.Entities.Internal;
@@ -78,7 +79,7 @@ namespace Sportradar.MTS.SDK.API.Internal
                 var maxStake = await _maxStakeDataProvider.PostDataAsync(token, content, new[] { "" }).ConfigureAwait(false);
                 if (maxStake == null)
                 {
-                    throw new Exception("Failed to get max stake.");
+                    throw new MtsApiException("Failed to get max stake.", null);
                 }
                 return maxStake.MaxStake;
             }

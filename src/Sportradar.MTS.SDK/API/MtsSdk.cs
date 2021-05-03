@@ -60,7 +60,6 @@ namespace Sportradar.MTS.SDK.API
         private readonly ConcurrentDictionary<string, ISdkTicket> _responsesFromBlockingRequests;
         private readonly MemoryCache _ticketsForNonBlockingRequests;
         private readonly object _lockForTicketsForNonBlockingRequestsCache;
-        private CacheItemPolicy _cacheItemPolicyForTicketsForNonBlockingRequestsCache;
 
         /// <summary>
         /// A <see cref="IUnityContainer"/> used to resolve
@@ -202,15 +201,6 @@ namespace Sportradar.MTS.SDK.API
         }
 
         /// <summary>
-        /// Disposes the current instance and resources associated with it
-        /// </summary>
-        void IDisposable.Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
         /// Constructs a <see cref="ISdkConfiguration" /> instance with information read from application configuration file
         /// </summary>
         /// <returns>A <see cref="ISdkConfiguration" /> instance read from application configuration file</returns>
@@ -263,6 +253,15 @@ namespace Sportradar.MTS.SDK.API
         /// <summary>
         /// Disposes the current instance and resources associated with it
         /// </summary>
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the current instance and resources associated with it
+        /// </summary>
         /// <param name="disposing">Value indicating whether the managed resources should also be disposed</param>
         protected virtual void Dispose(bool disposing)
         {
@@ -272,19 +271,15 @@ namespace Sportradar.MTS.SDK.API
             }
 
             _rabbitMqMessageReceiverForTickets.MqMessageReceived -= OnMqMessageReceived;
-            //_rabbitMqMessageReceiverForTickets.MqMessageDeserializationFailed -= OnMqMessageDeserializationFailed;
             _rabbitMqMessageReceiverForTickets.Close();
 
             _rabbitMqMessageReceiverForTicketCancels.MqMessageReceived -= OnMqMessageReceived;
-            //_rabbitMqMessageReceiverForTicketCancels.MqMessageDeserializationFailed -= OnMqMessageDeserializationFailed;
             _rabbitMqMessageReceiverForTicketCancels.Close();
 
             _rabbitMqMessageReceiverForTicketCashouts.MqMessageReceived -= OnMqMessageReceived;
-            //_rabbitMqMessageReceiverForTicketCashouts.MqMessageDeserializationFailed -= OnMqMessageDeserializationFailed;
             _rabbitMqMessageReceiverForTicketCashouts.Close();
 
             _rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageReceived -= OnMqMessageReceived;
-            //_rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageDeserializationFailed -= OnMqMessageDeserializationFailed;
             _rabbitMqMessageReceiverForTicketNonSrSettle.Close();
 
             _ticketPublisherFactory.Close();
@@ -335,19 +330,15 @@ namespace Sportradar.MTS.SDK.API
             try
             {
                 _rabbitMqMessageReceiverForTickets.MqMessageReceived += OnMqMessageReceived;
-                //_rabbitMqMessageReceiverForTickets.MqMessageDeserializationFailed += OnMqMessageDeserializationFailed;
                 _rabbitMqMessageReceiverForTickets.Open();
 
                 _rabbitMqMessageReceiverForTicketCancels.MqMessageReceived += OnMqMessageReceived;
-                //_rabbitMqMessageReceiverForTicketCancels.MqMessageDeserializationFailed += OnMqMessageDeserializationFailed;
                 _rabbitMqMessageReceiverForTicketCancels.Open();
 
                 _rabbitMqMessageReceiverForTicketCashouts.MqMessageReceived += OnMqMessageReceived;
-                //_rabbitMqMessageReceiverForTicketCashouts.MqMessageDeserializationFailed += OnMqMessageDeserializationFailed;
                 _rabbitMqMessageReceiverForTicketCashouts.Open();
 
                 _rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageReceived += OnMqMessageReceived;
-                //_rabbitMqMessageReceiverForTicketNonSrSettle.MqMessageDeserializationFailed += OnMqMessageDeserializationFailed;
                 _rabbitMqMessageReceiverForTicketNonSrSettle.Open();
 
                 _ticketPublisherFactory.Open();
@@ -427,8 +418,6 @@ namespace Sportradar.MTS.SDK.API
                 }
             }
 
-            //ExecutionLog.Debug($"Processing ticket response from JSON (time: {stopwatch.ElapsedMilliseconds} ms).");
-
             // check if it was called from SendBlocking
             if (_autoResetEventsForBlockingRequests.ContainsKey(ticket.TicketId))
             {
@@ -436,7 +425,6 @@ namespace Sportradar.MTS.SDK.API
                 ReleaseAutoResetEventFromDictionary(ticket.TicketId);
                 return;
             }
-            //ExecutionLog.Debug($"Processing ticket response from AutoResetEvent (time: {stopwatch.ElapsedMilliseconds} ms).");
 
             //else raise event
             var ticketReceivedEventArgs = new TicketResponseReceivedEventArgs(ticket);
@@ -479,21 +467,20 @@ namespace Sportradar.MTS.SDK.API
             {
                 return ticketCacheTimeout;
             }
-            else
+
+            lock (_lockForTicketsForNonBlockingRequestsCache)
             {
-                lock (_lockForTicketsForNonBlockingRequestsCache)
+                if (TicketResponseTimedOut != null)
                 {
-                    if (TicketResponseTimedOut != null)
+                    var cacheItemPolicyForTicketsForNonBlockingRequestsCache = new CacheItemPolicy
                     {
-                        _cacheItemPolicyForTicketsForNonBlockingRequestsCache = new CacheItemPolicy
-                                                                                {
-                                                                                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddMilliseconds(ticketCacheTimeout)),
-                                                                                    RemovedCallback = RemovedFromCacheForTicketsForNonBlockingRequestsCallback
-                                                                                };
-                        _ticketsForNonBlockingRequests.Add(ticket.TicketId, ticket, _cacheItemPolicyForTicketsForNonBlockingRequestsCache);
-                    }
+                        AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddMilliseconds(ticketCacheTimeout)),
+                        RemovedCallback = RemovedFromCacheForTicketsForNonBlockingRequestsCallback
+                    };
+                    _ticketsForNonBlockingRequests.Add(ticket.TicketId, ticket, cacheItemPolicyForTicketsForNonBlockingRequestsCache);
                 }
             }
+
             return -1;
         }
 
@@ -516,8 +503,7 @@ namespace Sportradar.MTS.SDK.API
 
             autoResetEvent.WaitOne(TimeSpan.FromMilliseconds(responseTimeout));
 
-            ISdkTicket responseTicket;
-            if (_responsesFromBlockingRequests.TryRemove(ticket.TicketId, out responseTicket))
+            if (_responsesFromBlockingRequests.TryRemove(ticket.TicketId, out var responseTicket))
             {
                 stopwatch.Stop();
                 ReleaseAutoResetEventFromDictionary(ticket.TicketId);

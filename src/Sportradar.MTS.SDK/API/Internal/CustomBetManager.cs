@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using log4net;
 using Sportradar.MTS.SDK.Common.Exceptions;
+using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Common.Log;
 using Sportradar.MTS.SDK.Entities.Builders;
 using Sportradar.MTS.SDK.Entities.Interfaces.CustomBet;
@@ -34,26 +35,13 @@ namespace Sportradar.MTS.SDK.API.Internal
         /// <param name="calculateProbabilityProvider">A <see cref="ICalculateProbabilityProvider"/> used to make custom bet API requests</param>
         public CustomBetManager(IDataProvider<AvailableSelectionsDTO> availableSelectionsProvider, ICalculateProbabilityProvider calculateProbabilityProvider)
         {
-            if (availableSelectionsProvider == null)
-            {
-                throw new ArgumentNullException(nameof(availableSelectionsProvider));
-            }
-
-            if (calculateProbabilityProvider == null)
-            {
-                throw new ArgumentNullException(nameof(calculateProbabilityProvider));
-            }
-
-            _availableSelectionsProvider = availableSelectionsProvider;
-            _calculateProbabilityProvider = calculateProbabilityProvider;
+            _availableSelectionsProvider = availableSelectionsProvider ?? throw new ArgumentNullException(nameof(availableSelectionsProvider));
+            _calculateProbabilityProvider = calculateProbabilityProvider ?? throw new ArgumentNullException(nameof(calculateProbabilityProvider));
         }
 
         public async Task<IAvailableSelections> GetAvailableSelectionsAsync(string eventId)
         {
-            if (eventId == null)
-            {
-                throw new ArgumentNullException(nameof(eventId));
-            }
+            CheckMethodArguments(eventId);
 
             try
             {
@@ -75,10 +63,9 @@ namespace Sportradar.MTS.SDK.API.Internal
 
         public async Task<ICalculation> CalculateProbabilityAsync(IEnumerable<ISelection> selections)
         {
-            if (selections == null)
-            {
-                throw new ArgumentNullException(nameof(selections));
-            }
+            var selectionsList = selections as IReadOnlyCollection<ISelection>;
+            
+            CheckMethodArguments(selectionsList);
 
             try
             {
@@ -95,6 +82,22 @@ namespace Sportradar.MTS.SDK.API.Internal
             {
                 _executionLog.Warn($"Calculating probabilities failed.", e);
                 throw;
+            }
+        }
+
+        private void CheckMethodArguments(string eventId)
+        {
+            if (eventId.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException(nameof(eventId));
+            }
+        }
+
+        private void CheckMethodArguments(IEnumerable<ISelection> selections)
+        {
+            if (selections.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException(nameof(selections));
             }
         }
 

@@ -2,14 +2,9 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Dawn;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Xml;
-using System.Xml.Serialization;
 using Sportradar.MTS.SDK.Common.Exceptions;
 using Sportradar.MTS.SDK.Common.Internal;
 using Sportradar.MTS.SDK.Entities.Internal.REST;
@@ -21,61 +16,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal
     /// which type the data should be deserialized
     /// </summary>
     /// <typeparam name="T">Specifies the type that can be deserialized</typeparam>
-    internal class Deserializer<T> : IDeserializer<T> where T : class
+    internal class Deserializer<T> : DeserializerBase, IDeserializer<T> where T : class
     {
-        /// <summary>
-        /// A list of <see cref="Type"/> specifying base types which are supported by the deserializer. All subclasses
-        /// of the specified types can be deserialized by the deserializer
-        /// </summary>
-        // ReSharper disable StaticFieldInGenericType
-        private static readonly Type[] BaseTypes = { typeof(XmlRestMessage) };
-        // ReSharper restore StaticFieldInGenericType
-
-        /// <summary>
-        /// A <see cref="IReadOnlyDictionary{String, XmlSerializer}"/> containing serializers for all supported types
-        /// </summary>
-        // ReSharper disable StaticFieldInGenericType
-        private static readonly IReadOnlyDictionary<string, SerializerWithInfo> Serializers;
-        // ReSharper restore StaticFieldInGenericType
-
-        /// <summary>
-        /// Initializes the <code>Serializers</code> static field
-        /// </summary>
-        static Deserializer()
-        {
-            var serializers = new Dictionary<string, SerializerWithInfo>();
-
-            foreach (var baseType in BaseTypes)
-            {
-                foreach (var feedMessagesType in baseType.Assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t)))
-                {
-                    var xmlRootAttribute = feedMessagesType.GetCustomAttribute<XmlRootAttribute>(false);
-                    var ignoreNamespaceAttribute = feedMessagesType.GetCustomAttribute<OverrideXmlNamespaceAttribute>(false);
-
-                    var rootElementName = xmlRootAttribute == null || string.IsNullOrWhiteSpace(xmlRootAttribute.ElementName)
-                        ? ignoreNamespaceAttribute == null
-                            ? null
-                            : ignoreNamespaceAttribute.RootElementName
-                        : xmlRootAttribute.ElementName;
-
-                    if (string.IsNullOrWhiteSpace(rootElementName))
-                    {
-                        throw new InvalidOperationException($"Type {feedMessagesType.FullName} cannot be deserialized with {typeof(Deserializer<>).FullName} because the name of RootXmlElement is not specified");
-                    }
-                    if (serializers.ContainsKey(rootElementName))
-                    {
-                        throw new InvalidOperationException($"Deserializer associated with name {rootElementName} already exists");
-                    }
-
-                    var ignoreNamespace = ignoreNamespaceAttribute?.IgnoreNamespace ?? false;
-
-                    serializers.Add(rootElementName, new SerializerWithInfo(new XmlSerializer(feedMessagesType), ignoreNamespace));
-                }
-            }
-
-            Serializers = new ReadOnlyDictionary<string, SerializerWithInfo>(serializers);
-        }
-
         /// <summary>
         /// Deserialize the provided<see cref="byte"/> array to a <see cref="RestMessage"/> derived instance
         /// </summary>
@@ -148,34 +90,22 @@ namespace Sportradar.MTS.SDK.Entities.Internal
         /// </summary>
         private class NamespaceIgnorantXmlTextReader : XmlTextReader
         {
-            private const string DefaultNamespaceUri = "http://schemas.sportradar.com/sportsapi/v1/unified";
-
             public bool IgnoreNamespace { private get; set; }
+
+            public override string NamespaceURI { get; }
 
             public NamespaceIgnorantXmlTextReader(Stream stream)
                 : base(stream)
             {
-            }
-
-            public override string NamespaceURI => IgnoreNamespace
-                ? string.IsNullOrWhiteSpace(base.NamespaceURI)
-                    ? string.Empty
-                    : DefaultNamespaceUri
-                : base.NamespaceURI;
-        }
-
-        private class SerializerWithInfo
-        {
-            public XmlSerializer Serializer { get; }
-
-            public bool IgnoreNamespace { get; }
-
-            public SerializerWithInfo(XmlSerializer serializer, bool ignoreNamespace)
-            {
-                Guard.Argument(serializer, nameof(serializer)).NotNull();
-
-                Serializer = serializer;
-                IgnoreNamespace = ignoreNamespace;
+                NamespaceURI = string.Empty;
+                if (IgnoreNamespace)
+                {
+                    NamespaceURI = string.IsNullOrWhiteSpace(base.NamespaceURI) ? string.Empty : SdkInfo.DefaultNamespaceUri;
+                }
+                else
+                {
+                    NamespaceURI = base.NamespaceURI;
+                }
             }
         }
     }
