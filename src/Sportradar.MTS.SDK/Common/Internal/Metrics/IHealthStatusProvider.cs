@@ -6,7 +6,7 @@ using Metrics;
 namespace Sportradar.MTS.SDK.Common.Internal.Metrics
 {
     /// <summary>
-    /// Defines a contract implemented by classes used to provide <see cref="Metrics.HealthCheckResult"/> for the SDK
+    /// Defines a contract implemented by classes used to provide <see cref="HealthCheckResult"/> for the SDK
     /// </summary>
 
     public interface IHealthStatusProvider
@@ -17,7 +17,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics
         void RegisterHealthCheck();
 
         /// <summary>
-        /// Starts the health check and returns <see cref="Metrics.HealthCheckResult"/>
+        /// Starts the health check and returns <see cref="HealthCheckResult"/>
         /// </summary>
         HealthCheckResult StartHealthCheck();
     }

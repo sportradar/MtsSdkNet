@@ -3,6 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Dawn;
 using Newtonsoft.Json;
@@ -67,7 +68,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         }
 
         [JsonConstructor]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
+        [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "JsonConstructor")]
         private TicketCancel(DateTime timestamp, string ticketId, int bookmakerId, TicketCancellationReason code, int? cancelPercent, IEnumerable<IBetCancel> betCancels, string version, string correlationId)
         {
             Timestamp = timestamp;

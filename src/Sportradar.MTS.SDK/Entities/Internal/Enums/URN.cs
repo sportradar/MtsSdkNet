@@ -183,8 +183,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Enums
                 return true;
             }
 
-            var other = obj as URN;
-            if (other == null)
+            if (!(obj is URN other))
             {
                 return false;
             }

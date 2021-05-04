@@ -101,6 +101,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         [JsonConstructor]
         [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "JsonConstructor")]
         private Ticket(string ticketId, IEnumerable<IBet> bets, IEnumerable<ISelection> selections, ISender sender, string reofferId, string altStakeRefId, bool testSource, OddsChangeType? oddsChange, DateTime timestamp, string version, string correlationId, int? totalCombinations, DateTime? lastMatchEndTime)
         {
             ValidateConstructorParameters(ticketId, sender, bets, reofferId, altStakeRefId, totalCombinations, lastMatchEndTime);

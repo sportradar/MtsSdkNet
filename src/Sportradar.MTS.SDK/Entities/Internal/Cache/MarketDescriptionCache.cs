@@ -191,6 +191,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="CommunicationException">An error occurred while accessing the remote party</exception>
         /// <exception cref="DeserializationException">An error occurred while deserializing fetched data</exception>
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4457:Parameter validation in \"async\"/\"await\" methods should be wrapped", Justification = "OK")]
         private async Task<MarketDescriptionCacheItem> GetMarketInternalAsync(int id, IEnumerable<CultureInfo> cultures)
         {
             var cultureList = cultures?.ToList();
@@ -216,6 +217,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             return GetItemFromCache(id);
         }
 
+
         /// <summary>
         /// Asynchronously gets the <see cref="MarketDescriptionCacheItem"/> specified by it's id. If the item is not found in local cache, all items for specified
         /// language are fetched from the service and stored/merged into the local cache.
@@ -225,6 +227,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <exception cref="CommunicationException">An error occurred while accessing the remote party</exception>
         /// <exception cref="DeserializationException">An error occurred while deserializing fetched data</exception>
         /// <exception cref="FormatException">An error occurred while mapping deserialized entities</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4457:Parameter validation in \"async\"/\"await\" methods should be wrapped", Justification = "OK")]
         private async Task FetchMarketDescriptionsAsync(IEnumerable<CultureInfo> cultures)
         {
             var cultureList = cultures?.ToList();
@@ -323,6 +326,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
         /// <param name="variant">A <see cref="string"/> specifying market variant or a null reference if market is invariant</param>
         /// <param name="cultures">The cultures</param>
         /// <exception cref="CacheItemNotFoundException">The requested key was not found in the cache and could not be loaded</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4457:Parameter validation in \"async\"/\"await\" methods should be wrapped", Justification = "OK")]
         public async Task<MarketDescriptionCacheItem> GetMarketDescriptorAsync(int marketId, string variant, IEnumerable<CultureInfo> cultures)
         {
             var cultureList = cultures as List<CultureInfo> ?? cultures.ToList();

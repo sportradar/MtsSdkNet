@@ -41,7 +41,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     
         public string ToJson() 
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this.Ticket);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(Ticket);
         }
         
         public static TicketDTO FromJson(string data)
@@ -69,7 +69,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         private string _altStakeRefId;
         private string _version;
         private bool _testSource;
-        private TicketOddsChange? _oddsChange = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.TicketOddsChange.None;
+        private TicketOddsChange? _oddsChange = TicketOddsChange.None;
         private int? _totalCombinations;
         private long? _lastMatchEndTime;
     
@@ -718,8 +718,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     public partial class Bonus : System.ComponentModel.INotifyPropertyChanged
     {
         private long _value;
-        private BonusType? _type = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.BonusType.Total;
-        private BonusMode? _mode = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.BonusMode.All;
+        private BonusType? _type = BonusType.Total;
+        private BonusMode? _mode = BonusMode.All;
     
         /// <summary>Quantity multiplied by 10_000 and rounded to a long value</summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Always)]
@@ -793,7 +793,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     public partial class Stake : System.ComponentModel.INotifyPropertyChanged
     {
         private long _value;
-        private StakeType? _type = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.StakeType.Total;
+        private StakeType? _type = StakeType.Total;
     
         /// <summary>Quantity multiplied by 10_000 and rounded to a long value</summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Always)]
@@ -851,7 +851,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
     public partial class EntireStake : System.ComponentModel.INotifyPropertyChanged
     {
         private long _value;
-        private EntireStakeType? _type = Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket.EntireStakeType.Total;
+        private EntireStakeType? _type = EntireStakeType.Total;
     
         /// <summary>Quantity multiplied by 10_000 and rounded to a long value</summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Always)]

@@ -36,7 +36,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketReofferBuilder"/> class
         /// </summary>
-        [Obsolete]
+        [Obsolete("Constructor is obsolete. Please use the appropriate method on IBuilderFactory interface which can be obtained through MtsSdk instance")]
         private TicketReofferBuilder()
         {
             _builderFactory = new SimpleBuilderFactory();

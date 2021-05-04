@@ -20,7 +20,7 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
     /// Base implementation of the <see cref="ITicketSender"/>
     /// </summary>
     /// <seealso cref="ITicketSender" />
-    public abstract class TicketSenderBase : ITicketSender
+    internal abstract class TicketSenderBase : ITicketSender
     {
         /// <summary>
         /// The execution log
@@ -69,10 +69,10 @@ namespace Sportradar.MTS.SDK.API.Internal.Senders
         /// <param name="ticketCache">The ticket cache</param>
         /// <param name="mtsChannelSettings">The MTS channel settings</param>
         /// <param name="rabbitMqChannelSettings">Rabbit channel settings</param>
-        internal TicketSenderBase(IRabbitMqPublisherChannel publisherChannel,
-                              ConcurrentDictionary<string, TicketCacheItem> ticketCache,
-                              IMtsChannelSettings mtsChannelSettings,
-                              IRabbitMqChannelSettings rabbitMqChannelSettings)
+        protected TicketSenderBase(IRabbitMqPublisherChannel publisherChannel,
+                                  ConcurrentDictionary<string, TicketCacheItem> ticketCache,
+                                  IMtsChannelSettings mtsChannelSettings,
+                                  IRabbitMqChannelSettings rabbitMqChannelSettings)
         {
             Guard.Argument(publisherChannel, nameof(publisherChannel)).NotNull();
             Guard.Argument(ticketCache, nameof(ticketCache)).NotNull();

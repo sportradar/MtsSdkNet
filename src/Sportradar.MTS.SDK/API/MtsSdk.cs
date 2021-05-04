@@ -253,7 +253,7 @@ namespace Sportradar.MTS.SDK.API
         /// <summary>
         /// Disposes the current instance and resources associated with it
         /// </summary>
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);

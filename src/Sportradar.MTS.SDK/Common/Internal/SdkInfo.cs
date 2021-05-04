@@ -77,11 +77,11 @@ namespace Sportradar.MTS.SDK.Common.Internal
         {
             if (factor == 0)
             {
-                value = value * 2;
+                value *= 2;
             }
             else
             {
-                value = value + factor;
+                value += factor;
             }
             if (value >= maxValue)
             {

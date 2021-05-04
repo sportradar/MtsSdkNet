@@ -121,7 +121,6 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         /// <param name="message"></param>
         public void Info(string message)
         {
-            //_log.Info(_logKeyword + message);
             _log.Info(message);
         }
 
@@ -159,54 +158,6 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         public void Fatal(string message)
         {
             _log.Fatal(message);
-        }
-
-        /// <summary>
-        /// Logs a formatted message string with the <see cref="F:log4net.Core.Level.Fatal" /> level.
-        /// </summary>
-        /// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information</param>
-        /// <param name="format">A String containing zero or more format items</param>
-        /// <param name="args">An Object array containing zero or more objects to format</param>
-        /// <remarks>
-        /// <para>
-        /// The message is formatted using the <c>String.Format</c> method. See
-        /// <see cref="M:String.Format(string, object[])" /> for details of the syntax of the format string and the behavior
-        /// of the formatting.
-        /// </para>
-        /// <para>
-        /// This method does not take an <see cref="T:System.Exception" /> object to include in the
-        /// log event. To pass an <see cref="T:System.Exception" /> use one of the <see cref="M:Fatal(object)" />
-        /// methods instead.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="M:Fatal(object,Exception)" />
-        /// <seealso cref="P:log4net.ILog.IsFatalEnabled" />
-        public void FatalFormat(IFormatProvider provider, string format, params object[] args)
-        {
-            _log.FatalFormat(provider, format, args);
-        }
-
-        /// <summary>
-        /// Logs a formatted message string with the <see cref="F:log4net.Core.Level.Debug" /> level.
-        /// </summary>
-        /// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information</param>
-        /// <param name="format">A String containing zero or more format items</param>
-        /// <param name="args">An Object array containing zero or more objects to format</param>
-        /// <seealso cref="M:Debug(object)" />
-        /// <seealso cref="P:log4net.ILog.IsDebugEnabled" />
-        /// <remarks><para>
-        /// The message is formatted using the <c>String.Format</c> method. See
-        /// <see cref="M:String.Format(string, object[])" /> for details of the syntax of the format string and the behavior
-        /// of the formatting.
-        /// </para>
-        /// <para>
-        /// This method does not take an <see cref="T:System.Exception" /> object to include in the
-        /// log event. To pass an <see cref="T:System.Exception" /> use one of the <see cref="M:Debug(object,Exception)" />
-        /// methods instead.
-        /// </para></remarks>
-        public void DebugFormat(IFormatProvider provider, string format, params object[] args)
-        {
-            _log.DebugFormat(provider, format, args);
         }
 
         /// <summary>
@@ -393,6 +344,29 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         public void DebugFormat(string format, params object[] args)
         {
             _log.DebugFormat(format, args);
+        }
+
+        /// <summary>
+        /// Logs a formatted message string with the <see cref="F:log4net.Core.Level.Debug" /> level.
+        /// </summary>
+        /// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information</param>
+        /// <param name="format">A String containing zero or more format items</param>
+        /// <param name="args">An Object array containing zero or more objects to format</param>
+        /// <seealso cref="M:Debug(object)" />
+        /// <seealso cref="P:log4net.ILog.IsDebugEnabled" />
+        /// <remarks><para>
+        /// The message is formatted using the <c>String.Format</c> method. See
+        /// <see cref="M:String.Format(string, object[])" /> for details of the syntax of the format string and the behavior
+        /// of the formatting.
+        /// </para>
+        /// <para>
+        /// This method does not take an <see cref="T:System.Exception" /> object to include in the
+        /// log event. To pass an <see cref="T:System.Exception" /> use one of the <see cref="M:Debug(object,Exception)" />
+        /// methods instead.
+        /// </para></remarks>
+        public void DebugFormat(IFormatProvider provider, string format, params object[] args)
+        {
+            _log.DebugFormat(provider, format, args);
         }
 
         /// <summary>
@@ -613,29 +587,6 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         }
 
         /// <summary>
-        /// Logs a formatted message string with the <see cref="F:log4net.Core.Level.Error" /> level.
-        /// </summary>
-        /// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information</param>
-        /// <param name="format">A String containing zero or more format items</param>
-        /// <param name="args">An Object array containing zero or more objects to format</param>
-        /// <seealso cref="M:Error(object,Exception)" />
-        /// <seealso cref="P:log4net.ILog.IsErrorEnabled" />
-        /// <remarks><para>
-        /// The message is formatted using the <c>String.Format</c> method. See
-        /// <see cref="M:String.Format(string, object[])" /> for details of the syntax of the format string and the behavior
-        /// of the formatting.
-        /// </para>
-        /// <para>
-        /// This method does not take an <see cref="T:System.Exception" /> object to include in the
-        /// log event. To pass an <see cref="T:System.Exception" /> use one of the <see cref="M:Error(object)" />
-        /// methods instead.
-        /// </para></remarks>
-        public void ErrorFormat(IFormatProvider provider, string format, params object[] args)
-        {
-            _log.ErrorFormat(provider, format, args);
-        }
-
-        /// <summary>
         /// Logs a message with Fatal level
         /// </summary>
         /// <param name="message"></param>
@@ -657,6 +608,31 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         public void Fatal(object message, Exception exception)
         {
             _log.Fatal(message, exception);
+        }
+
+        /// <summary>
+        /// Logs a formatted message string with the <see cref="F:log4net.Core.Level.Fatal" /> level.
+        /// </summary>
+        /// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information</param>
+        /// <param name="format">A String containing zero or more format items</param>
+        /// <param name="args">An Object array containing zero or more objects to format</param>
+        /// <remarks>
+        /// <para>
+        /// The message is formatted using the <c>String.Format</c> method. See
+        /// <see cref="M:String.Format(string, object[])" /> for details of the syntax of the format string and the behavior
+        /// of the formatting.
+        /// </para>
+        /// <para>
+        /// This method does not take an <see cref="T:System.Exception" /> object to include in the
+        /// log event. To pass an <see cref="T:System.Exception" /> use one of the <see cref="M:Fatal(object)" />
+        /// methods instead.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="M:Fatal(object,Exception)" />
+        /// <seealso cref="P:log4net.ILog.IsFatalEnabled" />
+        public void FatalFormat(IFormatProvider provider, string format, params object[] args)
+        {
+            _log.FatalFormat(provider, format, args);
         }
 
         /// <summary>
@@ -755,10 +731,33 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         /// Logs a message with Error level
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="ex"></param>
-        public void Error(object message, Exception ex)
+        /// <param name="exception"></param>
+        public void Error(object message, Exception exception)
         {
-            _log.Error(message, ex);
+            _log.Error(message, exception);
+        }
+
+        /// <summary>
+        /// Logs a formatted message string with the <see cref="F:log4net.Core.Level.Error" /> level.
+        /// </summary>
+        /// <param name="provider">An <see cref="T:System.IFormatProvider" /> that supplies culture-specific formatting information</param>
+        /// <param name="format">A String containing zero or more format items</param>
+        /// <param name="args">An Object array containing zero or more objects to format</param>
+        /// <seealso cref="M:Error(object,Exception)" />
+        /// <seealso cref="P:log4net.ILog.IsErrorEnabled" />
+        /// <remarks><para>
+        /// The message is formatted using the <c>String.Format</c> method. See
+        /// <see cref="M:String.Format(string, object[])" /> for details of the syntax of the format string and the behavior
+        /// of the formatting.
+        /// </para>
+        /// <para>
+        /// This method does not take an <see cref="T:System.Exception" /> object to include in the
+        /// log event. To pass an <see cref="T:System.Exception" /> use one of the <see cref="M:Error(object)" />
+        /// methods instead.
+        /// </para></remarks>
+        public void ErrorFormat(IFormatProvider provider, string format, params object[] args)
+        {
+            _log.ErrorFormat(provider, format, args);
         }
 
         /// <summary>

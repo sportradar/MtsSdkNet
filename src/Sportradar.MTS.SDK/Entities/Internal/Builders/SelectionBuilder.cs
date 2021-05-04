@@ -83,7 +83,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         [Obsolete("Method Create() is obsolete. Please use the appropriate method on IBuilderFactory interface which can be obtained through MtsSdk instance")]
         public static ISelectionBuilder Create()
         {
-            //TODO: prone to fail in web app
+            //prone to fail in web application
             var configInternal = new SdkConfigurationInternal(new SdkConfiguration(SdkConfigurationSection.GetSection()), null);
             var value = new Random((int)DateTime.Now.Ticks).Next();
             var dataFetcher = new LogHttpDataFetcher(new HttpClient(),

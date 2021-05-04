@@ -2,6 +2,7 @@
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Dawn;
 using Newtonsoft.Json;
 using Sportradar.MTS.SDK.Entities.Enums;
@@ -66,7 +67,8 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         public string Message { get; }
 
         [JsonConstructor]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
+        [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "JsonConstructor")]
         private TicketAck(DateTime timestamp, string ticketId, int bookmakerId, TicketAckStatus ticketStatus, int code, string version, string correlationId, string message)
         {
             Timestamp = timestamp;

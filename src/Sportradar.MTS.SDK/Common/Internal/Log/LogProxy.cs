@@ -80,10 +80,9 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
         /// <param name="msg">A <see cref="IMessage" /> that contains a <see cref="IDictionary" /> of information about the method call</param>
         public override IMessage Invoke(IMessage msg)
         {
-            bool logEnabled = false;
+            var logEnabled = false;
 
-            var methodCall = msg as IMethodCallMessage;
-            if (methodCall == null)
+            if (!(msg is IMethodCallMessage methodCall))
             {
                 throw new ArgumentException("Input parameter 'msg' not valid IMethodCallMessage.");
             }
@@ -93,7 +92,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
                 throw new ArgumentException("Input parameter 'msg' does not have MethodBase as MethodInfo.");
             }
 
-            ILog logger = SdkLoggerFactory.GetLogger(methodCall.MethodBase.ReflectedType, SdkLoggerFactory.SdkLogRepositoryName, _defaultLoggerType);
+            var logger = SdkLoggerFactory.GetLogger(methodCall.MethodBase.ReflectedType, SdkLoggerFactory.SdkLogRepositoryName, _defaultLoggerType);
 
             if (_filter != null && _filter(methodInfo))
             {
@@ -102,30 +101,42 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
 
             if (!logEnabled || _canOverrideLoggerType)
             {
-                var attributes = methodInfo.GetCustomAttributes(true).ToList();
-                if (methodInfo.DeclaringType != null)
-                {
-                    attributes.AddRange(methodInfo.DeclaringType.GetCustomAttributes(true));
-                }
+                logEnabled = ChangeLoggerBasedOnAttributes(methodCall, methodInfo, ref logger, logEnabled);
+            }
 
-                if (attributes.Count > 0)
+            return ExecuteMethod(methodCall, methodInfo, logger, logEnabled);
+        }
+
+        private bool ChangeLoggerBasedOnAttributes(IMethodCallMessage methodCall, MethodInfo methodInfo, ref ILog logger, bool logEnabled)
+        {
+            var attributes = methodInfo.GetCustomAttributes(true).ToList();
+            if (methodInfo.DeclaringType != null)
+            {
+                attributes.AddRange(methodInfo.DeclaringType.GetCustomAttributes(true));
+            }
+
+            if (attributes.Count > 0)
+            {
+                foreach (var t in attributes)
                 {
-                    foreach (object t in attributes)
+                    if (!(t is LogAttribute attribute))
                     {
-                        if (!(t is LogAttribute))
-                        {
-                            continue;
-                        }
-                        logEnabled = true;
-                        if (_canOverrideLoggerType)
-                        {
-                            logger = SdkLoggerFactory.GetLogger(methodCall.MethodBase.ReflectedType, SdkLoggerFactory.SdkLogRepositoryName, ((LogAttribute)t).LoggerType);
-                        }
-                        break;
+                        continue;
                     }
+                    logEnabled = true;
+                    if (_canOverrideLoggerType)
+                    {
+                        logger = SdkLoggerFactory.GetLogger(methodCall.MethodBase.ReflectedType, SdkLoggerFactory.SdkLogRepositoryName, attribute.LoggerType);
+                    }
+                    break;
                 }
             }
 
+            return logEnabled;
+        }
+
+        private ReturnMessage ExecuteMethod(IMethodCallMessage methodCall, MethodInfo methodInfo, ILog logger, bool logEnabled)
+        {
             var watch = new Stopwatch();
             watch.Start();
 
@@ -146,10 +157,9 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
 
                 var result = methodInfo.Invoke(_decorated, methodCall.InArgs); // MAIN EXECUTION
 
-                var task = result as Task;
-                if (task != null)
+                if (result is Task task)
                 {
-                    var perm = new LogProxyPerm()
+                    var perm = new LogProxyPerm
                     {
                         LogEnabled = logEnabled,
                         Logger = logger,
@@ -183,8 +193,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
 
         private void TaskExecutionFinished(Task task)
         {
-            LogProxyPerm perm;
-            if (!_proxyPerms.TryGetValue(task.Id, out perm))
+            if (!_proxyPerms.TryGetValue(task.Id, out var perm))
             {
                 Console.WriteLine($"No perm for task. Id: {task.Id}");
                 return;
@@ -207,6 +216,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
             _proxyPerms.Remove(task.Id);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Needed")]
         private static void FinishExecution(bool logEnabled, IMethodMessage methodCall, MethodInfo methodInfo, string resultTypeName, object result, ILog logger, Stopwatch watch, string taskId = null)
         {
             watch.Stop();

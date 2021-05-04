@@ -80,7 +80,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
             {
                 if (HandleException(ex, log, errorMessage))
                 {
-                    return default(TResult);
+                    return default;
                 }
                 throw;
             }
@@ -107,7 +107,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
             {
                 if (HandleException(ex, log, errorMessage))
                 {
-                    return default(TResult);
+                    return default;
                 }
                 throw;
             }
@@ -135,7 +135,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
             {
                 if (HandleException(ex, log, errorMessage))
                 {
-                    return default(TResult);
+                    return default;
                 }
                 throw;
             }
@@ -165,7 +165,7 @@ namespace Sportradar.MTS.SDK.Common.Internal
             {
                 if (HandleException(ex, log, errorMessage))
                 {
-                    return default(TResult);
+                    return default;
                 }
                 throw;
             }
