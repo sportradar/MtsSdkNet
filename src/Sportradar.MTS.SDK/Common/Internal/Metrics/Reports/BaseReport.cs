@@ -4,32 +4,11 @@
 using System;
 using System.Collections.Generic;
 using log4net;
+using Metrics;
+using Metrics.MetricData;
 
 namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
 {
-    /// <summary>
-    /// Enum MetricsReportPrintMode used to define mode of printing of information into log
-    /// </summary>
-    public enum MetricsReportPrintMode
-    {
-        /// <summary>
-        /// The normal
-        /// </summary>
-        Normal = 0,
-        /// <summary>
-        /// The minimal
-        /// </summary>
-        Minimal = 1,
-        /// <summary>
-        /// The compact
-        /// </summary>
-        Compact = 2,
-        /// <summary>
-        /// The full
-        /// </summary>
-        Full = 3
-    };
-
     internal abstract class BaseReport<T>
     {
         private string _contextName;
@@ -150,6 +129,22 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
         protected virtual void PrintFull(T item)
         {
             Print(item);
+        }
+
+        protected virtual void PrintHistogram(HistogramValue histogram, Unit unit, TimeUnit timeUnit, FormatHelper formatHelper)
+        {
+            var u = formatHelper.U(unit, timeUnit, true);
+            QueueAdd("Min", $"{formatHelper.Dec(histogram.Min)} {u}");
+            QueueAdd("Max", $"{formatHelper.Dec(histogram.Max)} {u}");
+            QueueAdd("Mean", $"{formatHelper.Dec(histogram.Mean)} {u}");
+            QueueAdd("75%", $"{formatHelper.Dec(histogram.Percentile75)} {u}");
+            QueueAdd("95%", $"{formatHelper.Dec(histogram.Percentile95)} {u}");
+            QueueAdd("98%", $"{formatHelper.Dec(histogram.Percentile98)} {u}");
+            QueueAdd("99%", $"{formatHelper.Dec(histogram.Percentile99)} {u}");
+            QueueAdd("99.9%", $"{formatHelper.Dec(histogram.Percentile999)} {u}");
+            QueueAdd("StdDev", $"{formatHelper.Dec(histogram.StdDev)} {u}");
+            QueueAdd("Median", $"{formatHelper.Dec(histogram.Median)} {u}");
+            QueueAdd("Last value", $"{formatHelper.Dec(histogram.LastValue)} {u}");
         }
     }
 }

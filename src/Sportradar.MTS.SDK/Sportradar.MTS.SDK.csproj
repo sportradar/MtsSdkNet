@@ -284,6 +284,7 @@
     <Compile Include="Common\Internal\Metrics\Reports\HistogramReport.cs" />
     <Compile Include="Common\Internal\Metrics\Reports\MeterReport.cs" />
     <Compile Include="Common\Internal\Metrics\Reports\MetricDataReport.cs" />
+    <Compile Include="Common\Internal\Metrics\Reports\MetricsReportPrintMode.cs" />
     <Compile Include="Common\Internal\Metrics\Reports\TimerReport.cs" />
     <Compile Include="Common\Internal\Rest\HttpDataFetcher.cs" />
     <Compile Include="Common\Internal\Rest\HttpDataResftful.cs" />
