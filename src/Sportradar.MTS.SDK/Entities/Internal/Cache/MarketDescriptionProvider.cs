@@ -31,7 +31,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Cache
             Guard.Argument(cultureInfos, nameof(cultureInfos)).NotNull();
             if (!cultureInfos.Any())
             {
-                throw new ArgumentOutOfRangeException(nameof(cultureInfos));
+                throw new ArgumentException("Missing cultures", nameof(cultures));
             }
 
             MarketDescriptionCache = marketDescriptionCache;

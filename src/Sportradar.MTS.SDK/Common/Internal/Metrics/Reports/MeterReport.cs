@@ -50,10 +50,10 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
             var fh = new FormatHelper(Decimals, MetricsReportPrintMode.Compact);
             QueueAdd(item.Name);
             QueueAdd("Count", item.Value.Count + " " + item.Unit);
-            QueueAdd("Mean value", $"{fh.Dec((double) item.Value.MeanRate)} {fh.U(item.Unit, item.RateUnit, false)}");
-            QueueAdd("1 minute rate", $"{fh.Dec((double) item.Value.OneMinuteRate)} {fh.U(item.Unit, item.RateUnit, false)}");
-            QueueAdd("5 minute rate", $"{fh.Dec((double) item.Value.FiveMinuteRate)} {fh.U(item.Unit, item.RateUnit, false)}");
-            QueueAdd("15 minute rate", $"{fh.Dec((double) item.Value.FifteenMinuteRate)} {fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("Mean value", $"{fh.Dec(item.Value.MeanRate)} {fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("1 minute rate", $"{fh.Dec(item.Value.OneMinuteRate)} {fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("5 minute rate", $"{fh.Dec(item.Value.FiveMinuteRate)} {fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("15 minute rate", $"{fh.Dec(item.Value.FifteenMinuteRate)} {fh.U(item.Unit, item.RateUnit, false)}");
         }
 
         protected override void PrintFull(MeterValueSource item)
@@ -75,11 +75,11 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
             {
                 QueueAdd(i.Item);
                 QueueAdd("Count", i.Value.Count + " " + unit);
-                QueueAdd("Percent", fh.Dec((double) i.Percent) + "%");
-                QueueAdd("Mean value", $"{fh.Dec((double) i.Value.MeanRate)} {fh.U(unit, i.Value.RateUnit, false)}");
-                QueueAdd("1 minute rate", $"{fh.Dec((double) i.Value.OneMinuteRate)} {fh.U(unit, i.Value.RateUnit, false)}");
-                QueueAdd("5 minute rate", $"{fh.Dec((double) i.Value.FiveMinuteRate)} {fh.U(unit, i.Value.RateUnit, false)}");
-                QueueAdd("15 minute rate", $"{fh.Dec((double) i.Value.FifteenMinuteRate)} {fh.U(unit, i.Value.RateUnit, false)}");
+                QueueAdd("Percent", fh.Dec(i.Percent) + "%");
+                QueueAdd("Mean value", $"{fh.Dec(i.Value.MeanRate)} {fh.U(unit, i.Value.RateUnit, false)}");
+                QueueAdd("1 minute rate", $"{fh.Dec(i.Value.OneMinuteRate)} {fh.U(unit, i.Value.RateUnit, false)}");
+                QueueAdd("5 minute rate", $"{fh.Dec(i.Value.FiveMinuteRate)} {fh.U(unit, i.Value.RateUnit, false)}");
+                QueueAdd("15 minute rate", $"{fh.Dec(i.Value.FifteenMinuteRate)} {fh.U(unit, i.Value.RateUnit, false)}");
             }
         }
     }

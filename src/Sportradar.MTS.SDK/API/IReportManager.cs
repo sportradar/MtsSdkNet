@@ -3,6 +3,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Sportradar.MTS.SDK.Common.Exceptions;
@@ -29,6 +30,7 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="username">A username used for authentication - (if not set via configuration - keycloakUsername)</param>
         /// <param name="password">A password used for authentication - (if not set via configuration - keycloakPassword)</param>
         /// <exception cref="MtsReportException">If there is exception getting report data</exception>
+        [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
         Task GetHistoryCcfChangeCsvExportAsync(Stream outputStream,
                                                 DateTime startDate,
                                                 DateTime endDate,
@@ -53,6 +55,7 @@ namespace Sportradar.MTS.SDK.API
         /// <param name="password">A password used for authentication - (if not set via configuration - keycloakPassword)</param>
         /// <returns>Returns the list of <see cref="ICcfChange"/></returns>
         /// <exception cref="MtsReportException">If there is exception getting report data</exception>
+        [SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
         Task<List<ICcfChange>> GetHistoryCcfChangeCsvExportAsync(DateTime startDate, 
                                                                 DateTime endDate, 
                                                                 int? bookmakerId = null, 

@@ -23,8 +23,6 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
                 return;
             }
 
-            //QueueAdd(FormatHelper.SectionName("MetricsData(s)", ContextName));
-
             base.ReportList(listItems);
         }
 
@@ -53,13 +51,13 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
             var gr = new GaugeReport(item.Context, Log, PrintMode, Decimals);
             var hr = new HistogramReport(item.Context, Log, PrintMode, Decimals);
 
-            cr.ReportList((IEnumerable<CounterValueSource>) item.Counters);
-            tr.ReportList((IEnumerable<TimerValueSource>) item.Timers);
-            mr.ReportList((IEnumerable<MeterValueSource>) item.Meters);
-            gr.ReportList((IEnumerable<GaugeValueSource>) item.Gauges);
-            hr.ReportList((IEnumerable<HistogramValueSource>) item.Histograms);
+            cr.ReportList(item.Counters);
+            tr.ReportList(item.Timers);
+            mr.ReportList(item.Meters);
+            gr.ReportList(item.Gauges);
+            hr.ReportList(item.Histograms);
 
-            ReportList((IEnumerable<MetricsData>) item.ChildMetrics);
+            ReportList(item.ChildMetrics);
         }
 
         protected override void PrintMinimal(MetricsData item)
@@ -68,16 +66,16 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
             var mr = new MeterReport(item.Context, Log, PrintMode, Decimals);
             var tr = new TimerReport(item.Context, Log, PrintMode, Decimals);
 
-            cr.ReportList((IEnumerable<CounterValueSource>) item.Counters);
-            tr.ReportList((IEnumerable<TimerValueSource>) item.Timers);
-            mr.ReportList((IEnumerable<MeterValueSource>) item.Meters);
+            cr.ReportList(item.Counters);
+            tr.ReportList(item.Timers);
+            mr.ReportList(item.Meters);
         }
 
         protected override void PrintCompact(MetricsData item)
         {
             PrintMinimal(item);
 
-            ReportList((IEnumerable<MetricsData>) item.ChildMetrics);
+            ReportList(item.ChildMetrics);
         }
 
         protected override void PrintFull(MetricsData item)
@@ -85,7 +83,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
             Print(item);
 
             var er = new EnvironmentReport(item.Context, Log, PrintMode, Decimals);
-            er.ReportList((IEnumerable<EnvironmentEntry>) item.Environment);
+            er.ReportList(item.Environment);
         }
     }
 }

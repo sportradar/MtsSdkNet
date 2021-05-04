@@ -101,8 +101,8 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
                     var kv = LogQueue.Dequeue();
                     if (string.IsNullOrEmpty(kv.Value))
                     {
-                        int space = (kv.Key.Length / 2) + 30;
-                        string text = "{0," + space + "}";
+                        var space = (kv.Key.Length / 2) + 30;
+                        var text = "{0," + space + "}";
                         Log.Info(string.Format(text, kv.Key));
                     }
                     else
@@ -131,7 +131,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
                     PrintFull(item);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentException("Unknown MetricsReportPrintMode");
             }
         }
 

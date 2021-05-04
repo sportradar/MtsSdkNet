@@ -10,7 +10,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Log
     /// <summary>
     /// Factory for the <see cref="LogProxy{T}"/>
     /// </summary>
-    internal class LogProxyFactory
+    internal static class LogProxyFactory
     {
         public static T Create<T>(object[] args, LoggerType loggerType = LoggerType.Execution, bool canOverrideLoggerType = true)
         {

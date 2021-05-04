@@ -57,10 +57,10 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
             QueueAdd("Active sessions", $"{item.Value.ActiveSessions}");
             QueueAdd("Total time", $"{item.Value.TotalTime} {_fh.Time(item.DurationUnit)}");
             QueueAdd("Count", $"{item.Value.Rate.Count} {item.Unit}");
-            QueueAdd("Mean value", $"{_fh.Dec((double) item.Value.Rate.MeanRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
-            QueueAdd("1 minute rate", $"{_fh.Dec((double) item.Value.Rate.OneMinuteRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
-            QueueAdd("5 minute rate", $"{_fh.Dec((double) item.Value.Rate.FiveMinuteRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
-            QueueAdd("15 minute rate", $"{_fh.Dec((double) item.Value.Rate.FifteenMinuteRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("Mean value", $"{_fh.Dec(item.Value.Rate.MeanRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("1 minute rate", $"{_fh.Dec(item.Value.Rate.OneMinuteRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("5 minute rate", $"{_fh.Dec(item.Value.Rate.FiveMinuteRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
+            QueueAdd("15 minute rate", $"{_fh.Dec(item.Value.Rate.FifteenMinuteRate)} {_fh.U(item.Unit, item.RateUnit, false)}");
         }
 
         protected override void PrintFull(TimerValueSource item)
@@ -69,17 +69,17 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
 
             var hist = item.Value.Histogram;
             var u = _fh.U(item.Unit, item.RateUnit, true);
-            QueueAdd("Min", $"{_fh.Dec((double) hist.Min)} {u}");
-            QueueAdd("Max", $"{_fh.Dec((double) hist.Max)} {u}");
-            QueueAdd("Mean", $"{_fh.Dec((double) hist.Mean)} {u}");
-            QueueAdd("75%", $"{_fh.Dec((double) hist.Percentile75)} {u}");
-            QueueAdd("95%", $"{_fh.Dec((double) hist.Percentile95)} {u}");
-            QueueAdd("98%", $"{_fh.Dec((double) hist.Percentile98)} {u}");
-            QueueAdd("99%", $"{_fh.Dec((double) hist.Percentile99)} {u}");
-            QueueAdd("99.9%", $"{_fh.Dec((double) hist.Percentile999)} {u}");
-            QueueAdd("StdDev", $"{_fh.Dec((double) hist.StdDev)} {u}");
-            QueueAdd("Median", $"{_fh.Dec((double) hist.Median)} {u}");
-            QueueAdd("Last value", $"{_fh.Dec((double) hist.LastValue)} {u}");
+            QueueAdd("Min", $"{_fh.Dec(hist.Min)} {u}");
+            QueueAdd("Max", $"{_fh.Dec(hist.Max)} {u}");
+            QueueAdd("Mean", $"{_fh.Dec(hist.Mean)} {u}");
+            QueueAdd("75%", $"{_fh.Dec(hist.Percentile75)} {u}");
+            QueueAdd("95%", $"{_fh.Dec(hist.Percentile95)} {u}");
+            QueueAdd("98%", $"{_fh.Dec(hist.Percentile98)} {u}");
+            QueueAdd("99%", $"{_fh.Dec(hist.Percentile99)} {u}");
+            QueueAdd("99.9%", $"{_fh.Dec(hist.Percentile999)} {u}");
+            QueueAdd("StdDev", $"{_fh.Dec(hist.StdDev)} {u}");
+            QueueAdd("Median", $"{_fh.Dec(hist.Median)} {u}");
+            QueueAdd("Last value", $"{_fh.Dec(hist.LastValue)} {u}");
         }
     }
 }

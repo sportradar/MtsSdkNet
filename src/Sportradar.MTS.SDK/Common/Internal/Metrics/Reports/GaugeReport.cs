@@ -50,7 +50,7 @@ namespace Sportradar.MTS.SDK.Common.Internal.Metrics.Reports
 
         protected override void Print(GaugeValueSource item)
         {
-            QueueAdd($"{item.Name}", $"{_fh.Dec((double) item.Value)} {_fh.U(item.Unit)}");
+            QueueAdd($"{item.Name}", $"{_fh.Dec(item.Value)} {_fh.U(item.Unit)}");
         }
     }
 }
