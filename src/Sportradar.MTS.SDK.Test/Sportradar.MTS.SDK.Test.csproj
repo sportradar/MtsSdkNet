@@ -84,7 +84,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TinyCsvParser, Version=2.6.0.0, Culture=neutral, PublicKeyToken=d7df35b038077099, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\LocalProjects\MtsNet\MtsNetLocal\packages\TinyCsvParser.2.6.0\lib\net45\TinyCsvParser.dll</HintPath>
+      <HintPath>..\packages\TinyCsvParser.2.6.0\lib\net45\TinyCsvParser.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
