@@ -21,6 +21,13 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         /// <value>The bonus</value>
         public IBetBonus Bonus { get; }
+
+        /// <summary>
+        /// Gets the free stkae of the bet (optional, default null)
+        /// </summary>
+        /// <value>The free stake</value>
+        public IFreeStake FreeStake { get; }
+
         /// <summary>
         /// Gets the stake of the bet
         /// </summary>
@@ -69,6 +76,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// </summary>
         /// <param name="bonus">The bonus</param>
         /// <param name="stake">The stake</param>
+        /// <param name="freeStake">The free stake</param>
         /// <param name="entireStake">The entire stake</param>
         /// <param name="id">The bet identifier</param>
         /// <param name="selectedSystems">The selected systems</param>
@@ -79,7 +87,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <param name="calculationOdds">The odds calculated for custom bet</param>
         [JsonConstructor]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Allowed")]
-        public Bet(IBetBonus bonus, IStake stake, IStake entireStake, string id, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins, bool? customBet, int? calculationOdds)
+        public Bet(IBetBonus bonus, IStake stake, IFreeStake freeStake, IStake entireStake, string id, IEnumerable<int> selectedSystems, IEnumerable<ISelection> selections, string reofferRefId, long sumOfWins, bool? customBet, int? calculationOdds)
         {
             Guard.Argument(stake, nameof(stake)).NotNull();
             Guard.Argument(id, nameof(id)).Require(string.IsNullOrEmpty(id) || TicketHelper.ValidateTicketId(id));
@@ -110,6 +118,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
             SumOfWins = sumOfWins;
             CustomBet = customBet;
             CalculationOdds = calculationOdds;
+            FreeStake = freeStake;
 
             if (SelectedSystems != null)
             {

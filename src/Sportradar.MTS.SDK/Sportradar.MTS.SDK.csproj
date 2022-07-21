@@ -317,7 +317,12 @@
     <Compile Include="Entities\Builders\ITicketNonSrSettleBuilder.cs" />
     <Compile Include="Entities\Builders\ITicketReofferBuilder.cs" />
     <Compile Include="Entities\Builders\ITicketReofferCancelBuilder.cs" />
+    <Compile Include="Entities\Enums\FreeStakeType.cs" />
+    <Compile Include="Entities\Enums\FreeStakeDescription.cs" />
+    <Compile Include="Entities\Enums\FreeStakePaidAs.cs" />
+    <Compile Include="Entities\Enums\BetBonusPaidAs.cs" />
     <Compile Include="Entities\Enums\BetBonusMode.cs" />
+    <Compile Include="Entities\Enums\BetBonusDescription.cs" />
     <Compile Include="Entities\Enums\BetBonusType.cs" />
     <Compile Include="Entities\Enums\BetReofferType.cs" />
     <Compile Include="Entities\Enums\CashoutAcceptance.cs" />
@@ -348,6 +353,7 @@
     <Compile Include="Entities\Interfaces\IAlternativeStake.cs" />
     <Compile Include="Entities\Interfaces\IAutoAcceptedOdds.cs" />
     <Compile Include="Entities\Interfaces\IBet.cs" />
+    <Compile Include="Entities\Interfaces\IFreeStake.cs" />
     <Compile Include="Entities\Interfaces\IBetBonus.cs" />
     <Compile Include="Entities\Interfaces\IBetCancel.cs" />
     <Compile Include="Entities\Interfaces\IBetCashout.cs" />
@@ -448,6 +454,7 @@
     <Compile Include="Entities\Internal\Dto\Ticket\Anonymous.cs" />
     <Compile Include="Entities\Internal\Dto\Ticket\Anonymous2.cs" />
     <Compile Include="Entities\Internal\Dto\Ticket\Anonymous3.cs" />
+    <Compile Include="Entities\Internal\Dto\Ticket\FreeStake.cs" />
     <Compile Include="Entities\Internal\Dto\Ticket\Bonus.cs" />
     <Compile Include="Entities\Internal\Dto\Ticket\DTO.cs" />
     <Compile Include="Entities\Internal\Dto\Ticket\EndCustomer.cs" />
@@ -502,6 +509,7 @@
     <Compile Include="Entities\Internal\TicketImpl\AlternativeStake.cs" />
     <Compile Include="Entities\Internal\TicketImpl\AutoAcceptedOdds.cs" />
     <Compile Include="Entities\Internal\TicketImpl\Bet.cs" />
+    <Compile Include="Entities\Internal\TicketImpl\FreeStake.cs" />
     <Compile Include="Entities\Internal\TicketImpl\BetBonus.cs" />
     <Compile Include="Entities\Internal\TicketImpl\BetCancel.cs" />
     <Compile Include="Entities\Internal\TicketImpl\BetCashout.cs" />

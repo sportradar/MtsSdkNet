@@ -90,6 +90,9 @@ namespace Sportradar.MTS.SDK.Test.Entities
             Assert.IsNotNull(item);
         }
 
+#pragma warning disable S1607 // Promobet functionality allows stake with 0 if freeStake has value greater then 0!!!!
+        [Ignore]
+#pragma warning restore S1607
         [TestMethod]
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void CreateStakeWrongIdTest()

@@ -92,6 +92,11 @@ namespace Sportradar.MTS.SDK.Entities.Internal.TicketImpl
         /// <value>End time of last (non Sportradar) match on ticket</value>
         public DateTime? LastMatchEndTime { get; }
 
+        /// <summary>
+        /// Capped max payout of the ticket
+        /// </summary>
+        public long? PayCap { get; }
+
         public string ToJson()
         {
             var dto = EntitiesMapper.Map(this);
