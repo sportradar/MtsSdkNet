@@ -105,9 +105,9 @@ namespace Sportradar.MTS.SDK.Entities.Builders
         /// <summary>
         /// Sets the boosted odds multiplied by 10000 and rounded to int value
         /// </summary>
-        /// <param name="odds">The boosted odds value to be set</param>
+        /// <param name="boostedOdds">The boosted odds value to be set</param>
         /// <returns>Returns a <see cref="ISelectionBuilder"/></returns>
-        ISelectionBuilder SetBoostedOdds(int? odds);
+        ISelectionBuilder SetBoostedOdds(int? boostedOdds);
 
         /// <summary>
         /// Sets the <see cref="ISelection" /> properties

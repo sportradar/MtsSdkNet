@@ -10,13 +10,13 @@ namespace Sportradar.MTS.SDK.Entities.Enums
     /// </summary>
     public enum FreeStakePaidAs
     {
-        ///// <summary>
-        ///// Cash: default value, assumed if missing in the ticket)
-        ///// </summary>
+        /// <summary>
+        /// Cash: default value, assumed if missing in the ticket)
+        /// </summary>
         Cash,
-        ///// <summary>
-        ///// FreeBet
-        ///// </summary>
+        /// <summary>
+        /// FreeBet
+        /// </summary>
         FreeBet
     }
 }

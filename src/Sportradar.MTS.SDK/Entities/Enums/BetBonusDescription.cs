@@ -10,17 +10,17 @@ namespace Sportradar.MTS.SDK.Entities.Enums
     /// </summary>
     public enum BetBonusDescription
     {
-        ///// <summary>
-        ///// AccaBonus: default value, assumed if missing in the ticket)
-        ///// </summary>
+        /// <summary>
+        /// AccaBonus: default value, assumed if missing in the ticket)
+        /// </summary>
         AccaBonus,
-        ///// <summary>
-        ///// OddsBooster
-        ///// </summary>
+        /// <summary>
+        /// OddsBooster
+        /// </summary>
         OddsBooster,
-        ///// <summary>
-        ///// Other
-        ///// </summary>
+        /// <summary>
+        /// Other
+        /// </summary>
         Other
     }
 }
