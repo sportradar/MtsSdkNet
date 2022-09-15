@@ -2,6 +2,11 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+2022-09-15 2.4.1
+Support for ticket version 2.4
+Added new functionality for promotional bets
+Added new payCap attribute to external ticket (Max Payout T&C)
+
 2021-03-22 2.3.7
 Added IMtskSdk.ReportManager for getting HistoryCcfChanges
 Fix: removed double acking error
