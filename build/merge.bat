@@ -19,7 +19,7 @@ REM echo.
 echo Merging 4.5
 IF NOT EXIST "%relative_path%\net45" mkdir "%relative_path%\net45"
 
-"%bat_dir%tools\ILMerge.exe" /ver:%1 /internalize:"DoNotInternalize.txt" /ndebug /copyattrs /targetplatform:v4,"C:\Windows\Microsoft.NET\Framework64\v4.0.30319" /out:"%relative_path%\net45\Sportradar.MTS.SDK.dll" "%relative_path%\Sportradar.MTS.SDK.dll" "%relative_path%\Sportradar.MTS.SDK.API.dll" "%relative_path%\Sportradar.MTS.SDK.Common.dll" "%relative_path%\Sportradar.MTS.SDK.Entities.dll" "%relative_path%\Sportradar.MTS.SDK.Entities.XmlSerializers.dll" "%relative_path%\RabbitMQ.Client.dll" "%relative_path%\Microsoft.Practices.Unity.dll" "%relative_path%\Microsoft.Practices.ServiceLocation.dll" "%relative_path%\log4net.dll" "%relative_path%\Metrics.dll" "%relative_path%\Newtonsoft.Json.dll" "%relative_path%\Dawn.Guard.dll"
+"%bat_dir%tools\ILMerge.exe" /ver:%1 /internalize:"DoNotInternalize.txt" /ndebug /copyattrs /targetplatform:v4,"C:\Windows\Microsoft.NET\Framework64\v4.0.30319" /out:"%relative_path%\net45\Sportradar.MTS.SDK.dll" "%relative_path%\Sportradar.MTS.SDK.dll" "%relative_path%\RabbitMQ.Client.dll" "%relative_path%\Microsoft.Practices.Unity.dll" "%relative_path%\Microsoft.Practices.ServiceLocation.dll" "%relative_path%\log4net.dll" "%relative_path%\Metrics.dll" "%relative_path%\Newtonsoft.Json.dll" "%relative_path%\Dawn.Guard.dll"
 
 echo ILmerge 4.5 successfuly executed.
 

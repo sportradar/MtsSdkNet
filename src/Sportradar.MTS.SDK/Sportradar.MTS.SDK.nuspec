@@ -5,9 +5,9 @@
     <title>Sportradar MTS SDK</title>
     <authors>Sportradar AG</authors>
     <description>The SDK simplifying the integration with Sportradar's MTS services</description>
-    <version>2.3.7.0</version>
-    <releaseNotes>Version 2.3.7.0</releaseNotes>
-    <copyright>Copyright © Sportradar AG 2017-2021</copyright>
+    <version>2.4.1.0</version>
+    <releaseNotes>Version 2.4.1.0</releaseNotes>
+    <copyright>Copyright © Sportradar AG 2017-2022</copyright>
     <repository type="git" url="https://github.com/sportradar/MtsSdkNet.git" branch="master" />
     <projectUrl>http://sdk.sportradar.com/mts/net</projectUrl>
     <license type="file">LICENSE.txt</license>
