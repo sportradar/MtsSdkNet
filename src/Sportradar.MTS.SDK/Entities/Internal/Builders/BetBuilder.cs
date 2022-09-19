@@ -294,6 +294,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Builders
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3776:Cognitive Complexity of methods should not be too high", Justification = "Approved")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Needs more arguments")]
         private void ValidateData(bool all = false, bool betId = false, bool stake = false, bool selectedSystems = false, bool selections = false, bool reofferRefId = false, bool sumOfWins = false, bool freeStake = false)
         {
             if ((all || betId) && !string.IsNullOrEmpty(_betId) && !TicketHelper.ValidateTicketId(_betId))

@@ -16,6 +16,7 @@ namespace Sportradar.MTS.SDK.Entities.Internal.Dto.Ticket
         public Anonymous()
         { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Needs more arguments")]
         public Anonymous(string id, long sumOfWins, Stake stake, Bonus bonus, FreeStake freeStake, IEnumerable<int> selectedSystems, IEnumerable<Anonymous3> selectionRefs, string reofferRefId)
         {
             _id = string.IsNullOrEmpty(id) ? null : id;
