@@ -16,6 +16,7 @@
     <!-- you get new line with inserting !NL! -->
     <BuildChangeLog>Support for ticket version 2.4!NL!Added new functionality for promotional bets!NL!Added new payCap attribute to external ticket (Max Payout TC)</BuildChangeLog>
     <ComputedAssemblyVersion>$(MajorVersion).$(MinorVersion).$(BuildNumber).$(Revision)</ComputedAssemblyVersion>
+	<ComputedAssemblyVersionNormalized>$(MajorVersion).$(MinorVersion).$(BuildNumber)</ComputedAssemblyVersionNormalized>
   </PropertyGroup>
 
   <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile="tools\MSBuildExtension\MSBuild.ExtensionPack.dll" />
@@ -111,9 +112,10 @@
   <Target Name="NugetBuild">
     <PropertyGroup>
       <ComputedResultFile>export\$(ProjectName).$(ComputedAssemblyVersion).nupkg</ComputedResultFile>
+	  <ComputedResultFileNormalized>export\$(ProjectName).$(ComputedAssemblyVersionNormalized).nupkg</ComputedResultFileNormalized>
     </PropertyGroup>
     <Exec Command="tools\nuGet.exe pack NugetPackage.nuspec -Version $(ComputedAssemblyVersion) -OutputDirectory export -Properties Configuration=$(ReleaseMode)" />
-    <Error Condition="!Exists($(ComputedResultFile))" Text="File '$(ComputedResultFile)' does not exists!" />
+    <Error Condition="!Exists($(ComputedResultFile)) and !Exists($(ComputedResultFileNormalized))" Text="File '$(ComputedResultFile)' does not exists!" />
   </Target>
 
   <Target Name="CreateDocumentation">
