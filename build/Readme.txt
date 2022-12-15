@@ -2,6 +2,10 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
+CHANGE LOG:
+2022-11-30 2.4.1.1
+Changed url stgapi.betradar.com and api.betradar.com to global
+
 2022-09-22 2.4.1
 Support for ticket version 2.4
 Added new functionality for promotional bets
