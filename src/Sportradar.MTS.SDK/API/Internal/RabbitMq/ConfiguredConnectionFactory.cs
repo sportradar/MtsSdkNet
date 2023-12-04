@@ -1,13 +1,19 @@
 ﻿/*
  * Copyright (C) Sportradar AG. See LICENSE for full license governing this code
  */
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Security;
 using System.Security.Authentication;
 using System.Threading;
 using Dawn;
+using log4net;
 using RabbitMQ.Client;
+using Sportradar.MTS.SDK.Common.Internal;
+using Sportradar.MTS.SDK.Common.Log;
+using Sportradar.MTS.SDK.Entities.Internal;
 
 namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 {
@@ -16,10 +22,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
     /// </summary>
     internal class ConfiguredConnectionFactory : ConnectionFactory
     {
+        private static readonly ILog _log = SdkLoggerFactory.GetLogger(typeof(ChannelFactory));
         /// <summary>
         /// A <see cref="IRabbitServer"/> instance containing server information
         /// </summary>
         private readonly IRabbitServer _server;
+        private static volatile int termninationCount = 0;
 
         /// <summary>
         /// Value indicating whether the current <see cref="ConfiguredConnectionFactory"/> was already configured
@@ -79,11 +87,75 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
         /// <exception cref="T:RabbitMQ.Client.Exceptions.BrokerUnreachableException">When the configured host name was not reachable</exception>
         public override IConnection CreateConnection()
         {
-            if (Interlocked.CompareExchange(ref _configured, 1, 0) == 0)
+            IConnection connection = null;
+            try
             {
-                Configure();
+                if (Interlocked.CompareExchange(ref _configured, 1, 0) == 0)
+                {
+                    Configure();
+                }
+                connection = ExecuteWithTimeout(TimeSpan.FromMilliseconds(3000));
             }
-            return base.CreateConnection();
+            catch(Exception ex)
+            {
+                _log.Error(ex.Message, ex);
+                _log.Warn($"Error ConfiguredConnectionFactory.CreateConnection!");
+            }
+            return connection;
+        }
+
+        private IConnection CreateConnectionThread()
+        {
+             try
+             {
+                Thread thread = Thread.CurrentThread;
+                thread.IsBackground = true;
+                if (Interlocked.CompareExchange(ref _configured, 1, 0) == 0)
+                 {
+                     Configure();
+                 }
+                 return base.CreateConnection(GenerateConnectionName());
+             }
+             catch (Exception ex)
+             {
+                 _log.Error(ex.Message, ex);
+                 _log.Warn($"Error ConfiguredConnectionFactory.CreateConnection!");
+             }
+             return null;
+        }
+
+        private IConnection ExecuteWithTimeout(TimeSpan timeout)
+        {
+            IConnection connection = null;
+            Thread createConnectionThread = new Thread(() => {
+                connection = CreateConnectionThread();
+            });
+
+            bool finished = false;
+            try
+            {
+                createConnectionThread.Start();
+                finished = createConnectionThread.Join(timeout);
+                if (!finished)
+                {
+                    createConnectionThread.Abort();
+                    termninationCount++;
+                    _log.Error($"Aborted ConfiguredConnectionFactory.CreateConnection number:{termninationCount}!");
+                }
+            } catch(Exception ex)
+            {
+                _log.Error(ex.Message, ex);
+                _log.Warn($"Error ConfiguredConnectionFactory.CreateConnection!");
+            }
+
+            return connection;
+        }
+
+
+        public string GenerateConnectionName()
+        {
+            var systemStartTime = DateTime.Now.AddMilliseconds(-Environment.TickCount);
+            return $"MTS|NET|{SdkInfo.GetVersion()}|{DateTime.Now:yyyyMMddHHmm}|{TicketHelper.DateTimeToUnixTime(systemStartTime)}|{Process.GetCurrentProcess().Id}";
         }
 
         private static bool ShouldUseCertificateValidation(string hostName)
