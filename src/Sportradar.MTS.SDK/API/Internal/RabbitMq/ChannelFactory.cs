@@ -35,7 +35,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         /// <summary>
         /// The <see cref="IConnection"/> representing connection to the broker
-        /// </summary>
+        /// </summary> 
         private IConnection _connection;
 
         /// <summary>
@@ -224,7 +224,12 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
                 if (!_connection.IsOpen)
                 {
-                    throw new ConnectFailureException("Cannot create the channel because the connection is closed.", null);
+                    if (_connectionStatus.IsConnected)
+                    {
+                        ExecutionLog.Error($"Error ConnectionStatus is connected: {id}");
+                        _connectionStatus.Disconnect("No connection present!");
+                    }
+                    throw new ConnectFailureException("Cannot create the channel because the connection is closed. Connection Status:" + _connectionStatus.IsConnected, null);
                 }
 
                 if (_models.TryGetValue(id, out var wrapper) && wrapper != null)

@@ -2,7 +2,9 @@
 For more information please contact support@sportradar.com or visit http://sdk.sportradar.com/mts/net
 
 CHANGE LOG:
-CHANGE LOG:
+2023-11-30 2.4.1.2
+Changed timings on reconnects, updated guides
+
 2022-11-30 2.4.1.1
 Changed url stgapi.betradar.com and api.betradar.com to global
 

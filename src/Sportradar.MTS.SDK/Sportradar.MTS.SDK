@@ -610,7 +610,7 @@
         <member name="F:Sportradar.MTS.SDK.API.Internal.RabbitMq.ChannelFactory._connection">
             <summary>
             The <see cref="T:RabbitMQ.Client.IConnection"/> representing connection to the broker
-            </summary>
+            </summary> 
         </member>
         <member name="F:Sportradar.MTS.SDK.API.Internal.RabbitMq.ChannelFactory._disposed">
             <summary>

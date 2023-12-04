@@ -350,7 +350,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
 
         private void CreateAndOpenPublisherChannel()
         {
-            var sleepTime = 1000;
+            var sleepTime = 100;
             while (Interlocked.Read(ref _shouldBeOpened) == 1)
             {
                 try
@@ -384,7 +384,7 @@ namespace Sportradar.MTS.SDK.API.Internal.RabbitMq
                     }
                     else
                     {
-                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, _channelSettings.MaxPublishQueueTimeoutInMs * 1000);
+                        sleepTime = SdkInfo.Multiply(sleepTime, 1.25, 5000);
                     }
                     ExecutionLog.Info($"Opening the publisher channel will be retried in next {sleepTime} ms.");
                     Thread.Sleep(sleepTime);
