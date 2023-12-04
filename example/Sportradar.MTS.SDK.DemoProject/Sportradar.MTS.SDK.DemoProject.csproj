@@ -61,8 +61,8 @@
     <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.4.1.3\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sportradar.MTS.SDK, Version=2.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sportradar.MTS.SDK.2.4.1\lib\net45\Sportradar.MTS.SDK.dll</HintPath>
+    <Reference Include="Sportradar.MTS.SDK, Version=2.4.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sportradar.MTS.SDK.2.4.1.2\lib\net45\Sportradar.MTS.SDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -93,7 +93,6 @@
     <Compile Include="Example\Examples.cs" />
     <Compile Include="Example\NonSrSettle.cs" />
     <Compile Include="Example\Reoffer.cs" />
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.5.1.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Start.cs" />
     <Compile Include="Tickets\TicketExamples.cs" />
@@ -106,9 +105,6 @@
     <None Include="log4net.sdk.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="obj\Debug\build.force" />
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <None Include="obj\Debug\Sportradar.MTS.SDK.DemoProject.csprojAssemblyReference.cache" />
     <None Include="packages.config" />
     <None Include="Tickets\Example1.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -153,14 +149,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="obj\Debug\Sportradar.MTS.SDK.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\Sportradar.MTS.SDK.DemoProject.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\Sportradar.MTS.SDK.dll" />
-    <Content Include="obj\Debug\Sportradar.MTS.SDK.pdb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\TempPE\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
